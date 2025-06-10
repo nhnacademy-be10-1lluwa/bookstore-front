@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class IlluwaApplication {
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(IlluwaApplication.class);
-        app.setAdditionalProfiles("dev");
+        app.setAdditionalProfiles("prod");
         app.run(args);
     }
 }
