@@ -1,6 +1,11 @@
 spring:
   application:
     name: illuwa
+  mvc:
+    view:
+      prefix: classpath:/templates/
+      suffix: .html
 
 server:
   port: 10300
+  address: 0.0.0.0
