@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: illuwa
+
+server:
+  port: 10300
