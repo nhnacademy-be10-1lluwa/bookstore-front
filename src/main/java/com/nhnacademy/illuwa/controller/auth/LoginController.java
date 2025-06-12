@@ -2,6 +2,8 @@ package com.nhnacademy.illuwa.controller.auth;
 
 import com.nhnacademy.illuwa.dto.auth.MemberLoginRequest;
 import com.nhnacademy.illuwa.dto.auth.MemberLoginResponse;
+import com.nhnacademy.illuwa.exception.ApiRequestException;
+import com.nhnacademy.illuwa.exception.LoginRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -35,12 +37,10 @@ public class LoginController {
             if (response.getStatusCode() == HttpStatus.OK && response.getBody().isSuccess()) {
                 return "redirect:/";
             } else {
-                model.addAttribute("error", "로그인 정보가 올바르지 않습니다.");
-                return "auth/login";
+                throw new LoginRequestException("로그인 정보가 올바르지 않습니다.");
             }
         } catch (RestClientException e) {
-            model.addAttribute("error", "서버와 통신 중 문제가 발생했습니다.");
-            return "auth/login";
+            throw new ApiRequestException("서버와 통신 중 장애가 발생했습니다.");
         }
     }
 }
