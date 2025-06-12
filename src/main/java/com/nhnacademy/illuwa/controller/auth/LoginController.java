@@ -7,7 +7,6 @@ import com.nhnacademy.illuwa.exception.LoginRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.client.RestClientException;
@@ -28,7 +27,7 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String loginSubmit(MemberLoginRequest memberLoginRequest, Model model) {
+    public String loginSubmit(MemberLoginRequest memberLoginRequest) {
         String apiUrl = "http://api서버주소/api/login";
 
         try {
