@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>BookStore</title>
+    <link rel="stylesheet" th:href="@{/css/global.css}" />
+
+    <th:block layout:fragment="head"></th:block>
+</head>
+<body>
+
+<div th:replace="~{layout/header :: header}"></div>
+
+<main layout:fragment="content">
+
+</main>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+
+</body>
+</html>

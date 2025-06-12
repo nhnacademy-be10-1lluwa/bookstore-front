@@ -1,0 +1,15 @@
+<header th:fragment="header">
+    <div class="header-container">
+        <h1 class="logo">
+            <a th:href="@{/}">📚 <span>일루와</span> BookStore 📚</a>
+        </h1>
+        <nav>
+            <ul class="nav-menu">
+                <li><a th:href="@{/book_list}">도서 목록</a></li>
+                <li><a th:href="@{/cart}">장바구니</a></li>
+                <li><a th:href="@{/login}">로그인</a></li>
+                <li><a th:href="@{/signup}">회원가입</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>

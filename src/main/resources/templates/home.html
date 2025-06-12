@@ -1,40 +1,62 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>일루와 서점</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Nanum Gothic', sans-serif;
-      background: #f9f9f9;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-    main {
-      padding: 3rem;
-      max-width: 900px;
-      margin: 0 auto;
-    }
-    h1 {
-      margin: 0;
-      font-size: 3rem;
-    }
-    p {
-      font-size: 1.3rem;
-      color: #333;
-    }
-  </style>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+  <link rel="stylesheet" th:href="@{/css/home.css}" />
 </head>
-<body>
-  <div th:replace="~{fragments/header :: header}"></div>
-    <main>
-      <h1>일루와 서점에 오신 걸 환영합니다!</h1>
-      <p>여기는 일루와 서점의 메인 페이지입니다.</p>
-      <p>로그인하고 다양한 책을 만나보세요!</p>
-      <a href="/book_list">도서 리스트 보기</a>
-    </main>
-  <div th:replace="~{fragments/footer :: footer}"></div>
-</body>
+
+<main layout:fragment="content">
+  <section class="main-content">
+    <h2>베스트셀러</h2>
+    <div class="book-list">
+      <div class="book-item">
+        <h3>예제 도서 제목</h3>
+        <p>저자: 홍길동</p>
+        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
+      </div>
+      <div class="book-item">
+        <h3>예제 도서 제목</h3>
+        <p>저자: 홍길동</p>
+        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
+      </div>
+      <div class="book-item">
+        <h3>예제 도서 제목</h3>
+        <p>저자: 홍길동</p>
+        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
+      </div>
+      <div class="book-item">
+        <h3>예제 도서 제목</h3>
+        <p>저자: 홍길동</p>
+        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
+      </div>
+      <div class="book-item">
+        <h3>예제 도서 제목</h3>
+        <p>저자: 홍길동</p>
+        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
+      </div>
+      <div class="book-item">
+        <h3>예제 도서 제목</h3>
+        <p>저자: 홍길동</p>
+        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
+      </div>
+      <div class="book-item">
+        <h3>예제 도서 제목</h3>
+        <p>저자: 홍길동</p>
+        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
+      </div>
+      <div class="book-item">
+        <h3>예제 도서 제목</h3>
+        <p>저자: 홍길동</p>
+        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
+      </div>
+      <div class="book-item">
+        <h3>예제 도서 제목</h3>
+        <p>저자: 홍길동</p>
+        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
+      </div>
+    </div>
+  </section>
+</main>
 </html>
