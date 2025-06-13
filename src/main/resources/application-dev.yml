@@ -1,6 +1,6 @@
 spring:
   application:
-    name: illuwa
+    name: front-service
 
 server:
   port: 8080
