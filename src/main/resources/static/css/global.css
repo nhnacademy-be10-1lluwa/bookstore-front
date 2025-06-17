@@ -1,0 +1,66 @@
+/* -------------------- Header -------------------- */
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #fefefe;
+    border-bottom: 2px solid #ccc;
+}
+
+.logo a {
+    font-size: 28px;
+    font-weight: bold;
+    color: #5c3d99;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.logo span {
+    color: #ff6f61;
+    font-weight: 900;
+}
+
+.logo a:hover {
+    color: #ff6f61;
+}
+
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+}
+
+.nav-menu li a {
+    text-decoration: none;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-menu li a:hover {
+    color: #5c3d99;
+}
+/* -------------------- 본문 -------------------- */
+html, body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+/* -------------------- Footer -------------------- */
+footer {
+    height: 60px;
+    background-color: #f2f2f2;
+    text-align: center;
+    line-height: 60px;
+}
