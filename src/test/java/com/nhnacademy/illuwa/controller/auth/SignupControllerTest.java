@@ -11,6 +11,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDate;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.verify;
@@ -36,16 +38,16 @@ public class SignupControllerTest {
     @Test
     void signupSubmit_success() throws Exception {
         MemberRegisterRequest request = new MemberRegisterRequest(
-                "홍길동", "19900101", "test@example.com", "1234", Role.USER, "01012345678"
+                "홍길동", LocalDate.of(2000, 1, 1), "test@example.com", "1234", "01012345678", Role.USER
         );
 
         mockMvc.perform(post("/signup")
                         .param("name", request.getName())
-                        .param("birth", request.getBirth())
+                        .param("birth", String.valueOf(request.getBirth()))
                         .param("email", request.getEmail())
                         .param("password", request.getPassword())
                         .param("role", request.getRole().name())
-                        .param("phoneNumber", request.getPhoneNumber())
+                        .param("phoneNumber", request.getContact())
                 )
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/auth/login"));

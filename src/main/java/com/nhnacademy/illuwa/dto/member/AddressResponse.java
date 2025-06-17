@@ -7,12 +7,13 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class AddressUpdateRequest {
+@AllArgsConstructor
+public class AddressResponse {
+    private Long addressId;
     private String addressName;
     private String recipient;
-    private String recipientPhone;
+    private String contact;
     private String addressDetail;
     private boolean isDefault;
 }

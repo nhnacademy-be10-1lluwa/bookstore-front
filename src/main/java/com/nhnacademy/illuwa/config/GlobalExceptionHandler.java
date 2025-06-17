@@ -1,6 +1,7 @@
 package com.nhnacademy.illuwa.config;
 
 import com.nhnacademy.illuwa.exception.ApiRequestException;
+import com.nhnacademy.illuwa.exception.BookNotFoundException;
 import com.nhnacademy.illuwa.exception.LoginRequestException;
 import com.nhnacademy.illuwa.exception.SignupRequestException;
 import org.springframework.ui.Model;
@@ -13,7 +14,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(ApiRequestException.class)
     public String handleApiError(ApiRequestException ex, Model model) {
         model.addAttribute("error", ex.getMessage());
-        model.addAttribute("status", 403);
+        model.addAttribute("status", 500);
         return "error";
     }
 
@@ -27,5 +28,11 @@ public class GlobalExceptionHandler {
     public String handleSignupError(SignupRequestException ex, Model model) {
         model.addAttribute("error", ex.getMessage());
         return "auth/signup";
+    }
+
+    @ExceptionHandler(BookNotFoundException.class)
+    public String handleBookNotFoundError(BookNotFoundException ex, Model model) {
+        model.addAttribute("error", ex.getMessage());
+        return "error";
     }
 }
