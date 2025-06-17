@@ -9,10 +9,10 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddressCreateRequest {
+public class AddressRequest {
     private String addressName;
     private String recipient;
-    private String recipientPhone;
+    private String contact;
     private String addressDetail;
     private boolean isDefault;
 }
