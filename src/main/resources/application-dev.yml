@@ -1,6 +1,10 @@
 spring:
   application:
     name: front-service
+  mvc:
+    view:
+      prefix: classpath:/templates/
+      suffix: .html
 
 server:
   port: 10300
