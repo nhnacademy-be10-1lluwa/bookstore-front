@@ -8,6 +8,7 @@ import com.nhnacademy.illuwa.exception.ApiRequestException;
 import com.nhnacademy.illuwa.exception.LoginRequestException;
 import com.nhnacademy.illuwa.service.auth.LoginService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -18,15 +19,19 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 @Service
 public class LoginServiceImpl implements LoginService {
+
+    @Value("${api.base-url}")
+    String apiUrl;
+
     private final RestTemplate restTemplate;
     ObjectMapper objectMapper = new ObjectMapper();
-    String apiUrl = "http://api서버주소/api/login";
 
     public MemberResponse sendLogin(MemberLoginRequest memberLoginRequest) {
         ResponseEntity<MemberResponse> response;
+        String url = apiUrl + "/login";
 
         try {
-            response = restTemplate.postForEntity(apiUrl, memberLoginRequest, MemberResponse.class);
+            response = restTemplate.postForEntity(url, memberLoginRequest, MemberResponse.class);
 
         } catch (HttpClientErrorException e) { // 4xx 클라이언트 에러
             try {
