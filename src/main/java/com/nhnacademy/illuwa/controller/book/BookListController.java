@@ -25,7 +25,7 @@ public class BookListController {
         // 테스트용 리스트 추가
         List<SearchBookResponse> books = new ArrayList<>();
         books.add(new SearchBookResponse("테스트 도서", "테스트 내용", "테스트 설명", "카테고리", "홍길동", "테스트출판사", "2025-01-01",
-                "9788999999999", new BigDecimal(10000), new BigDecimal(9999), true, "/images/test.jpg"));
+                "9788999999999", new BigDecimal(10000), new BigDecimal(9999), true, "test.jpg"));
 
         model.addAttribute("books", books);
 
