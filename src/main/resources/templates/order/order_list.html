@@ -4,12 +4,12 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head layout:fragment="head">
-    <link rel="stylesheet" th:href="@{/css/order/book_info.css}" />
+  <link rel="stylesheet" th:href="@{/css/order/order_list.css}" />
 </head>
 <main layout:fragment="content">
-    <section class="main-content">
-        <h1>쿠폰 발급</h1>
-        <h1>쿠폰 사용 내역</h1>
-    </section>
+  <section class="main-content">
+    <a th:href="@{/order_history}">주문 내역 상제 정보</a>
+    <a th:href="@{/write_review}">리뷰 작성하기</a>
+  </section>
 </main>
 </html>

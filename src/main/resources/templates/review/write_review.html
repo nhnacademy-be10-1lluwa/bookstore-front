@@ -1,9 +1,14 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+    <link rel="stylesheet" th:href="@{/css/order/write_review.css}" />
 </head>
-<body>
-</body>
+<main layout:fragment="content">
+    <section class="main-content">
+        <a th:href="@{'/book/' + ${book.isbn}}">리뷰 작성완료</a>
+    </section>
+</main>
 </html>

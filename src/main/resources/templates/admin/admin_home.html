@@ -1,10 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-</body>
+<head layout:fragment="head">
+    <link rel="stylesheet" th:href="@{/css/home.css}" />
+</head>
+<main layout:fragment="content">
+    <section class="main-content">
+        <a th:href="@{/admin/member/member}">회원 관리</a>
+        <a th:href="@{/admin/coupon/coupon}">쿠폰 관리</a>
+        <a th:href="@{/admin/book/books}">도서 관리</a>
+        <a th:href="@{/admin/policy/policy}">정책 관리</a>
+    </section>
+</main>
 </html>
