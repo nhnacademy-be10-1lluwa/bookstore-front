@@ -1,0 +1,62 @@
+.main-header {
+    background-color: #fefefe;
+    border-bottom: 2px solid #ccc;
+    padding: 20px 40px;
+}
+
+.main-header__container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Block: logo (재사용 가능한 독립적인 컴포넌트라면 별도 _logo.css 파일로 분리 고려) */
+/* 만약 logo가 이 헤더에만 사용되는 특정 스타일이라면 여기에 두세요. */
+/* 기존 .logo 스타일 그대로 */
+.logo {
+    margin: 0; /* h1의 기본 마진 제거 */
+}
+
+.main-header__logo-link {
+    font-size: 28px;
+    font-weight: bold;
+    color: #5c3d99;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.main-header__logo-link:hover {
+    color: #ff6f61;
+}
+
+.main-header__logo-span {
+    color: #ff6f61;
+    font-weight: 900;
+}
+
+.main-header__nav {
+    /* nav 태그에 적용할 수 있는 추가 스타일 */
+}
+
+/* Block: nav-menu (재사용 가능한 독립적인 컴포넌트라면 components/_nav_menu.css로 분리) */
+/* 이 nav-menu가 header 외 다른 곳에서도 동일하게 사용된다면 components 폴더로 옮기는게 더 좋습니다. */
+/* 현재는 layout/_header.css에 포함한다고 가정 */
+.nav-menu {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-menu__item-link {
+    text-decoration: none;
+    font-size: 16px;
+    color: #333;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.nav-menu__item-link:hover {
+    color: #5c3d99;
+}

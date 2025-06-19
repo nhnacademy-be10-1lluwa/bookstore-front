@@ -1,0 +1,22 @@
+/* base styles */
+@import url("base/_reset.css");
+@import url("base/_common.css"); /* html, body, main 레이아웃 스타일 포함 */
+
+/* layout styles */
+@import url("layout/_header.css");
+@import url("layout/_footer.css");
+/* @import url("layout/_main_content.css"); 필요하다면 추가 */
+/* @import url("layout/_sidebar.css"); 필요하다면 추가 */
+
+/* component styles */
+/* 예: @import url("components/_button.css");
+   @import url("components/_card.css");
+   @import url("components/_form_elements.css");
+*/
+/* 현재는 없지만, 앞으로 만들 컴포넌트 CSS를 여기에 추가합니다. */
+
+/* pages styles (사용한다면) */
+/* 예: @import url("pages/_login_page.css"); */
+
+/* utility styles (사용한다면) */
+/* 예: @import url("utilities/_spacing.css"); */
