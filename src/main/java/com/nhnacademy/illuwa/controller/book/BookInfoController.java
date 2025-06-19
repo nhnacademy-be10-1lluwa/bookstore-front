@@ -1,0 +1,14 @@
+package com.nhnacademy.illuwa.controller.book;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+@Controller
+public class BookInfoController {
+    @GetMapping("/book_info/{isbn}")
+    public String bookInfo(@PathVariable String isbn, Model model) {
+        return "book/book_info";
+    }
+}

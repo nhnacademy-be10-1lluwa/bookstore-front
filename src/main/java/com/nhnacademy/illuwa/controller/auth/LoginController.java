@@ -24,7 +24,7 @@ public class LoginController {
     public String loginSubmit(MemberLoginRequest memberLoginRequest) {
         MemberResponse memberLoginResponse= loginService.sendLogin(memberLoginRequest);
         if(memberLoginResponse.getRole().equals(Role.ADMIN)) {
-            return "admin/admin_home";
+            return "redirect:/admin/admin_home";
         }
         return "redirect:/";
     }

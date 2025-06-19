@@ -24,7 +24,7 @@
         <!-- 도서가 있을 때 -->
         <div class="book-list" th:if="${not #lists.isEmpty(books)}">
             <div class="book-item" th:each="book : ${books}">
-                <a th:href="@{'/books/' + ${book.isbn}}" class="book-link">
+                <a th:href="@{'/book/' + ${book.isbn}}" class="book-link">
                     <img th:src="@{'/images/' + ${book.imageUrl}}" alt="도서 이미지" class="book-image" />
                     <h3 class="book-title" th:text="${book.title}">도서 제목</h3>
                 </a>
