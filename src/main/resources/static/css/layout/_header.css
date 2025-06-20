@@ -31,10 +31,6 @@
     font-weight: 900;
 }
 
-.main-header__nav {
-    /* nav 태그에 적용할 수 있는 추가 스타일 */
-}
-
 .nav-menu {
     list-style: none;
     display: flex;

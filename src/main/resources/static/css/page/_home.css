@@ -1,21 +1,18 @@
-/* src/main/resources/static/css/pages/_home.css */
-
 .main-content {
-    max-width: 1200px; /* 콘텐츠 최대 너비 */
-    margin: var(--spacing-xl) auto; /* 상하 32px, 좌우 자동 (가운데 정렬) */
-    padding: 0 var(--spacing-lg); /* 좌우 24px 패딩 */
+    max-width: 1200px;
+    margin: var(--spacing-xl) auto;
+    padding: 0 var(--spacing-lg);
 }
 
 .main-content h2 {
     text-align: center;
-    margin-bottom: var(--spacing-xl); /* 아래 여백 32px */
+    margin-bottom: var(--spacing-xl);
     color: var(--color-primary);
-    font-size: var(--font-size-h2); /* H2 폰트 크기 (변수 사용) */
+    font-size: var(--font-size-h2);
 }
 
 .book-list {
     display: grid;
-    /* 3열 그리드, 각 컬럼은 최소 250px, 최대 1fr로 자동 조절 */
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: var(--spacing-lg); /* 그리드 아이템 간격 24px */
+    gap: var(--spacing-lg);
 }
