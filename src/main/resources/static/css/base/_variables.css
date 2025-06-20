@@ -1,0 +1,37 @@
+:root {
+    --color-primary: #5c3d99;
+    --color-secondary: #ff6f61;
+    --color-text-dark: #333;
+    --color-text-medium: #666;
+    --color-text-light: #999;
+    --color-background-light: #fefefe;
+    --color-background-gray: #f2f2f2;
+    --color-border: #ccc;
+    --color-error: #dc3545;
+    --color-success: #28a745;
+
+    --font-family-base: 'Noto Sans KR', sans-serif;
+    --font-family-heading: 'Roboto', sans-serif;
+
+    --font-size-root: 16px;
+    --font-size-sm: 0.875rem;
+    --font-size-base: 1rem;
+    --font-size-md: 1.125rem;
+    --font-size-lg: 1.25rem;
+    --font-size-xl: 1.5rem;
+    --font-size-h1: 2.5rem;
+    --font-size-h2: 2rem;
+    --font-size-h3: 1.75rem;
+
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+
+    --border-radius-sm: 4px;
+    --border-radius-md: 8px;
+
+    --transition-speed-fast: 0.2s;
+    --transition-speed-normal: 0.3s;
+}

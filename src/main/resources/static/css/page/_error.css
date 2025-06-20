@@ -1,0 +1,41 @@
+/* src/main/resources/static/css/pages/_error.css */
+
+.error-container {
+    font-family: var(--font-family-base); /* 변경: 변수 사용 */
+    background: var(--color-background-light); /* 변경: 기본 배경색 또는 특정 에러 배경색 변수 추가 고려 */
+    /* 현재 #fff5f5와 가장 유사한 변수가 없으므로, 필요하면 _variables.css에 --color-background-error-light: #fff5f5; 같은 변수 추가 */
+    color: var(--color-error); /* 변경: 변수 사용 */
+    text-align: center;
+    padding: var(--spacing-xl) var(--spacing-md); /* 변경: 변수 사용 (3rem=48px, 1rem=16px) */
+    margin: var(--spacing-xl) auto; /* 변경: 변수 사용 (2rem=32px) */
+    max-width: 600px;
+    border-radius: var(--border-radius-md); /* 변경: 변수 사용 */
+    /* box-shadow: 0 0 10px rgba(var(--color-error-rgb), 0.2); // RGB 변수가 있다면 더 유연 */
+    box-shadow: 0 0 10px rgba(176, 0, 32, 0.2); /* 현재 직접 RGBA 값 사용 */
+}
+
+.error-container h1 {
+    font-size: var(--font-size-h1); /* 변경: 변수 사용 (3rem=48px) */
+    margin-bottom: var(--spacing-md); /* 변경: 변수 사용 (1rem=16px) */
+}
+
+.error-container p {
+    font-size: var(--font-size-lg); /* 변경: 변수 사용 (1.2rem=19.2px) */
+    margin-bottom: var(--spacing-xl); /* 변경: 변수 사용 (1.5rem=24px) */
+}
+
+.error-container a {
+    display: inline-block;
+    text-decoration: none;
+    color: var(--color-error); /* 변경: 변수 사용 */
+    font-weight: bold;
+    border: 2px solid var(--color-error); /* 변경: 변수 사용 */
+    padding: var(--spacing-sm) var(--spacing-lg); /* 변경: 변수 사용 (0.5rem=8px, 1.5rem=24px) */
+    border-radius: var(--border-radius-sm); /* 변경: 변수 사용 */
+    transition: background-color var(--transition-speed-normal); /* 변경: 변수 사용 */
+}
+
+.error-container a:hover {
+    background-color: var(--color-error); /* 변경: 변수 사용 */
+    color: var(--color-background-light); /* 변경: 변수 사용 */
+}
