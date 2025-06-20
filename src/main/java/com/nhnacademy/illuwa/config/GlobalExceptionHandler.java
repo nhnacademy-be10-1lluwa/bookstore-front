@@ -1,9 +1,9 @@
 package com.nhnacademy.illuwa.config;
 
-import com.nhnacademy.illuwa.exception.ApiRequestException;
-import com.nhnacademy.illuwa.exception.BookNotFoundException;
-import com.nhnacademy.illuwa.exception.LoginRequestException;
-import com.nhnacademy.illuwa.exception.SignupRequestException;
+import com.nhnacademy.illuwa.common.exception.ApiRequestException;
+import com.nhnacademy.illuwa.common.exception.BookNotFoundException;
+import com.nhnacademy.illuwa.common.exception.LoginRequestException;
+import com.nhnacademy.illuwa.common.exception.SignupRequestException;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

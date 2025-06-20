@@ -4,10 +4,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head layout:fragment="head">
-    <link rel="stylesheet" th:href="@{/css/auth/signup.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
+
 <main layout:fragment="content">
-    <section class="signup-container">
+    <section class="auth-container">
         <h2>회원가입</h2>
         <div th:if="${error}" class="error-message" th:text="${error}"></div>
         <form th:action="@{/signup}" method="post">
@@ -18,12 +19,11 @@
 
             <div class="form-group">
                 <label for="birth">생일</label>
-                <input type="text" id="birth" name="birth" required>
-            </div>
+                <input type="date" id="birth" name="birth" required> </div>
 
             <div class="form-group">
                 <label for="email">이메일</label>
-                <input type="text" id="email" name="email" required>
+                <input type="email" id="email" name="email" required>
             </div>
 
             <div class="form-group">
@@ -36,7 +36,7 @@
                 <input type="text" id="contact" name="contact" required>
             </div>
 
-            <button type="submit">회원가입</button>
+            <button type="submit" class="auth-button">회원가입</button>
         </form>
     </section>
 </main>

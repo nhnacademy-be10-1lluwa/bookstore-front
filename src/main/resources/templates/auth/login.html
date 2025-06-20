@@ -4,11 +4,11 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head layout:fragment="head">
-    <link rel="stylesheet" th:href="@{/css/auth/login.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
 
 <main layout:fragment="content">
-    <section class="login-container">
+    <section class="auth-container">
         <h2>로그인</h2>
         <div th:if="${error}" class="error-message" th:text="${error}"></div>
         <form th:action="@{/login}" method="post">
@@ -22,7 +22,7 @@
                 <input type="password" id="password" name="password" required>
             </div>
 
-            <button type="submit">로그인</button>
+            <button type="submit" class="auth-button">로그인</button>
         </form>
     </section>
 </main>
