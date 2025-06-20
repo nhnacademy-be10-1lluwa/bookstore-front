@@ -1,0 +1,68 @@
+/* 인증 컨테이너의 공통 스타일 (로그인/회원가입/비밀번호 찾기 등) */
+.auth-container {
+    width: 300px;
+    margin: var(--spacing-xl) auto;
+    padding: var(--spacing-lg);
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-md);
+    background-color: var(--color-background-light);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 폼 그룹 (label + input) 스타일 */
+.form-group {
+    margin-bottom: var(--spacing-md);
+}
+
+/* 모든 label 태그 스타일 */
+label {
+    display: block;
+    margin-bottom: var(--spacing-xs);
+    color: var(--color-text-medium);
+    font-weight: 500;
+}
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+    width: 100%;
+    padding: var(--spacing-sm);
+    box-sizing: border-box;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-base);
+    color: var(--color-text-dark);
+}
+
+/* input 태그 포커스 시 스타일 */
+input:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 2px rgba(var(--color-primary), 0.2);
+}
+
+/* 에러 메시지 스타일 */
+.error-message {
+    color: var(--color-error);
+    margin-bottom: var(--spacing-md);
+    font-weight: bold;
+    font-size: var(--font-size-sm);
+}
+
+/* 공통 버튼 스타일 (로그인/회원가입 등) */
+.auth-button {
+    width: 100%;
+    padding: var(--spacing-md);
+    background-color: var(--color-primary);
+    color: var(--color-background-light);
+    border: none;
+    border-radius: var(--border-radius-sm);
+    font-size: var(--font-size-lg);
+    cursor: pointer;
+    transition: background-color var(--transition-speed-normal);
+}
+
+/* 공통 버튼 호버 시 스타일 */
+.auth-button:hover {
+    background-color: var(--color-secondary);
+}

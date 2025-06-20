@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+<main layout:fragment="content">
+    <section class="main-content">
+
+        <a th:href="@{/mypage}">인증하기</a>
+    </section>
+</main>
+</html>

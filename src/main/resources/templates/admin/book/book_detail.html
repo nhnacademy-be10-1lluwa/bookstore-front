@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+<main layout:fragment="content">
+    <section class="main-content">
+        <h1>도서 상세 관리 페이지</h1>
+        <a th:href="@{/admin/book/review}">리뷰 관리</a>
+    </section>
+</main>
+</html>

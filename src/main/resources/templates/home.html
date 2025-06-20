@@ -4,57 +4,22 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head layout:fragment="head">
-  <link rel="stylesheet" th:href="@{/css/home.css}" />
+  <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
 
 <main layout:fragment="content">
   <section class="main-content">
     <h2>베스트셀러</h2>
     <div class="book-list">
-      <div class="book-item">
-        <h3>예제 도서 제목</h3>
-        <p>저자: 홍길똥</p>
-        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
+      <div class="book-item" th:each="book : ${bookList}">
+        <h3 th:text="${book.title}">예제 도서 제목</h3>
+        <p th:text="|저자: ${book.author}|">저자: 홍길동</p>
+        <button type="button" class="button" th:onclick="|alert('${book.title} (저자: ${book.author}) 장바구니에 담겼습니다!');|">
+          장바구니 담기
+        </button>
       </div>
-      <div class="book-item">
-        <h3>예제 도서 제목</h3>
-        <p>저자: 홍길동</p>
-        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
-      </div>
-      <div class="book-item">
-        <h3>예제 도서 제목</h3>
-        <p>저자: 홍길동</p>
-        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
-      </div>
-      <div class="book-item">
-        <h3>예제 도서 제목</h3>
-        <p>저자: 홍길동</p>
-        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
-      </div>
-      <div class="book-item">
-        <h3>예제 도서 제목</h3>
-        <p>저자: 홍길동</p>
-        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
-      </div>
-      <div class="book-item">
-        <h3>예제 도서 제목</h3>
-        <p>저자: 홍길동</p>
-        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
-      </div>
-      <div class="book-item">
-        <h3>예제 도서 제목</h3>
-        <p>저자: 홍길동</p>
-        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
-      </div>
-      <div class="book-item">
-        <h3>예제 도서 제목</h3>
-        <p>저자: 홍길동</p>
-        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
-      </div>
-      <div class="book-item">
-        <h3>예제 도서 제목</h3>
-        <p>저자: 홍길동</p>
-        <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>
+      <div th:if="${#lists.isEmpty(bookList)}" style="grid-column: 1 / -1; text-align: center; color: var(--color-text-medium);">
+        <p>아직 등록된 베스트셀러가 없습니다.</p>
       </div>
     </div>
   </section>

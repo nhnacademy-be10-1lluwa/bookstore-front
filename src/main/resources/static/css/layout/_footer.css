@@ -1,0 +1,12 @@
+.footer {
+    height: 60px;
+    background-color: var(--color-background-gray);
+    text-align: center;
+    line-height: 60px;
+    color: var(--color-text-medium);
+}
+
+.footer p {
+    font-size: var(--font-size-sm);
+    margin: 0;
+}
