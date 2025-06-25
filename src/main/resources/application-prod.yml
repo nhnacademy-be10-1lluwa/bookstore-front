@@ -1,21 +1,5 @@
 spring:
   application:
-    name: front-service
-  mvc:
-    view:
-      prefix: classpath:/templates/
-      suffix: .html
-  thymeleaf:
-    enabled: true
-    prefix: classpath:/templates/
-    suffix: .html
-    mode: HTML
-    encoding: UTF-8
-    cache: false
-
-server:
-  port: 10300
-  address: 0.0.0.0
-
-api:
-  base-url: https://book1lluwa.store
+    name: front
+  config:
+    import: optional:configserver:https://localhost:10300/
