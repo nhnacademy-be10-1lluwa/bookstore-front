@@ -2,4 +2,4 @@ spring:
   application:
     name: front
   config:
-    import: optional:configserver:https://localhost:10300/
+    import: optional:configserver:https://localhost:10319/
