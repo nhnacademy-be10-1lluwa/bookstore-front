@@ -1,4 +1,4 @@
-name: Deploy Front-Service to Server
+name: Deploy front-service to Server
 
 on:
   push:
@@ -29,6 +29,16 @@ jobs:
           username: ${{ secrets.SSH_ID }}
           password: ${{ secrets.REMOTE_PASS }}
           port: ${{ secrets.SSH_PORT }}
-          source: "target/front-service.jar"
+          source: "target/1lluwa-front.jar"
           target: "~/deploy/front"
-          rm: false
+
+      - name: Restart service via remote script
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SSH_IP }}
+          username: ${{ secrets.SSH_ID }}
+          password: ${{ secrets.REMOTE_PASS }}
+          port: ${{ secrets.SSH_PORT }}
+          script: |
+            cd ~/deploy/front
+            ./start.sh
