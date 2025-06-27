@@ -5,7 +5,5 @@ public class OauthTokenResponse {
     private String accessToken;
     private String refreshToken;
     private String tokenType;
-    private String userId;
-    private String nickname;
-    private String role;
+    private long expiresIn;
 }

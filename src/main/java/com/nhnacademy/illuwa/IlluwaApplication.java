@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
-//@EnableFeignClients
+@EnableFeignClients
 public class IlluwaApplication {
     public static void main(String[] args) {
         SpringApplication app = new SpringApplication(IlluwaApplication.class);
