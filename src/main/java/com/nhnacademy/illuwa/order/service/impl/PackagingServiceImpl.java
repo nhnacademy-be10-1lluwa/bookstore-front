@@ -1,7 +1,7 @@
 package com.nhnacademy.illuwa.order.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.illuwa.common.dto.BackendErrorResponse;
+import com.nhnacademy.illuwa.common.dto.ErrorResponse;
 import com.nhnacademy.illuwa.common.exception.ApiRequestException;
 import com.nhnacademy.illuwa.order.dto.PackagingRequestDto;
 import com.nhnacademy.illuwa.order.dto.PackagingResponseDto;
@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
@@ -57,7 +56,7 @@ public class PackagingServiceImpl implements PackagingService {
         } catch (RestClientException e) {  // 그 외 RestClientException (네트워크 오류, 5xx 서버 오류)
             if (e instanceof HttpServerErrorException serverError) {
                 try {
-                    BackendErrorResponse errorBody = objectMapper.readValue(serverError.getResponseBodyAsString(), BackendErrorResponse.class);
+                    ErrorResponse errorBody = objectMapper.readValue(serverError.getResponseBodyAsString(), ErrorResponse.class);
                     throw new ApiRequestException("백엔드 서버 내부 오류: " + errorBody.getMessage());
                 } catch (Exception parseException) {
                     System.err.println("서버 오류 응답 본문 파싱 실패: " + parseException.getMessage());
