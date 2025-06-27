@@ -1,9 +1,9 @@
-package com.nhnacademy.illuwa.member.controller;
+package com.nhnacademy.illuwa.auth.controller;
 
-import com.nhnacademy.illuwa.member.dto.MemberLoginRequest;
-import com.nhnacademy.illuwa.member.dto.MemberResponse;
+import com.nhnacademy.illuwa.auth.dto.MemberLoginRequest;
+import com.nhnacademy.illuwa.auth.dto.MemberResponse;
 import com.nhnacademy.illuwa.member.enums.Role;
-import com.nhnacademy.illuwa.member.serivce.LoginService;
+import com.nhnacademy.illuwa.auth.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -82,6 +82,13 @@
             <artifactId>spring-cloud-config-client</artifactId>
         </dependency>
 
+        <!-- openfeign -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+            <version>4.1.4</version>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
