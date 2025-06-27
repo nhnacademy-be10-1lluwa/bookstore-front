@@ -1,14 +1,13 @@
-package com.nhnacademy.illuwa.member.serivce.impl;
+package com.nhnacademy.illuwa.auth.service.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nhnacademy.illuwa.member.dto.MemberLoginRequest;
 import com.nhnacademy.illuwa.common.dto.BackendErrorResponse;
-import com.nhnacademy.illuwa.member.dto.MemberResponse;
 import com.nhnacademy.illuwa.common.exception.ApiRequestException;
-import com.nhnacademy.illuwa.common.exception.LoginRequestException;
-import com.nhnacademy.illuwa.member.serivce.LoginService;
+import com.nhnacademy.illuwa.common.exception.SignupRequestException;
+import com.nhnacademy.illuwa.auth.dto.MemberRegisterRequest;
+import com.nhnacademy.illuwa.auth.dto.MemberResponse;
+import com.nhnacademy.illuwa.auth.service.SignupService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -18,20 +17,17 @@ import org.springframework.web.client.RestTemplate;
 
 @RequiredArgsConstructor
 @Service
-public class LoginServiceImpl implements LoginService {
-
-    @Value("${api.base-url}")
-    String apiUrl;
-
+public class SignupServiceImpl implements SignupService {
     private final RestTemplate restTemplate;
     ObjectMapper objectMapper = new ObjectMapper();
+    String apiUrl = "http://api서버주소/api/login";
 
-    public MemberResponse sendLogin(MemberLoginRequest memberLoginRequest) {
-        ResponseEntity<MemberResponse> response;
-        String url = apiUrl + "/login";
+    ResponseEntity<MemberResponse> response;
+
+    public void sendSignup(MemberRegisterRequest memberRegisterRequest) {
 
         try {
-            response = restTemplate.postForEntity(url, memberLoginRequest, MemberResponse.class);
+            response = restTemplate.postForEntity(apiUrl, memberRegisterRequest, MemberResponse.class);
 
         } catch (HttpClientErrorException e) { // 4xx 클라이언트 에러
             try {
@@ -39,7 +35,7 @@ public class LoginServiceImpl implements LoginService {
 
                 // 파싱된 `code` 값을 기반으로 로직 분기
                 if ("USER_NOT_FOUND".equals(errorBody.getCode())) {
-                    throw new LoginRequestException(errorBody.getMessage());
+                    throw new SignupRequestException(errorBody.getMessage());
                 } else {
                     throw new ApiRequestException("로그인 요청 중 오류 발생: " + errorBody.getMessage());
                 }
@@ -60,6 +56,5 @@ public class LoginServiceImpl implements LoginService {
                 throw new ApiRequestException("서버와 연결할 수 없습니다. 네트워크 상태를 확인해주세요.");
             }
         }
-        return response.getBody();
     }
 }

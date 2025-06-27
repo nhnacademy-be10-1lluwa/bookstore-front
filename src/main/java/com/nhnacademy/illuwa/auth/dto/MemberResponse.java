@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.member.dto;
+package com.nhnacademy.illuwa.auth.dto;
 
 import com.nhnacademy.illuwa.member.enums.Role;
 import com.nhnacademy.illuwa.member.enums.Status;
