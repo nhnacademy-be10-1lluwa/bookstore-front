@@ -2,7 +2,7 @@ package com.nhnacademy.illuwa.auth.controller;
 
 import com.nhnacademy.illuwa.auth.dto.MemberLoginRequest;
 import com.nhnacademy.illuwa.auth.dto.MemberResponse;
-import com.nhnacademy.illuwa.member.enums.Role;
+import com.nhnacademy.illuwa.user.enums.Role;
 import com.nhnacademy.illuwa.auth.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

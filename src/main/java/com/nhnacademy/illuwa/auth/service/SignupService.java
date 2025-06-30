@@ -1,6 +1,6 @@
 package com.nhnacademy.illuwa.auth.service;
 
-import com.nhnacademy.illuwa.auth.client.UserServiceClient;
+import com.nhnacademy.illuwa.user.client.UserServiceClient;
 import com.nhnacademy.illuwa.auth.dto.MemberRegisterRequest;
 import com.nhnacademy.illuwa.auth.dto.MemberResponse;
 import lombok.RequiredArgsConstructor;

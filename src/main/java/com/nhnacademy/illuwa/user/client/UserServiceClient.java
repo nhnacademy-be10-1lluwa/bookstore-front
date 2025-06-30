@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.auth.client;
+package com.nhnacademy.illuwa.user.client;
 
 import com.nhnacademy.illuwa.auth.dto.MemberLoginRequest;
 import com.nhnacademy.illuwa.auth.dto.MemberRegisterRequest;

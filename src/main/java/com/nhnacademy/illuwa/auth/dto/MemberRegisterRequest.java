@@ -1,6 +1,6 @@
 package com.nhnacademy.illuwa.auth.dto;
 
-import com.nhnacademy.illuwa.member.enums.Role;
+import com.nhnacademy.illuwa.user.enums.Role;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
