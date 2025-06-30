@@ -1,6 +1,7 @@
 package com.nhnacademy.illuwa.auth.controller;
 
 import com.nhnacademy.illuwa.auth.dto.MemberRegisterRequest;
+import com.nhnacademy.illuwa.auth.dto.MemberResponse;
 import com.nhnacademy.illuwa.auth.service.SignupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -20,7 +21,7 @@ public class SignupController {
 
     @PostMapping("/signup")
     public String signupSubmit(MemberRegisterRequest memberRegisterRequest) {
-        signupService.sendSignup(memberRegisterRequest);
+        MemberResponse memberResponse = signupService.signup(memberRegisterRequest);
         return "redirect:/auth/login";
     }
 }

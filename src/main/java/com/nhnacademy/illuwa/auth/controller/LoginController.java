@@ -22,7 +22,7 @@ public class LoginController {
 
     @PostMapping("/login")
     public String loginSubmit(MemberLoginRequest memberLoginRequest) {
-        MemberResponse memberLoginResponse= loginService.sendLogin(memberLoginRequest);
+        MemberResponse memberLoginResponse = loginService.login(memberLoginRequest);
         if(memberLoginResponse.getRole().equals(Role.ADMIN)) {
             return "redirect:/admin/admin_home";
         }

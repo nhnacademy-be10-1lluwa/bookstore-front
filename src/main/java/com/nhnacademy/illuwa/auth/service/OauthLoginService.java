@@ -1,7 +1,18 @@
 package com.nhnacademy.illuwa.auth.service;
 
 import com.nhnacademy.illuwa.auth.dto.OauthTokenResponse;
+import com.nhnacademy.illuwa.auth.dto.PaycoCodeRequest;
+import com.nhnacademy.illuwa.auth.client.OauthServiceClient;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
-public interface OauthLoginService {
-    OauthTokenResponse loginWithPayco(String code, String state);
+@Service
+@RequiredArgsConstructor
+public class OauthLoginService {
+    private final OauthServiceClient oauthServiceClient;
+
+    public OauthTokenResponse loginWithPayco(String code, String state){
+        PaycoCodeRequest request = new PaycoCodeRequest(code, state);
+        return oauthServiceClient.exchangeCodeForToken(request);
+    }
 }
