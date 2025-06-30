@@ -1,6 +1,8 @@
 :root {
     --color-primary: #5c3d99;
+    --color-primary-darker: #4a307a;
     --color-secondary: #ff6f61;
+    --color-secondary-light: #ff8c80;
     --color-text-dark: #333;
     --color-text-medium: #666;
     --color-text-light: #999;
@@ -23,11 +25,21 @@
     --font-size-h2: 2rem;
     --font-size-h3: 1.75rem;
 
+    --font-weight-normal: 400;
+    --font-weight-medium: 500;
+    --font-weight-semibold: 600;
+    --font-weight-bold: 700;
+
+    --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+    --shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.05);
+
     --spacing-xs: 4px;
     --spacing-sm: 8px;
     --spacing-md: 16px;
     --spacing-lg: 24px;
     --spacing-xl: 32px;
+    --spacing-2xl: 48px;
+    --spacing-3xl: 64px;
 
     --border-radius-sm: 4px;
     --border-radius-md: 8px;

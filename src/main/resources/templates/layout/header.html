@@ -1,10 +1,15 @@
-<header th:fragment="header" class="main-header"> <div class="main-header__container"> <h1 class="main-header__logo logo"> <a th:href="@{/}" class="main-header__logo-link">📚 <span class="main-header__logo-span">일루와</span> BookStore 📚</a> </h1>
-    <nav class="main-header__nav"> <ul class="main-header__nav-menu nav-menu"> <li><a th:href="@{/book_list}" class="nav-menu__item-link">도서 목록</a></li>
-        <li><a th:href="@{/cart}" class="nav-menu__item-link">장바구니</a></li>
-        <li><a th:href="@{/mypage}" class="nav-menu__item-link">마이페이지</a></li>
-        <li><a th:href="@{/login}" class="nav-menu__item-link">로그인</a></li>
-        <li><a th:href="@{/signup}" class="nav-menu__item-link">회원가입</a></li>
-    </ul>
-    </nav>
-</div>
+<header th:fragment="header" class="main-header">
+    <div class="main-header__container">
+        <h1 class="main-header__logo logo">
+            <a th:href="@{/}" class="main-header__logo-link">📚 <span class="main-header__logo-span">일루와</span> BookStore 📚</a>
+        </h1>
+        <nav class="main-header__nav">
+            <ul class="main-header__nav-menu nav-menu"> <li><a th:href="@{/book_list}" class="nav-menu__item-link">도서 목록</a></li>
+                <li><a th:href="@{/cart}" class="nav-menu__item-link">장바구니</a></li>
+                <li><a th:href="@{/mypage}" class="nav-menu__item-link">마이페이지</a></li>
+                <li><a th:href="@{/login}" class="nav-menu__item-link">로그인</a></li>
+                <li><a th:href="@{/signup}" class="nav-menu__item-link">회원가입</a></li>
+            </ul>
+        </nav>
+    </div>
 </header>

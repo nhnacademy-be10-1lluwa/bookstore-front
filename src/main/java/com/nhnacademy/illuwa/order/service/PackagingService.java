@@ -1,13 +1,24 @@
 package com.nhnacademy.illuwa.order.service;
 
+import com.nhnacademy.illuwa.order.client.OrderServiceClient;
 import com.nhnacademy.illuwa.order.dto.PackagingRequestDto;
 import com.nhnacademy.illuwa.order.dto.PackagingResponseDto;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface PackagingService {
+@RequiredArgsConstructor
+@Service
+public class PackagingService{
 
-    List<PackagingResponseDto> getPackagingListFromApi();
+    private final OrderServiceClient orderServiceClient;
 
-    PackagingResponseDto registerPackaging(PackagingRequestDto packagingRequestDto);
+    public List<PackagingResponseDto> getPackagingListFromApi() {
+        return orderServiceClient.getPackaging();
+    }
+
+    public PackagingResponseDto registerPackaging(PackagingRequestDto packagingRequestDto) {
+        return orderServiceClient.createPackaging(packagingRequestDto);
+    }
 }
