@@ -9,6 +9,13 @@
 
 <main layout:fragment="content">
   <section class="main-content">
+    <div class="welcome-section">
+      <h1 class="welcome-message">어서오세요!</h1>
+      <div class="welcome-links">
+        <a href="/login" class="button button-primary">로그인하기 / 마이페이지</a>
+        <a href="/book_list" class="button button-secondary">책 찾아보기</a>
+      </div>
+    </div>
     <h2>베스트셀러</h2>
     <div class="book-list">
       <div class="book-item" th:each="book : ${bookList}">

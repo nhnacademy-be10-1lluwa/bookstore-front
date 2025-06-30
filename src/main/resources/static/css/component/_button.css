@@ -1,27 +1,44 @@
 .button {
-    display: inline-block;
-    padding: var(--spacing-sm) var(--spacing-md);
-    background-color: var(--color-primary);
-    color: white;
-    border: none;
+    padding: var(--spacing-sm) var(--spacing-lg);
     border-radius: var(--border-radius-sm);
-    cursor: pointer;
     font-size: var(--font-size-base);
-    transition: background-color var(--transition-speed-normal);
-    text-align: center;
+    font-weight: var(--font-weight-semibold);
     text-decoration: none;
+    transition: background-color var(--transition-speed-fast), color var(--transition-speed-fast), border-color var(--transition-speed-fast);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 150px;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-family: var(--font-family-base);
 }
 
 .button:hover {
     background-color: var(--color-secondary);
 }
 
-.button.is-secondary {
-    background-color: var(--color-text-medium);
+.button-primary {
+    background-color: var(--color-primary);
+    color: var(--color-background-light);
+    border: 1px solid var(--color-primary);
 }
 
-.button.is-secondary:hover {
-    background-color: var(--color-text-dark);
+.button-primary:hover {
+    background-color: var(--color-primary-darker);
+    border-color: var(--color-primary-darker);
+}
+
+.button-secondary {
+    background-color: transparent;
+    color: var(--color-secondary);
+    border: 1px solid var(--color-secondary);
+}
+
+.button-secondary:hover {
+    background-color: var(--color-secondary-light);
+    color: var(--color-text-dark);
+    border-color: var(--color-secondary);
 }
 
 .button.is-small {
