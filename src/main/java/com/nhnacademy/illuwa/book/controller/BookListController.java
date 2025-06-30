@@ -1,6 +1,6 @@
 package com.nhnacademy.illuwa.book.controller;
 
-import com.nhnacademy.illuwa.book.dto.FindBookResponse;
+import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
 import com.nhnacademy.illuwa.book.dto.SearchBookResponse;
 import com.nhnacademy.illuwa.book.service.BookService;
 import lombok.RequiredArgsConstructor;
@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,23 +21,23 @@ public class BookListController {
     @GetMapping("/book_list")
     public String bookList(Model model) {
 
-        // 테스트용 리스트 추가
-        List<SearchBookResponse> books = new ArrayList<>();
-        books.add(new SearchBookResponse("테스트 도서", "테스트 내용", "테스트 설명", "카테고리", "홍길동", "테스트출판사", "2025-01-01",
-                "9788999999999", new BigDecimal(10000), new BigDecimal(9999), true, "test.jpg"));
-
-        model.addAttribute("books", books);
-
-//        List<SearchBookResponse> books = bookService.fetchBookListFromApi();
+//        // 테스트용 리스트 추가
+//        List<SearchBookResponse> books = new ArrayList<>();
+//        books.add(new SearchBookResponse("테스트 도서", "테스트 내용", "테스트 설명", "카테고리", "홍길동", "테스트출판사", "2025-01-01",
+//                "9788999999999", new BigDecimal(10000), new BigDecimal(9999), true, "test.jpg"));
+//
 //        model.addAttribute("books", books);
+
+        List<SearchBookResponse> books = bookService.fetchBookListFromApi();
+        model.addAttribute("books", books);
         return "book/book_list";
     }
 
     @PostMapping("/book_search")
     public String searchBook(@RequestParam("keyword") String keyword, Model model) {
 
-        FindBookResponse book = bookService.searchBookListFromApi(keyword).getBody();
-        List<FindBookResponse> books = new ArrayList<>();
+        BookDetailResponse book = bookService.bookDetail(keyword);
+        List<BookDetailResponse> books = new ArrayList<>();
         books.add(book);
 
         model.addAttribute("books", books);

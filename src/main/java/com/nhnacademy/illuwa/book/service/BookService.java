@@ -1,12 +1,25 @@
 package com.nhnacademy.illuwa.book.service;
 
-import com.nhnacademy.illuwa.book.dto.FindBookResponse;
+import com.nhnacademy.illuwa.book.client.ProductServiceClient;
+import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
 import com.nhnacademy.illuwa.book.dto.SearchBookResponse;
-import org.springframework.http.ResponseEntity;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-public interface BookService {
-    List<SearchBookResponse> fetchBookListFromApi();
-    public ResponseEntity<FindBookResponse> searchBookListFromApi(String keyword);
+@RequiredArgsConstructor
+@Service
+public class BookService {
+
+    private final ProductServiceClient productServiceClient;
+
+    public List<SearchBookResponse> fetchBookListFromApi() {
+        return productServiceClient.findBooks();
+    }
+
+    public BookDetailResponse bookDetail(@RequestParam String keyword) {
+        return productServiceClient.getBookDetail(keyword);
+    }
 }

@@ -11,17 +11,17 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class FindBookResponse {
+public class BookDetailResponse {
+    private Long id;
     private String title;
     private String contents;
     private String description;
-    private String category;
     private String author;
     private String publisher;
-    private String publishedAt;
+    private String publishedDate;
     private String isbn;
-    private BigDecimal priceOriginal;
-    private BigDecimal priceSale;
+    private BigDecimal regularPrice;
+    private BigDecimal salePrice;
     private boolean isGiftWrap;
-    private String imageUrl;
+    private String imgUrl;
 }

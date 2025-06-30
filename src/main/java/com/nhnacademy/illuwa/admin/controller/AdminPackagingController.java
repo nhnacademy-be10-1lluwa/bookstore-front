@@ -31,11 +31,7 @@ public class AdminPackagingController {
 
     @PostMapping("/packaging")
     public String registerPackagingSubmit(PackagingRequestDto packagingRequestDto) {
-        packagingService.registerPackaging(packagingRequestDto);
+        PackagingResponseDto packagingResponseDto = packagingService.registerPackaging(packagingRequestDto);
         return "redirect:/admin/packaging/packaging";
     }
-
-
-
-
 }
