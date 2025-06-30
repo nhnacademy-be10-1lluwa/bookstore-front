@@ -1,6 +1,5 @@
 package com.nhnacademy.illuwa.auth.dto;
 
-import com.nhnacademy.illuwa.user.enums.Role;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,14 +28,4 @@ public class MemberRegisterRequest {
     @Pattern(regexp = "^010-\\d{3,4}-\\d{4}$",
             message = "휴대폰 번호는 010으로 시작하는 11자리 숫자와 '-'로 구성되어야 합니다.")
     private String contact;
-    private Role role;
-
-    public MemberRegisterRequest(String name, LocalDate birth, String email, String password, String contact) {
-        this.name = name;
-        this.birth = birth;
-        this.email = email;
-        this.password = password;
-        this.contact = contact;
-        this.role = Role.USER;
-    }
 }

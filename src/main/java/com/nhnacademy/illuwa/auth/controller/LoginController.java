@@ -1,9 +1,5 @@
 package com.nhnacademy.illuwa.auth.controller;
 
-import com.nhnacademy.illuwa.auth.dto.MemberLoginRequest;
-import com.nhnacademy.illuwa.auth.dto.MemberResponse;
-import com.nhnacademy.illuwa.user.enums.Role;
-import com.nhnacademy.illuwa.auth.service.LoginService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,19 +9,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class LoginController {
 
-    private final LoginService loginService;
-
     @GetMapping("/login")
     public String login() {
         return "auth/login";
     }
 
     @PostMapping("/login")
-    public String loginSubmit(MemberLoginRequest memberLoginRequest) {
-        MemberResponse memberLoginResponse = loginService.login(memberLoginRequest);
-        if(memberLoginResponse.getRole().equals(Role.ADMIN)) {
-            return "redirect:/admin/admin_home";
-        }
+    public String loginSubmit() {
         return "redirect:/";
     }
 }

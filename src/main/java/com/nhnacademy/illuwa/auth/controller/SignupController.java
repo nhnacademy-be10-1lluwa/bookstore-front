@@ -1,18 +1,18 @@
 package com.nhnacademy.illuwa.auth.controller;
 
+import com.nhnacademy.illuwa.auth.client.AuthClient;
 import com.nhnacademy.illuwa.auth.dto.MemberRegisterRequest;
-import com.nhnacademy.illuwa.auth.dto.MemberResponse;
-import com.nhnacademy.illuwa.auth.service.SignupService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 @RequiredArgsConstructor
 @Controller
 public class SignupController {
 
-    private final SignupService signupService;
+    private final AuthClient authClient;
 
     @GetMapping("/signup")
     public String signup() {
@@ -20,8 +20,8 @@ public class SignupController {
     }
 
     @PostMapping("/signup")
-    public String signupSubmit(MemberRegisterRequest memberRegisterRequest) {
-        MemberResponse memberResponse = signupService.signup(memberRegisterRequest);
-        return "redirect:/auth/login";
+    public String signupSubmit(@ModelAttribute MemberRegisterRequest memberRegisterRequest) {
+        authClient.signup(memberRegisterRequest);
+        return "redirect:/";
     }
 }

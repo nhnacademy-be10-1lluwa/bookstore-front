@@ -11,7 +11,7 @@
     <section class="auth-container">
         <h2>회원가입</h2>
         <div th:if="${error}" class="error-message" th:text="${error}"></div>
-        <form th:action="${@environment.getProperty('api.base-url') + '/auth/signup'}" method="post">
+        <form th:action="@{/signup}" method="post">
             <div class="form-group">
                 <label for="name">이름</label>
                 <input type="text" id="name" name="name" required>
