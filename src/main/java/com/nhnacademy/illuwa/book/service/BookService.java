@@ -15,7 +15,7 @@ public class BookService {
 
     private final ProductServiceClient productServiceClient;
 
-    public List<SearchBookResponse> fetchBookListFromApi() {
+    public List<SearchBookResponse> bookList() {
         return productServiceClient.findBooks();
     }
 

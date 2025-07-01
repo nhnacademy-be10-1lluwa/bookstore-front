@@ -14,7 +14,11 @@
         <form th:action="@{/signup}" method="post">
             <div class="form-group">
                 <label for="name">이름</label>
-                <input type="text" id="name" name="name" required>
+                <input type="text"
+                       id="name"
+                       name="name"
+                       placeholder="이름을 입력하세요."
+                       required>
             </div>
 
             <div class="form-group">
@@ -23,21 +27,48 @@
 
             <div class="form-group">
                 <label for="email">이메일</label>
-                <input type="email" id="email" name="email" required>
+                <input type="email"
+                       id="email"
+                       name="email"
+                       placeholder="이메일을 입력하세요."
+                       required>
             </div>
 
             <div class="form-group">
                 <label for="password">비밀번호</label>
-                <input type="password" id="password" name="password" required>
+                <div class="input-with-tooltip">
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           placeholder="비밀번호를 입력하세요."
+                           required>
+                    <span class="tooltip-icon" data-tooltip-target="password-tooltip">?</span>
+                    <div id="password-tooltip" class="tooltip-content">
+                        <p><strong>비밀번호 조건:</strong></p>
+                        <ul>
+                            <li>영문 대소문자, 숫자, 특수문자(!@#$%^&*)를 1개 이상 포함</li>
+                            <li>8자 이상 20자 이하</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
 
             <div class="form-group">
                 <label for="contact">휴대폰 번호</label>
-                <input type="text" id="contact" name="contact" required>
+                <input type="text"
+                       id="contact"
+                       name="contact"
+                       placeholder="-를 포함한 전화번호를 입력하세요."
+                       required>
             </div>
 
             <button type="submit" class="auth-button">회원가입</button>
         </form>
     </section>
 </main>
+<body>
+<th:block layout:fragment="scripts">
+    <script th:src="@{/js/password-tooltip.js}"></script>
+</th:block>
+</body>
 </html>
