@@ -1,58 +1,81 @@
-.main-content {
-    max-width: 900px;
+.two-column-coupon-layout {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--spacing-lg);
+    max-width: 1200px;
     margin: 30px auto;
-    padding: 20px;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    padding: var(--spacing-md);
+    box-sizing: border-box;
 }
 
-.main-content h1 {
-    margin-bottom: 20px;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
+.coupon-section {
+    flex: 1;
+    min-width: 300px;
+
+    background-color: var(--color-background-light);
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-small);
 }
 
-.main-content h1.mt-4 {
-    margin-top: 40px;
+.coupon-section h1 {
+    margin-bottom: var(--spacing-md);
+    padding-bottom: var(--spacing-xs);
+    border-bottom: 1px solid var(--color-border);
 }
 
 .coupon-list {
-    margin-bottom: 30px;
+    margin-bottom: var(--spacing-lg);
 }
 
 .coupon-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 15px;
+    margin-top: var(--spacing-sm);
 }
 
 .coupon-table th,
 .coupon-table td {
-    padding: 12px 15px;
+    padding: var(--spacing-xs) var(--spacing-sm);
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid var(--color-border-light);
+    vertical-align: middle;
 }
 
 .coupon-table thead th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-    color: #555;
+    background-color: var(--color-background-gray);
+    font-weight: var(--font-weight-semibold);
+    color: var(--color-text-dark);
 }
 
 .coupon-table tbody tr:hover {
-    background-color: #f9f9f9;
+    background-color: var(--color-background-hover);
 }
 
 .coupon-table tbody tr:nth-child(even) {
-    background-color: #f6f6f6;
+    background-color: var(--color-background-even);
 }
 
 .no-coupons {
     text-align: center;
-    padding: 20px;
-    color: #777;
-    border: 1px dashed #ddd;
-    border-radius: 5px;
-    background-color: #fdfdfd;
+    padding: var(--spacing-lg);
+    color: var(--color-text-light);
+    border: 1px dashed var(--color-border);
+    border-radius: var(--border-radius-sm);
+    background-color: var(--color-background-light);
+}
+
+@media (max-width: 768px) {
+    .two-column-coupon-layout {
+        flex-direction: column;
+        padding: var(--spacing-sm);
+    }
+    .coupon-section {
+        min-width: unset;
+        width: 100%;
+        margin-bottom: var(--spacing-md);
+    }
+    .coupon-section:last-child {
+        margin-bottom: 0;
+    }
 }
