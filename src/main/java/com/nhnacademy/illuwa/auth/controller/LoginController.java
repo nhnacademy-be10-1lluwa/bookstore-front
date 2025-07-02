@@ -5,6 +5,7 @@ import com.nhnacademy.illuwa.auth.dto.MemberLoginRequest;
 import com.nhnacademy.illuwa.auth.dto.TokenResponse;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,18 +25,18 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String loginSubmit(@ModelAttribute MemberLoginRequest memberLoginRequest,
+    public String loginSubmit(@Valid @ModelAttribute MemberLoginRequest memberLoginRequest,
                               HttpServletResponse response) {
-        TokenResponse tokenResponse = authClient.login(memberLoginRequest);
-        String token = tokenResponse.getAccessToken();
-
-        Cookie accessTokenCookie = new Cookie("ACCESS_TOKEN", token);
-        accessTokenCookie.setHttpOnly(true);
-        accessTokenCookie.setSecure(true);
-        accessTokenCookie.setPath("/");
-        accessTokenCookie.setMaxAge(60 * 60); // 1시간
-
-        response.addCookie(accessTokenCookie);
+//        TokenResponse tokenResponse = authClient.login(memberLoginRequest);
+//        String token = tokenResponse.getAccessToken();
+//
+//        Cookie accessTokenCookie = new Cookie("ACCESS_TOKEN", token);
+//        accessTokenCookie.setHttpOnly(true);
+//        accessTokenCookie.setSecure(true);
+//        accessTokenCookie.setPath("/");
+//        accessTokenCookie.setMaxAge(60 * 60); // 1시간
+//
+//        response.addCookie(accessTokenCookie);
         return "redirect:/";
     }
 }

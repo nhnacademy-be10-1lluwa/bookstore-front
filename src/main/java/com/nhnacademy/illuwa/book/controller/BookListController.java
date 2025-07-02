@@ -20,22 +20,13 @@ public class BookListController {
 
     @GetMapping("/book_list")
     public String bookList(Model model) {
-
-//        // 테스트용 리스트 추가
-//        List<SearchBookResponse> books = new ArrayList<>();
-//        books.add(new SearchBookResponse("테스트 도서", "테스트 내용", "테스트 설명", "카테고리", "홍길동", "테스트출판사", "2025-01-01",
-//                "9788999999999", new BigDecimal(10000), new BigDecimal(9999), true, "test.jpg"));
-//
-//        model.addAttribute("books", books);
-
-        List<SearchBookResponse> books = bookService.fetchBookListFromApi();
+        List<SearchBookResponse> books = bookService.bookList();
         model.addAttribute("books", books);
         return "book/book_list";
     }
 
     @PostMapping("/book_search")
     public String searchBook(@RequestParam("keyword") String keyword, Model model) {
-
         BookDetailResponse book = bookService.bookDetail(keyword);
         List<BookDetailResponse> books = new ArrayList<>();
         books.add(book);
