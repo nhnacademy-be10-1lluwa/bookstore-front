@@ -7,60 +7,64 @@
     <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
 <main layout:fragment="content">
-    <section class="main-content">
-        <h1>보유 중인 쿠폰</h1>
-        <div class="coupon-list">
-            <div th:if="${#lists.isEmpty(availableCoupons)}" class="no-coupons">
-                <p>보유 중인 쿠폰이 없습니다.</p>
+    <div class="two-column-coupon-layout">
+        <section class="coupon-section">
+            <h1>보유 중인 쿠폰</h1>
+            <div class="coupon-list">
+                <div th:if="${#lists.isEmpty(availableCoupons)}" class="no-coupons">
+                    <p>보유 중인 쿠폰이 없습니다.</p>
+                </div>
+                <div th:unless="${#lists.isEmpty(availableCoupons)}">
+                    <table class="coupon-table">
+                        <thead>
+                        <tr>
+                            <th>쿠폰 이름</th>
+                            <th>발급일</th>
+                            <th>만료일</th>
+                            <th>상태</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="coupon : ${availableCoupons}">
+                            <td th:text="${coupon.couponName}"></td>
+                            <td th:text="${#temporals.format(coupon.issuedAt, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td th:text="${#temporals.format(coupon.expiresAt, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td>미사용</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div th:unless="${#lists.isEmpty(availableCoupons)}">
-                <table class="coupon-table">
-                    <thead>
-                    <tr>
-                        <th>쿠폰 이름</th>
-                        <th>발급일</th>
-                        <th>만료일</th>
-                        <th>상태</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="coupon : ${availableCoupons}">
-                        <td th:text="${coupon.couponName}"></td>
-                        <td th:text="${#temporals.format(coupon.issuedAt, 'yyyy-MM-dd HH:mm')}"></td>
-                        <td th:text="${#temporals.format(coupon.expiresAt, 'yyyy-MM-dd HH:mm')}"></td>
-                        <td>미사용</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+        </section>
 
-        <h1 class="mt-4">쿠폰 사용 내역</h1>
-        <div class="coupon-list">
-            <div th:if="${#lists.isEmpty(usedCoupons)}" class="no-coupons">
-                <p>사용 내역이 없습니다.</p>
+        <section class="coupon-section">
+            <h1>쿠폰 사용 내역</h1>
+            <div class="coupon-list">
+                <div th:if="${#lists.isEmpty(usedCoupons)}" class="no-coupons">
+                    <p>사용 내역이 없습니다.</p>
+                </div>
+                <div th:unless="${#lists.isEmpty(usedCoupons)}">
+                    <table class="coupon-table">
+                        <thead>
+                        <tr>
+                            <th>쿠폰 이름</th>
+                            <th>발급일</th>
+                            <th>사용일</th>
+                            <th>상태</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="coupon : ${usedCoupons}">
+                            <td th:text="${coupon.couponName}"></td>
+                            <td th:text="${#temporals.format(coupon.issuedAt, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td th:text="${#temporals.format(coupon.usedAt, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td>사용 완료</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div th:unless="${#lists.isEmpty(usedCoupons)}">
-                <table class="coupon-table">
-                    <thead>
-                    <tr>
-                        <th>쿠폰 이름</th>
-                        <th>발급일</th>
-                        <th>사용일</th>
-                        <th>상태</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr th:each="coupon : ${usedCoupons}">
-                        <td th:text="${coupon.couponName}"></td>
-                        <td th:text="${#temporals.format(coupon.issuedAt, 'yyyy-MM-dd HH:mm')}"></td>
-                        <td th:text="${#temporals.format(coupon.usedAt, 'yyyy-MM-dd HH:mm')}"></td>
-                        <td>사용 완료</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </section>
+        </section>
+    </div>
 </main>
 </html>
