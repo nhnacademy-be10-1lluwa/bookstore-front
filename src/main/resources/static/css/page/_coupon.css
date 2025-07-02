@@ -1,0 +1,58 @@
+.main-content {
+    max-width: 900px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.main-content h1 {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.main-content h1.mt-4 {
+    margin-top: 40px;
+}
+
+.coupon-list {
+    margin-bottom: 30px;
+}
+
+.coupon-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.coupon-table th,
+.coupon-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.coupon-table thead th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+    color: #555;
+}
+
+.coupon-table tbody tr:hover {
+    background-color: #f9f9f9;
+}
+
+.coupon-table tbody tr:nth-child(even) {
+    background-color: #f6f6f6;
+}
+
+.no-coupons {
+    text-align: center;
+    padding: 20px;
+    color: #777;
+    border: 1px dashed #ddd;
+    border-radius: 5px;
+    background-color: #fdfdfd;
+}
