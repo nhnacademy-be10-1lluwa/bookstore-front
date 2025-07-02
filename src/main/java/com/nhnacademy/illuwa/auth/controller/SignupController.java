@@ -2,6 +2,7 @@ package com.nhnacademy.illuwa.auth.controller;
 
 import com.nhnacademy.illuwa.auth.client.AuthClient;
 import com.nhnacademy.illuwa.auth.dto.MemberRegisterRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +21,7 @@ public class SignupController {
     }
 
     @PostMapping("/signup")
-    public String signupSubmit(@ModelAttribute MemberRegisterRequest memberRegisterRequest) {
+    public String signupSubmit(@Valid @ModelAttribute MemberRegisterRequest memberRegisterRequest) {
         authClient.signup(memberRegisterRequest);
         return "redirect:/login";
     }
