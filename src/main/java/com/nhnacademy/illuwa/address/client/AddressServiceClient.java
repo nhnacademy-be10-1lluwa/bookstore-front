@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "user-service", url = "${api.base-url}")
+@FeignClient(name = "user-service", url = "${api.base-url}", contextId = "userClientForAddress")
 public interface AddressServiceClient {
     @GetMapping("/members/addresses")
     List<AddressResponse> getAddressList();
