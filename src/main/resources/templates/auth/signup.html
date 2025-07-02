@@ -34,7 +34,7 @@
                        required>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" th:if="${!isPaycoUser}">
                 <label for="password">비밀번호</label>
                 <div class="input-with-tooltip">
                     <input type="password"
