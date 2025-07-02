@@ -9,4 +9,9 @@ public class MyPageController {
     public String myPage() {
         return "user/mypage";
     }
+
+    @GetMapping("/userinfo")
+    public String userInfo() {
+        return "user/userinfo";
+    }
 }
