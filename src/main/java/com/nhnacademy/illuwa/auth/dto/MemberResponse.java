@@ -1,7 +1,7 @@
 package com.nhnacademy.illuwa.auth.dto;
 
-import com.nhnacademy.illuwa.user.enums.Role;
-import com.nhnacademy.illuwa.user.enums.Status;
+import com.nhnacademy.illuwa.user.member.enums.Role;
+import com.nhnacademy.illuwa.user.member.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +20,7 @@ public class MemberResponse {
     private String email;
     private Role role;
     private String contact;
-    private String grade;
+    private String gradeName;
     private BigDecimal point;
     private Status status;
     private LocalDateTime lastLoginAt;

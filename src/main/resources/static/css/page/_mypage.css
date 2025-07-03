@@ -1,0 +1,51 @@
+.mypage-container {
+    display: flex;
+    min-height: 500px;
+}
+
+.mypage-sidebar {
+    width: 220px;
+    background-color: #f7f7fb;
+    padding: 2rem 1rem;
+    border-right: 2px solid #e0e0e0;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.05);
+}
+
+.sidebar-title {
+    font-size: 1.3rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: #5a4fcf;
+    text-align: center;
+}
+
+.mypage-sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.mypage-sidebar li {
+    margin-bottom: 1rem;
+}
+
+.mypage-sidebar a {
+    display: block;
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.mypage-sidebar a:hover {
+    background-color: #e0e7ff;
+    color: #1e3a8a;
+    font-weight: bold;
+}
+
+.mypage-content {
+    flex-grow: 1;
+    padding: 2rem;
+}
