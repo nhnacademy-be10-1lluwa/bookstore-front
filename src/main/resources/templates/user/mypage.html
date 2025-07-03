@@ -1,19 +1,35 @@
 <!DOCTYPE html>
+
 <html layout:decorate="~{layout/layout}"
+      th:lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head layout:fragment="head">
     <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/_mypage.css}" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
-<main layout:fragment="content">
-    <section class="main-content">
-        <a th:href="@{/userinfo}">개인정보 수정</a>
-        <a th:href="@{/order_list}">주문 내역</a>
-<!--        <a th:href="@{/point_history}">포인트 히스토리</a>-->
-        <a th:href="@{/mycoupon}">쿠폰 발급/사용 내역</a>
-        <a th:href="@{/address_list}">주소록 관리</a>
 
-    </section>
+<main layout:fragment="content">
+    <div class="mypage-container">
+        <!-- 왼쪽 탭 메뉴 -->
+        <nav class="mypage-sidebar">
+            <h2 class="sidebar-title">
+                <span th:text="${member.getName()}">OOO</span>님
+            </h2>
+            <ul>
+                <li><a th:href="@{/userinfo}">👤 개인정보 수정</a></li>
+                <li><a th:href="@{/order_list}">🧾 주문 내역</a></li>
+                <!-- <li><a th:href="@{/point_history}">💰 포인트 히스토리</a></li> -->
+                <li><a th:href="@{/mycoupon}">🎟️ 쿠폰 내역</a></li>
+                <li><a th:href="@{/address_list}">🏠 주소록 관리</a></li>
+            </ul>
+        </nav>
+
+        <section class="mypage-content">
+            <h3>마이페이지에 오신 걸 환영합니다 !</h3>
+        </section>
+    </div>
 </main>
-</html>

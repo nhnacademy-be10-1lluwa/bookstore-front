@@ -18,22 +18,22 @@
 
             <div class="info-item">
                 <div class="info-label">이름</div>
-                <div class="info-value" th:text="${name}">홍길동</div>
+                <div class="info-value" th:text="${member.getName()}">홍길동</div>
             </div>
 
             <div class="info-item">
                 <div class="info-label">등급</div>
-                <div class="info-value" th:text="${grade}">골드</div>
+                <div class="info-value" th:text="${member.getGradeName()}">골드</div>
             </div>
 
             <div class="info-item">
                 <div class="info-label">이메일</div>
-                <div class="info-value" th:text="${email}">hong@example.com</div>
+                <div class="info-value" th:text="${member.getEmail()}">hong@example.com</div>
             </div>
 
             <div class="info-item">
                 <div class="info-label">연락처</div>
-                <div class="info-value" th:text="${contact}">010-1234-5678</div>
+                <div class="info-value" th:text="${member.getContact()}">010-1234-5678</div>
             </div>
 
         </div>

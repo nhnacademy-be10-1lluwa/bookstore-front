@@ -9,14 +9,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(name = "user-service", url = "${api.base-url}", contextId = "userClientForMember")
-public interface UserServiceClient {
-    @GetMapping("/members/{memberId}")
-    MemberResponse getUser(@PathVariable("memberId") Long memberId);
+@FeignClient(name = "user-service", url = "${api.base-url}", contextId = "userClientForAuth")
+public interface UserAuthServiceClient {
+    @PostMapping("/members")
+    MemberResponse sendSignup(@RequestBody MemberRegisterRequest memberRegisterRequest);
 
     @PostMapping("/members/login")
     MemberResponse sendLogin(@RequestBody MemberLoginRequest memberLoginRequest);
-
-    @PostMapping("/members")
-    MemberResponse sendSignup(@RequestBody MemberRegisterRequest memberRegisterRequest);
 }
