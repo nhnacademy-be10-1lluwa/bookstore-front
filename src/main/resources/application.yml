@@ -3,3 +3,20 @@ spring:
     name: front
   config:
     import: optional:configserver:https://book1lluwa.store/config/
+  security:
+    oauth2:
+      client:
+        provider:
+          payco:
+            authorization-uri: https://id.payco.com/oauth2.0/authorize
+            token-uri: https://id.payco.com/oauth2.0/token
+            user-info-uri: https://apis-payco.krp.toastoven.net/payco/friends/find_member_v2.json
+            user-name-attribute: id
+        registration:
+          payco:
+            client-id: 3RDZIlUpl7bOHKX6p0kxxbg
+            client-secret: v0DzVGayvD0POlxgNJ8AdKgU
+            redirect-uri: http://test.com/oauth/payco/callback
+            authorization-grant-type: authorization_code
+            scope: friends
+            client-name: PAYCO
