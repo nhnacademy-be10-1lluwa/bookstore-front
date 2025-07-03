@@ -1,7 +1,7 @@
 package com.nhnacademy.illuwa.address.controller;
 
 import com.nhnacademy.illuwa.address.client.AddressServiceClient;
-import com.nhnacademy.illuwa.user.dto.AddressResponse;
+import com.nhnacademy.illuwa.address.dto.AddressResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

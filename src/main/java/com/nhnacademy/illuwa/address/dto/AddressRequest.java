@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.user.dto;
+package com.nhnacademy.illuwa.address.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

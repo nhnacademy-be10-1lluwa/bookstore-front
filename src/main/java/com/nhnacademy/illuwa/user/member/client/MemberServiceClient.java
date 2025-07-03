@@ -1,7 +1,5 @@
 package com.nhnacademy.illuwa.user.member.client;
 
-import com.nhnacademy.illuwa.auth.dto.MemberLoginRequest;
-import com.nhnacademy.illuwa.auth.dto.MemberRegisterRequest;
 import com.nhnacademy.illuwa.auth.dto.MemberResponse;
 import com.nhnacademy.illuwa.auth.dto.MemberUpdateRequest;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -12,7 +10,7 @@ public interface MemberServiceClient {
 
     // 회원 단일 조회 (X-USER_ID 기반)
     @GetMapping("/members")
-    MemberResponse getMember(@RequestHeader("X-USER_ID") Long memberId);
+    MemberResponse getMember();
 
     // 회원 단일 조회 (이메일 기반)
     @GetMapping(value = "/members", params = "memberEmail")
@@ -20,9 +18,8 @@ public interface MemberServiceClient {
 
     // 회원 수정
     @PatchMapping("/members")
-    MemberResponse updateMember(@RequestHeader("X-USER_ID") Long memberId,
-                                @RequestBody MemberUpdateRequest request);
+    MemberResponse updateMember(@RequestBody MemberUpdateRequest request);
     // 회원 삭제
     @DeleteMapping("/members")
-    void deleteMember(@RequestHeader("X-USER_ID") Long memberId);
+    void deleteMember();
 }
