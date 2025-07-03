@@ -20,7 +20,7 @@ public class MemberResponse {
     private String email;
     private Role role;
     private String contact;
-    private String grade;
+    private String gradeName;
     private BigDecimal point;
     private Status status;
     private LocalDateTime lastLoginAt;
