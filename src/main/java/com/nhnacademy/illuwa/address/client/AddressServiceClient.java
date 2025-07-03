@@ -1,7 +1,7 @@
 package com.nhnacademy.illuwa.address.client;
 
-import com.nhnacademy.illuwa.user.dto.AddressRequest;
-import com.nhnacademy.illuwa.user.dto.AddressResponse;
+import com.nhnacademy.illuwa.address.dto.AddressRequest;
+import com.nhnacademy.illuwa.address.dto.AddressResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
