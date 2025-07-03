@@ -6,9 +6,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Data
-@Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class TokenResponse {
     private String accessToken;
+    private String refreshToken;
+    private long expiresInSeconds;
 }
