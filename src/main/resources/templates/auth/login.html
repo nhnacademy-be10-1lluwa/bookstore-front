@@ -8,33 +8,59 @@
 </head>
 
 <main layout:fragment="content">
-    <section class="auth-container">
-        <h2>로그인</h2>
-        <div th:if="${error}" class="error-message" th:text="${error}"></div>
-        <form th:action="@{/login}" method="post">
-            <div class="form-group">
-                <label for="email">이메일</label>
-                <input type="text"
-                       id="email"
-                       name="email"
-                       placeholder="이메일을 입력하세요."
-                       required>
-            </div>
+    <div class="login-page-layout">
+        <section class="member-login-container">
+            <h2>로그인</h2>
+            <div th:if="${error}" class="error-message" th:text="${error}"></div>
+            <form th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <label for="email">이메일</label>
+                    <input type="text"
+                           id="email"
+                           name="email"
+                           placeholder="이메일을 입력하세요."
+                           required>
+                </div>
 
-            <div class="form-group">
-                <label for="password">비밀번호</label>
-                <input type="password"
-                       id="password"
-                       name="password"
-                       placeholder="비밀번호를 입력하세요."
-                       required>
-            </div>
+                <div class="form-group">
+                    <label for="password">비밀번호</label>
+                    <input type="password"
+                           id="password"
+                           name="password"
+                           placeholder="비밀번호를 입력하세요."
+                           required>
+                </div>
 
-            <button type="submit" class="auth-button">로그인</button>
-        </form>
-        <a th:href="@{/payco/login}">
-            <img src="static/images/PAYCO_loginButton.png" alt="PAYCO 로그인" onclick="alert('페이코로그인 클릭됨!')" >
-        </a>
-    </section>
+                <button type="submit" class="auth-button">로그인</button>
+            </form>
+            <a th:href="@{/payco/login}" class="oauth-button">
+                <img th:src="@{/images/PAYCO_loginButton.png}" alt="PAYCO 로그인" onclick="alert('페이코로그인 클릭됨!')" >
+            </a>
+        </section>
+
+        <section class="guest-login-container">
+            <h2>비회원 주문 조회</h2>
+            <p class="description">주문 시 등록했던 정보로 주문 내역을 조회합니다.</p>
+            <form th:action="@{/guest-login}" method="post">
+                <div class="form-group">
+                <label for="guest-order-id">주문 번호</label>
+                    <input type="text"
+                           id="guest-order-id"
+                           name="orderId"
+                           placeholder="주문 번호를 입력하세요."
+                           required>
+                </div>
+                <div class="form-group">
+                    <label for="password">주문 비밀번호</label>
+                    <input type="password"
+                           id="guest-password"
+                           name="password"
+                           placeholder="주문 시 설정한 비밀번호"
+                           required>
+                </div>
+                <button type="submit" class="auth-button button-secondary">주문 조회</button>
+            </form>
+        </section>
+    </div>
 </main>
 </html>

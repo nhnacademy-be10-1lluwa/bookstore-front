@@ -1,9 +1,11 @@
 package com.nhnacademy.illuwa.order.client;
 
+import com.nhnacademy.illuwa.coupon.dto.MemberCouponResponse;
 import com.nhnacademy.illuwa.order.dto.PackagingRequestDto;
 import com.nhnacademy.illuwa.order.dto.PackagingResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -15,4 +17,7 @@ public interface OrderServiceClient {
 
     @PostMapping("/api/packaging")
     PackagingResponseDto createPackaging(PackagingRequestDto packagingRequestDto);
+
+    @GetMapping("/members/member-coupons/{memberEmail}")
+    List<MemberCouponResponse> getCoupon(@PathVariable String memberEmail);
 }

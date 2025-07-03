@@ -10,7 +10,7 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class PackagingService{
+public class OrderService {
 
     private final OrderServiceClient orderServiceClient;
 
