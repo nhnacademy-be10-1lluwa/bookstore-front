@@ -1,7 +1,7 @@
 package com.nhnacademy.illuwa.user.member.client;
 
-import com.nhnacademy.illuwa.auth.dto.MemberResponse;
-import com.nhnacademy.illuwa.auth.dto.MemberUpdateRequest;
+import com.nhnacademy.illuwa.user.member.dto.MemberResponse;
+import com.nhnacademy.illuwa.user.member.dto.MemberUpdateRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +19,7 @@ public interface MemberServiceClient {
     // 회원 수정
     @PatchMapping("/members")
     MemberResponse updateMember(@RequestBody MemberUpdateRequest request);
+
     // 회원 삭제
     @DeleteMapping("/members")
     void deleteMember();
