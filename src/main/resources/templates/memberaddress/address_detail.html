@@ -9,77 +9,64 @@
     <link rel="stylesheet" th:href="@{/css/page/_address-list.css}" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 
 <main layout:fragment="content">
-    <section class="main-content" style="position: relative;">
-        <form th:with="
-          isEditable=${mode == 'new' or mode == 'edit'},
-          actionUrl=${mode == 'edit'}
-            ? '/addresses/save?mode=edit&addressId=' + ${address.memberAddressId}
-            : '/addresses/save?mode=new'"
-              th:action="@{${actionUrl}}"
+    <section class="main-content" style="position: relative;"
+             th:with="actionUrl=${mode == 'edit'} ? '/addresses/save?mode=edit&addressId=' + ${address.memberAddressId} : '/addresses/save?mode=new'">
+
+        <form th:action="@{${actionUrl}}"
               method="post"
               class="form-card"
               th:data-mode="${mode}">
-
-            <div th:if="${message}">
-                <script th:inline="javascript">
-                    let message = /*[[${message}]]*/ "메시지 없음";
-                    alert(message);
-                </script>
-            </div>
 
             <h1>📍 배송지 상세</h1>
 
             <input type="hidden" name="addressId" th:if="${mode == 'edit'}" th:value="${address.memberAddressId}" />
 
-            <input type="hidden" name="defaultAddress" th:value="${address?.defaultAddress}" />
-
             <label>우편번호</label>
             <input type="text" id="postcode" name="postCode"
-                   th:readonly="${!isEditable}"
+                   th:readonly="${!(mode == 'new' or mode == 'edit')}"
                    th:value="${address?.postCode}" />
-            <button type="button" id="postcodeBtn" th:if="${isEditable}" onclick="openPostcode()">우편번호 찾기</button>
+            <button type="button" id="postcodeBtn" th:if="${mode == 'new' or mode == 'edit'}" onclick="openPostcode()">우편번호 찾기</button>
 
             <label>주소</label>
             <input type="text" id="address" name="address"
-                   th:readonly="${!isEditable}"
+                   th:readonly="${!(mode == 'new' or mode == 'edit')}"
                    th:value="${address?.address}" />
 
             <label>상세주소</label>
             <input type="text" id="detailAddress" name="detailAddress"
-                   th:readonly="${!isEditable}"
+                   th:readonly="${!(mode == 'new' or mode == 'edit')}"
                    th:value="${address?.detailAddress}"
                    placeholder="상세주소를 입력하세요" />
 
             <label>주소 별칭</label>
             <input type="text" id="addressName" name="addressName"
-                   th:readonly="${!isEditable}"
+                   th:readonly="${!(mode == 'new' or mode == 'edit')}"
                    th:value="${address?.addressName}"
                    placeholder="예: 집, 회사" />
 
             <label>받는 사람</label>
             <input type="text" id="recipientName" name="recipientName"
-                   th:readonly="${!isEditable}"
+                   th:readonly="${!(mode == 'new' or mode == 'edit')}"
                    th:value="${address?.recipientName}"
                    placeholder="받는 분 성함을 입력해주세요" />
 
             <label>연락처</label>
             <input type="tel" id="recipientContact" name="recipientContact"
-                   th:readonly="${!isEditable}"
+                   th:readonly="${!(mode == 'new' or mode == 'edit')}"
                    th:value="${address?.recipientContact}"
                    placeholder="010-0000-0000" />
 
-            <label class="checkbox-label" th:if="${isEditable}">
+            <label class="checkbox-label" th:if="${mode == 'new' or mode == 'edit'}">
                 <input type="checkbox" id="isDefault" name="defaultAddress"
-                       th:checked="${address?.defaultAddress}" />
+                       th:checked="${address?.defaultAddress}" th:value="true" />
                 기본 배송지로 설정
             </label>
 
-            <div th:if="${isEditable}">
+            <div th:if="${mode == 'new' or mode == 'edit'}">
                 <button type="submit" id="saveBtn">저장</button>
             </div>
 
@@ -92,7 +79,7 @@
         </form>
 
         <script>
-            //다음 우편번호 api
+            // 다음 우편번호 api
             function openPostcode() {
                 new daum.Postcode({
                     oncomplete: function(data) {
