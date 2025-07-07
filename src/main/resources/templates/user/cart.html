@@ -5,10 +5,26 @@
 
 <head layout:fragment="head">
     <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/cart/cart.css}" />
 </head>
 <main layout:fragment="content">
     <section class="main-content">
-        <a th:href="@{/order_detail}">주문 옵션 선택</a>
+        <h1>내 장바구니</h1>
+        <table id="cart-table">
+            <thead>
+            <tr>
+                <th>책</th>
+                <th>제목</th>
+                <th>단가</th>
+                <th>수량</th>
+            </tr>
+            </thead>
+        </table>
+        <div id="total">총합: 0원</div>
+        <div style="text-align:right; margin-top:12px;">
+            <button onclick="clearCart()">장바구니 비우기</button>
+        </div>
     </section>
+    <script src="/js/cart/cart.js"></script>
 </main>
 </html>
