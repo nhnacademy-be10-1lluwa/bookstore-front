@@ -107,11 +107,8 @@
 
     </section>
 
-    <!-- 주소 개수 자바스크립트로 내려주기 -->
     <script th:inline="javascript">
-        /*<![CDATA[*/
-        let addressCount = /*[[${addressList != null ? #lists.size(addressList) : 0}]]*/ 0;
-        /*]]>*/
+        let addressCount = /*[[${addressCount}]]*/ 0;
     </script>
 
     <script>
@@ -119,6 +116,7 @@
             const newAddressBtn = document.getElementById("newAddressBtn");
             newAddressBtn.addEventListener("click", function (e) {
                 if (addressCount >= 10) {
+                    e.preventDefault();
                     alert("주소는 최대 10개까지 등록 가능합니다! 😯");
                     return;
                 }
