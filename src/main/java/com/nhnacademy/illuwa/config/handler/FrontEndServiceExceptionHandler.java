@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.config;
+package com.nhnacademy.illuwa.config.handler;
 
 import com.nhnacademy.illuwa.common.exception.BackendApiException;
 import jakarta.servlet.http.HttpServletRequest;

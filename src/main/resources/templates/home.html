@@ -16,6 +16,8 @@
 
         <a th:if="${isLoggedIn}" th:href="@{/mypage}" class="button button-primary">마이페이지</a>
 
+        <a th:if="${isAdmin}" th:href="@{/admin_home}" class="button button-primary">관리자페이지</a>
+
         <a th:href="@{/book_list}" class="button button-secondary">책 찾아보기</a>
       </div>
     </div>
