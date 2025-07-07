@@ -5,10 +5,70 @@
 
 <head layout:fragment="head">
   <link rel="stylesheet" th:href="@{/css/main.css}" />
+  <style>
+    .book-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 24px;
+    }
+
+    .book-item {
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    }
+
+    .book-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .book-item img {
+      width: 100%;
+      height: 250px;
+      object-fit: cover;
+    }
+
+    .book-info {
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .book-info h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin: 0 0 4px 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      min-height: 2.5rem;
+    }
+
+    .book-info p {
+      font-size: 0.875rem;
+      color: #666;
+      margin: 0 0 12px 0;
+    }
+
+    .book-item .button {
+      margin-top: auto;
+      width: 100%;
+      padding: 10px;
+      font-size: 0.9rem;
+    }
+  </style>
 </head>
 
 <main layout:fragment="content">
-  <section class="main-content">
+  <section class="main-content">ㅌ₩ㅌ1
     <div class="welcome-section">
       <h1 class="welcome-message">어서오세요!</h1>
       <div class="welcome-links">
@@ -18,22 +78,32 @@
 
         <a th:if="${isAdmin}" th:href="@{/admin_home}" class="button button-primary">관리자페이지</a>
 
-        <a th:href="@{/book_list}" class="button button-secondary">책 찾아보기</a>
+        <a th:href="@{/book_search}" class="button button-secondary">책 찾아보기</a>
       </div>
     </div>
     <h2>베스트셀러</h2>
     <div class="book-list">
-      <div class="book-item" th:each="book : ${bookList}">
+      <div class="book-item" th:each="book : ${bestSeller}">
+        <img th:src="${book.cover}" alt="도서 이미지" style="width: 150px; height: 220px; object-fit: cover; margin-bottom: 10px;" />
         <h3 th:text="${book.title}">예제 도서 제목</h3>
         <p th:text="|저자: ${book.author}|">저자: 홍길동</p>
-        <button type="button" class="button" th:onclick="|alert('${book.title} (저자: ${book.author}) 장바구니에 담겼습니다!');|">
-          장바구니 담기
-        </button>
       </div>
-      <div th:if="${#lists.isEmpty(bookList)}" style="grid-column: 1 / -1; text-align: center; color: var(--color-text-medium);">
+      <div th:if="${#lists.isEmpty(bestSeller)}" style="grid-column: 1 / -1; text-align: center; color: var(--color-text-medium);">
         <p>아직 등록된 베스트셀러가 없습니다.</p>
       </div>
     </div>
   </section>
+
+
+  <script>
+    const cartButtons = document.querySelectorAll('.add-to-cart-btn');
+
+    cartButtons.forEach(button => {
+      button.addEventListener('click', function() {
+        const title = this.dataset.title;
+        const author = this.dataset.author;
+      });
+    });
+  </script>
 </main>
 </html>
