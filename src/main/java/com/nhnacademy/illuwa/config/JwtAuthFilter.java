@@ -43,7 +43,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
         // 디코딩 실패 -> 비인증 처리
         JwtPayload payload = decodePayload(cookie.getValue());
-        if(payload == null) {
+        if(payload == null || payload.isExpired()) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -66,8 +66,9 @@ public class JwtAuthFilter extends OncePerRequestFilter {
             if(parts.length < 2) {
                 return null;
             }
-            String json = new String(Base64.getDecoder().decode(parts[1]), StandardCharsets.UTF_8);
-            return objectMapper.readValue(json, JwtPayload.class);
+
+            byte[] decoded = Base64.getDecoder().decode(parts[1]);
+            return objectMapper.readValue(decoded, JwtPayload.class);
         } catch (Exception e) {
             return null;
         }
@@ -79,5 +80,10 @@ public class JwtAuthFilter extends OncePerRequestFilter {
     public static class JwtPayload {
         private Long userId;
         private String role;
+        private Long exp;
+
+        boolean isExpired() {
+            return exp != null && exp < (System.currentTimeMillis() / 1000);
+        }
     }
 }

@@ -16,8 +16,7 @@ public class FeignAuthConfig {
     @Bean
     public RequestInterceptor feignAuthInterceptor() {
         return template -> {
-            ServletRequestAttributes attr =
-                    (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+            ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
             if (attr == null) {
                 return;
             }
