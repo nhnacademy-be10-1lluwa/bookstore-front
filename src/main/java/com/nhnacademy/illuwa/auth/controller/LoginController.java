@@ -22,7 +22,6 @@ public class LoginController {
 
     private final AuthClient authClient;
 
-
     @GetMapping("/login")
     public String login() {
         return "auth/login";
@@ -33,7 +32,7 @@ public class LoginController {
                               HttpServletResponse response) {
         TokenResponse tokenResponse = authClient.login(memberLoginRequest);
 
-        addCookie(response, "ACCESS_TOKEN", tokenResponse.getAccessToken(), (int) tokenResponse.getExpiresInSeconds());
+        addCookie(response, "ACCESS_TOKEN", tokenResponse.getAccessToken(), (int) tokenResponse.getExpiresIn());
         addCookie(response, "REFRESH_TOKEN", tokenResponse.getRefreshToken(), (int) Duration.ofDays(14).toSeconds());
 
         return "redirect:/";
