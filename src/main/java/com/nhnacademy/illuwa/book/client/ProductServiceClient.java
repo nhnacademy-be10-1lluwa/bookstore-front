@@ -18,12 +18,7 @@ public interface ProductServiceClient {
     @GetMapping("/books/search")
     List<SearchBookResponse> findBooks();
 
+
     @GetMapping("/books")
     List<BookDetailResponse> getRegisteredBook();
-
-    @GetMapping("/cart")
-    CartResponse getCart();
-
-    @DeleteMapping("/cart")
-    void cleanCart();
 }

@@ -1,6 +1,7 @@
 package com.nhnacademy.illuwa.cart.service;
 
 import com.nhnacademy.illuwa.book.client.ProductServiceClient;
+import com.nhnacademy.illuwa.cart.client.CartServiceClient;
 import com.nhnacademy.illuwa.cart.dto.CartResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CartService {
 
-    private final ProductServiceClient productServiceClient;
+    private final CartServiceClient productServiceClient;
 
 
     public CartResponse getCart() {
@@ -17,6 +18,6 @@ public class CartService {
     }
 
     public void clearCart() {
-        productServiceClient.cleanCart();
+        productServiceClient.clearCart();
     }
 }
