@@ -3,6 +3,7 @@ package com.nhnacademy.illuwa.memberaddress.controller;
 import com.nhnacademy.illuwa.memberaddress.client.MemberAddressServiceClient;
 import com.nhnacademy.illuwa.memberaddress.dto.MemberAddressRequest;
 import com.nhnacademy.illuwa.memberaddress.dto.MemberAddressResponse;
+import com.nhnacademy.illuwa.memberaddress.dto.PageResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -10,9 +11,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequiredArgsConstructor
@@ -70,17 +68,23 @@ public class MemberAddressController {
                         ? "주소가 성공적으로 수정되었습니다! \uD83C\uDF89"
                         : "주소가 성공적으로 등록되었습니다! \uD83C\uDF89";
         redirectAttributes.addFlashAttribute("message", message);
-        return "redirect:/addresses/" + saved.getMemberAddressId();
+        return "redirect:/address-list";
     }
 
-    // 주소 목록 조회
+    //주소 목록 조회
     @GetMapping("/address-list")
-    public String listAddresses(Model model) {
-        List<MemberAddressResponse> addressList = memberAddressServiceClient.getAddressList();
-        model.addAttribute("addressList",
-                addressList.stream()
-                        .sorted((a1, a2) -> Boolean.compare(a2.isDefaultAddress(), a1.isDefaultAddress()))
-                        .collect(Collectors.toList()));
+    public String listAddresses(
+            @RequestParam(defaultValue = "0") int page,
+            Model model) {
+
+        int pageSize = 5;
+
+        PageResponse<MemberAddressResponse> addressPage =
+                memberAddressServiceClient.getPagedAddressList(page, pageSize);
+
+        model.addAttribute("addressList", addressPage.getContent());
+        model.addAttribute("currentPage", addressPage.getNumber());
+        model.addAttribute("totalPages", addressPage.getTotalPages());
 
         return "memberaddress/address_list";
     }
@@ -93,6 +97,7 @@ public class MemberAddressController {
         return "redirect:/address-list";
     }
 
+    //기본 주소지로 설정
     @PostMapping("/addresses/set-default/{addressId}")
     public String setDefaultAddress(@PathVariable long addressId){
         memberAddressServiceClient.setDefaultAddress(addressId);

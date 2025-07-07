@@ -92,10 +92,16 @@
         </form>
 
         <script>
-            // 다음 우편번호 API 실행
+            //다음 우편번호 api
             function openPostcode() {
                 new daum.Postcode({
                     oncomplete: function(data) {
+                        // 도로명 주소만 허용
+                        if (data.userSelectedType !== 'R') {
+                            alert("도로명 주소로 선택해주세요! 🛣️");
+                            return;
+                        }
+
                         let roadAddr = data.roadAddress;
                         let extraAddr = '';
 

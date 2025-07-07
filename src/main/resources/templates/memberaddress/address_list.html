@@ -7,6 +7,7 @@
 <head layout:fragment="head" title="주소록">
     <link rel="stylesheet" th:href="@{/css/main.css}" />
     <link rel="stylesheet" th:href="@{/css/page/_address-list.css}" />
+    <link rel="stylesheet" th:href="@{/css/component/_pagination.css}" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
@@ -64,7 +65,7 @@
                         <button type="submit" class="btn delete">삭제</button>
                     </form>
 
-                    <a th:if="${!address.defaultAddress}"
+                    <a th:if="${!address.defaultAddress and address.memberAddressId != null}"
                        th:href="@{'/addresses/set-default/' + ${address.memberAddressId}}"
                        class="btn default">기본 주소지 설정</a>
 
@@ -72,8 +73,27 @@
                 </div>
             </div>
         </div>
-    </section>
 
+        <!-- 페이지네이션 -->
+        <div class="pagination">
+            <button th:if="${currentPage > 0}"
+                    th:onclick="'location.href=\'/address-list?page=' + (${currentPage} - 1) + '\''">
+                ◀ 이전
+            </button>
+
+            <span th:each="i : ${#numbers.sequence(0, totalPages > 0 ? totalPages - 1 : 0)}">
+        <a th:href="@{'/address-list?page=' + ${i}}"
+           th:text="${i + 1}"
+           th:classappend="${i == currentPage} ? 'active-page' : ''">1</a>
+    </span>
+
+            <button th:if="${currentPage < (totalPages > 0 ? totalPages - 1 : 0)}"
+                    th:onclick="'location.href=\'/address-list?page=' + (${currentPage} + 1) + '\''">
+                다음 ▶
+            </button>
+        </div>
+
+    </section>
 
     <!-- 주소 개수 자바스크립트로 내려주기 -->
     <script th:inline="javascript">
