@@ -2,6 +2,7 @@ package com.nhnacademy.illuwa.memberaddress.client;
 
 import com.nhnacademy.illuwa.memberaddress.dto.MemberAddressRequest;
 import com.nhnacademy.illuwa.memberaddress.dto.MemberAddressResponse;
+import com.nhnacademy.illuwa.memberaddress.dto.PageResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,9 @@ public interface MemberAddressServiceClient {
 
     @GetMapping("/members/addresses")
     List<MemberAddressResponse> getAddressList();
+
+    @GetMapping("/members/addresses/paged")
+    PageResponse<MemberAddressResponse> getPagedAddressList(@RequestParam("page") int page, @RequestParam("size") int size);
 
     @GetMapping("/members/addresses/{addressId}")
     MemberAddressResponse getAddress(@PathVariable long addressId);
