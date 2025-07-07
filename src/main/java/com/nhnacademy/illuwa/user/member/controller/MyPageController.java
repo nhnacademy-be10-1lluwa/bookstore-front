@@ -1,6 +1,6 @@
-package com.nhnacademy.illuwa.user.member.client.controller;
+package com.nhnacademy.illuwa.user.member.controller;
 
-import com.nhnacademy.illuwa.auth.dto.MemberResponse;
+import com.nhnacademy.illuwa.user.member.dto.MemberResponse;
 import com.nhnacademy.illuwa.user.member.client.MemberServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

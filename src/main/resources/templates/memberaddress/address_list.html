@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      th:lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head" title="주소록">
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/page/_address-list.css}" />
+    <link rel="stylesheet" th:href="@{/css/component/_pagination.css}" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+<main layout:fragment="content">
+    <section class="main-content">
+        <div class="header-row">
+            <h2 class="title">📚 나의 주소록</h2>
+            <a href="javascript:void(0);" id="newAddressBtn" class="btn add-address">+ 새 주소 등록</a>
+        </div>
+
+        <div class="address-list">
+            <div th:if="${#lists.isEmpty(addressList)}" class="empty-message">
+                <p>등록된 주소가 없습니다. 새로운 주소를 등록해주세요! 📭</p>
+            </div>
+
+            <div class="address-card"
+                 th:each="address, stat : ${addressList}"
+                 th:onclick="|location.href='/addresses/${address.memberAddressId}'|"
+                 style="cursor: pointer;">
+
+                <div class="address-index">
+                    <span th:text="${stat.index + 1}">1</span>
+                </div>
+
+                <div class="address-info">
+                    <div class="name">
+                        <i class="fas fa-user"></i>
+                        <span th:text="${address.recipientName}">홍길동</span>
+                        <span class="badge" th:if="${address.defaultAddress}">기본</span>
+                    </div>
+                    <div class="contact">
+                        <i class="fas fa-phone"></i>
+                        <span th:text="${address.recipientContact}">010-1234-5678</span>
+                    </div>
+                    <div class="address">
+                        <i class="fas fa-home"></i>
+                        <span th:text="${address.address}">서울 강남구 역삼동</span>
+                    </div>
+                    <div class="address">
+                        <i class="fas fa-home"></i>
+                        <span th:text="${address.detailAddress}">101호</span>
+                    </div>
+                    <div class="alias">
+                        <i class="fas fa-tag"></i>
+                        <span th:text="${address.addressName}">회사</span>
+                    </div>
+                </div>
+
+                <div class="address-actions" onclick="stopPropagation()">
+                    <a th:href="@{'/addresses/edit/' + ${address.memberAddressId}}" class="btn edit">수정</a>
+                    <form th:action="@{'/addresses/delete/' + ${address.memberAddressId}}" method="post"
+                          onsubmit="return confirm('정말 삭제하시겠습니까?');"
+                          style="display: inline;">
+                        <button type="submit" class="btn delete">삭제</button>
+                    </form>
+
+                    <a th:if="${!address.defaultAddress and address.memberAddressId != null}"
+                       th:href="@{'/addresses/set-default/' + ${address.memberAddressId}}"
+                       class="btn default">기본 주소지 설정</a>
+
+                    <span th:if="${address.defaultAddress}" class="btn default disabled">✅ 기본 주소지</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 페이지네이션 -->
+        <div class="pagination">
+            <button th:if="${currentPage > 0}"
+                    th:onclick="'location.href=\'/address-list?page=' + (${currentPage} - 1) + '\''">
+                ◀ 이전
+            </button>
+
+            <span th:each="i : ${#numbers.sequence(0, totalPages > 0 ? totalPages - 1 : 0)}">
+        <a th:href="@{'/address-list?page=' + ${i}}"
+           th:text="${i + 1}"
+           th:classappend="${i == currentPage} ? 'active-page' : ''">1</a>
+    </span>
+
+            <button th:if="${currentPage < (totalPages > 0 ? totalPages - 1 : 0)}"
+                    th:onclick="'location.href=\'/address-list?page=' + (${currentPage} + 1) + '\''">
+                다음 ▶
+            </button>
+        </div>
+
+    </section>
+
+    <!-- 주소 개수 자바스크립트로 내려주기 -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        let addressCount = /*[[${addressList != null ? #lists.size(addressList) : 0}]]*/ 0;
+        /*]]>*/
+    </script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const newAddressBtn = document.getElementById("newAddressBtn");
+            newAddressBtn.addEventListener("click", function (e) {
+                if (addressCount >= 10) {
+                    alert("주소는 최대 10개까지 등록 가능합니다! 😯");
+                    return;
+                }
+
+                window.location.href = "/addresses/new";
+            });
+        });
+    </script>
+</main>
+</body>
+</html>
