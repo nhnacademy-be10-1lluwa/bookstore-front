@@ -35,6 +35,7 @@ public class SecurityConfig {
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/")
                         .deleteCookies("ACCESS_TOKEN")
+                        .deleteCookies("REFRESH_TOKEN")
                 )
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exception -> exception
