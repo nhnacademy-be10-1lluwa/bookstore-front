@@ -55,10 +55,10 @@ body {
 
 .address-card {
     position: relative;
-    padding: 1.5rem 1.5rem 1.5rem 4rem;
-    border-radius: 0.8rem;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.04);
-    font-size: 0.95rem;
+    padding: 1.2rem 1.2rem 1.2rem 3rem;
+    border-radius: 0.6rem;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.04);
+    font-size: 0.85rem; /* 작게! */
 }
 
 .address-card:hover {
@@ -74,7 +74,7 @@ body {
 }
 
 .address-info > div {
-    margin-bottom: 1rem;
+    margin-bottom: 0.6rem;
 }
 
 .address-info i {
@@ -179,20 +179,20 @@ body {
 
 .address-index {
     position: absolute;
-    top: 1.2rem;
-    left: 1.2rem;
+    top: 0.8rem;
+    left: 0.8rem;
     background-color: var(--color-secondary);
     color: white;
-    width: 2.2rem;
-    height: 2.2rem;
+    width: 1.6rem;
+    height: 1.6rem;
     border-radius: 50%;
     font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1rem;
+    font-size: 0.85rem; /* 작게! */
     z-index: 2;
-    box-shadow: 0 0 7px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
 
