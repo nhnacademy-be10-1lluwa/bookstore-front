@@ -55,11 +55,10 @@ body {
 
 .address-card {
     position: relative;
-    background-color: #fff;
-    border-radius: 1rem;
-    padding: 1.8rem 2rem 1.8rem 3.5rem;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
-    transition: box-shadow 0.3s ease, transform 0.2s ease;
+    padding: 1.5rem 1.5rem 1.5rem 4rem;
+    border-radius: 0.8rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.04);
+    font-size: 0.95rem;
 }
 
 .address-card:hover {
@@ -87,7 +86,7 @@ body {
 
 .name {
     font-weight: 700;
-    font-size: 1.3rem;
+    font-size: 1.1rem;
     color: var(--color-primary);
     margin-bottom: 0.5rem;
 }
@@ -180,20 +179,22 @@ body {
 
 .address-index {
     position: absolute;
-    top: 1.6rem;
-    left: 1.6rem;
+    top: 1.2rem;
+    left: 1.2rem;
     background-color: var(--color-secondary);
     color: white;
-    width: 2.3rem;
-    height: 2.3rem;
+    width: 2.2rem;
+    height: 2.2rem;
     border-radius: 50%;
-    font-weight: 800;
+    font-weight: bold;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.1rem;
+    font-size: 1rem;
+    z-index: 2;
     box-shadow: 0 0 7px rgba(0, 0, 0, 0.12);
 }
+
 
 .header-row {
     display: flex;
