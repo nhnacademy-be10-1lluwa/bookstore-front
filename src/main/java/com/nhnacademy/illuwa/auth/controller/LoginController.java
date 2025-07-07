@@ -3,12 +3,13 @@ package com.nhnacademy.illuwa.auth.controller;
 import com.nhnacademy.illuwa.auth.client.AuthClient;
 import com.nhnacademy.illuwa.auth.dto.MemberLoginRequest;
 import com.nhnacademy.illuwa.auth.dto.TokenResponse;
-import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -28,14 +29,16 @@ public class LoginController {
     }
 
     @PostMapping("/login")
-    public String loginSubmit(@Valid @ModelAttribute MemberLoginRequest memberLoginRequest,
+    public ResponseEntity<Void> loginSubmit(@Valid @ModelAttribute MemberLoginRequest memberLoginRequest,
                               HttpServletResponse response) {
         TokenResponse tokenResponse = authClient.login(memberLoginRequest);
 
         addCookie(response, "ACCESS_TOKEN", tokenResponse.getAccessToken(), (int) tokenResponse.getExpiresIn());
         addCookie(response, "REFRESH_TOKEN", tokenResponse.getRefreshToken(), (int) Duration.ofDays(14).toSeconds());
 
-        return "redirect:/";
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Location", "/");
+        return new ResponseEntity<>(headers, HttpStatus.FOUND);
     }
 
     private void addCookie(HttpServletResponse response, String name, String value, int maxAge) {
