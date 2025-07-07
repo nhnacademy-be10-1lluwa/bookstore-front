@@ -21,6 +21,8 @@ public class MemberAddressController {
     //주소 등록 폼
     @GetMapping("/addresses/new")
     public String showCreateForm(Model model) {
+        int addressCount = memberAddressServiceClient.getAddressCount();
+        model.addAttribute("addressCount", addressCount);
         model.addAttribute("mode", "new");
         model.addAttribute("address", null);
         return "memberaddress/address_detail";
@@ -83,6 +85,7 @@ public class MemberAddressController {
                 memberAddressServiceClient.getPagedAddressList(page, size);
 
         model.addAttribute("addressList", addressPage.getContent());
+        model.addAttribute("addressCount", addressPage.getTotalElements());
         model.addAttribute("currentPage", addressPage.getNumber());
         model.addAttribute("pageSize", addressPage.getSize());
         model.addAttribute("totalPages", addressPage.getTotalPages());
