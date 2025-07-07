@@ -8,5 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 @FeignClient(name = "product-service", url = "${api.base-url}", contextId = "cartClient")
 public interface CartServiceClient {
 
+    @GetMapping("/cart")
+    CartResponse getCart();
 
+    @DeleteMapping("/cart")
+    void clearCart();
 }
