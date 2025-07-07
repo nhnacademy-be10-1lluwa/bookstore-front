@@ -14,6 +14,9 @@ public interface MemberAddressServiceClient {
     @GetMapping("/members/addresses")
     List<MemberAddressResponse> getAddressList();
 
+    @GetMapping("/members/addresses/count")
+    int getAddressCount();
+
     @GetMapping("/members/addresses/paged")
     PageResponse<MemberAddressResponse> getPagedAddressList(@RequestParam("page") int page, @RequestParam("size") int size);
 
@@ -31,4 +34,5 @@ public interface MemberAddressServiceClient {
 
     @PostMapping("/members/addresses/set-default/{addressId}")
     void setDefaultAddress(@PathVariable long addressId);
+
 }

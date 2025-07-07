@@ -78,6 +78,11 @@
             </div>
         </form>
 
+        <!-- 주소 개수 자바스크립트로 내려주기 -->
+        <script th:inline="javascript">
+            let addressCount = /*[[${addressCount}]]*/ 0;
+        </script>
+
         <script>
             // 다음 우편번호 api
             function openPostcode() {
@@ -116,6 +121,14 @@
                 const detailAddress = form.querySelector('input[name="detailAddress"]').value.trim();
                 const recipientName = form.querySelector('input[name="recipientName"]').value.trim();
                 const recipientContact = form.querySelector('input[name="recipientContact"]').value.trim();
+
+                // 주소 개수 제한 검사
+                const mode = form.dataset.mode;
+                if (mode === 'new' && typeof addressCount !== 'undefined' && addressCount >= 10) {
+                    alert("주소는 최대 10개까지 등록할 수 있어요! 😅");
+                    event.preventDefault();
+                    return;
+                }
 
                 // 필수 입력 검증
                 if (!postCode || !address || !detailAddress || !recipientName || !recipientContact) {
