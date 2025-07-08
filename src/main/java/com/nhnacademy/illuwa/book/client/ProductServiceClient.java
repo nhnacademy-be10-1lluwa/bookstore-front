@@ -35,10 +35,11 @@ public interface ProductServiceClient {
     @PostMapping("/admin/books/register/aladin")
     ResponseEntity<Void> registerBookFromAladin(@RequestBody Object aladinBookCreateRequest);
 
-    // 도서 직접 등록
+
+    //도서 직접 등록
     @PostMapping(value = "/admin/books/register/manual", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<Void> registerBookManual(
-            @ModelAttribute BookRegisterRequest bookCreateRequest,
+            @RequestPart("request") BookRegisterRequest bookRegisterRequest,
             @RequestPart("imageFile") MultipartFile imageFile
     );
 }
