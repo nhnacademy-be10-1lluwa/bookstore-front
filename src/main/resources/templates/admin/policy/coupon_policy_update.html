@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head layout:fragment="head">
+    <meta charset="UTF-8">
+    <title>쿠폰 정책 수정</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <style>
+        /* 등록폼과 완전히 동일하게 */
+        .coupon-form-container {
+            max-width: 500px; margin: 30px auto; padding: 32px 28px 24px 28px;
+            background: #fff; border-radius: 18px;
+            box-shadow: 0 6px 24px 0 rgba(30,32,37,0.08);
+        }
+        .coupon-form-container h2 { text-align: center; margin-bottom: 24px; color: #3056d3; }
+        .form-group { margin-bottom: 18px; }
+        .form-group label { font-weight: 600; display: block; margin-bottom: 6px; }
+        .form-group input, .form-group select {
+            width: 100%; padding: 8px 10px; font-size: 16px; border-radius: 8px;
+            border: 1px solid #d2d6dc; transition: border-color 0.2s;
+        }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #3056d3; }
+        .form-row { display: flex; gap: 12px; }
+        .form-row > div { flex: 1; }
+        .btns { display: flex; justify-content: space-between; gap: 8px; }
+        .btn-primary {
+            background: #3056d3; color: #fff; border: none; padding: 10px 20px;
+            border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.15s;
+        }
+        .btn-primary:hover { background: #254aad; }
+        .btn-cancel {
+            background: #f5f5f5; color: #333; border: 1px solid #ccc;
+            padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.15s;
+        }
+        .btn-cancel:hover { background: #e5e5e5; }
+        .hide { display: none; }
+    </style>
+</head>
+<main layout:fragment="content">
+    <section class="coupon-form-container">
+        <h2>쿠폰 정책 수정</h2>
+        <form th:action="@{/admin/policy/coupon/{code}/update(code=${policy.code})}" th:object="${policy}" method="post">
+            <div class="form-group">
+                <label for="code">정책 코드</label>
+                <input type="text" id="code" th:field="*{code}" disabled> <!-- 수정불가 -->
+            </div>
+            <div class="form-group">
+                <label for="minOrderAmount">최소 주문 금액</label>
+                <input type="number" id="minOrderAmount" th:field="*{minOrderAmount}" required min="0">
+            </div>
+            <div class="form-group">
+                <label for="discountType">할인 타입</label>
+                <select id="discountType" th:field="*{discountType}" onchange="toggleDiscountInputs()" required>
+                    <option value="">-- 선택하세요 --</option>
+                    <option value="AMOUNT">금액 할인</option>
+                    <option value="PERCENT">퍼센트 할인</option>
+                </select>
+            </div>
+            <div class="form-row">
+                <div class="form-group" id="discountAmountGroup">
+                    <label for="discountAmount">할인 금액</label>
+                    <input type="number" id="discountAmount" th:field="*{discountAmount}" min="0">
+                </div>
+                <div class="form-group" id="discountPercentGroup">
+                    <label for="discountPercent">할인율(%)</label>
+                    <input type="number" id="discountPercent" th:field="*{discountPercent}" min="0" max="100">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="maxDiscountAmount">최대 할인 금액</label>
+                <input type="number" id="maxDiscountAmount" th:field="*{maxDiscountAmount}" min="0">
+            </div>
+            <div class="form-group">
+                <label for="status">상태</label>
+                <select id="status" name="status">
+                    <option value="ACTIVE" th:selected="${policy.status == 'ACTIVE'}">활성</option>
+                    <option value="INACTIVE" th:selected="${policy.status == 'INACTIVE'}">비활성</option>
+                </select>
+            </div>
+            <div class="btns">
+                <button type="submit" class="btn-primary">수정완료</button>
+                <button type="button" class="btn-cancel" onclick="location.href='/admin/policy/coupon'">취소</button>
+            </div>
+        </form>
+    </section>
+    <script>
+        // 할인타입에 따라 입력창 표시/숨김 토글
+        function toggleDiscountInputs() {
+            var type = document.getElementById('discountType').value;
+            var amountGroup = document.getElementById('discountAmountGroup');
+            var percentGroup = document.getElementById('discountPercentGroup');
+            if (type === 'AMOUNT') {
+                amountGroup.classList.remove('hide');
+                percentGroup.classList.add('hide');
+            } else if (type === 'PERCENT') {
+                percentGroup.classList.remove('hide');
+                amountGroup.classList.add('hide');
+            } else {
+                amountGroup.classList.add('hide');
+                percentGroup.classList.add('hide');
+            }
+        }
+        window.onload = toggleDiscountInputs;
+    </script>
+</main>
+</html>

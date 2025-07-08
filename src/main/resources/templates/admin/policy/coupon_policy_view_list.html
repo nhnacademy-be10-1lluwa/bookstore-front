@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head layout:fragment="head">
+    <title>쿠폰 정책 관리</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <meta charset="UTF-8">
+    <style>
+        .btn-delete {
+            background: linear-gradient(90deg, #f43f5e, #ef4444);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 8px 18px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(220,38,38,0.07);
+            transition: background 0.18s, transform 0.09s;
+        }
+        .btn-delete:hover {
+            background: linear-gradient(90deg, #be123c, #f87171);
+            transform: translateY(-2px) scale(1.04);
+        }
+
+        .btn-register {
+            background: linear-gradient(90deg, #3b82f6, #6366f1);
+            color: #fff;
+            border: none;
+            border-radius: 12px;
+            padding: 12px 28px;
+            font-size: 18px;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(60,60,60,0.10);
+            cursor: pointer;
+            transition: background 0.15s, transform 0.1s;
+            margin-bottom: 10px;
+        }
+        .btn-register:hover {
+            background: linear-gradient(90deg, #6366f1, #3b82f6);
+            transform: translateY(-2px) scale(1.04);
+        }
+        .modern-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: #fff;
+            box-shadow: 0 2px 16px rgba(50,60,80,0.05);
+            border-radius: 18px;
+            overflow: hidden;
+            margin-top: 20px;
+        }
+        .modern-table th, .modern-table td {
+            padding: 14px 12px;
+            font-size: 15px;
+            text-align: center;
+            vertical-align: middle;
+        }
+        .modern-table th {
+            background: linear-gradient(90deg, #e0e7ff 30%, #f0f4ff 100%);
+            color: #333;
+            font-weight: 700;
+            border-bottom: 2px solid #dbeafe;
+        }
+        .modern-table tr {
+            transition: background 0.15s;
+        }
+        .modern-table tbody tr:hover {
+            background: #f3f4f6;
+        }
+        .modern-table td {
+            border-bottom: 1px solid #f1f5f9;
+        }
+        .modern-table tr:last-child td {
+            border-bottom: none;
+        }
+        .modern-table a {
+            color: #2563eb;
+            font-weight: 600;
+            text-decoration: underline;
+            transition: color 0.2s;
+        }
+        .modern-table a:hover {
+            color: #512da8;
+        }
+        .status-active { color: #14b8a6; font-weight: bold; }
+        .status-expired { color: #e11d48; font-weight: bold; }
+        .status-inactive { color: #64748b; font-weight: bold; }
+        .table-empty-row {
+            text-align: center;
+            vertical-align: middle;
+            color: #bbb;
+            font-size: 16px;
+            padding: 48px 0;
+            background: #f7fafc;
+        }
+        .table-responsive {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 18px;
+        }
+    </style>
+</head>
+<body>
+<main layout:fragment="content">
+    <section class="main-content">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <h1 style="margin:0;">쿠폰 정책 목록</h1>
+            <button type="button"
+                    onclick="location.href='/admin/policy/coupon/create'"
+                    class="btn-register">
+                + 새 정책 등록
+            </button>
+        </div>
+        <div class="table-responsive">
+            <table class="modern-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>정책코드</th>
+                    <th>상태</th>
+                    <th>할인타입</th>
+                    <th>최소<br>주문금액</th>
+                    <th>할인<br>금액</th>
+                    <th>할인율(%)</th>
+                    <th>최대<br>할인금액</th>
+                    <th>생성일시</th>
+                    <th>수정일시</th>
+                    <th>삭제</th>
+                </tr>
+                </thead>
+                <tbody>
+                            <tr th:each="policy : ${couponPolicies}">
+                                <td th:text="${policy.id}">ID</td>
+                                <td>
+                                    <a th:href="@{/admin/policy/coupon/{code}/update(code=${policy.code})}"
+                                       style="color:#3056d3; font-weight:bold; text-decoration:underline; cursor:pointer;">
+                                        <span th:text="${policy.code}">정책코드</span>
+                                    </a>
+                                </td>
+                                <!-- Enum 값은 한글로 변환해서 보여주면 더 좋음 -->
+                                <td th:text="${#strings.equalsIgnoreCase(policy.status, 'ACTIVE') ? '활성'
+                                        : (#strings.equalsIgnoreCase(policy.status, 'INACTIVE') ? '비활성' : policy.status)}">상태</td>
+                                <td th:text="${#strings.equalsIgnoreCase(policy.discountType, 'AMOUNT') ? '금액할인'
+                                        : (#strings.equalsIgnoreCase(policy.discountType, 'PERCENT') ? '퍼센트할인' : policy.discountType)}">할인타입</td>
+                                <td th:text="${policy.minOrderAmount}">최소주문금액</td>
+                                <td th:text="${policy.discountAmount != null ? policy.discountAmount : '-'}">할인금액</td>
+                                <td th:text="${policy.discountPercent != null ? policy.discountPercent : '-'}">할인율(%)</td>
+                                <td th:text="${policy.maxDiscountAmount != null ? policy.maxDiscountAmount : '-'}">최대할인금액</td>
+                                <td th:text="${policy.createAt != null ? #temporals.format(policy.createAt, 'yyyy-MM-dd HH:mm') : '-'}">생성일시</td>
+                                <td th:text="${policy.updateAt != null ? #temporals.format(policy.updateAt, 'yyyy-MM-dd HH:mm') : '-'}">수정일시</td>
+                                <td>
+                                    <!-- ACTIVE 상태만 삭제 버튼 보임 -->
+                                    <form th:if="${#strings.equalsIgnoreCase(policy.status, 'ACTIVE')}"
+                                          th:action="@{/admin/policy/coupon/{code}/delete(code=${policy.code})}"
+                                          method="post" style="margin:0;">
+                                        <button type="submit" class="btn-delete"
+                                                onclick="return confirm('정말 이 정책을 비활성화(삭제)하시겠습니까?');">
+                                            삭제
+                                        </button>
+                                    </form>
+                                    <!-- INACTIVE 상태면 그냥 대시(-) 표시 -->
+                                    <span th:if="${#strings.equalsIgnoreCase(policy.status, 'INACTIVE')}">-</span>
+                                </td>
+                            </tr>
+                <tr th:if="${#lists.isEmpty(couponPolicies)}">
+                    <td class="table-empty-row" colspan="10">등록된 정책이 없습니다.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+</body>
+</html>
+
