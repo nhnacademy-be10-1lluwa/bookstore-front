@@ -1,12 +1,13 @@
 package com.nhnacademy.illuwa.book.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDate;
 
 @Getter
 @Setter
@@ -17,7 +18,9 @@ public class BookRegisterRequest {
     private String author;
     private String publisher;
     private String contents;
-    private LocalDate pubDate;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private String pubDate;
     private String isbn;
     private int regularPrice;
     private int salePrice;
