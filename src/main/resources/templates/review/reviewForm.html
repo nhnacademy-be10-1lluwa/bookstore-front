@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head layout:fragment="head">
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <title>리뷰 작성</title>
+</head>
+
+<body>
+<main layout:fragment="content">
+    <section class="review">
+        <h2 th:text="${isEdit} ? '리뷰 수정' : '리뷰 작성'">리뷰 작성</h2>
+
+        <!-- 리뷰 작성 form -->
+        <form th:if="${!isEdit}"
+              th:action="@{'/books/' + ${bookId} + '/reviews'}"
+              method="post"
+              enctype="multipart/form-data">
+
+            <input type="hidden" name="memberId" th:value="${memberId}" />
+            <input type="hidden" name="bookId" th:value="${bookId}" />
+
+            <div>
+                <label>제목<br />
+                    <input type="text" name="reviewTitle" required />
+                </label>
+            </div>
+
+            <div>
+                <label>내용<br />
+                    <textarea name="reviewContent" rows="5" required></textarea>
+                </label>
+            </div>
+
+            <div>
+                <label>이미지<br />
+                    <input type="file" name="images" multiple />
+                </label>
+            </div>
+
+            <div>
+                <label>평점<br />
+                    <select name="reviewRating" required>
+                        <option value="" disabled selected>선택</option>
+                        <option value="1">1점</option>
+                        <option value="2">2점</option>
+                        <option value="3">3점</option>
+                        <option value="4">4점</option>
+                        <option value="5">5점</option>
+                    </select>
+                </label>
+            </div>
+
+            <div>
+                <button type="submit">리뷰 등록</button>
+            </div>
+        </form>
+
+        <!-- 리뷰 수정 form -->
+        <form th:if="${isEdit}"
+              th:action="@{'/books/' + ${bookId} + '/reviews/' + ${reviewId}}"
+              method="post"
+              enctype="multipart/form-data">
+            <input type="hidden" name="_method" value="patch" />
+
+            <input type="hidden" name="memberId" th:value="${memberId}" />
+            <input type="hidden" name="bookId" th:value="${bookId}" />
+
+            <div>
+                <label>제목<br />
+                    <input type="text" name="reviewTitle" th:value="${reviewData.reviewTitle}" required />
+                </label>
+            </div>
+
+            <div>
+                <label>내용<br />
+                    <textarea name="reviewContent" rows="5" required
+                              th:text="${reviewData.reviewContent}"></textarea>
+                </label>
+            </div>
+
+            <div>
+                <label>기존 이미지<br /></label>
+                <div th:each="url : ${reviewData.reviewImageUrls}">
+                    <img th:src="${url}" alt="기존 이미지" width="100" />
+                    <input type="hidden" name="keepImageUrls" th:value="${url}" />
+                </div>
+            </div>
+
+            <div>
+                <label>새 이미지<br />
+                    <input type="file" name="images" multiple />
+                </label>
+            </div>
+
+            <div>
+                <label>평점<br />
+                    <select name="reviewRating" required>
+                        <option value="" disabled>선택</option>
+                        <option th:each="i : ${#numbers.sequence(1,5)}"
+                                th:value="${i}"
+                                th:text="${i + '점'}"
+                                th:selected="${reviewData.reviewRating == i}">i점</option>
+                    </select>
+                </label>
+            </div>
+
+            <div>
+                <button type="submit">리뷰 수정</button>
+            </div>
+        </form>
+    </section>
+</main>
+</body>
+</html>

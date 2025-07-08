@@ -18,13 +18,11 @@ import java.util.List;
 public class HomeController {
     private final ProductServiceClient productServiceClient;
 
-
     @GetMapping("/")
     public String home(Model model) {
 
-        List<BestSellerResponse> bestSeller = productServiceClient.getBestSeller();
-
-        model.addAttribute("bestSeller",bestSeller);
+//        List<BestSellerResponse> bestSeller = productServiceClient.getBestSeller();
+//        model.addAttribute("bestSeller",bestSeller);
         return "home";
     }
 }
