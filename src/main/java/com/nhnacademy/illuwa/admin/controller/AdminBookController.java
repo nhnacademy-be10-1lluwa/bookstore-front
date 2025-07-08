@@ -1,12 +1,15 @@
 package com.nhnacademy.illuwa.admin.controller;
 
 import com.nhnacademy.illuwa.book.client.ProductServiceClient;
+import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
+import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
 import com.nhnacademy.illuwa.book.dto.BookRegisterRequest;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,9 +44,14 @@ public class AdminBookController {
         return productServiceClient.registerBookFromAladin(aladinBookCreateRequest);
     }
 
-    @GetMapping("/list")
-    public String bookListPage() {
-        return "admin/book/book";
+    @GetMapping("/manage")
+    public String bookManagePage(Model model) {
+
+        List<BookDetailResponse> registeredBook = productServiceClient.getAllBook();
+
+        model.addAttribute("books",registeredBook);
+        log.info("here");
+        return "admin/book/manage";
     }
 
     @GetMapping("/books")
@@ -63,24 +71,15 @@ public class AdminBookController {
 
     @PostMapping("/register/manual")
     public String registerBookManual(
-            @ModelAttribute("BookRegisterRequest") BookRegisterRequest bookRegisterRequest) {
-
-
-        log.info("도서 등록 요청: title={}, imageFile size={}",
-                bookRegisterRequest.getTitle());
+            @ModelAttribute BookRegisterRequest bookRegisterRequest) {
 
         try {
-            log.info("Front-service에서 전송: title={}, file size={}",
-                    bookRegisterRequest.getTitle(), bookRegisterRequest.getImageFile());
             productServiceClient.registerBookManual(bookRegisterRequest, bookRegisterRequest.getImageFile());
-            return "redirect:/admin/book/list";
-
+            return "redirect:/admin/book/manage";
         } catch (FeignException e) {
-            log.error("Feign 에러 발생: status={}, body={}",
-                    e.status(), e.contentUTF8());
+            log.error("Feign 에러 발생: status={}, body={}", e.status(), e.contentUTF8());
             throw e;
         }
     }
+    }
 
-
-}
