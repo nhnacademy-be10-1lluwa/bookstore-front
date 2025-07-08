@@ -1,8 +1,10 @@
 package com.nhnacademy.illuwa.memberaddress.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-@Data
+@Getter
+@Setter
 @Builder
 public class MemberAddressResponse {
     private long memberAddressId;
@@ -14,4 +16,7 @@ public class MemberAddressResponse {
     private String address;
     private String detailAddress;
     private boolean defaultAddress;
+    @Builder.Default
+    @JsonProperty("forcedDefaultAddress")
+    private boolean forcedDefaultAddress = false;
 }
