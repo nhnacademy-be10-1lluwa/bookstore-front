@@ -24,7 +24,6 @@ public interface ProductServiceClient {
     @GetMapping("/books/bestseller")
     List<BestSellerResponse> getBestSeller();
 
-
     @GetMapping("/books")
     List<BookDetailResponse> getRegisteredBook();
 
