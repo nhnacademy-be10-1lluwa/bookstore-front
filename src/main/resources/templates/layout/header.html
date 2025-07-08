@@ -1,15 +1,57 @@
 <header th:fragment="header" class="main-header">
     <div class="main-header__container">
         <h1 class="main-header__logo logo">
-            <a th:href="@{/}" class="main-header__logo-link">📚 <span class="main-header__logo-span">일루와</span> BookStore 📚</a>
+            <a th:href="@{/}" class="main-header__logo-link">
+                <img th:src="@{/images/1lluwa.png}" alt="일루와 BookStore" class="main-header__logo-img">
+            </a>
         </h1>
         <nav class="main-header__nav">
-            <ul class="main-header__nav-menu nav-menu">
+            <ul class="main-header__nav-menu nav-menu nav-menu--left">
+                <li class="nav-menu__item has-submenu">
+                    <a href="#" class="nav-menu__item-link">카테고리1</a>
+                    <ul class="submenu">
+                        <li><a th:href="@{/books}">소설</a></li>
+                        <li><a th:href="@{/books}">에세이</a></li>
+                        <li><a th:href="@{/books}">시</a></li>
+                    </ul>
+                </li>
+                <li class="nav-menu__item has-submenu">
+                    <a href="#" class="nav-menu__item-link">카테고리2</a>
+                    <ul class="submenu">
+                        <li><a th:href="@{/books}">소설</a></li>
+                        <li><a th:href="@{/books}">에세이</a></li>
+                        <li><a th:href="@{/books}">시</a></li>
+                    </ul>
+                </li>
+                <li class="nav-menu__item has-submenu">
+                    <a href="#" class="nav-menu__item-link">카테고리3</a>
+                    <ul class="submenu">
+                        <li><a th:href="@{/books}">소설</a></li>
+                        <li><a th:href="@{/books}">에세이</a></li>
+                        <li><a th:href="@{/books}">시</a></li>
+                    </ul>
+                </li>
+                <li class="nav-menu__item has-submenu">
+                    <a href="#" class="nav-menu__item-link">카테고리4</a>
+                    <ul class="submenu">
+                        <li><a th:href="@{/books}">소설</a></li>
+                        <li><a th:href="@{/books}">에세이</a></li>
+                        <li><a th:href="@{/books}">시</a></li>
+                    </ul>
+                </li>
+                <li class="nav-menu__item has-submenu">
+                    <a href="#" class="nav-menu__item-link">카테고리5</a>
+                    <ul class="submenu">
+                        <li><a th:href="@{/books}">소설</a></li>
+                        <li><a th:href="@{/books}">에세이</a></li>
+                        <li><a th:href="@{/books}">시</a></li>
+                    </ul>
+                </li>
+            </ul>
 
+            <ul class="main-header__nav-menu nav-menu nav-menu--right">
                 <li><a th:href="@{/book_list}" class="button-header-clean">도서 목록</a></li>
-
                 <li><a th:href="@{/cart}" class="button-header-clean">장바구니</a></li>
-
 
                 <li th:if="${isLoggedIn}">
                     <a th:href="@{/mypage}" class="button-header-clean">마이페이지</a>
@@ -17,7 +59,6 @@
                 <li th:if="${isLoggedIn}">
                     <a th:href="@{/logout}" class="button-header-clean">로그아웃</a>
                 </li>
-
                 <li th:unless="${isLoggedIn}">
                     <a th:href="@{/login}" class="button-header-clean">로그인</a>
                 </li>
