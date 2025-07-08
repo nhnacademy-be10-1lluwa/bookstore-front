@@ -5,9 +5,11 @@
         </h1>
         <nav class="main-header__nav">
             <ul class="main-header__nav-menu nav-menu">
+
                 <li><a th:href="@{/book_list}" class="button-header-clean">도서 목록</a></li>
 
                 <li><a th:href="@{/cart}" class="button-header-clean">장바구니</a></li>
+
 
                 <li th:if="${isLoggedIn}">
                     <a th:href="@{/mypage}" class="button-header-clean">마이페이지</a>
