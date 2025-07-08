@@ -1,0 +1,31 @@
+package com.nhnacademy.illuwa.auth.utils;
+
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
+
+public class JwtCookieUtil {
+    public static void addAccessToken(HttpServletResponse response, String value, int maxAge) {
+        ResponseCookie c = ResponseCookie.from("ACCESS_TOKEN", value)
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("Lax")
+                .path("/")
+                .maxAge(maxAge)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, c.toString());
+    }
+
+    public static void addRefreshToken(HttpServletResponse response, String value, int maxAge) {
+        ResponseCookie c = ResponseCookie.from("REFRESH_TOKEN", value)
+                .httpOnly(true)
+                .secure(true)
+                .sameSite("Lax")
+                .path("/")
+                .maxAge(maxAge)
+                .build();
+
+        response.addHeader(HttpHeaders.SET_COOKIE, c.toString());
+    }
+}
