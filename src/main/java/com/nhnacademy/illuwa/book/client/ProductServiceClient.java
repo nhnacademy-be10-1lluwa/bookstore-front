@@ -1,9 +1,6 @@
 package com.nhnacademy.illuwa.book.client;
 
-import com.nhnacademy.illuwa.book.dto.BestSellerResponse;
-import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
-import com.nhnacademy.illuwa.book.dto.BookRegisterRequest;
-import com.nhnacademy.illuwa.book.dto.SearchBookResponse;
+import com.nhnacademy.illuwa.book.dto.*;
 import com.nhnacademy.illuwa.config.FeignClientConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
@@ -46,4 +43,6 @@ public interface ProductServiceClient {
     @GetMapping("/books")
     List<BookDetailResponse> getAllBook();
 
+    @PostMapping("admin/books/register/api")
+    void registerBookByAladin(@RequestBody FinalAladinBookRegisterRequest bookRegisterRequest);
 }
