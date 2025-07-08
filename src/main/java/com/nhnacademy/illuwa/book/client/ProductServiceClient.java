@@ -42,4 +42,8 @@ public interface ProductServiceClient {
             @RequestPart("request") BookRegisterRequest bookRegisterRequest,
             @RequestPart("imageFile") MultipartFile imageFile
     );
+
+    @GetMapping("/books")
+    List<BookDetailResponse> getAllBook();
+
 }
