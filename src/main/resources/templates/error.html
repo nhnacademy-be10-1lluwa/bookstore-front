@@ -15,6 +15,7 @@
         <p>상태 코드: <span th:text="${status} ?: '정보 없음'"></span></p>
         <p>에러 코드: <span th:text="${code} ?: '정보 없음'"></span></p>
         <p>발생 위치: <span th:text="${path} ?: '정보 없음'"></span></p>
+        <p>에러 메세지: <span th:text="${message} ?: '정보 없음'"></span></p>
         <a th:href="@{/}">메인으로 돌아가기</a>
     </section>
 </main>
