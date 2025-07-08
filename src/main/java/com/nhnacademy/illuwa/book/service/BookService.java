@@ -22,4 +22,8 @@ public class BookService {
     public BookDetailResponse bookDetail(@RequestParam String keyword) {
         return productServiceClient.getBookDetail(keyword);
     }
+
+    public List<BookDetailResponse> getAllBooks() {
+        return productServiceClient.registeredBook();
+    }
 }

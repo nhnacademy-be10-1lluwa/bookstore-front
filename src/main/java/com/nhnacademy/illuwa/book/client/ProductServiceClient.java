@@ -12,13 +12,13 @@ import java.util.List;
 
 @FeignClient(name = "product-service", url = "${api.base-url}", contextId = "bookClient")
 public interface ProductServiceClient {
+
     @GetMapping("/books/{id}")
     BookDetailResponse getBookDetail(@PathVariable String id);
 
     @GetMapping("/books/search")
     List<SearchBookResponse> findBooks();
 
-
     @GetMapping("/books")
-    List<BookDetailResponse> getRegisteredBook();
+    List<BookDetailResponse> registeredBook();
 }

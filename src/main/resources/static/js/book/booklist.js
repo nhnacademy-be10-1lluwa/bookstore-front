@@ -47,7 +47,9 @@ function addToCart(bookId) {
 }
 
 // 페이지 로드시 전체 도서 불러오기
-fetch('/books')
+fetch('/books', {
+    headers: { 'Accept': 'application/json' }
+})
     .then(res => res.json())
     .then(data => displayResults(data))
     .catch(err => {
