@@ -14,6 +14,12 @@
 <body>
 <main layout:fragment="content">
     <section class="main-content">
+        <div th:if="${message}">
+            <script th:inline="javascript">
+                alert(/*[[${message}]]*/ "메시지 없음");
+            </script>
+        </div>
+
         <div class="header-row">
             <h2 class="title">📚 나의 주소록</h2>
             <a href="javascript:void(0);" id="newAddressBtn" class="btn add-address">+ 새 주소 등록</a>
@@ -30,7 +36,7 @@
                  style="cursor: pointer;">
 
                 <div class="address-index">
-                    <span th:text="${stat.index + 1}">1</span>
+                    <span th:text="${currentPage * pageSize + stat.index + 1}">1</span>
                 </div>
 
                 <div class="address-info">
@@ -65,9 +71,15 @@
                         <button type="submit" class="btn delete">삭제</button>
                     </form>
 
-                    <a th:if="${!address.defaultAddress and address.memberAddressId != null}"
-                       th:href="@{'/addresses/set-default/' + ${address.memberAddressId}}"
-                       class="btn default">기본 주소지 설정</a>
+                    <form th:if="${!address.defaultAddress and address.memberAddressId != null}"
+                          th:action="@{'/addresses/set-default/' + ${address.memberAddressId}}"
+                          method="post"
+                          onsubmit="return confirm('기본주소지로 설정하시겠습니까?');"
+                          style="display:inline;">
+                        <button type="submit" class="btn default">
+                            기본 주소지 설정
+                        </button>
+                    </form>
 
                     <span th:if="${address.defaultAddress}" class="btn default disabled">✅ 기본 주소지</span>
                 </div>
@@ -81,7 +93,7 @@
                 ◀ 이전
             </button>
 
-            <span th:each="i : ${#numbers.sequence(0, totalPages > 0 ? totalPages - 1 : 0)}">
+            <span th:each="i : ${#numbers.sequence(0, lastPageIndex)}">
         <a th:href="@{'/address-list?page=' + ${i}}"
            th:text="${i + 1}"
            th:classappend="${i == currentPage} ? 'active-page' : ''">1</a>
@@ -95,11 +107,8 @@
 
     </section>
 
-    <!-- 주소 개수 자바스크립트로 내려주기 -->
     <script th:inline="javascript">
-        /*<![CDATA[*/
-        let addressCount = /*[[${addressList != null ? #lists.size(addressList) : 0}]]*/ 0;
-        /*]]>*/
+        let addressCount = /*[[${addressCount}]]*/ 0;
     </script>
 
     <script>
@@ -107,6 +116,7 @@
             const newAddressBtn = document.getElementById("newAddressBtn");
             newAddressBtn.addEventListener("click", function (e) {
                 if (addressCount >= 10) {
+                    e.preventDefault();
                     alert("주소는 최대 10개까지 등록 가능합니다! 😯");
                     return;
                 }

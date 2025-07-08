@@ -1,5 +1,6 @@
 package com.nhnacademy.illuwa.book.client;
 
+import com.nhnacademy.illuwa.book.dto.BestSellerResponse;
 import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
 import com.nhnacademy.illuwa.book.dto.SearchBookResponse;
 import com.nhnacademy.illuwa.cart.dto.CartResponse;
@@ -18,6 +19,10 @@ public interface ProductServiceClient {
 
     @GetMapping("/books/search")
     List<SearchBookResponse> findBooks();
+
+    @GetMapping("/books/bestseller")
+    List<BestSellerResponse> getBestSeller();
+
 
     @GetMapping("/books")
     List<BookDetailResponse> registeredBook();

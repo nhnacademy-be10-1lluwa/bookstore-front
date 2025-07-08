@@ -21,6 +21,8 @@ public class MemberAddressController {
     //주소 등록 폼
     @GetMapping("/addresses/new")
     public String showCreateForm(Model model) {
+        int addressCount = memberAddressServiceClient.getAddressCount();
+        model.addAttribute("addressCount", addressCount);
         model.addAttribute("mode", "new");
         model.addAttribute("address", null);
         return "memberaddress/address_detail";
@@ -60,9 +62,11 @@ public class MemberAddressController {
             return "memberaddress/address_detail";
         }
 
-        MemberAddressResponse saved = mode.equals("edit")
-                ? memberAddressServiceClient.updateAddress(request, addressId)
-                : memberAddressServiceClient.createAddress(request);
+        if ("edit".equals(mode)) {
+            memberAddressServiceClient.updateAddress(request, addressId);
+        } else {
+            memberAddressServiceClient.createAddress(request);
+        }
 
         String message = addressId != null
                         ? "주소가 성공적으로 수정되었습니다! \uD83C\uDF89"
@@ -75,32 +79,37 @@ public class MemberAddressController {
     @GetMapping("/address-list")
     public String listAddresses(
             @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
             Model model) {
-
-        int pageSize = 5;
-
         PageResponse<MemberAddressResponse> addressPage =
-                memberAddressServiceClient.getPagedAddressList(page, pageSize);
+                memberAddressServiceClient.getPagedAddressList(page, size);
 
         model.addAttribute("addressList", addressPage.getContent());
+        model.addAttribute("addressCount", addressPage.getTotalElements());
         model.addAttribute("currentPage", addressPage.getNumber());
+        model.addAttribute("pageSize", addressPage.getSize());
         model.addAttribute("totalPages", addressPage.getTotalPages());
+        model.addAttribute("lastPageIndex", Math.max(0, addressPage.getTotalPages() - 1));
 
         return "memberaddress/address_list";
     }
 
     // 주소 삭제
     @PostMapping("/addresses/delete/{addressId}")
-    public String deleteAddress(@PathVariable long addressId, Model model) {
+    public String deleteAddress(@PathVariable long addressId, Model model,
+                                RedirectAttributes redirectAttributes) {
         memberAddressServiceClient.deleteAddress(addressId);
         model.addAttribute("addressList", memberAddressServiceClient.getAddressList());
+        redirectAttributes.addFlashAttribute("message", "주소가 성공적으로 삭제되었습니다! ");
         return "redirect:/address-list";
     }
 
     //기본 주소지로 설정
     @PostMapping("/addresses/set-default/{addressId}")
-    public String setDefaultAddress(@PathVariable long addressId){
+    public String setDefaultAddress(@PathVariable long addressId,
+                                    RedirectAttributes redirectAttributes){
         memberAddressServiceClient.setDefaultAddress(addressId);
+        redirectAttributes.addFlashAttribute("message", "기본주소지로 설정되었습니다! ");
         return "redirect:/address-list";
     }
 }

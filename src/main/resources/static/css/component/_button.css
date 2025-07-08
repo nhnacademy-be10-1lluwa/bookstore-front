@@ -16,6 +16,7 @@
 
 .button:hover {
     background-color: var(--color-secondary);
+    text-decoration: none;
 }
 
 .button-primary {
@@ -27,6 +28,7 @@
 .button-primary:hover {
     background-color: var(--color-primary-darker);
     border-color: var(--color-primary-darker);
+    text-decoration: none;
 }
 
 .button-secondary {
@@ -39,7 +41,28 @@
     background-color: var(--color-secondary-light);
     color: var(--color-text-dark);
     border-color: var(--color-secondary);
+    text-decoration: none;
 }
+
+.button-header-clean {
+    background-color: rgba(0, 0, 0, 0.05);
+    color: var(--color-text-dark);
+    border: none;
+    border-radius: 4px;
+    padding: 8px 12px;
+    cursor: pointer;
+    text-decoration: none;
+    font-size: inherit;
+    transition: background-color 0.2s ease, color 0.2s ease;
+    white-space: nowrap;
+}
+
+.button-header-clean:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+    color: var(--color-primary);
+    text-decoration: none;
+}
+
 
 .button.is-small {
     padding: var(--spacing-xs) var(--spacing-sm);
