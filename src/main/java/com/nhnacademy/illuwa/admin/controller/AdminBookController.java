@@ -1,17 +1,18 @@
 package com.nhnacademy.illuwa.admin.controller;
 
 import com.nhnacademy.illuwa.book.client.ProductServiceClient;
-import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
+import com.nhnacademy.illuwa.book.dto.AladinBookRegisterRequest;
 import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
 import com.nhnacademy.illuwa.book.dto.BookRegisterRequest;
+import com.nhnacademy.illuwa.book.dto.FinalAladinBookRegisterRequest;
 import feign.FeignException;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Map;
@@ -69,6 +70,25 @@ public class AdminBookController {
         return "admin/book/book_register";
     }
 
+    @PostMapping("/book_register")
+    @ResponseBody
+    public Map<String, String> registerBookFromAladin(@RequestBody AladinBookRegisterRequest request, HttpSession session) {
+        session.setAttribute("book", request);
+        return Map.of("redirectUrl", "/admin/book/book_register_api");
+    }
+
+    @GetMapping("/book_register_api")
+    public String registerBookFromAladin(HttpSession session, Model model){
+        AladinBookRegisterRequest book = (AladinBookRegisterRequest) session.getAttribute("book");
+
+        if (book != null) {
+            model.addAttribute("book", book);
+            session.removeAttribute("bookDraft");
+        }
+
+        return "admin/book/book_register_api";
+    }
+
     @PostMapping("/register/manual")
     public String registerBookManual(
             @ModelAttribute BookRegisterRequest bookRegisterRequest) {
@@ -81,5 +101,18 @@ public class AdminBookController {
             throw e;
         }
     }
+
+    @PostMapping("/register")
+    public String registerBookByAladin(
+            @ModelAttribute FinalAladinBookRegisterRequest bookRegisterRequest) {
+
+        try {
+            productServiceClient.registerBookByAladin(bookRegisterRequest);
+            return "redirect:/admin/book/manage";
+        } catch (FeignException e) {
+            log.error("Feign 에러 발생: status={}, body={}", e.status(), e.contentUTF8());
+            throw e;
+        }
     }
+}
 
