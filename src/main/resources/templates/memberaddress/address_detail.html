@@ -61,8 +61,10 @@
                    placeholder="010-0000-0000" />
 
             <label class="checkbox-label" th:if="${mode == 'new' or mode == 'edit'}">
-                <input type="checkbox" id="isDefault" name="defaultAddress"
-                       th:checked="${address?.defaultAddress}" th:value="true" />
+                <input type="checkbox" id="isDefaultCheckbox"
+                       th:checked="${address?.defaultAddress}" />
+                <!-- 실제 전송될 값 -->
+                <input type="hidden" name="defaultAddress" id="defaultAddressInput" value="false" />
                 기본 배송지로 설정
             </label>
 
@@ -121,6 +123,9 @@
                 const detailAddress = form.querySelector('input[name="detailAddress"]').value.trim();
                 const recipientName = form.querySelector('input[name="recipientName"]').value.trim();
                 const recipientContact = form.querySelector('input[name="recipientContact"]').value.trim();
+
+                const isDefaultChecked = document.getElementById("isDefaultCheckbox").checked;
+                document.getElementById("defaultAddressInput").value = isDefaultChecked ? "true" : "false";
 
                 // 주소 개수 제한 검사
                 const mode = form.dataset.mode;
