@@ -62,15 +62,19 @@ public class MemberAddressController {
             return "memberaddress/address_detail";
         }
 
+        String message;
         if ("edit".equals(mode)) {
-            memberAddressServiceClient.updateAddress(request, addressId);
+            MemberAddressResponse updated = memberAddressServiceClient.updateAddress(request, addressId);
+            if(updated.isForcedDefaultAddress()){
+                message = "유일한 주소이므로 기본 배송지로 자동 설정되어 수정되었습니다!";
+            }else{
+                message = "주소가 성공적으로 수정되었습니다! \uD83C\uDF89";
+            }
         } else {
             memberAddressServiceClient.createAddress(request);
+            message = "주소가 성공적으로 등록되었습니다! \uD83C\uDF89";
         }
 
-        String message = addressId != null
-                        ? "주소가 성공적으로 수정되었습니다! \uD83C\uDF89"
-                        : "주소가 성공적으로 등록되었습니다! \uD83C\uDF89";
         redirectAttributes.addFlashAttribute("message", message);
         return "redirect:/address-list";
     }
