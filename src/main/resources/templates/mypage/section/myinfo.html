@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      th:lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/page/_myinfo.css}" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <style>
+        .d-none {
+            display: none;
+        }
+    </style>
+</head>
+
+<main layout:fragment="content">
+    <section class="main-content">
+        <div class="user-info-card" id="userInfoCard">
+
+            <!-- infoView: 회원정보 보기 -->
+            <div id="infoView"
+                 th:classappend="${mode} == 'edit' ? ' d-none' : ''">
+                <h2>👤 나의 회원정보</h2>
+                <div class="info-item">
+                    <div class="info-label">이름</div>
+                    <div class="info-value" th:text="${member.name}">홍길동</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">등급</div>
+                    <div class="info-value">
+                        <span th:text="${member.gradeName}"
+                              th:class="'grade-badge ' + ${member.gradeName.toLowerCase()}">골드</span>
+                    </div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">이메일</div>
+                    <div class="info-value" th:text="${member.email}">hong@example.com</div>
+                </div>
+                <div class="info-item">
+                    <div class="info-label">연락처</div>
+                    <div class="info-value" th:text="${member.contact}">010-1234-5678</div>
+                </div>
+
+                <div class="button-group" style="margin-top: 1rem;">
+                    <button type="button" id="btnEdit" class="button">회원정보 수정</button>
+                    <button type="button" id="btnDelete" class="button button-danger">탈퇴하기</button>
+                </div>
+            </div>
+
+            <!-- infoEditForm: 회원정보 수정 -->
+            <form id="infoEditForm"
+                  th:action="@{/my-info/update}" method="post"
+                  th:classappend="${mode} != 'edit' ? ' d-none' : ''">
+                <h2>👤 회원정보 수정</h2>
+
+                <div class="info-item">
+                    <label for="name" class="info-label">이름</label>
+                    <input type="text" id="name" name="name"
+                           th:value="${form.name}" class="info-input" required />
+                </div>
+
+                <div class="info-item">
+                    <label for="currentPassword" class="info-label">현재 비밀번호</label>
+                    <input type="password" id="currentPassword" name="currentPassword"
+                           class="info-input" placeholder="현재 비밀번호를 입력해주세요" required />
+                </div>
+
+                <div class="info-item">
+                    <label for="password" class="info-label">새 비밀번호</label>
+                    <input type="password" id="password" name="password"
+                           placeholder="변경할 비밀번호 입력" class="info-input" />
+                </div>
+
+                <div class="info-item">
+                    <label for="contact" class="info-label">연락처</label>
+                    <input type="text" id="contact" name="contact"
+                           th:value="${form.contact}" class="info-input" />
+                </div>
+
+                <div class="button-group" style="margin-top: 1rem;">
+                    <button type="submit" class="button button-primary">저장하기</button>
+                    <button type="button" id="btnCancel" class="button">취소</button>
+                </div>
+            </form>
+
+            <script>
+                const btnEdit = document.getElementById("btnEdit");
+                const btnCancel = document.getElementById("btnCancel");
+                const infoView = document.getElementById("infoView");
+                const infoEditForm = document.getElementById("infoEditForm");
+                const btnDelete = document.getElementById("btnDelete");
+
+                if (btnEdit && infoView && infoEditForm) {
+                    btnEdit.addEventListener("click", () => {
+                        infoView.style.display = "none";
+                        infoEditForm.style.display = "block";
+                    });
+                }
+
+                if (btnCancel && infoView && infoEditForm) {
+                    btnCancel.addEventListener("click", () => {
+                        infoEditForm.style.display = "none";
+                        infoView.style.display = "block";
+                    });
+                }
+
+                if (btnDelete) {
+                    btnDelete.addEventListener("click", () => {
+                        if (confirm("정말 탈퇴하시겠습니까? 탈퇴하면 같은 이메일로 가입하실 수 없습니다 😢")) {
+                            fetch('my-info/delete', { method: 'POST' })
+                                .then(res => {
+                                    if (res.ok) {
+                                        alert("탈퇴 처리되었습니다. 이용해주셔서 감사합니다:)");
+                                    } else {
+                                        alert("탈퇴에 실패했습니다. 다시 시도해주세요.");
+                                    }
+                                })
+                                .catch(() => alert("네트워크 오류가 발생했습니다."));
+                        }
+                    });
+                }
+            </script>
+
+        </div>
+    </section>
+</main>
+</html>

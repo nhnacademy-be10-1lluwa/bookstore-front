@@ -1,7 +1,8 @@
-package com.nhnacademy.illuwa.user.member.client;
+package com.nhnacademy.illuwa.member.client;
 
-import com.nhnacademy.illuwa.user.member.dto.MemberResponse;
-import com.nhnacademy.illuwa.user.member.dto.MemberUpdateRequest;
+import com.nhnacademy.illuwa.member.dto.MemberResponse;
+import com.nhnacademy.illuwa.member.dto.MemberUpdateRequest;
+import com.nhnacademy.illuwa.member.dto.PasswordCheckRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,15 +13,15 @@ public interface MemberServiceClient {
     @GetMapping("/members")
     MemberResponse getMember();
 
-    // 회원 단일 조회 (이메일 기반)
-    @GetMapping(value = "/members", params = "memberEmail")
-    MemberResponse getMemberByEmail(@RequestParam("memberEmail") String email);
-
     // 회원 수정
-    @PatchMapping("/members")
+    @PutMapping("/members")
     MemberResponse updateMember(@RequestBody MemberUpdateRequest request);
 
     // 회원 삭제
     @DeleteMapping("/members")
     void deleteMember();
+
+    @PostMapping("/members/check-pw")
+    boolean checkPassword(@RequestBody PasswordCheckRequest request);
+
 }

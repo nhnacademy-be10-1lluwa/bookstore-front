@@ -3,6 +3,7 @@ package com.nhnacademy.illuwa.memberaddress.client;
 import com.nhnacademy.illuwa.memberaddress.dto.MemberAddressRequest;
 import com.nhnacademy.illuwa.memberaddress.dto.MemberAddressResponse;
 import com.nhnacademy.illuwa.memberaddress.dto.PageResponse;
+import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,7 +28,7 @@ public interface MemberAddressServiceClient {
     MemberAddressResponse createAddress(@RequestBody MemberAddressRequest addressRequest);
 
     @PostMapping("/members/addresses/{addressId}")
-    MemberAddressResponse updateAddress(@RequestBody MemberAddressRequest addressRequest, @PathVariable long addressId);
+    MemberAddressResponse updateAddress(@Valid @RequestBody MemberAddressRequest addressRequest, @PathVariable long addressId);
 
     @DeleteMapping("/members/addresses/{addressId}")
     void deleteAddress(@PathVariable long addressId);

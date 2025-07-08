@@ -1,7 +1,7 @@
-package com.nhnacademy.illuwa.user.member.dto;
+package com.nhnacademy.illuwa.member.dto;
 
-import com.nhnacademy.illuwa.user.member.enums.Role;
-import com.nhnacademy.illuwa.user.member.enums.Status;
+import com.nhnacademy.illuwa.member.enums.Role;
+import com.nhnacademy.illuwa.member.enums.Status;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
