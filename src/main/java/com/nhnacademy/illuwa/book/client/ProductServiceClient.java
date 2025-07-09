@@ -45,4 +45,7 @@ public interface ProductServiceClient {
 
     @PostMapping("admin/books/register/api")
     void registerBookByAladin(@RequestBody FinalAladinBookRegisterRequest bookRegisterRequest);
+
+    @GetMapping("/books/isbn/{isbn}")
+    BookDetailResponse findBookByIsbn(@PathVariable String isbn);
 }
