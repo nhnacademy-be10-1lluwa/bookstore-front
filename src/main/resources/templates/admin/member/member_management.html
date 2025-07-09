@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+<main layout:fragment="content">
+    <section class="main-content">
+        <h1>회원 관리 페이지</h1>
+        <a th:href="@{/admin/member-list}">전체 회원목록</a>
+        <a th:href="@{/admin/member-orderlist}">회원 주문목록</a>
+        <a th:href="@{/admin/guest-orderlist}">비회원 주문목록</a>
+    </section>
+</main>
+</html>

@@ -21,13 +21,13 @@ import java.util.List;
 public class BookListController {
     private final BookService bookService;
 
-//    @GetMapping("/book_list")
-//    public String bookList(Model model) {
-//        List<SearchBookResponse> books = bookService.bookList();
-//        model.addAttribute("books", books);
-//        return "book/book_list";
-//    }
-//
+    @GetMapping("/books/list")
+    public String listBooks(Model model) {
+        List<BookDetailResponse> books = bookService.getAllBooks();
+        model.addAttribute("books", books);
+        return "/book/book_list";
+    }
+
     @PostMapping("/book_search")
     public String searchBook(@RequestParam("keyword") String keyword, Model model) {
         BookDetailResponse book = bookService.bookDetail(keyword);
@@ -38,18 +38,5 @@ public class BookListController {
         return "book/book_list";
     }
 
-    // 뷰(HTML) 반환
-    @GetMapping(value="/books", produces= MediaType.TEXT_HTML_VALUE)
-    public String viewBooks(Model model) {
-        model.addAttribute("books", bookService.getAllBooks());
-        return "book/book_list";
-    }
-
-    // JSON API 반환
-    @GetMapping(value="/books", produces=MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public List<BookDetailResponse> booksJson() {
-        return bookService.getAllBooks();
-    }
 
 }

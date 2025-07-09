@@ -11,29 +11,48 @@
     <section class="main-content">
         <h2>도서 목록</h2>
 
+        <!-- 검색 폼 (서버로 POST) -->
         <form th:action="@{/book_search}" method="post" class="search-form">
             <input type="text" name="keyword" placeholder="도서 제목 또는 저자를 입력하세요" required />
             <button type="submit">검색</button>
         </form>
 
-        <!-- 도서가 없을 때 -->
+        <!-- 도서 없을 때 -->
         <div th:if="${#lists.isEmpty(books)}" class="empty-message">
-            책이 없습니다.
+            등록된 도서가 없습니다.
         </div>
 
-        <!-- 도서가 있을 때 -->
-<!--        <div class="book-list" th:if="${not #lists.isEmpty(books)}">-->
-<!--            <div class="book-item" th:each="book : ${books}">-->
-<!--                <a th:href="@{'/book/' + ${book.isbn}}" class="book-link">-->
-<!--                    <img th:src="@{'/images/' + ${book.imageUrl}}" alt="도서 이미지" class="book-image" />-->
-<!--                    <h3 class="book-title" th:text="${book.title}">도서 제목</h3>-->
-<!--                </a>-->
-<!--                <p th:text="'저자: ' + ${book.author}">저자명</p>-->
-<!--                <button onclick="alert('장바구니에 담겼습니다!')">장바구니 담기</button>-->
-<!--            </div>-->
-<!--        </div>-->
+        <!-- 도서 있을 때 -->
+        <div th:if="${not #lists.isEmpty(books)}">
+            <!-- ① 여기 컨테이너에 그리드 설정 -->
+            <div id="book-list" class="book-list">
+                <!-- ② 개별 아이템에는 book-card 클래스만 -->
+                <div class="book-card"
+                     th:each="book : ${books}"
+                     th:data-id="${book.id}">
+                    <img th:src="@{${book.imgUrl}}"
+                         th:alt="${book.title} + ' 표지'"
+                         onerror="this.onerror=null;this.src='https://via.placeholder.com/240x336?text=No+Image';" />
+                    <div class="book-info">
+                        <h2 th:text="${book.title}">도서 제목</h2>
+                        <p><strong>저자:</strong> <span th:text="${book.author}">저자명</span></p>
+                        <p><strong>출판사:</strong> <span th:text="${book.publisher}">출판사명</span></p>
+                        <p class="book-price"
+                           th:text="${#numbers.formatInteger(book.salePrice, 0)} + '원'">가격</p>
+                    </div>
+                    <div class="action">
+                        <input type="number"
+                               th:id="'qty-' + ${book.id}"
+                               value="1" min="1" />
+                        <button type="button"
+                                th:onclick="'addToCart(' + ${book.id} + ')'" >
+                            장바구니 담기
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <div id="book-list"></div>
     </section>
     <script th:src="@{/js/book/booklist.js}"></script>
 </main>

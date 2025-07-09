@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+  <link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+<main layout:fragment="content">
+  <section class="guest-login-container">
+    <h2>비회원 주문 조회</h2>
+    <p class="description">주문 시 등록했던 정보로 주문 내역을 조회합니다.</p>
+    <form th:action="@{/guest-login}" th:object="${loginRequest}" method="post">
+      <div class="form-group">
+        <label for="guest-order-id">주문 번호</label>
+        <input type="text"
+               id="guest-order-id"
+               name="orderId"
+               th:field="*{orderNumber}"
+               placeholder="주문 번호를 입력하세요."
+               required>
+      </div>
+      <div class="form-group">
+        <label for="guest-password">주문 비밀번호</label>
+        <input type="text"
+               id="guest-password"
+               name="password"
+               th:field="*{recipientContact}"
+               placeholder="수취인 연락처"
+               required>
+      </div>
+      <button type="submit" class="auth-button button-secondary">주문 조회</button>
+    </form>
+  </section>
+</main>
+</html>

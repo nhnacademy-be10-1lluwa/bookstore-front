@@ -1,0 +1,44 @@
+/*_member-list.css*/
+
+/* 공통 굵기 */
+.member-name,
+.member-email,
+.grade-tag {
+    font-weight: var(--font-weight-bold);
+}
+
+/* 등급별 컬러 */
+.grade-tag.basic {
+    color: #cd7f32;
+}
+.grade-tag.royal {
+    color: #c0c0c0;
+}
+.grade-tag.gold {
+    color: #ffd700;
+}
+.grade-tag.platinum {
+    color: 	#8e44ad;
+}
+
+/* 삭제 상태 회원 - 회색 처리 */
+.deleted-member {
+    color: #999 !important;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+}
+
+.deleted-member * {
+    color: #999 !important;
+}
+
+.active-page a {
+    background-color: var(--color-primary);
+    color: white;
+    font-weight: bold;
+    border-radius: 8px;
+}
+.button.small {
+    padding: 4px 10px;
+    font-size: 0.875rem;
+}

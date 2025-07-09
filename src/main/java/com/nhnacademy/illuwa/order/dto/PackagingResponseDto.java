@@ -1,12 +1,12 @@
 package com.nhnacademy.illuwa.order.dto;
 
-import lombok.Getter;
+import lombok.Data;
 
 import java.math.BigDecimal;
 
-@Getter
+@Data
 public class PackagingResponseDto {
-    private long packagingId;
+    private Long packagingId;
     private String packagingName;
     private BigDecimal packagingPrice;
 }

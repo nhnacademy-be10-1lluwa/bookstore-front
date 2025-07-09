@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+  <link rel="stylesheet" th:href="@{/css/main.css}" />
+  <style>
+    .book-card {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      border: 1px solid #ccc;
+      padding: 1rem;
+      border-radius: 8px;
+    }
+
+    .book-card img {
+      width: 120px;
+      height: auto;
+    }
+
+    .book-info h2 {
+      margin: 0;
+      font-size: 1.2rem;
+    }
+
+    .book-price {
+      color: green;
+      font-weight: bold;
+    }
+  </style>
+</head>
+
+<main layout:fragment="content">
+  <section class="main-content">
+    <h2>도서 목록 (관리자용)</h2>
+
+    <form id="search-form" class="search-form">
+      <input type="text" id="search-input" placeholder="도서 제목 또는 저자를 입력하세요" required />
+      <button type="submit">검색</button>
+    </form>
+
+    <div id="book-list"></div>
+  </section>
+
+  <script>
+    const resultsContainer = document.getElementById('book-list');
+    const searchForm = document.getElementById('search-form');
+    const searchInput = document.getElementById('search-input');
+
+    function displayResults(books) {
+      resultsContainer.innerHTML = '';
+
+      if (books.length === 0) {
+        resultsContainer.innerHTML = '<p>등록된 도서가 없습니다.</p>';
+        return;
+      }
+
+      books.forEach(book => {
+        const price = book.salePrice
+                ? book.salePrice.toLocaleString() + '원'
+                : '가격 정보 없음';
+
+        resultsContainer.innerHTML += `
+          <div class="book-card" data-id="${book.id}">
+            <img src="${book.imgUrl}" alt="${book.title} 표지"
+                 onerror="this.onerror=null;this.src='https://via.placeholder.com/240x336?text=No+Image';">
+            <div class="book-info">
+              <h2>${book.title}</h2>
+              <p><strong>저자:</strong> ${book.author}</p>
+              <p><strong>출판사:</strong> ${book.publisher}</p>
+              <p class="book-price">${price}</p>
+            </div>
+          </div>`;
+      });
+    }
+
+    // 초기 전체 도서 불러오기
+    fetch('/books', { headers: { 'Accept': 'application/json' } })
+            .then(res => res.json())
+            .then(data => displayResults(data))
+            .catch(err => {
+              resultsContainer.innerHTML = '<p>도서 목록을 불러오지 못했습니다.</p>';
+              console.error(err);
+            });
+
+    // 검색 시 처리
+    searchForm.addEventListener('submit', function (e) {
+      e.preventDefault();
+      const keyword = searchInput.value.trim();
+      if (!keyword) return;
+
+      fetch(`/books/search?keyword=${encodeURIComponent(keyword)}`, {
+        headers: { 'Accept': 'application/json' }
+      })
+              .then(res => res.json())
+              .then(data => displayResults(data))
+              .catch(err => {
+                resultsContainer.innerHTML = '<p>검색 결과를 불러오지 못했습니다.</p>';
+                console.error(err);
+              });
+    });
+  </script>
+</main>
+
+</html>

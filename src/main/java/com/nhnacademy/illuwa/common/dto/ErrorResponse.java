@@ -1,5 +1,7 @@
 package com.nhnacademy.illuwa.common.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -17,8 +19,27 @@ public class ErrorResponse {
     // 유효성 검사 오류 목록 (선택 사항)
     private final List<ValidationError> errors;
 
+    @JsonCreator
+    public ErrorResponse(
+            @JsonProperty("timestamp") LocalDateTime timestamp,
+            @JsonProperty("status") int status,
+            @JsonProperty("error") String error,
+            @JsonProperty("code") String code,
+            @JsonProperty("message") String message,
+            @JsonProperty("path") String path,
+            @JsonProperty("errors") List<ValidationError> errors
+    ) {
+        this.timestamp = timestamp;
+        this.status = status;
+        this.error = error;
+        this.code = code;
+        this.message = message;
+        this.path = path;
+        this.errors = errors;
+    }
+
     @Getter
-    @RequiredArgsConstructor // AllArgsConstructor 대신 @RequiredArgsConstructor 사용 가능
+    @RequiredArgsConstructor
     public static class ValidationError {
         private final String field;
         private final String defaultMessage;
