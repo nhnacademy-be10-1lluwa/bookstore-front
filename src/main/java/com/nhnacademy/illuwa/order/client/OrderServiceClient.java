@@ -1,13 +1,12 @@
 package com.nhnacademy.illuwa.order.client;
 
+import com.nhnacademy.illuwa.common.dto.PageResponse;
+import com.nhnacademy.illuwa.order.dto.OrderListResponse;
 import com.nhnacademy.illuwa.order.dto.OrderResponse;
 import com.nhnacademy.illuwa.order.dto.PackagingRequestDto;
 import com.nhnacademy.illuwa.order.dto.PackagingResponseDto;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,4 +20,10 @@ public interface OrderServiceClient {
 
     @GetMapping("/order/guest/order-history/{orderNumber}")
     OrderResponse getGuestOrderHistory(@PathVariable("orderNumber") String orderNumber, @RequestParam("contact") String recipientContact);
+
+    @GetMapping("/order/member/orders/history")
+    PageResponse<OrderListResponse> getMemberOrdersHistory(@RequestParam("page") int page, @RequestParam("size") int size);
+
+    @GetMapping("/order/member/orders/{orderId}")
+    OrderResponse getMemberOrderHistoryDetail(@PathVariable("orderId") Long orderId);
 }
