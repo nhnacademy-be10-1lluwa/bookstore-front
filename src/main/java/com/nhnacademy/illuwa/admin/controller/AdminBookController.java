@@ -79,6 +79,7 @@ public class AdminBookController {
 
     @GetMapping("/book_register_api")
     public String registerBookFromAladin(HttpSession session, Model model){
+
         AladinBookRegisterRequest book = (AladinBookRegisterRequest) session.getAttribute("book");
 
         if (book != null) {
@@ -93,13 +94,8 @@ public class AdminBookController {
     public String registerBookManual(
             @ModelAttribute BookRegisterRequest bookRegisterRequest) {
 
-        try {
             productServiceClient.registerBookManual(bookRegisterRequest, bookRegisterRequest.getImageFile());
             return "redirect:/admin/book/manage";
-        } catch (FeignException e) {
-            log.error("Feign 에러 발생: status={}, body={}", e.status(), e.contentUTF8());
-            throw e;
-        }
     }
 
     @PostMapping("/register")
