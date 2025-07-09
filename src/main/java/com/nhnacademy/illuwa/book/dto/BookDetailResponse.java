@@ -20,8 +20,8 @@ public class BookDetailResponse {
     private String publisher;
     private String publishedDate;
     private String isbn;
-    private BigDecimal regularPrice;
-    private BigDecimal salePrice;
+    private Integer regularPrice;
+    private Integer salePrice;
     private boolean isGiftWrap;
     private String imgUrl;
 }
