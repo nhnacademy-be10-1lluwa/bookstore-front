@@ -24,6 +24,6 @@ public class BookService {
     }
 
     public List<BookDetailResponse> getAllBooks() {
-        return productServiceClient.registeredBook();
+        return productServiceClient.getRegisteredBook();
     }
 }
