@@ -25,7 +25,7 @@ public class BookListController {
     public String listBooks(Model model) {
         List<BookDetailResponse> books = bookService.getAllBooks();
         model.addAttribute("books", books);
-        return "/book/book_list";
+        return "book/book_list";
     }
 
     @PostMapping("/book_search")
