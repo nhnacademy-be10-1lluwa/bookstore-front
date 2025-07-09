@@ -62,7 +62,7 @@ public class AdminBookController {
 
     @GetMapping("/detail/{isbn}")
     public String bookDetailPage(@PathVariable String isbn) {
-        return "admin/book/book_detail";
+        return "admin/book/detail";
     }
 
     @GetMapping("/book_register")
