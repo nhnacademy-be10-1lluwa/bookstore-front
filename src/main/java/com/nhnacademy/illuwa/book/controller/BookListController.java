@@ -1,11 +1,9 @@
 package com.nhnacademy.illuwa.book.controller;
 
 import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
-import com.nhnacademy.illuwa.book.dto.SearchBookResponse;
 import com.nhnacademy.illuwa.book.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
