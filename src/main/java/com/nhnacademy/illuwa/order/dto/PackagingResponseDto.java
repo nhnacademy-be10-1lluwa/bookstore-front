@@ -1,7 +1,6 @@
 package com.nhnacademy.illuwa.order.dto;
 
 import lombok.Data;
-import lombok.Getter;
 
 import java.math.BigDecimal;
 
