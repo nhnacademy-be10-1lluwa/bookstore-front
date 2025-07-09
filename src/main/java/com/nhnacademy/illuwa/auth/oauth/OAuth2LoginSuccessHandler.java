@@ -25,14 +25,12 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-
+        
         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
         String provider = "payco";
         String providerId = oAuth2User.getName();
 
-        TokenResponse tokenResponse = authClient.socialLogin(
-                new SocialLoginRequest(provider, providerId, oAuth2User.getAttributes())
-        );
+        TokenResponse tokenResponse = authClient.socialLogin(new SocialLoginRequest(provider, providerId, oAuth2User.getAttributes()));
 
         JwtCookieUtil.addAccessToken(response, tokenResponse.getAccessToken(), (int) tokenResponse.getExpiresIn());
         JwtCookieUtil.addRefreshToken(response, tokenResponse.getRefreshToken(), (int) Duration.ofDays(14).toSeconds());

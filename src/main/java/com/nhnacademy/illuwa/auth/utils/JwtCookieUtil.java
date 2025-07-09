@@ -8,7 +8,7 @@ public class JwtCookieUtil {
     public static void addAccessToken(HttpServletResponse response, String value, int maxAge) {
         ResponseCookie c = ResponseCookie.from("ACCESS_TOKEN", value)
                 .httpOnly(true)
-                .secure(true)
+                .secure(false)
                 .sameSite("Lax")
                 .path("/")
                 .maxAge(maxAge)
@@ -20,7 +20,7 @@ public class JwtCookieUtil {
     public static void addRefreshToken(HttpServletResponse response, String value, int maxAge) {
         ResponseCookie c = ResponseCookie.from("REFRESH_TOKEN", value)
                 .httpOnly(true)
-                .secure(true)
+                .secure(false)
                 .sameSite("Lax")
                 .path("/")
                 .maxAge(maxAge)
