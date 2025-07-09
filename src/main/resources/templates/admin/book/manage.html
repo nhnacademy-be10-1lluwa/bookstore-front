@@ -63,7 +63,7 @@
                 : '가격 정보 없음';
 
         resultsContainer.innerHTML += `
-          <div class="book-card" data-id="${book.id}">
+          <div class="book-card" th:data-id="${book.isbn}">
             <img src="${book.imgUrl}" alt="${book.title} 표지"
                  onerror="this.onerror=null;this.src='https://via.placeholder.com/240x336?text=No+Image';">
             <div class="book-info">
@@ -100,6 +100,17 @@
                 resultsContainer.innerHTML = '<p>검색 결과를 불러오지 못했습니다.</p>';
                 console.error(err);
               });
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.book-card').forEach(card => {
+        card.addEventListener('click', () => {
+          const isbn = card.getAttribute('data-id');
+          if (isbn) {
+            window.location.href = `/user/books/${isbn}`;
+          }
+        });
+      });
     });
   </script>
 </main>
