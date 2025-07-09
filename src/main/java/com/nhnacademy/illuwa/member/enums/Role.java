@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.user.member.enums;
+package com.nhnacademy.illuwa.member.enums;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <title>회원 목록</title>
+</head>
+
+<main layout:fragment="content">
+    <section class="main-content">
+        <h2>전체 회원목록</h2>
+
+        <div class="book-list">
+            <div class="book-item"
+                 th:each="member, iterStat : ${members.content}"
+                 th:classappend="${member.status.name() == 'DELETED'} ? 'deleted-member'">
+                <h3 th:text="'#' + ((members.number * members.size) + iterStat.index + 1) + '. ' + member.name"
+                    class="member-name"></h3>
+
+                <p><strong>이메일:</strong>
+                    <span th:text="${member.email}" class="member-email"></span>
+                </p>
+
+                <p><strong>연락처:</strong>
+                    <span th:class="'grade-tag'"
+                            th:text="${member.contact}"></span>
+                </p>
+
+                <p><strong>등급:</strong>
+                    <span th:text="${member.gradeName}"
+                          th:class="'grade-tag ' + ${member.gradeName.toLowerCase()}"></span>
+                </p>
+
+                <p><strong>포인트:</strong>
+                    <span th:text="${member.point}"></span>
+                </p>
+
+                <p><strong>상태:</strong>
+                    <span th:text="${member.status}"></span>
+                </p>
+
+                <p><strong>마지막 로그인:</strong>
+                    <span th:text="${#temporals.format(member.lastLoginAt, 'yyyy-MM-dd HH:mm')}"></span>
+                </p>
+            </div>
+        </div>
+
+
+        <div class="pagination" style="margin-top: var(--spacing-xl); text-align: center;">
+            <a th:if="${members.hasPrevious()}"
+               th:href="@{|/members?page=${members.number - 1}|}" class="button">이전</a>
+
+            <span th:each="i : ${#numbers.sequence(0, members.totalPages - 1)}"
+                  th:classappend="${i == members.number} ? 'active-page'"
+                  style="margin: 0 6px;">
+                <a th:href="@{|/members?page=${i}|}"
+                   th:text="${i + 1}"
+                   class="button small"></a>
+            </span>
+
+            <a th:if="${members.hasNext()}"
+               th:href="@{|/members?page=${members.number + 1}|}" class="button">다음</a>
+        </div>
+    </section>
+</main>
+</html>
