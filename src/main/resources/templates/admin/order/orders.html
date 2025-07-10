@@ -7,12 +7,7 @@
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
 </head>
 <main layout:fragment="content">
-    <!-- <section class="main-content">
-       <a th:href="@{/order_history}">주문내역 상세정보</a>
-     </section>
-     <section>
-       <a th:href="@{/write_review}">리뷰 작성하기</a>
-     </section>-->
+    <h1> 결제 완료된 주문 내역</h1>
     <section>
         <section>
             <table class="order-table">
@@ -25,12 +20,11 @@
                     <th>상태</th>
                 </tr>
                 </thead>
-
+                <!--/admin/order/orders/{orderId}-->
                 <tbody>
                 <tr th:each="order : ${orderPage.content}">
-                    <td style="display: none" th:text="${order.orderId}">1</td>
                     <td>
-                        <a th:href="@{/order_detail/{orderId}(orderId=${order.orderId})}"
+                        <a th:href="@{/admin/order/orders/{orderId}(orderId=${order.orderId})}"
                            th:text="${order.orderNumber}">
                             empty-order-number
                         </a>
@@ -47,16 +41,16 @@
             <!-- 페이지네이션 네비게이터 -->
             <div class="pagination">
                 <a th:if="${!orderPage.first}"
-                   th:href="@{/order_list(page=${currentPage - 1},size=${orderPage.size})}">« Prev</a>
+                   th:href="@{/admin/order/orders(page=${currentPage - 1},size=${orderPage.size})}">« Prev</a>
 
                 <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
                       th:classappend="${i==currentPage}? 'current'">
-      <a th:href="@{/order_list(page=${i},size=${orderPage.size})}"
+      <a th:href="@{/admin/order/orders(page=${i},size=${orderPage.size})}"
          th:text="${i+1}">1</a>
     </span>
 
                 <a th:if="${!orderPage.last}"
-                   th:href="@{/order_list(page=${currentPage+1},size=${orderPage.size})}">Next »</a>
+                   th:href="@{/admin/order/orders(page=${currentPage+1},size=${orderPage.size})}">Next »</a>
             </div>
         </section>
     </section>
