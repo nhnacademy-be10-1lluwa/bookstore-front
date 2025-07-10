@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.category;
+package com.nhnacademy.illuwa.category.controller;
 
 import com.nhnacademy.illuwa.book.client.ProductServiceClient;
 import com.nhnacademy.illuwa.book.dto.CategoryResponse;
