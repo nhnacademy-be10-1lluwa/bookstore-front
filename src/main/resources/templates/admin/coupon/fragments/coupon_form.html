@@ -1,0 +1,74 @@
+<!--<section th:fragment="couponForm(mode, action, couponForm)">-->
+<!--    <h2 th:text="${mode == 'edit' ? '쿠폰 수정' : '쿠폰 등록'}">쿠폰 등록</h2>-->
+<!--    <form th:action="${action}" th:object="${couponForm}" method="post">-->
+<!--        <div class="form-group">-->
+<!--            <label for="couponName">쿠폰 이름</label>-->
+<!--            <input type="text" id="couponName" th:field="*{couponName}" required>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="policyCode">정책 코드</label>-->
+<!--            <input type="text" id="policyCode" th:field="*{policyCode}" th:readonly="${mode == 'edit'}" required>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="validFrom">유효 시작일</label>-->
+<!--            <input type="date" id="validFrom" th:field="*{validFrom}" required>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="validTo">유효 종료일</label>-->
+<!--            <input type="date" id="validTo" th:field="*{validTo}" required>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="couponType">쿠폰 타입</label>-->
+<!--            <select id="couponType" th:field="*{couponType}" required onchange="toggleCouponTypeFields()">-->
+<!--                <option value="">&#45;&#45; 선택 &#45;&#45;</option>-->
+<!--                <option value="GENERAL">일반</option>-->
+<!--                <option value="BIRTHDAY">생일</option>-->
+<!--                <option value="WELCOME">웰컴</option>-->
+<!--                <option value="CATEGORY">카테고리 쿠폰</option>-->
+<!--                <option value="BOOKS">도서 쿠폰</option>-->
+<!--            </select>-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="comment">설명</label>-->
+<!--            <input type="text" id="comment" th:field="*{comment}">-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="conditions">조건</label>-->
+<!--            <input type="text" id="conditions" th:field="*{conditions}">-->
+<!--        </div>-->
+<!--        <div class="form-group hide" id="booksIdGroup">-->
+<!--            <label for="booksId">도서 ID</label>-->
+<!--            <input type="number" id="booksId" th:field="*{booksId}">-->
+<!--        </div>-->
+<!--        <div class="form-group hide" id="categoryIdGroup">-->
+<!--            <label for="categoryId">카테고리 ID</label>-->
+<!--            <input type="number" id="categoryId" th:field="*{categoryId}">-->
+<!--        </div>-->
+<!--        <div class="form-group">-->
+<!--            <label for="issueCount">발급 수량</label>-->
+<!--            <input type="number" id="issueCount" th:field="*{issueCount}" required min="1">-->
+<!--        </div>-->
+<!--        <div class="btns">-->
+<!--            <button type="submit" class="btn-primary" th:text="${mode == 'edit' ? '수정완료' : '등록'}">등록</button>-->
+<!--            <button type="button" class="btn-cancel" onclick="location.href='/admin/coupon/coupon'">취소</button>-->
+<!--        </div>-->
+<!--    </form>-->
+<!--    <script>-->
+<!--        function toggleCouponTypeFields() {-->
+<!--            var type = document.getElementById('couponType').value;-->
+<!--            var booksIdGroup = document.getElementById('booksIdGroup');-->
+<!--            var categoryIdGroup = document.getElementById('categoryIdGroup');-->
+<!--            if (type === 'BOOKS') {-->
+<!--                booksIdGroup.classList.remove('hide');-->
+<!--                categoryIdGroup.classList.add('hide');-->
+<!--            } else if (type === 'CATEGORY') {-->
+<!--                categoryIdGroup.classList.remove('hide');-->
+<!--                booksIdGroup.classList.add('hide');-->
+<!--            } else {-->
+<!--                booksIdGroup.classList.add('hide');-->
+<!--                categoryIdGroup.classList.add('hide');-->
+<!--            }-->
+<!--        }-->
+<!--        window.onload = toggleCouponTypeFields;-->
+<!--    </script>-->
+<!--</section>-->

@@ -1,20 +1,25 @@
 package com.nhnacademy.illuwa.coupon.client;
 
+import com.nhnacademy.illuwa.coupon.dto.MemberCouponIssueRequest;
+import com.nhnacademy.illuwa.coupon.dto.coupon.CouponForm;
+import com.nhnacademy.illuwa.coupon.dto.coupon.CouponResponse;
+import com.nhnacademy.illuwa.coupon.dto.coupon.CouponUpdateRequest;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyFrom;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyResponse;
 import com.nhnacademy.illuwa.coupon.dto.MemberCouponResponse;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyUpdateRequest;
-import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponUpdateResponse;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-//@FeignClient(name = "order-service", url = "${api.base-url}", contextId = "orderClientForCoupon")
-@FeignClient(name = "order-service", url = "localhost:10305", contextId = "orderClientForCoupon")
+@FeignClient(name = "order-service", url = "${api.base-url}", contextId = "orderClientForCoupon")
+//@FeignClient(name = "order-service", url = "localhost:10305", contextId = "orderClientForCoupon")
 public interface CouponServiceClient {
 
+    /**
+     * 쿠폰 정책 생성 컨트롤러
+     */
     @GetMapping("/members/member-coupons/{memberEmail}")
     List<MemberCouponResponse> getCoupon(@PathVariable String memberEmail);
 
@@ -32,8 +37,39 @@ public interface CouponServiceClient {
 
     @DeleteMapping("/admin/coupon-policies/{code}")
     void deleteCouponPolicy(@PathVariable String code);
+
     // 정책 리스트
     @GetMapping("/admin/coupon-policies")
     List<CouponPolicyResponse> getAllPolicies();
+
+    /**
+     * 쿠폰 생성 컨트롤러 (=정책기반)
+     */
+
+    // 쿠폰 리스트
+    @GetMapping("/coupons")
+    List<CouponResponse> getCoupon();
+
+    // 쿠폰 등록
+    @PostMapping("/admin/coupons")
+    CouponResponse createCoupon(@RequestBody CouponForm couponForm);
+
+    // 쿠폰 단건 조회 (ID)기준 (=수정폼)
+    @GetMapping(value = "/admin/coupons/{id}")
+    CouponResponse getCouponById(@PathVariable Long id);
+
+    // 쿠펀 수정 수정 (PUT)
+    @PutMapping("/admin/coupons/{id}")
+    CouponResponse updateCoupon(@PathVariable("id") Long id, @RequestBody CouponUpdateRequest request);
+
+    // 쿠폰 삭제
+    @DeleteMapping("/admin/coupons/{id}")
+    void deleteCoupon(@PathVariable Long id);
+
+    /**
+     * 사용자 쿠폰 발급
+     */
+    @PostMapping("/member-coupons")
+    void issueCoupon(@RequestBody MemberCouponIssueRequest request);
 
 }

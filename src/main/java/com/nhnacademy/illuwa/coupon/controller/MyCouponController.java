@@ -1,7 +1,6 @@
 package com.nhnacademy.illuwa.coupon.controller;
 
 import com.nhnacademy.illuwa.coupon.dto.MemberCouponResponse;
-import com.nhnacademy.illuwa.coupon.service.CouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

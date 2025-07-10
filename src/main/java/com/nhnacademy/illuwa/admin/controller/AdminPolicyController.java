@@ -1,10 +1,9 @@
 package com.nhnacademy.illuwa.admin.controller;
 
-import com.nhnacademy.illuwa.coupon.client.CouponServiceClient;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyFrom;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyResponse;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyUpdateRequest;
-import com.nhnacademy.illuwa.coupon.service.CouponService;
+import com.nhnacademy.illuwa.coupon.service.CouponPolicyService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,7 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class AdminPolicyController {
 
-    private final CouponService couponService;
+    private final CouponPolicyService couponPolicyService;
 
     @GetMapping("/admin/policy/policy")
     public String policy() {
@@ -28,7 +27,7 @@ public class AdminPolicyController {
     // 정책 목록 페이지
     @GetMapping("/admin/policy/coupon")
     public String couponPolicyList(Model model) {
-        List<CouponPolicyResponse> couponPolicies = couponService.getAllPolices();
+        List<CouponPolicyResponse> couponPolicies = couponPolicyService.getAllPolices();
         model.addAttribute("couponPolicies", couponPolicies);
         return "admin/policy/coupon_policy_view_list";
     }
@@ -44,7 +43,7 @@ public class AdminPolicyController {
     // 정책 폼 데이터 전송
     @PostMapping("/admin/policy/coupon/create")
     public String registerCouponPolicy(@ModelAttribute @Valid CouponPolicyFrom policyForm, Model model, RedirectAttributes redirectAttributes) {
-        couponService.createCouponPolicy(policyForm);
+        couponPolicyService.createCouponPolicy(policyForm);
         redirectAttributes.addFlashAttribute("msg", "정책 등록 성공!");
         return "redirect:/admin/policy/coupon";
 
@@ -53,7 +52,7 @@ public class AdminPolicyController {
     // 정책 수정 페이지 반환
     @GetMapping("/admin/policy/coupon/{code}/update")
     public String showUpdateForm(@PathVariable String code, Model model) {
-        CouponPolicyResponse policy = couponService.getPolicyByCode(code);
+        CouponPolicyResponse policy = couponPolicyService.getPolicyByCode(code);
         model.addAttribute("policy", policy);
         return "admin/policy/coupon_policy_update";
     }
@@ -63,7 +62,7 @@ public class AdminPolicyController {
     public String updatePolicy(
             @PathVariable String code,
             @ModelAttribute CouponPolicyUpdateRequest updateRequest) {
-        couponService.updateCouponPolicy(code, updateRequest);
+        couponPolicyService.updateCouponPolicy(code, updateRequest);
         // 성공 시 목록으로 리다이렉트
         return "redirect:/admin/policy/coupon";
     }
@@ -71,7 +70,7 @@ public class AdminPolicyController {
     // 정책 삭제 (= 비활성화)
     @PostMapping("/admin/policy/coupon/{code}/delete")
     public String deletePolicy(@PathVariable String code) {
-        couponService.deleteCouponPolicy(code); // status INACTIVE로 변경
+        couponPolicyService.deleteCouponPolicy(code); // status INACTIVE로 변경
         return "redirect:/admin/policy/coupon";
     }
 
