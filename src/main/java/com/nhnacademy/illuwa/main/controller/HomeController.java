@@ -21,8 +21,8 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
 
-//        List<BestSellerResponse> bestSeller = productServiceClient.getBestSeller();
-//        model.addAttribute("bestSeller",bestSeller);
+        List<BestSellerResponse> bestSeller = productServiceClient.getBestSeller();
+        model.addAttribute("bestSeller",bestSeller);
         return "home";
     }
 }
