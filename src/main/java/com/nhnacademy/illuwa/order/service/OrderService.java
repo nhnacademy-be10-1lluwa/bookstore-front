@@ -7,6 +7,7 @@ import com.nhnacademy.illuwa.order.dto.OrderResponse;
 import com.nhnacademy.illuwa.order.dto.PackagingRequestDto;
 import com.nhnacademy.illuwa.order.dto.PackagingResponseDto;
 import com.nhnacademy.illuwa.order.dto.admin.OrderUpdateStatusDto;
+import com.nhnacademy.illuwa.order.dto.member.MemberOrderInitDirectResponse;
 import com.nhnacademy.illuwa.order.dto.types.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,6 @@ import java.util.List;
 public class OrderService {
 
     private final OrderServiceClient orderServiceClient;
-
 
     public List<PackagingResponseDto> getPackagingListFromApi() {
         return orderServiceClient.getPackaging();
@@ -40,6 +40,11 @@ public class OrderService {
     // 주문 상세 페이지
     public OrderResponse getOrderDetail(Long orderId) {
         return orderServiceClient.getMemberOrderHistoryDetail(orderId);
+    }
+
+    // 회원 바로 주문 정보 불러오기
+    public MemberOrderInitDirectResponse getMemberInitDateDirect(Long bookId) {
+        return orderServiceClient.fetchMemberDirectInfo(bookId);
     }
 
     // Pending 상태 주문 조회

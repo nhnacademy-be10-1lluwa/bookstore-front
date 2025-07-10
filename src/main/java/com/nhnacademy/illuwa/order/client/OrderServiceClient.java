@@ -6,6 +6,7 @@ import com.nhnacademy.illuwa.order.dto.OrderResponse;
 import com.nhnacademy.illuwa.order.dto.PackagingRequestDto;
 import com.nhnacademy.illuwa.order.dto.PackagingResponseDto;
 import com.nhnacademy.illuwa.order.dto.admin.OrderUpdateStatusDto;
+import com.nhnacademy.illuwa.order.dto.member.MemberOrderInitDirectResponse;
 import com.nhnacademy.illuwa.order.dto.types.OrderStatus;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
@@ -14,7 +15,6 @@ import java.util.List;
 
 @FeignClient(name = "order-service", url = "${api.base-url}")
 public interface OrderServiceClient {
-
     @GetMapping("/api/packaging")
     List<PackagingResponseDto> getPackaging();
 
@@ -30,6 +30,9 @@ public interface OrderServiceClient {
     @GetMapping("/api/order/member/orders/{orderId}")
     OrderResponse getMemberOrderHistoryDetail(@PathVariable("orderId") Long orderId);
 
+    @GetMapping("/api/order/member/init-member-info/books/{bookId}")
+    MemberOrderInitDirectResponse fetchMemberDirectInfo(@PathVariable("bookId") Long bookId);
+
     @GetMapping("/api/order/admin/orders")
     PageResponse<OrderListResponse> getOrderStatusPending(@RequestParam("status") OrderStatus status,
                                                           @RequestParam("page") int page,
@@ -41,5 +44,4 @@ public interface OrderServiceClient {
     @PutMapping("/api/order/admin/orders/{orderId}")
     void updateOrderStatus(@PathVariable("orderId") Long orderId,
                            @RequestBody OrderUpdateStatusDto dto);
-
 }
