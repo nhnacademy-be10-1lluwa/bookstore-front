@@ -15,8 +15,6 @@ import org.hibernate.validator.constraints.Length;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReviewRequest {
-    private long memberId;
-    private long bookId;
     @NotEmpty
     @Length(min = 1, max = 50)
     private String reviewTitle;

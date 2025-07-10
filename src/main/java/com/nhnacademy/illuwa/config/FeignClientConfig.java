@@ -11,14 +11,8 @@ import feign.codec.Encoder;
 
 @Configuration
 public class FeignClientConfig {
-
     @Bean
-    public Encoder feignFormEncoder() {
-        return new SpringFormEncoder(new SpringEncoder(new ObjectFactory<HttpMessageConverters>() {
-            @Override
-            public HttpMessageConverters getObject() {
-                return new HttpMessageConverters(new RestTemplate().getMessageConverters());
-            }
-        }));
+    public Encoder feignFormEncoder(ObjectFactory<HttpMessageConverters> messageConverters) {
+        return new SpringFormEncoder(new SpringEncoder(messageConverters));
     }
 }

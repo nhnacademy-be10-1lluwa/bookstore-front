@@ -6,6 +6,7 @@
 <head layout:fragment="head">
     <meta charset="UTF-8" />
     <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <script th:src="@{/js/review/review-form.js}"></script>
     <title>리뷰 작성</title>
 </head>
 
@@ -20,8 +21,7 @@
               method="post"
               enctype="multipart/form-data">
 
-            <input type="hidden" name="memberId" th:value="${memberId}" />
-            <input type="hidden" name="bookId" th:value="${bookId}" />
+            <input type="hidden" id="bookId" name="bookId" th:value="${bookId}" />
 
             <div>
                 <label>제목<br />
@@ -66,7 +66,6 @@
               enctype="multipart/form-data">
             <input type="hidden" name="_method" value="patch" />
 
-            <input type="hidden" name="memberId" th:value="${memberId}" />
             <input type="hidden" name="bookId" th:value="${bookId}" />
 
             <div>
