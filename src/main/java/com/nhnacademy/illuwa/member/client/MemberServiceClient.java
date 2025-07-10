@@ -10,18 +10,18 @@ import org.springframework.web.bind.annotation.*;
 public interface MemberServiceClient {
 
     // 회원 단일 조회 (X-USER_ID 기반)
-    @GetMapping("/members")
+    @GetMapping("/api/members")
     MemberResponse getMember();
 
     // 회원 수정
-    @PutMapping("/members")
+    @PutMapping("/api/members")
     MemberResponse updateMember(@RequestBody MemberUpdateRequest request);
 
     // 회원 삭제
-    @DeleteMapping("/members")
+    @DeleteMapping("/api/members")
     void deleteMember();
 
-    @PostMapping("/members/check-pw")
+    @PostMapping("/api/members/check-pw")
     boolean checkPassword(@RequestBody PasswordCheckRequest request);
 
 }

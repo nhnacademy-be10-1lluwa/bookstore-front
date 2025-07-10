@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "product-service", url = "${api.base-url}", contextId = "cartClient")
 public interface CartServiceClient {
 
-    @GetMapping("/cart")
+    @GetMapping("/api/cart")
     CartResponse getCart();
 
-    @DeleteMapping("/cart")
+    @DeleteMapping("/api/cart")
     void clearCart();
 
-    @PostMapping("/cart/book")
+    @PostMapping("/api/cart/book")
     BookCartRequest addBookCart(@RequestBody BookCartRequest bookCartRequest);
 }

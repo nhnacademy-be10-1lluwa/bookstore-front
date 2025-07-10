@@ -8,6 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "user-service", url = "${api.base-url}", contextId = "userClientForAdmin")
 public interface AdminMemberServiceClient {
-    @GetMapping("/admin/members/paged")
+    @GetMapping("/api/admin/members/paged")
     PageResponse<MemberResponse> getPagedMemberList(@RequestParam("page") int page, @RequestParam("size") int size);
 }

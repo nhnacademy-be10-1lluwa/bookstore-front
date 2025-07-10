@@ -11,19 +11,19 @@ import java.util.List;
 
 @FeignClient(name = "user-service", url = "${api.base-url}", contextId = "userClientForPointPolicy")
 public interface AdminPointPolicyServiceClient {
-    @GetMapping("/admin/point-policies")
+    @GetMapping("/api/admin/point-policies")
     List<PointPolicyResponse> getPointPolicyList();
 
-    @PostMapping("/admin/point-policies")
+    @PostMapping("/api/admin/point-policies")
     PointPolicyResponse createPointPolicy(@Valid @RequestBody PointPolicyCreateRequest request);
 
-    @GetMapping("/admin/point-policies/{policyKey}")
+    @GetMapping("/api/admin/point-policies/{policyKey}")
     PointPolicyResponse getPointPolicy(@PathVariable("policyKey") String policyKey);
 
-    @PutMapping("/admin/point-policies/{policyKey}")
+    @PutMapping("/api/admin/point-policies/{policyKey}")
     PointPolicyResponse updatePointPolicy(@PathVariable("policyKey") String policyKey,
                                           @RequestBody PointPolicyUpdateRequest request);
 
-    @DeleteMapping("/admin/point-policies/{policyKey}")
+    @DeleteMapping("/api/admin/point-policies/{policyKey}")
     void deletePointPolicy(@PathVariable("policyKey") String policyKey);
 }
