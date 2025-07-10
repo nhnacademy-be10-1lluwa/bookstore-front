@@ -1,6 +1,9 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
   <meta charset="UTF-8">
   <title>도서 관리 페이지</title>
   <style>
@@ -25,37 +28,41 @@
       height: auto;
     }
   </style>
+  <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
-<body>
-<h1>📚 도서 관리 페이지</h1>
 
-<table>
-  <thead>
-  <tr>
-    <th>이미지</th>
-    <th>제목</th>
-    <th>저자</th>
-    <th>출판사</th>
-    <th>출판일</th>
-    <th>정가</th>
-    <th>판매가</th>
-    <th>ISBN</th>
-    <th>선물포장</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="book : ${books}">
-    <td><img th:src="${book.imgUrl}" alt="도서 이미지"/></td>
-    <td th:text="${book.title}">도서 제목</td>
-    <td th:text="${book.author}">저자</td>
-    <td th:text="${book.publisher}">출판사</td>
-    <td th:text="${book.publishedDate}">출판일</td>
-    <td th:text="${#numbers.formatInteger(book.regularPrice, 3, 'COMMA')} + '원'">정가</td>
-    <td th:text="${#numbers.formatInteger(book.salePrice, 3, 'COMMA')} + '원'">판매가</td>
-    <td th:text="${book.isbn}">ISBN</td>
-    <td th:text="${book.giftWrap ? '가능' : '불가'}">선물포장</td>
-  </tr>
-  </tbody>
-</table>
-</body>
+<main layout:fragment="content">
+  <body>
+  <h1>📚 도서 관리 페이지</h1>
+  <table>
+    <thead>
+    <tr>
+      <th>이미지</th>
+      <th>제목</th>
+      <th>저자</th>
+      <th>출판사</th>
+      <th>출판일</th>
+      <th>정가</th>
+      <th>판매가</th>
+      <th>ISBN</th>
+      <th>선물포장</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+      <td><img th:src="${book.imgUrl}" alt="도서 이미지"/></td>
+      <td th:text="${book.title}">도서 제목</td>
+      <td th:text="${book.author}">저자</td>
+      <td th:text="${book.publisher}">출판사</td>
+      <td th:text="${book.publishedDate}">출판일</td>
+      <td th:text="${#numbers.formatInteger(book.regularPrice, 3, 'COMMA')} + '원'">정가</td>
+      <td th:text="${#numbers.formatInteger(book.salePrice, 3, 'COMMA')} + '원'">판매가</td>
+      <td th:text="${book.isbn}">ISBN</td>
+      <td th:text="${book.giftWrap ? '가능' : '불가'}">선물포장</td>
+    </tr>
+    </tbody>
+  </table>
+  </body>
+</main>
+
 </html>

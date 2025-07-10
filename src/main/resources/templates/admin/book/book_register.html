@@ -133,17 +133,14 @@
                     <div class="card-body">
                         <h5 class="card-title">도서 검색을 활용해 등록(제목)</h5>
 
-                        <!-- GET 방식으로 검색을 요청하는 폼으로 변경 -->
                         <form th:action="@{/admin/book/search_api}" method="get" class="input-group mb-3">
                             <input type="text" name="title" class="form-control" placeholder="도서 제목을 입력하세요" required>
                             <button class="btn btn-success" type="submit">검색</button>
                         </form>
-                        <div class="form-text">
-                            검색 결과 중 가장 정확도가 높은 도서 1권의 정보로 등록 페이지를 채웁니다.
-                        </div>
                     </div>
                 </div>
             </div>
+        </div>
     </section>
 
     <th:block layout:fragment="script">
