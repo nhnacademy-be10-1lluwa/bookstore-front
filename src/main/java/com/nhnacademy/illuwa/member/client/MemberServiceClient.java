@@ -1,5 +1,6 @@
 package com.nhnacademy.illuwa.member.client;
 
+import com.nhnacademy.illuwa.auth.dto.PaycoMemberUpdateRequest;
 import com.nhnacademy.illuwa.member.dto.MemberResponse;
 import com.nhnacademy.illuwa.member.dto.MemberUpdateRequest;
 import com.nhnacademy.illuwa.member.dto.PasswordCheckRequest;
@@ -24,4 +25,7 @@ public interface MemberServiceClient {
     @PostMapping("/api/members/check-pw")
     boolean checkPassword(@RequestBody PasswordCheckRequest request);
 
+    // 페이코 회원 초기 정보 설정
+    @PutMapping("/api/members/internal/social-members")
+    void updatePaycoMember(@RequestBody PaycoMemberUpdateRequest request);
 }
