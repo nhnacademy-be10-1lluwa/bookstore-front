@@ -2,7 +2,7 @@ package com.nhnacademy.illuwa.review.controller;
 
 import com.nhnacademy.illuwa.review.client.ReviewServiceClient;
 import com.nhnacademy.illuwa.review.dto.ReviewLikeResponse;
-import com.nhnacademy.illuwa.user.member.client.MemberServiceClient;
+import com.nhnacademy.illuwa.member.client.MemberServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

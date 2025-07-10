@@ -3,4 +3,4 @@ table { width: 100%; border-collapse: collapse; background: #fff; }
 th, td { padding: 12px; border: 1px solid #ddd; text-align: center; }
 th { background: #fafafa; }
 img { width: 60px; height: auto; object-fit: cover; }
-#total { text-aligån: right; font-size: 1.2rem; margin-top: 12px; }
+#total { text-align: right; font-size: 1.2rem; margin-top: 12px; }

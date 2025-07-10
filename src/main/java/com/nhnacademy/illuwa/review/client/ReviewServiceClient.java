@@ -1,6 +1,6 @@
 package com.nhnacademy.illuwa.review.client;
 
-import com.nhnacademy.illuwa.config.FeignMultipartSupportConfig;
+//import com.nhnacademy.illuwa.config.FeignMultipartSupportConfig;
 import com.nhnacademy.illuwa.review.dto.*;
 import jakarta.validation.Valid;
 
@@ -11,7 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
-@FeignClient(name = "product-service", url = "${api.base-url}", contextId = "review-service", configuration = FeignMultipartSupportConfig.class)
+@FeignClient(name = "product-service", url = "${api.base-url}", contextId = "review-service")
 public interface ReviewServiceClient {
     @PostMapping(value = "/books/{bookId}/reviews", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ReviewResponse createReview(@RequestPart("review") @Valid ReviewRequest request,

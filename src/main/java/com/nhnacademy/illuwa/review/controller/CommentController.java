@@ -3,7 +3,7 @@ package com.nhnacademy.illuwa.review.controller;
 import com.nhnacademy.illuwa.review.client.ReviewServiceClient;
 import com.nhnacademy.illuwa.review.dto.CommentRequest;
 import com.nhnacademy.illuwa.review.dto.CommentResponse;
-import com.nhnacademy.illuwa.user.member.client.MemberServiceClient;
+import com.nhnacademy.illuwa.member.client.MemberServiceClient;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
