@@ -249,6 +249,9 @@
                         <span class="detail-value" th:text="${book.isGiftWrap() ? '가능' : '불가능'}">포장 여부</span>
                     </div>
                 </div>
+                <div>
+                    <a th:href="@{/order/order-form/{bookId}(bookId=${book.id})}">주문하기</a>
+                </div>
             </div>
         </div>
 
