@@ -123,58 +123,6 @@
     <th:block layout:fragment="script">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
         <script th:src="@{/js/book/registerBook.js}"> </script>
-        <script>
-            let categoryTree = [];
-
-            fetch('/categories/tree')
-                .then(res => res.json())
-                .then(data => {
-                    categoryTree = data;
-                    const level1 = document.getElementById('level1');
-                    data.forEach(cat => {
-                        const option = document.createElement('option');
-                        option.value = cat.id;
-                        option.textContent = cat.categoryName;
-                        level1.appendChild(option);
-                    });
-                });
-
-            function onChangeLevel1() {
-                const level1Id = document.getElementById('level1').value;
-                const level2 = document.getElementById('level2');
-                const level3 = document.getElementById('level3');
-                level2.innerHTML = '<option value="">2차 카테고리 선택</option>';
-                level3.innerHTML = '<option value="">3차 카테고리 선택</option>';
-
-                const selected = categoryTree.find(cat => cat.id == level1Id);
-                if (selected) {
-                    selected.children.forEach(cat => {
-                        const option = document.createElement('option');
-                        option.value = cat.id;
-                        option.textContent = cat.categoryName;
-                        level2.appendChild(option);
-                    });
-                }
-            }
-
-            function onChangeLevel2() {
-                const level1Id = document.getElementById('level1').value;
-                const level2Id = document.getElementById('level2').value;
-                const level3 = document.getElementById('level3');
-                level3.innerHTML = '<option value="">3차 카테고리 선택</option>';
-
-                const selected1 = categoryTree.find(cat => cat.id == level1Id);
-                const selected2 = selected1?.children.find(cat => cat.id == level2Id);
-                if (selected2) {
-                    selected2.children.forEach(cat => {
-                        const option = document.createElement('option');
-                        option.value = cat.id;
-                        option.textContent = cat.categoryName;
-                        level3.appendChild(option);
-                    });
-                }
-            }
-        </script>
     </th:block>
 </main>
 </html>
