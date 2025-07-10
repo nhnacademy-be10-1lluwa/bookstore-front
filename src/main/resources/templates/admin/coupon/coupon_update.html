@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head layout:fragment="head">
+    <meta charset="UTF-8">
+    <title>쿠폰 수정</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <style>
+        .coupon-form-container { max-width: 500px; margin: 30px auto; padding: 32px 28px 24px 28px; background: #fff; border-radius: 18px; box-shadow: 0 6px 24px 0 rgba(30,32,37,0.08);}
+        .coupon-form-container h2 { text-align: center; margin-bottom: 24px; color: #3056d3;}
+        .form-group { margin-bottom: 18px;}
+        .form-group label { font-weight: 600; display: block; margin-bottom: 6px;}
+        .form-group input, .form-group select { width: 100%; padding: 8px 10px; font-size: 16px; border-radius: 8px; border: 1px solid #d2d6dc; transition: border-color 0.2s;}
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #3056d3;}
+        .btns { display: flex; justify-content: space-between; gap: 8px;}
+        .btn-primary { background: #3056d3; color: #fff; border: none; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.15s;}
+        .btn-primary:hover { background: #254aad; }
+        .btn-cancel { background: #f5f5f5; color: #333; border: 1px solid #ccc; padding: 10px 20px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: background 0.15s;}
+        .btn-cancel:hover { background: #e5e5e5; }
+    </style>
+</head>
+<main layout:fragment="content">
+    <section class="coupon-form-container">
+        <h2>쿠폰 수정</h2>
+        <form th:action="@{/admin/coupon/coupon/{id}/update(id=${coupon.id})}" th:object="${coupon}" method="post">
+            <div class="form-group">
+                <label for="code">정책 코드</label>
+                <input type="text" id="code" th:value="${coupon.code}" disabled>
+            </div>
+            <!-- 쿠폰 타입: 보여주기만 (submit되지 않음) -->
+            <div class="form-group">
+                <label for="couponType">쿠폰 타입</label>
+                <select id="couponType" disabled>
+                    <option value="GENERAL" th:selected="${coupon.couponType == 'GENERAL'}">일반</option>
+                    <option value="BIRTHDAY" th:selected="${coupon.couponType == 'BIRTHDAY'}">생일</option>
+                    <option value="WELCOME" th:selected="${coupon.couponType == 'WELCOME'}">웰컴</option>
+                    <option value="CATEGORY" th:selected="${coupon.couponType == 'CATEGORY'}">카테고리</option>
+                    <option value="BOOKS" th:selected="${coupon.couponType == 'BOOKS'}">도서</option>
+                </select>
+            </div>
+            <!-- 유효 시작일 -->
+            <div class="form-group">
+                <label for="validFrom">유효 시작일</label>
+                <input type="date" id="validFrom" th:field="*{validFrom}" required>
+            </div>
+            <!-- 유효 종료일 -->
+            <div class="form-group">
+                <label for="validTo">유효 종료일</label>
+                <input type="date" id="validTo" th:field="*{validTo}" required>
+            </div>
+            <!-- 쿠폰 설명 -->
+            <div class="form-group">
+                <label for="comment">쿠폰 설명</label>
+                <input type="text" id="comment" th:field="*{comment}">
+            </div>
+            <!-- 발급 수량 -->
+            <div class="form-group">
+                <label for="issueCount">발급 수량</label>
+                <input type="number" id="issueCount" th:field="*{issueCount}" required min="1">
+            </div>
+            <div class="btns">
+                <button type="submit" class="btn-primary">수정 완료</button>
+                <button type="button" class="btn-cancel" onclick="location.href='/admin/coupon/coupon'">취소</button>
+            </div>
+        </form>
+    </section>
+</main>
+</html>

@@ -12,6 +12,10 @@
     <div class="welcome-section">
       <h1 class="welcome-message">어서오세요!</h1>
       <div class="welcome-links">
+
+
+        <a th:if="${isLoggedIn}" th:href="@{/coupons}" class="button button-primary">쿠폰발급</a>
+
         <a th:unless="${isLoggedIn}" th:href="@{/login}" class="button button-primary">로그인하기</a>
 
         <a th:unless="${isLoggedIn}" th:href="@{/guest-login}" class="button button-primary">비회원 주문조회</a>

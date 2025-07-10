@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>발급 가능한 쿠폰</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}">
+    <style>
+        body { background: #f6f6f9; font-family: 'Noto Sans KR', sans-serif;}
+        .coupon-list-container { max-width: 900px; margin: 50px auto 0; padding: 36px; background: #fff; border-radius: 22px; box-shadow: 0 6px 32px 0 rgba(30,32,37,0.10);}
+        .coupon-list-title { font-size: 2rem; font-weight: 700; color: #4f3894; text-align: center; margin-bottom: 36px;}
+        .coupons { display: grid; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); gap: 28px;}
+        .coupon-card {
+            background: linear-gradient(135deg, #654ea3 0%, #eaafc8 100%);
+            color: #fff; padding: 28px 24px 20px 24px; border-radius: 18px;
+            box-shadow: 0 4px 18px rgba(79,56,148,0.12);
+            transition: transform 0.13s, box-shadow 0.13s;
+            display: flex; flex-direction: column; align-items: flex-start;
+        }
+        .coupon-card:hover { transform: translateY(-7px) scale(1.03); box-shadow: 0 10px 30px rgba(79,56,148,0.18);}
+        .coupon-name { font-size: 1.25rem; font-weight: bold; margin-bottom: 6px; }
+        .coupon-desc { font-size: 1rem; opacity: 0.90; margin-bottom: 12px;}
+        .coupon-info { font-size: 0.97rem; margin-bottom: 8px;}
+        .issue-btn {
+            background: #fff; color: #654ea3; border: none;
+            padding: 9px 22px; font-size: 1rem; border-radius: 7px;
+            font-weight: 600; margin-top: 10px;
+            box-shadow: 0 2px 10px rgba(79,56,148,0.07);
+            transition: background 0.12s, color 0.12s;
+            cursor: pointer;
+        }
+        .issue-btn:hover { background: #ece4fa; color: #342056; }
+        .no-coupon-msg { text-align: center; color: #b1b1b1; font-size: 1.15rem; margin: 60px 0 20px 0;}
+    </style>
+</head>
+<body>
+<div class="coupon-list-container">
+    <div class="coupon-list-title">발급 가능한 쿠폰</div>
+    <div th:if="${#lists.isEmpty(coupons)}" class="no-coupon-msg">
+        현재 발급 가능한 쿠폰이 없습니다
+    </div>
+    <div class="coupons" th:if="${not #lists.isEmpty(coupons)}">
+        <div th:each="coupon : ${coupons}" class="coupon-card">
+            <div class="coupon-name" th:text="${coupon.couponName}"></div>
+            <div class="coupon-desc" th:text="${coupon.comment}"></div>
+            <div class="coupon-info">
+                <span>유효기간:</span>
+                <span th:text="${coupon.validFrom}"></span> ~
+                <span th:text="${coupon.validTo}"></span>
+            </div>
+            <div class="coupon-info">
+                <span>남은수량:</span>
+                <span th:text="${coupon.issueCount}"></span>
+            </div>
+            <form th:action="@{/coupons/issue}" method="post" style="margin:0;">
+                <input type="hidden" name="couponCode" th:value="${coupon.code}" />
+                <input type="hidden" name="couponName" th:value="${coupon.couponName}" />
+                <button type="submit" class="issue-btn">즉시 발급받기</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
