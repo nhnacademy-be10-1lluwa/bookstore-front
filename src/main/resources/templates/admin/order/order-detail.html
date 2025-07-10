@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+  <link rel="stylesheet" th:href="@{/css/main.css}" />
+</head>
+<main layout:fragment="content">
+  <section class="order-summary">
+    <h1>주문 정보</h1>
+    <table class="summary-table">
+      <tbody>
+      <tr>
+        <th scope="row">주문 번호</th>
+        <td th:text="${order.orderNumber}">20250708-0001</td>
+      </tr>
+      <tr th:if="${order.memberId != null}">
+        <th scope="row">회원 번호</th>
+        <td th:text="${order.memberId}">123</td>
+      </tr>
+      <tr>
+        <th scope="row">주문 일시</th>
+        <td th:text="${#temporals.format(order.orderDate,'yyyy-MM-dd HH:mm')}">2025-07-08 14:30</td>
+      </tr>
+      <tr>
+        <th scope="row">예상 배송일</th>
+        <td th:text="${order.deliveryDate}">2025-07-10</td>
+      </tr>
+      <tr>
+        <th scope="row">주문 상태</th>
+        <td th:text="${order.orderStatus}">PENDING</td>
+      </tr>
+      <tr>
+        <th scope="row">배송비</th>
+        <td th:text="${#numbers.formatDecimal(order.shippingFee, 0, 'COMMA', 0, 'POINT')} + '원'">1000</td>
+      </tr>
+      <tr>
+        <th scope="row">총 결제금액</th>
+        <td th:text="${#numbers.formatDecimal(order.totalPrice,0,'COMMA',0,'POINT')} + '원'">15,000원</td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+  <section>
+    <form id="statusForm"
+          th:object="${order}"
+          th:action="@{'/admin/order/' + ${order.orderId} + '/status'}"
+          method = "post">
+      <input type="hidden" name="_method" value="put"/>
+
+        <select name="orderStatus" th:value="*{orderStatus}">
+          <option th:each="st : ${T(com.nhnacademy.illuwa.order.dto.types.OrderStatus).values()}"
+                  th:value="${st}"
+                  th:text="${st}"
+                  th:selected="${st} == *{orderStatus}">
+          </option>
+        </select>
+      <button type="submit">저장</button>
+    </form>
+  </section>
+  <!-- ▣ 주문 상품 목록 -->
+  <section class="order-items">
+    <h2>주문 상품</h2>
+
+    <table class="item-table">
+      <thead>
+      <tr>
+        <th scope="col">상품명</th>
+        <th scope="col">수량</th>
+        <th scope="col">단가</th>
+        <th scope="col">포장 옵션</th>
+        <th scope="col">포장지 단가</th>
+        <th scope="col">합계</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="item : ${order.items}">
+        <td th:text="${item.title}">책 제목</td>
+        <td th:text="${item.quantity}">2</td>
+        <td th:text="${#numbers.formatDecimal(item.getPrice(),0,'COMMA',0,'POINT')} + '원'">10,000원</td>
+        <td th:text="${item.packaging.packagingName}">일반포장</td>
+        <td th:text="${#numbers.formatDecimal(item.packaging.getPackagingPrice(), 0, 'COMMA', 0, 'POINT')} + '원'">2,000원</td>
+        <td th:text="${#numbers.formatDecimal(item.getTotalPrice(),0,'COMMA',0,'POINT')} + '원'">20,000원</td>
+      </tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+</html>
