@@ -12,28 +12,28 @@ import java.util.List;
 @FeignClient(name = "user-service", url = "${api.base-url}", contextId = "userClientForAddress")
 public interface MemberAddressServiceClient {
 
-    @GetMapping("/members/addresses")
+    @GetMapping("/api/members/addresses")
     List<MemberAddressResponse> getAddressList();
 
-    @GetMapping("/members/addresses/count")
+    @GetMapping("/api/members/addresses/count")
     int getAddressCount();
 
-    @GetMapping("/members/addresses/paged")
+    @GetMapping("/api/members/addresses/paged")
     PageResponse<MemberAddressResponse> getPagedAddressList(@RequestParam("page") int page, @RequestParam("size") int size);
 
-    @GetMapping("/members/addresses/{addressId}")
+    @GetMapping("/api/members/addresses/{addressId}")
     MemberAddressResponse getAddress(@PathVariable long addressId);
 
-    @PostMapping("/members/addresses")
+    @PostMapping("/api/members/addresses")
     MemberAddressResponse createAddress(@RequestBody MemberAddressRequest addressRequest);
 
-    @PostMapping("/members/addresses/{addressId}")
+    @PostMapping("/api/members/addresses/{addressId}")
     MemberAddressResponse updateAddress(@Valid @RequestBody MemberAddressRequest addressRequest, @PathVariable long addressId);
 
-    @DeleteMapping("/members/addresses/{addressId}")
+    @DeleteMapping("/api/members/addresses/{addressId}")
     void deleteAddress(@PathVariable long addressId);
 
-    @PostMapping("/members/addresses/set-default/{addressId}")
+    @PostMapping("/api/members/addresses/set-default/{addressId}")
     void setDefaultAddress(@PathVariable long addressId);
 
 }
