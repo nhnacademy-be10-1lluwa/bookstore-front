@@ -25,7 +25,7 @@
     </div>
     <h2>베스트셀러</h2>
     <div class="book-list">
-      <div class="book-item" th:each="book : ${bestSeller}">
+      <div class="book-item" th:each="book : ${bestSeller}" th:data-id="${book.isbn}" style="cursor: pointer;">
         <img th:src="${book.cover}" alt="도서 이미지" style="width: 150px; height: 220px; object-fit: cover; margin-bottom: 10px;" />
         <h3 th:text="${book.title}">예제 도서 제목</h3>
         <p th:text="|저자: ${book.author}|">저자: 홍길동</p>
@@ -44,6 +44,16 @@
       button.addEventListener('click', function() {
         const title = this.dataset.title;
         const author = this.dataset.author;
+      });
+    });
+
+    // 도서 상세페이지 (인기 도서)
+    document.querySelectorAll('.book-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const bookIsbn = item.getAttribute('data-id');
+        if (bookIsbn) {
+          window.location.href = `/user/books/${bookIsbn}`;
+        }
       });
     });
   </script>
