@@ -6,46 +6,51 @@
 
 <head layout:fragment="head" title="포인트 히스토리">
   <link rel="stylesheet" th:href="@{/css/main.css}" />
-  <link rel="stylesheet" th:href="@{/css/page/_address-list.css}" />
+  <link rel="stylesheet" th:href="@{/css/page/_point_history.css}" />
   <link rel="stylesheet" th:href="@{/css/component/_pagination.css}" />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
+
 <body>
 <main layout:fragment="content">
   <section class="main-content">
-      <h1>📊 나의 포인트 히스토리</h1>
-      <div th:text="'내 포인트 ' + ${currentPoint} + ' P'"></div>
-      <!-- 탭 버튼 -->
-      <div class="point-tabs">
-        <button class="point-tab active" onclick="filterType('ALL')">전체</button>
-        <button class="point-tab" onclick="filterType('EARN')">적립</button>
-        <button class="point-tab" onclick="filterType('USE')">차감</button>
-      </div>
 
-      <!-- 포인트 히스토리 테이블 -->
-      <table id="pointHistoryTable">
-        <thead>
-        <tr>
-          <th>일시</th>
-          <th>유형</th>
-          <th>사유</th>
-          <th>금액</th>
-          <th>잔액</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="history : ${pointHistoryList}"
-            th:classappend="${history.type.name()} == 'EARN' ? '적립' : '차감'"
-            th:data-type="${history.type.name()}">
-          <td th:text="${#temporals.format(history.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
-          <td th:text="${history.type}"></td>
-          <td th:text="${history.reason}"></td>
-          <td th:text="${history.amount} + ' P'">
-          <td th:text="${history.balance} + ' P'"></td>
-        </tr>
-        </tbody>
-      </table>
+    <div class="point-header">
+      <h1>📊 포인트 히스토리</h1>
+      <div class="current-point"
+           th:text="${'<' + #numbers.formatDecimal(currentPoint, 1, 'COMMA', 0, 'POINT').replaceFirst('\\.00$', '') + ' P>'}"></div>
+    </div>
+    <!-- 탭 버튼 -->
+    <div class="point-tabs">
+      <button class="point-tab active" onclick="filterType('ALL')">전체</button>
+      <button class="point-tab" onclick="filterType('EARN')">적립</button>
+      <button class="point-tab" onclick="filterType('USE')">차감</button>
+    </div>
+
+    <!-- 포인트 히스토리 테이블 -->
+    <table id="pointHistoryTable">
+      <thead>
+      <tr>
+        <th>일시</th>
+        <th>유형</th>
+        <th>사유</th>
+        <th>금액</th>
+        <th>잔액</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="history : ${pointHistoryList}"
+          th:classappend="${history.type.name()} == 'EARN' ? '적립' : '차감'"
+          th:data-type="${history.type.name()}">
+        <td th:text="${#temporals.format(history.createdAt, 'yyyy-MM-dd HH:mm')}"></td>
+        <td th:text="${history.type}"></td>
+        <td th:text="${history.reason}"></td>
+        <td th:text="${#numbers.formatDecimal(history.amount, 1, 'COMMA', 0, 'POINT').replaceFirst('\\.00$', '') + ' P'}"></td>
+        <td th:text="${#numbers.formatDecimal(history.balance, 1, 'COMMA', 0, 'POINT').replaceFirst('\\.00$', '') + ' P'}"></td>
+      </tr>
+      </tbody>
+    </table>
   </section>
 
   <script>
@@ -58,11 +63,7 @@
       const rows = document.querySelectorAll("#pointHistoryTable tbody tr");
       rows.forEach(row => {
         const rowType = row.getAttribute("data-type");
-        if (type === "ALL" || rowType === type) {
-          row.style.display = "";
-        } else {
-          row.style.display = "none";
-        }
+        row.style.display = (type === "ALL" || rowType === type) ? "" : "none";
       });
     }
   </script>
