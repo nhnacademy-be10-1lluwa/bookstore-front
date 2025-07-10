@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,7 +18,7 @@ public class MemberCouponResponse {
     private Long couponId;
     private String couponCode;
     private boolean used;
-    private LocalDateTime usedAt;
-    private LocalDateTime issuedAt;
-    private LocalDateTime expiresAt;
+    private LocalDate usedAt;
+    private LocalDate issuedAt;
+    private LocalDate expiresAt;
 }
