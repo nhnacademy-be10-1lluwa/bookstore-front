@@ -53,7 +53,7 @@ public class AdminBookController {
         List<CategoryResponse> categoryTree = productServiceClient.getCategoryTree();
 
         model.addAttribute("book", response);
-        model.addAttribute("categories", categoryTree);
+        model.addAttribute("categoryTree", categoryTree);
 
         return "admin/book/book_register_api";
     }
