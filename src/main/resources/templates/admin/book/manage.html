@@ -1,123 +1,61 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout/layout}"
-      xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
-<head layout:fragment="head">
-  <link rel="stylesheet" th:href="@{/css/main.css}" />
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>도서 관리 페이지</title>
   <style>
-    .book-card {
-      display: flex;
-      gap: 1rem;
-      margin-bottom: 1rem;
-      border: 1px solid #ccc;
-      padding: 1rem;
-      border-radius: 8px;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
     }
 
-    .book-card img {
-      width: 120px;
+    th, td {
+      border: 1px solid #ddd;
+      padding: 0.8rem;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    img {
+      max-width: 80px;
       height: auto;
-    }
-
-    .book-info h2 {
-      margin: 0;
-      font-size: 1.2rem;
-    }
-
-    .book-price {
-      color: green;
-      font-weight: bold;
     }
   </style>
 </head>
+<body>
+<h1>📚 도서 관리 페이지</h1>
 
-<main layout:fragment="content">
-  <section class="main-content">
-    <h2>도서 목록 (관리자용)</h2>
-
-    <form id="search-form" class="search-form">
-      <input type="text" id="search-input" placeholder="도서 제목 또는 저자를 입력하세요" required />
-      <button type="submit">검색</button>
-    </form>
-
-    <div id="book-list"></div>
-  </section>
-
-  <script>
-    const resultsContainer = document.getElementById('book-list');
-    const searchForm = document.getElementById('search-form');
-    const searchInput = document.getElementById('search-input');
-
-    function displayResults(books) {
-      resultsContainer.innerHTML = '';
-
-      if (books.length === 0) {
-        resultsContainer.innerHTML = '<p>등록된 도서가 없습니다.</p>';
-        return;
-      }
-
-      books.forEach(book => {
-        const price = book.salePrice
-                ? book.salePrice.toLocaleString() + '원'
-                : '가격 정보 없음';
-
-        resultsContainer.innerHTML += `
-          <div class="book-card" data-id="${book.isbn}">
-            <img src="${book.imgUrl}" alt="${book.title} 표지"
-                 onerror="this.onerror=null;this.src='https://via.placeholder.com/240x336?text=No+Image';">
-            <div class="book-info">
-              <h2>${book.title}</h2>
-              <p><strong>저자:</strong> ${book.author}</p>
-              <p><strong>출판사:</strong> ${book.publisher}</p>
-              <p class="book-price">${price}</p>
-            </div>
-          </div>`;
-      });
-    }
-
-    // 초기 전체 도서 불러오기
-    fetch('/books', { headers: { 'Accept': 'application/json' } })
-            .then(res => res.json())
-            .then(data => displayResults(data))
-            .catch(err => {
-              resultsContainer.innerHTML = '<p>도서 목록을 불러오지 못했습니다.</p>';
-              console.error(err);
-            });
-
-    // 검색 시 처리
-    searchForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const keyword = searchInput.value.trim();
-      if (!keyword) return;
-
-      fetch(`/books/search?keyword=${encodeURIComponent(keyword)}`, {
-        headers: { 'Accept': 'application/json' }
-      })
-              .then(res => res.json())
-              .then(data => displayResults(data))
-              .catch(err => {
-                resultsContainer.innerHTML = '<p>검색 결과를 불러오지 못했습니다.</p>';
-                console.error(err);
-              });
-    });
-
-
-    resultsContainer.addEventListener('click', (event) => {
-      const card = event.target.closest('.book-card');
-
-      if (!card) {
-        return;
-      }
-
-      const bookIsbn = card.dataset.id;
-      console.log("클릭된 도서 ID:", bookIsbn);
-
-      if (bookIsbn) {
-        window.location.href = `/user/books/${bookIsbn}`;
-      }
-    });
-  </script>
-</main>
-
+<table>
+  <thead>
+  <tr>
+    <th>이미지</th>
+    <th>제목</th>
+    <th>저자</th>
+    <th>출판사</th>
+    <th>출판일</th>
+    <th>정가</th>
+    <th>판매가</th>
+    <th>ISBN</th>
+    <th>선물포장</th>
+  </tr>
+  </thead>
+  <tbody>
+  <tr th:each="book : ${books}">
+    <td><img th:src="${book.imgUrl}" alt="도서 이미지"/></td>
+    <td th:text="${book.title}">도서 제목</td>
+    <td th:text="${book.author}">저자</td>
+    <td th:text="${book.publisher}">출판사</td>
+    <td th:text="${book.publishedDate}">출판일</td>
+    <td th:text="${#numbers.formatInteger(book.regularPrice, 3, 'COMMA')} + '원'">정가</td>
+    <td th:text="${#numbers.formatInteger(book.salePrice, 3, 'COMMA')} + '원'">판매가</td>
+    <td th:text="${book.isbn}">ISBN</td>
+    <td th:text="${book.giftWrap ? '가능' : '불가'}">선물포장</td>
+  </tr>
+  </tbody>
+</table>
+</body>
 </html>
