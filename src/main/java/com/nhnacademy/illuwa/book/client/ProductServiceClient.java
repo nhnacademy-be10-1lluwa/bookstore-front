@@ -48,4 +48,10 @@ public interface ProductServiceClient {
 
     @GetMapping("/books/isbn/{isbn}")
     BookDetailResponse findBookByIsbn(@PathVariable String isbn);
+
+
+    @GetMapping("/categories/tree")
+    public List<CategoryResponse> getCategoryTree();
+
+
 }
