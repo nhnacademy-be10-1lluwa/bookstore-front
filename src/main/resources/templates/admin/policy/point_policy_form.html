@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head layout:fragment="head">
+  <title>포인트 정책 상세</title>
+  <meta charset="UTF-8" />
+  <link rel="stylesheet" th:href="@{/css/main.css}" />
+  <link rel="stylesheet" th:href="@{/css/policy/_policy_form.css}" />
+</head>
+<body>
+<main layout:fragment="content">
+  <section class="main-content policy-form-container" style="max-width: 700px; margin: 0 auto;">
+    <h1 th:text="${mode == 'new' ? '📝 포인트 정책 등록' :
+                      (mode == 'edit' ? '🔧 포인트 정책 수정' : '🔍 포인트 정책 상세')}"></h1>
+
+    <form th:action="${mode == 'new' ? '/admin/policy/point/create' :
+                         '/admin/policy/point/' + policyKey + '/update'}"
+          th:method="post" th:object="${request}">
+
+      <!-- 등록 모드일 때만 policyKey 입력 -->
+      <div th:if="${mode == 'new'}" class="form-group" style="margin-bottom: 15px;">
+        <label for="policyKeyInput">정책 코드 (policyKey) <span style="color:red;">*</span></label>
+        <input type="text" id="policyKeyInput" name="policyKey" th:field="*{policyKey}"
+               class="form-control" placeholder="정책코드 입력" required />
+      </div>
+
+      <!-- 수정/상세 모드일 때만 readonly 표시 -->
+      <div th:if="${mode != 'new'}" class="form-group" style="margin-bottom: 15px;">
+        <label>정책 코드 (policyKey)</label>
+        <input type="text" th:value="${policyKey}" readonly class="form-control"
+               style="background-color: #f3f4f6; font-weight: bold; color: #334155;" />
+      </div>
+
+      <div class="form-group" th:if="${mode == 'edit'}">
+        <label for="statusSwitch">상태</label>
+        <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
+          <label class="toggle-switch">
+            <input type="checkbox" id="statusSwitch" name="active"
+                   th:checked="${request.status.name() == 'ACTIVE'}" th:disabled="${mode == 'view'}"/>
+            <span class="slider round"></span>
+          </label>
+          <span th:text="${request.status.name() == 'ACTIVE' ? '활성화됨' : '비활성화됨'}" class="status-text"></span>
+        </div>
+      </div>
+
+      <!-- 적립 값 -->
+      <div class="form-group" style="margin-bottom: 15px;">
+        <label>적립 값 <span th:if="${mode != 'view'}" style="color:red;">*</span></label>
+
+        <!-- 읽기 전용: 보기 모드 -->
+        <div th:if="${mode == 'view'}" class="form-control" style="background-color: #f3f4f6;">
+          <span th:text="${request.valueType.name() == 'RATE'
+              ? request.value.multiply(100).stripTrailingZeros().toPlainString() + '%'
+              : #numbers.formatDecimal(request.value, 0, 'COMMA', 2, 'POINT')}"></span>
+        </div>
+
+        <input type="number" step="0.01" th:if="${mode != 'view'}"
+               th:field="*{value}" class="form-control"
+               id="valueInput"
+               th:placeholder="${request.valueType?.name() == 'RATE' ? '예: 0.5 (0.5%)' : '예: 5000 (5,000P)'}"
+               required />
+      </div>
+
+      <div class="form-group" style="margin-bottom: 15px;">
+        <label>적립 유형 <span style="color:red;">*</span></label>
+        <select th:field="*{valueType}" class="form-control"
+                th:disabled="${mode == 'view'}"
+                id="valueTypeSelect" required>
+          <option th:value="AMOUNT">금액</option>
+          <option th:value="RATE">비율</option>
+        </select>
+      </div>
+
+      <!-- 설명 -->
+      <div class="form-group" style="margin-bottom: 15px;">
+        <label>설명</label>
+
+        <th:block th:if="${mode == 'view'}">
+          <textarea th:field="*{description}" class="form-control"
+                    readonly rows="4" style="resize: none;"></textarea>
+        </th:block>
+
+        <th:block th:unless="${mode == 'view'}">
+          <textarea th:field="*{description}" class="form-control"
+                    rows="4" style="resize: none;"></textarea>
+        </th:block>
+      </div>
+
+      <div class="form-buttons" style="display: flex; gap: 10px;">
+        <button type="submit" th:if="${mode != 'view'}" class="btn-register">
+          <span th:text="${mode == 'new' ? '등록하기' : '수정하기'}">저장</span>
+        </button>
+        <a href="/admin/policy/point" class="btn-delete" style="text-decoration: none; padding: 10px 20px;">
+          목록으로
+        </a>
+      </div>
+    </form>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        // 상태 토글
+        const toggle = document.getElementById('statusSwitch');
+        const statusText = document.querySelector('.status-text');
+
+        if (toggle && statusText) {
+          function updateStatusText() {
+            statusText.textContent = toggle.checked ? '활성화됨' : '비활성화됨';
+          }
+
+          updateStatusText();
+          toggle.addEventListener('change', updateStatusText);
+        }
+
+        // Placeholder 동적 변경
+        const valueTypeSelect = document.getElementById('valueTypeSelect');
+        const valueInput = document.getElementById('valueInput');
+
+        if (valueTypeSelect && valueInput) {
+          function updatePlaceholder() {
+            const selected = valueTypeSelect.value;
+            valueInput.placeholder = selected === 'RATE'
+                    ? '예: 0.5 (0.5%)'
+                    : '예: 5000 (5,000P)';
+          }
+
+          updatePlaceholder();
+          valueTypeSelect.addEventListener('change', updatePlaceholder);
+        }
+      });
+    </script>
+  </section>
+</main>
+</body>
+</html>

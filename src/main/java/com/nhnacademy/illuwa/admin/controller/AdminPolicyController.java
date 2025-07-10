@@ -1,6 +1,5 @@
 package com.nhnacademy.illuwa.admin.controller;
 
-import com.nhnacademy.illuwa.coupon.client.CouponServiceClient;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyFrom;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyResponse;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyUpdateRequest;
@@ -73,10 +72,5 @@ public class AdminPolicyController {
     public String deletePolicy(@PathVariable String code) {
         couponService.deleteCouponPolicy(code); // status INACTIVE로 변경
         return "redirect:/admin/policy/coupon";
-    }
-
-    @GetMapping("/admin/policy/point")
-    public String point() {
-        return "admin/policy/point";
     }
 }
