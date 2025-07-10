@@ -12,46 +12,63 @@ import java.util.List;
 
 @FeignClient(name = "product-service", url = "${api.base-url}", contextId = "bookClient", configuration = FeignClientConfig.class)
 public interface ProductServiceClient {
+
+    // GET 도서ID로 도서검색
     @GetMapping("/api/books/{id}")
     BookDetailResponse getBookDetail(@PathVariable String id);
 
-    @GetMapping("/api/books/search")
-    List<SearchBookResponse> findBooks();
 
+    //인기 도서 목록 불러오기
     @GetMapping("/api/books/bestseller")
     List<BestSellerResponse> getBestSeller();
 
+    //GET DB에 저장된 도서 목록
     @GetMapping("/api/books")
     List<BookDetailResponse> getRegisteredBook();
 
     // 알라딘 API를 통해 도서 검색
     @GetMapping("/api/admin/books/external")
-    ResponseEntity<List<Object>> searchAladinBooks(@RequestParam("title") String title);
+    List<BookExternalResponse> searchAladinBooksByTitle(@RequestParam("title") String title);
 
-    // 알라딘 검색을 통해 도서 등록
-    @PostMapping("/api/admin/books/register/aladin")
-    ResponseEntity<Void> registerBookFromAladin(@RequestBody Object aladinBookCreateRequest);
+    //POST 알라딘 API를 활용해 도서 직접 등록
+    @PostMapping(value = "/api/admin/books/register/aladin")
+    ResponseEntity<Void> registerBookByApi(BookApiRegisterRequest bookApiRegisterRequest);
 
 
-    //도서 직접 등록
+    //POST 도서 직접 등록
     @PostMapping(value = "/api/admin/books/register/manual", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<Void> registerBookManual(
             @RequestPart("request") BookRegisterRequest bookRegisterRequest,
             @RequestPart("imageFile") MultipartFile imageFile
     );
 
-    @GetMapping("/api/books")
-    List<BookDetailResponse> getAllBook();
-
-    @PostMapping("/api/admin/books/register/api")
-    void registerBookByAladin(@RequestBody FinalAladinBookRegisterRequest bookRegisterRequest);
-
+    //GET 도서 ISBN
     @GetMapping("/api/books/isbn/{isbn}")
     BookDetailResponse findBookByIsbn(@PathVariable String isbn);
 
+    //GET 도서 ISBN
+    @GetMapping("/api/books/external/isbn/{isbn}")
+    BookExternalResponse findBookByApi(@PathVariable String isbn);
 
-    @GetMapping("/categories/tree")
+
+    //GET 카테고리
+    @GetMapping("/api/categories/tree")
     public List<CategoryResponse> getCategoryTree();
+
+//    @PostMapping("/api/admin/books/register/api")
+//    void registerBookByAladin(@RequestBody FinalAladinBookRegisterRequest bookRegisterRequest);
+
+
+    // 알라딘 검색을 통해 도서 등록
+//    @PostMapping("/api/admin/books/register/aladin")
+//    ResponseEntity<Void> registerBookFromAladin(@RequestBody Object aladinBookCreateRequest);
+
+
+//    GET DB에 저장된 도서 목록
+    @GetMapping("/api/books/search")
+    List<SearchBookResponse> findBooks();
+
+
 
 
 }
