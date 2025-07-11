@@ -4,27 +4,7 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title>Category Management</title>
-    <style>
-        .category-tree ul {
-            padding-left: 20px;
-            list-style-type: none;
-        }
-
-        .category-item {
-            display: flex;
-            align-items: center;
-            padding: 4px 0;
-        }
-
-        .category-item form {
-            margin-left: 12px;
-        }
-
-        .category-tree-container {
-            max-height: 500px;
-            overflow-y: auto;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/page/category/category_manage.css}" />
 </head>
 <body>
 <main layout:fragment="content">
