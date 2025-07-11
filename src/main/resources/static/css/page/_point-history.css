@@ -1,4 +1,4 @@
-/* _point_history.css */
+/* _point-history.css */
 
 .main-content {
     max-width: 960px;
@@ -87,4 +87,37 @@ tr.적립 td {
 tr.차감 td {
     color: #c62828; /* 빨강 */
     font-weight: 600;
+}
+
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0;
+    gap: 0.5rem;
+}
+
+.page-link {
+    padding: 0.6rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background: #fff;
+    color: #333;
+    text-decoration: none;
+    transition: all 0.2s;
+}
+
+.page-link:hover {
+    background: #f0f0f0;
+}
+
+.page-link.active {
+    background: #4e73df;
+    color: white;
+    font-weight: bold;
+    pointer-events: none;
+}
+
+.page-link.disabled {
+    color: #ccc;
+    pointer-events: none;
 }
