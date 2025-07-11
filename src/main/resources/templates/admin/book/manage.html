@@ -45,9 +45,9 @@
       <td th:text="${book.status}">상태</td>
       <td th:text="${book.giftwrap ? '가능' : '불가'}">선물포장</td>
       <td>
-        <span th:if="${book.level1 != null}" th:text="'(1): ' + ${book.level1}"></span><br/>
-        <span th:if="${book.level2 != null}" th:text="'(2): ' + ${book.level2}"></span><br/>
-        <span th:if="${book.categoryId != null}" th:text="'(3): ' + ${book.categoryId}"></span>
+        <span th:if="${book.level1 != null}" th:text="'Lv1: ' + ${book.level1}"></span><br/>
+        <span th:if="${book.level2 != null}" th:text="'Lv2: ' + ${book.level2}"></span><br/>
+        <span th:if="${book.categoryId != null}" th:text="'Lv3: ' + ${book.categoryId}"></span>
       </td>
       <td class="action-buttons">
         <a th:href="@{'/admin/book/edit/' + ${book.id}}">
