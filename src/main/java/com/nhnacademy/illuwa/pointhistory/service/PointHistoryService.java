@@ -18,10 +18,6 @@ public class PointHistoryService {
         return pointHistoryServiceClient.getMemberPoint();
     }
 
-    public List<PointHistoryResponse> getMemberPointHistoryList(){
-        return pointHistoryServiceClient.getMemberPointHistoryList();
-    }
-
     public PageResponse<PointHistoryResponse> getPagedMemberPointHistoryList(String type, int page, int size) {
         return pointHistoryServiceClient.getPagedMemberPointHistoryList(type, page, size);
     }

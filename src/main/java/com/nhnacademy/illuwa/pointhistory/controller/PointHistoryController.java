@@ -1,6 +1,5 @@
 package com.nhnacademy.illuwa.pointhistory.controller;
 
-import com.nhnacademy.illuwa.memberaddress.dto.MemberAddressResponse;
 import com.nhnacademy.illuwa.memberaddress.dto.PageResponse;
 import com.nhnacademy.illuwa.pointhistory.dto.PointHistoryResponse;
 import com.nhnacademy.illuwa.pointhistory.service.PointHistoryService;
