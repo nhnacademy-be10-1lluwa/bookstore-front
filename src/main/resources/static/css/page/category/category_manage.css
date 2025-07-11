@@ -1,0 +1,19 @@
+.category-tree ul {
+    padding-left: 20px;
+    list-style-type: none;
+}
+
+.category-item {
+    display: flex;
+    align-items: center;
+    padding: 4px 0;
+}
+
+.category-item form {
+    margin-left: 12px;
+}
+
+.category-tree-container {
+    max-height: 500px;
+    overflow-y: auto;
+}

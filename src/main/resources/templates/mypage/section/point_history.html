@@ -52,21 +52,9 @@
       </tbody>
     </table>
   </section>
-
-  <script>
-    function filterType(type) {
-      document.querySelectorAll(".point-tab").forEach(btn => btn.classList.remove("active"));
-      const activeBtn = Array.from(document.querySelectorAll(".point-tab"))
-              .find(btn => btn.textContent.includes(type === 'ALL' ? '전체' : (type === 'EARN' ? '적립' : '차감')));
-      activeBtn?.classList.add("active");
-
-      const rows = document.querySelectorAll("#pointHistoryTable tbody tr");
-      rows.forEach(row => {
-        const rowType = row.getAttribute("data-type");
-        row.style.display = (type === "ALL" || rowType === type) ? "" : "none";
-      });
-    }
-  </script>
 </main>
+<th:block layout:fragment="scripts">
+  <script th:src="@{/js/mypage/mypage.js}"></script>
+</th:block>
 </body>
 </html>

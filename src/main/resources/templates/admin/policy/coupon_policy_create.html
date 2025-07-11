@@ -7,81 +7,7 @@
     <meta charset="UTF-8">
     <title>쿠폰 정책 등록</title>
     <link rel="stylesheet" th:href="@{/css/main.css}" />
-    <style>
-        .coupon-form-container {
-            max-width: 500px;
-            margin: 30px auto;
-            padding: 32px 28px 24px 28px;
-            background: #fff;
-            border-radius: 18px;
-            box-shadow: 0 6px 24px 0 rgba(30,32,37,0.08);
-        }
-        .coupon-form-container h2 {
-            text-align: center;
-            margin-bottom: 24px;
-            color: #3056d3;
-        }
-        .form-group {
-            margin-bottom: 18px;
-        }
-        .form-group label {
-            font-weight: 600;
-            display: block;
-            margin-bottom: 6px;
-        }
-        .form-group input,
-        .form-group select {
-            width: 100%;
-            padding: 8px 10px;
-            font-size: 16px;
-            border-radius: 8px;
-            border: 1px solid #d2d6dc;
-            transition: border-color 0.2s;
-        }
-        .form-group input:focus, .form-group select:focus {
-            outline: none;
-            border-color: #3056d3;
-        }
-        .form-row {
-            display: flex;
-            gap: 12px;
-        }
-        .form-row > div {
-            flex: 1;
-        }
-        .btns {
-            display: flex;
-            justify-content: space-between;
-            gap: 8px;
-        }
-        .btn-primary {
-            background: #3056d3;
-            color: #fff;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.15s;
-        }
-        .btn-primary:hover {
-            background: #254aad;
-        }
-        .btn-cancel {
-            background: #f5f5f5;
-            color: #333;
-            border: 1px solid #ccc;
-            padding: 10px 20px;
-            border-radius: 8px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.15s;
-        }
-        .btn-cancel:hover {
-            background: #e5e5e5;
-        }
-        .hide { display: none; }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/page/policy/coupon_policy.css}" />
 </head>
 <main layout:fragment="content">
     <section class="coupon-form-container">
@@ -123,24 +49,10 @@
             </div>
         </form>
     </section>
-    <script>
-        // 할인타입에 따라 입력창 표시/숨김 토글
-        function toggleDiscountInputs() {
-            var type = document.getElementById('discountType').value;
-            var amountGroup = document.getElementById('discountAmountGroup');
-            var percentGroup = document.getElementById('discountPercentGroup');
-            if (type === 'AMOUNT') {
-                amountGroup.classList.remove('hide');
-                percentGroup.classList.add('hide');
-            } else if (type === 'PERCENT') {
-                percentGroup.classList.remove('hide');
-                amountGroup.classList.add('hide');
-            } else {
-                amountGroup.classList.add('hide');
-                percentGroup.classList.add('hide');
-            }
-        }
-        window.onload = toggleDiscountInputs;
-    </script>
 </main>
+<body>
+<th:block layout:fragment="scripts">
+    <script th:src="@{/js/policy/coupon_policy.js}"></script>
+</th:block>
+</body>
 </html>

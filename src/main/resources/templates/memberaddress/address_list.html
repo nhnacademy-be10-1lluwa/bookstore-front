@@ -6,7 +6,7 @@
 
 <head layout:fragment="head" title="주소록">
     <link rel="stylesheet" th:href="@{/css/main.css}" />
-    <link rel="stylesheet" th:href="@{/css/page/_address-list.css}" />
+    <link rel="stylesheet" th:href="@{/css/page/address/_address-list.css}" />
     <link rel="stylesheet" th:href="@{/css/component/_pagination.css}" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -106,25 +106,9 @@
         </div>
 
     </section>
-
-    <script th:inline="javascript">
-        let addressCount = /*[[${addressCount}]]*/ 0;
-    </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const newAddressBtn = document.getElementById("newAddressBtn");
-            newAddressBtn.addEventListener("click", function (e) {
-                if (addressCount >= 10) {
-                    e.preventDefault();
-                    alert("주소는 최대 10개까지 등록 가능합니다! 😯");
-                    return;
-                }
-
-                window.location.href = "/addresses/new";
-            });
-        });
-    </script>
 </main>
+<th:block layout:fragment="scripts">
+    <script th:src="@{/js/address/address.js}"></script>
+</th:block>
 </body>
 </html>
