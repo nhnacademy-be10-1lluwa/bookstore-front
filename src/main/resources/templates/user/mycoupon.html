@@ -27,8 +27,8 @@
                         <tbody>
                         <tr th:each="coupon : ${availableCoupons}">
                             <td th:text="${coupon.couponName}"></td>
-                            <td th:text="${#temporals.format(coupon.issuedAt, 'yyyy-MM-dd HH:mm')}"></td>
-                            <td th:text="${#temporals.format(coupon.expiresAt, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td th:text="${#temporals.format(coupon.issuedAt, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${#temporals.format(coupon.expiresAt, 'yyyy-MM-dd')}"></td>
                             <td>미사용</td>
                         </tr>
                         </tbody>
@@ -56,8 +56,8 @@
                         <tbody>
                         <tr th:each="coupon : ${usedCoupons}">
                             <td th:text="${coupon.couponName}"></td>
-                            <td th:text="${#temporals.format(coupon.issuedAt, 'yyyy-MM-dd HH:mm')}"></td>
-                            <td th:text="${#temporals.format(coupon.usedAt, 'yyyy-MM-dd HH:mm')}"></td>
+                            <td th:text="${#temporals.format(coupon.issuedAt, 'yyyy-MM-dd')}"></td>
+                            <td th:text="${#temporals.format(coupon.usedAt, 'yyyy-MM-dd')}"></td>
                             <td>사용 완료</td>
                         </tr>
                         </tbody>
