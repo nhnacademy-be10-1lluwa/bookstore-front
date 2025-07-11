@@ -6,7 +6,6 @@
 <head layout:fragment="head">
     <meta charset="UTF-8" />
     <link rel="stylesheet" th:href="@{/css/main.css}" />
-    <script th:src="@{/js/review/review-form.js}"></script>
     <title>리뷰 작성</title>
 </head>
 
@@ -61,6 +60,7 @@
 
         <!-- 리뷰 수정 form -->
         <form th:if="${isEdit}"
+              id="reviewUpdateForm"
               th:action="@{'/books/' + ${bookId} + '/reviews/' + ${reviewId}}"
               method="post"
               enctype="multipart/form-data">
@@ -81,11 +81,12 @@
                 </label>
             </div>
 
-            <div>
-                <label>기존 이미지<br /></label>
-                <div th:each="url : ${reviewData.reviewImageUrls}">
+            <div th:each="url : ${reviewData.reviewImageUrls}">
+                <div>
                     <img th:src="${url}" alt="기존 이미지" width="100" />
-                    <input type="hidden" name="keepImageUrls" th:value="${url}" />
+                    <label>
+                        <input type="checkbox" name="deleteImageUrls" th:value="${url}" /> 삭제
+                    </label>
                 </div>
             </div>
 
