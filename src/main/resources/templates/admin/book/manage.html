@@ -2,7 +2,6 @@
 <html layout:decorate="~{layout/layout}"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
 <head layout:fragment="head">
   <meta charset="UTF-8">
   <title>도서 관리 페이지</title>
@@ -11,8 +10,7 @@
 </head>
 
 <main layout:fragment="content">
-  <body>
-  <h1>📚 도서 관리 페이지</h1>
+  <h1>도서 관리 페이지</h1>
   <table>
     <thead>
     <tr>
@@ -24,13 +22,18 @@
       <th>정가</th>
       <th>판매가</th>
       <th>ISBN</th>
+      <th>재고수량</th>
+      <th>상태</th>
       <th>선물포장</th>
+      <th>카테고리</th>
       <th>관리</th>
     </tr>
     </thead>
     <tbody>
     <tr th:each="book : ${books}">
-      <td><img th:src="${book.imgUrl}" alt="도서 이미지"/></td>
+      <td>
+        <img th:src="${book.imgUrl}" alt="도서 이미지" style="max-width:100px;" />
+      </td>
       <td th:text="${book.title}">도서 제목</td>
       <td th:text="${book.author}">저자</td>
       <td th:text="${book.publisher}">출판사</td>
@@ -38,19 +41,24 @@
       <td th:text="${#numbers.formatInteger(book.regularPrice, 3, 'COMMA')} + '원'">정가</td>
       <td th:text="${#numbers.formatInteger(book.salePrice, 3, 'COMMA')} + '원'">판매가</td>
       <td th:text="${book.isbn}">ISBN</td>
-      <td th:text="${book.giftWrap ? '가능' : '불가'}">선물포장</td>
+      <td th:text="${book.count}">수량</td>
+      <td th:text="${book.status}">상태</td>
+      <td th:text="${book.giftwrap ? '가능' : '불가'}">선물포장</td>
+      <td>
+        <span th:if="${book.level1 != null}" th:text="'(1): ' + ${book.level1}"></span><br/>
+        <span th:if="${book.level2 != null}" th:text="'(2): ' + ${book.level2}"></span><br/>
+        <span th:if="${book.categoryId != null}" th:text="'(3): ' + ${book.categoryId}"></span>
+      </td>
       <td class="action-buttons">
         <a th:href="@{'/admin/book/edit/' + ${book.id}}">
           <button class="edit-btn">수정</button>
         </a>
-        <form th:action="@{'/admin/book/delete/' + ${book.id}}" method="post" th:object="${book}" style="display:inline;">
+        <form th:action="@{'/admin/book/delete/' + ${book.id}}" method="post" style="display:inline;">
           <button class="delete-btn" type="submit">삭제</button>
         </form>
       </td>
     </tr>
     </tbody>
   </table>
-  </body>
 </main>
-
 </html>
