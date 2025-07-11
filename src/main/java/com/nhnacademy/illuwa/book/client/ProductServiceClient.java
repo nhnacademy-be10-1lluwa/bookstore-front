@@ -69,11 +69,21 @@ public interface ProductServiceClient {
     List<SearchBookResponse> findBooks();
 
 
+    // 도서 삭제
     @DeleteMapping("/api/admin/books/{id}")
     void deleteBook(@PathVariable Long id);
 
-    @PatchMapping("/api/admin/books/{id}")
-    void updateBook(@PathVariable Long id);
 
+    @GetMapping("/api/admin/books/{id}/detail")
+    BookDetailWithExtraInfoResponse getBookDetailWithExtraInfo(@PathVariable String id);
+
+
+    // 도서 수정
+    @PostMapping("/api/admin/books/{id}/update")
+    void updateBook(@PathVariable("id") Long id, @RequestBody BookUpdateRequest request);
+
+
+    @GetMapping("/api/admin/books/extra_info")
+    List<BookDetailWithExtraInfoResponse> getAllBooksWithExtraInfo();
 
 }
