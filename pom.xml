@@ -130,6 +130,12 @@
             <version>3.0.4.RELEASE</version>
         </dependency>
 
+        <!-- Actuator 설정 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
 
     </dependencies>
 
