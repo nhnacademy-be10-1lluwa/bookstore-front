@@ -98,34 +98,19 @@ public class AdminBookController {
             return "redirect:/admin/book/manage";
     }
 
-//    @PostMapping("/register")
-//    public String registerBookByAladin(
-//            @ModelAttribute FinalAladinBookRegisterRequest bookRegisterRequest) {
-//
-//            productServiceClient.registerBookByAladin(bookRegisterRequest);
-//            return "redirect:/admin/book/manage";
-//    }
-//
+    // -> 도서 삭제
+    @PostMapping("/delete/{id}")
+    public String deleteBook(@PathVariable Long id){
+        productServiceClient.deleteBook(id);
+        return "redirect:/admin/book/manage";
+    }
 
-//    @GetMapping("/book_register_api")
-//    public String registerBookFromAladin(HttpSession session, Model model){
-//
-//        AladinBookRegisterRequest book = (AladinBookRegisterRequest) session.getAttribute("book");
-//
-//        if (book != null) {
-//            model.addAttribute("book", book);
-//            session.removeAttribute("bookDraft");
-//        }
-//
-//        return "admin/book/book_register_api";
-//    }
-
-
-//    @PostMapping("/register/aladin")
-//    public ResponseEntity<Void> registerBookFromAladin(@RequestBody Object aladinBookCreateRequest, Model model) {
-//        ResponseEntity<Void> voidResponseEntity = productServiceClient.registerBookFromAladin(aladinBookCreateRequest);
-//        return productServiceClient.registerBookFromAladin(aladinBookCreateRequest);
-//    }
+    // -> 도서 수정
+    @GetMapping("/edit/{id}")
+    public String updateBook(@PathVariable Long id){
+        productServiceClient.updateBook(id);
+        return "redirect:/admin/book/manage";
+    }
 
 }
 

@@ -69,6 +69,11 @@ public interface ProductServiceClient {
     List<SearchBookResponse> findBooks();
 
 
+    @DeleteMapping("/api/admin/books/{id}")
+    void deleteBook(@PathVariable Long id);
+
+    @PatchMapping("/api/admin/books/{id}")
+    void updateBook(@PathVariable Long id);
 
 
 }
