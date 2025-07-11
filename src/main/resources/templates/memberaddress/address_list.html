@@ -106,25 +106,9 @@
         </div>
 
     </section>
-
-    <script th:inline="javascript">
-        let addressCount = /*[[${addressCount}]]*/ 0;
-    </script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const newAddressBtn = document.getElementById("newAddressBtn");
-            newAddressBtn.addEventListener("click", function (e) {
-                if (addressCount >= 10) {
-                    e.preventDefault();
-                    alert("주소는 최대 10개까지 등록 가능합니다! 😯");
-                    return;
-                }
-
-                window.location.href = "/addresses/new";
-            });
-        });
-    </script>
 </main>
+<th:block layout:fragment="scripts">
+    <script th:src="@{/js/address/address.js}"></script>
+</th:block>
 </body>
 </html>
