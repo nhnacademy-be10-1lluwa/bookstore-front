@@ -6,7 +6,7 @@
 
 <head layout:fragment="head" title="포인트 히스토리">
   <link rel="stylesheet" th:href="@{/css/main.css}" />
-  <link rel="stylesheet" th:href="@{/css/page/_point_history.css}" />
+  <link rel="stylesheet" th:href="@{/css/page/_point-history.css}" />
   <link rel="stylesheet" th:href="@{/css/component/_pagination.css}" />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -21,11 +21,12 @@
       <div class="current-point"
            th:text="${'<' + #numbers.formatDecimal(currentPoint, 1, 'COMMA', 0, 'POINT').replaceFirst('\\.00$', '') + ' P>'}"></div>
     </div>
+
     <!-- 탭 버튼 -->
     <div class="point-tabs">
-      <button class="point-tab active" onclick="filterType('ALL')">전체</button>
-      <button class="point-tab" onclick="filterType('EARN')">적립</button>
-      <button class="point-tab" onclick="filterType('USE')">차감</button>
+      <a th:href="@{/point-history(type='ALL')}" class="point-tab" th:classappend="${currentType == 'ALL'} ? 'active'">전체</a>
+      <a th:href="@{/point-history(type='EARN')}" class="point-tab" th:classappend="${currentType == 'EARN'} ? 'active'">적립</a>
+      <a th:href="@{/point-history(type='USE')}" class="point-tab" th:classappend="${currentType == 'USE'} ? 'active'">차감</a>
     </div>
 
     <!-- 포인트 히스토리 테이블 -->
@@ -51,22 +52,30 @@
       </tr>
       </tbody>
     </table>
+
+    <!-- 페이지네이션 -->
+    <div class="pagination">
+      <!-- 이전 버튼 -->
+      <a th:if="${currentPage > 0}"
+         th:href="@{/point-history(type=${currentType}, page=${currentPage - 1})}">
+        ◀ 이전
+      </a>
+
+      <!-- 페이지 번호 -->
+      <span th:each="i : ${#numbers.sequence(0, lastPageIndex)}">
+        <a th:href="@{/point-history(type=${currentType}, page=${i})}"
+           th:text="${i + 1}"
+           th:classappend="${i == currentPage} ? 'active-page' : ''">1</a>
+      </span>
+
+      <!-- 다음 버튼 -->
+      <a th:if="${currentPage < lastPageIndex}"
+         th:href="@{/point-history(type=${currentType}, page=${currentPage + 1})}">
+        다음 ▶
+      </a>
+    </div>
+
   </section>
-
-  <script>
-    function filterType(type) {
-      document.querySelectorAll(".point-tab").forEach(btn => btn.classList.remove("active"));
-      const activeBtn = Array.from(document.querySelectorAll(".point-tab"))
-              .find(btn => btn.textContent.includes(type === 'ALL' ? '전체' : (type === 'EARN' ? '적립' : '차감')));
-      activeBtn?.classList.add("active");
-
-      const rows = document.querySelectorAll("#pointHistoryTable tbody tr");
-      rows.forEach(row => {
-        const rowType = row.getAttribute("data-type");
-        row.style.display = (type === "ALL" || rowType === type) ? "" : "none";
-      });
-    }
-  </script>
 </main>
 </body>
 </html>
