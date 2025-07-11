@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,8 +21,8 @@ public class BookDetailResponse {
     private String publisher;
     private String publishedDate;
     private String isbn;
-    private Integer regularPrice;
-    private Integer salePrice;
+    private BigDecimal regularPrice;
+    private BigDecimal salePrice;
     private boolean isGiftWrap;
     private String imgUrl;
 }
