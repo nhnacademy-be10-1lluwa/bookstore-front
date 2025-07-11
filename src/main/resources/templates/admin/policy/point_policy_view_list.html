@@ -41,10 +41,7 @@
                         th:classappend="${policy.status.name() == 'INACTIVE'} ? 'status-inactive' : 'status-active'">
                     </td>
                     <td>
-                      <span th:text="${policy.valueType.name() == 'RATE'
-                          ? policy.value.multiply(100).stripTrailingZeros().toPlainString() + '%'
-                          : #numbers.formatDecimal(policy.value, 0, 'COMMA', 2, 'POINT')}">
-                      </span>
+                        <span th:text="${policy.displayValue}">적립값</span>
                     </td>
                     <td th:text="${#strings.equalsIgnoreCase(policy.valueType.name(), 'AMOUNT') ? '금액'
                   : (#strings.equalsIgnoreCase(policy.valueType.name(), 'RATE') ? '비율' : policy.valueType)}"></td>

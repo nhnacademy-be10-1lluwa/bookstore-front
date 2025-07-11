@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 
 @Data
 @NoArgsConstructor
@@ -21,5 +22,15 @@ public class PointPolicyResponse {
     private PointValueType valueType;
 
     private String description;
+
+    public String getDisplayValue() {
+        if (this.valueType == PointValueType.RATE) {
+            return this.value.multiply(BigDecimal.valueOf(100))
+                    .stripTrailingZeros()
+                    .toPlainString() + "%";
+        } else {
+            return NumberFormat.getInstance().format(this.value) + "P";
+        }
+    }
 
 }

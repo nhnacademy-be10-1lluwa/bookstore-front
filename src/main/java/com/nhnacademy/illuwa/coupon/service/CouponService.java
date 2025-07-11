@@ -1,10 +1,9 @@
 package com.nhnacademy.illuwa.coupon.service;
 
 import com.nhnacademy.illuwa.coupon.client.CouponServiceClient;
-import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyFrom;
-import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyResponse;
-import com.nhnacademy.illuwa.coupon.dto.MemberCouponResponse;
-import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyUpdateRequest;
+import com.nhnacademy.illuwa.coupon.dto.coupon.CouponForm;
+import com.nhnacademy.illuwa.coupon.dto.coupon.CouponResponse;
+import com.nhnacademy.illuwa.coupon.dto.coupon.CouponUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -15,31 +14,24 @@ import java.util.List;
 public class CouponService {
     private final CouponServiceClient couponServiceClient;
 
-    public List<MemberCouponResponse> getCoupons(String memberId) {
-        return couponServiceClient.getCoupon(memberId);
+    public CouponResponse createCoupon(CouponForm couponForm) {
+        return couponServiceClient.createCoupon(couponForm);
     }
 
-    // 정책 코드로 (수정폼 조회)
-    public CouponPolicyResponse getPolicyByCode(String couponPolicyCode) {
-        return couponServiceClient.getPolicyByCode(couponPolicyCode);
+    public List<CouponResponse> getAllCoupons() {
+        return couponServiceClient.getCoupon();
     }
 
-    // 정책 코드로 수정 (PUT)
-    public CouponPolicyResponse updateCouponPolicy(String code, CouponPolicyUpdateRequest req) {
-        return couponServiceClient.updateCouponPolicy(code, req);
+    public void deleteCoupon(Long id) {
+        couponServiceClient.deleteCoupon(id);
     }
 
-    // 정책 생성
-    public CouponPolicyResponse createCouponPolicy(CouponPolicyFrom couponPolicyFrom) {
-        return couponServiceClient.createCouponPolicy(couponPolicyFrom);
+    public CouponResponse updateCoupon(Long id, CouponUpdateRequest request) {
+        return couponServiceClient.updateCoupon(id, request);
     }
 
-    public void deleteCouponPolicy(String code) {
-        couponServiceClient.deleteCouponPolicy(code);
+    public CouponResponse getCouponById(Long id) {
+        return couponServiceClient.getCouponById(id);
     }
 
-    // 정책 목록
-    public List<CouponPolicyResponse> getAllPolices() {
-        return couponServiceClient.getAllPolicies();
-    }
 }

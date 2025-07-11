@@ -1,0 +1,90 @@
+/* _point_history.css */
+
+.main-content {
+    max-width: 960px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 1.5rem;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+    font-family: 'Nunito', sans-serif;
+}
+
+h1 {
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #4a148c; /* 진보라 */
+}
+
+.current-point {
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #6a1b9a;
+    margin-bottom: 2rem;
+}
+
+.point-tabs {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.point-tab {
+    font-size: 1rem;
+    padding: 0.6rem 1.8rem;
+    border-radius: 999px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    background: linear-gradient(135deg, #90caf9, #ce93d8); /* 연한 파랑~보라 */
+    color: #283593;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.point-tab:hover {
+    transform: translateY(-2px);
+    background: linear-gradient(135deg, #64b5f6, #ba68c8); /* 진한 파랑~보라 */
+}
+
+.point-tab.active {
+    background: linear-gradient(135deg, #42a5f5, #ab47bc); /* 활성화 시 강조 */
+    color: white;
+    box-shadow: 0 6px 15px rgba(171, 71, 188, 0.4);
+}
+
+/* 테이블 스타일 */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+}
+
+thead th {
+    padding: 1rem;
+    text-align: center;
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #333;
+    border-bottom: 2px solid #ddd;
+    background-color: transparent;
+}
+
+tbody td {
+    text-align: center;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+tr.적립 td {
+    color: #2e7d32; /* 초록 */
+    font-weight: 600;
+}
+
+tr.차감 td {
+    color: #c62828; /* 빨강 */
+    font-weight: 600;
+}

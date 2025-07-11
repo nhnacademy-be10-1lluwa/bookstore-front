@@ -29,6 +29,13 @@
                     <div class="info-value" th:text="${member.name}">홍길동</div>
                 </div>
                 <div class="info-item">
+                    <div class="info-label">유형</div>
+                    <div class="info-value">
+                        <span th:text="${member.role}"
+                              th:class="'role-badge ' + ${member.role.toString()}">유저</span>
+                    </div>
+                </div>
+                <div class="info-item">
                     <div class="info-label">등급</div>
                     <div class="info-value">
                         <span th:text="${member.gradeName}"
