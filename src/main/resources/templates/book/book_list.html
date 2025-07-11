@@ -24,7 +24,7 @@
             <div id="book-list" class="book-list">
                 <div class="book-card"
                      th:each="book : ${books}"
-                     th:data-id="${book.id}">
+                     th:data-id="${book.isbn}">
                     <img th:src="@{${book.imgUrl}}"
                          th:alt="${book.title} + ' 표지'"
                          onerror="this.onerror=null;this.src='https://via.placeholder.com/240x336?text=No+Image';" />
@@ -50,7 +50,7 @@
 
 
     </section>
-<!--    <script th:src="@{/js/book/booklist.js}"></script>-->
+    <script th:src="@{/js/book/booklist.js}"></script>
 </main>
 
 </html>

@@ -19,4 +19,7 @@ public interface CartServiceClient {
 
     @PostMapping("/api/cart/book")
     BookCartRequest addBookCart(@RequestBody BookCartRequest bookCartRequest);
+
+    @DeleteMapping("/api/cart/book")
+    void removeBookCart(@RequestBody BookCartRequest bookCartRequest);
 }

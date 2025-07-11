@@ -193,6 +193,38 @@
                 flex-direction: column;
             }
         }
+
+        .cart-form {
+            display: flex;
+            align-items: center;    /* 높이 중앙 정렬 */
+            gap: 0.5rem;            /* 요소 사이 간격 */
+            margin-top: 30px;
+        }
+
+        .cart-amount {
+            width: 100px;            /* 예: 60px 너비 */
+            height: 40px;           /* 예: 40px 높이 */
+            padding: 0.25rem;       /* 내부 여백 */
+            font-size: 1rem;        /* 숫자 크기 */
+            border: 1px solid #ccc; /* 테두리 */
+            border-radius: 4px;     /* 모서리 둥글게 */
+        }
+
+        .cart-btn {
+            width: 140px;
+            height: 40px;               /* input과 동일 높이 */
+            padding: 0 1rem;            /* 좌우 여백 */
+            font-size: 1rem;
+            background-color: #007bff;  /* 브랜드 컬러 */
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .cart-btn:hover {
+            background-color: #0056b3;  /* 호버 시 진해지도록 */
+        }
+
     </style>
 </head>
 
@@ -249,6 +281,13 @@
                         <span class="detail-value" th:text="${book.isGiftWrap() ? '가능' : '불가능'}">포장 여부</span>
                     </div>
                 </div>
+
+                <form th:action="@{/cart/add}" method="post" class="cart-form">
+                    <input type="hidden" name="bookId" th:value="${book.id}" />
+                    <input type="number" name="amount"  value="1" min="1" class="cart-amount"/>
+                    <button type="submit" class="cart-btn"> 장바구니 담기
+                    </button>
+                </form>
             </div>
         </div>
 
@@ -296,6 +335,29 @@
             mainImage.src = thumbnail.src;
             document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
             thumbnail.classList.add('active');
+        }
+
+        async function addToCart(bookId) {
+            const qtyInput = document.getElementById(`qty-${bookId}`);
+            const amount   = parseInt(qtyInput.value, 10);
+
+            console.log('addToCart 호출', { bookId, amount }); // 이 로그가 찍히는지 확인!
+
+            const res = await fetch('/cart/book', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ bookId, amount }) // ★★★ 이 부분이 중요! memberId가 없어요!
+            });
+
+            console.log('/cart/book 응답 상태:', res.status); // 응답 상태 코드 확인!
+
+            if (res.ok) {
+                alert('장바구니에 추가되었습니다.');
+                return;
+            }
+            const err = await res.text(); // ★★★ 에러 메시지 확인 필수!
+            alert(`추가 실패: ${err}`);
         }
     </script>
 </main>
