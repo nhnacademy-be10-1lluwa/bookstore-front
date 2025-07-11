@@ -1,6 +1,5 @@
 package com.nhnacademy.illuwa.cart.service;
 
-import com.nhnacademy.illuwa.book.client.ProductServiceClient;
 import com.nhnacademy.illuwa.cart.client.CartServiceClient;
 import com.nhnacademy.illuwa.cart.dto.BookCartRequest;
 import com.nhnacademy.illuwa.cart.dto.CartResponse;
@@ -21,7 +20,10 @@ public class CartService {
         cartServiceClient.clearCart();
     }
 
-    public BookCartRequest addBookCart(BookCartRequest request) {
-        return cartServiceClient.addBookCart(request);
+    public void addBookCart(BookCartRequest request) {
+        cartServiceClient.addBookCart(request);
     }
+
+    public void removeBookCart(BookCartRequest request) {
+        cartServiceClient.removeBookCart(request); }
 }
