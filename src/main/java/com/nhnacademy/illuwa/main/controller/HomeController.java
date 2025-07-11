@@ -16,7 +16,7 @@ import java.util.List;
 @Slf4j
 @RequiredArgsConstructor
 public class HomeController {
-    private final ProductServiceClient productServiceClient;
+//    private final ProductServiceClient productServiceClient;
 
     @GetMapping("/")
     public String home(Model model) {

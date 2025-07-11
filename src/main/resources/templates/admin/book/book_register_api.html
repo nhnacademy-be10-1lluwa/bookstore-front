@@ -2,104 +2,118 @@
 <html layout:decorate="~{layout/layout}"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
 <head layout:fragment="head">
-  <meta charset="UTF-8" />
-  <title>도서 등록</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" th:href="@{/css/main.css}" />
-  <style>
-    .book-card { cursor: pointer; }
-    .book-card:hover { background-color: #f8f9fa; }
-    img { max-width: 100%; height: auto; }
-  </style>
+  <link rel="stylesheet" th:href="@{/css/page/book/book_register.css}" />
 </head>
 
-<body>
+
 <main layout:fragment="content">
-  <section class="container mt-4">
-    <h2>도서 등록</h2>
+  <form th:action="@{/admin/book/register_api}" method="post">
+    <div class="mb-3">
+      <label for="title" class="form-label">제목</label>
+      <input type="text" id="title" name="title" class="form-control"
+             th:value="${book.title != null} ? ${book.title} : ''" required />
+    </div>
 
-    <form th:action="@{/admin/book/register}" method="post" enctype="multipart/form-data">
-      <div class="mb-3">
-        <label for="title" class="form-label">제목</label>
-        <input type="text" class="form-control" id="title" name="title" th:value="${book.title}" required />
+    <div class="mb-3">
+      <label for="author" class="form-label">저자</label>
+      <input type="text" id="author" name="author" class="form-control"
+             th:value="${book.author != null} ? ${book.author} : ''" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="publisher" class="form-label">출판사</label>
+      <input type="text" id="publisher" name="publisher" class="form-control"
+             th:value="${book.publisher != null} ? ${book.publisher} : ''" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="pubDate" class="form-label">출판일</label>
+      <input type="date" id="pubDate" name="pubDate" class="form-control"
+             th:value="${book.pubDate != null} ? ${#temporals.format(book.pubDate, 'yyyy-MM-dd')} : ''" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="isbn" class="form-label">ISBN</label>
+      <input type="text" id="isbn" name="isbn" class="form-control"
+             th:value="${book.isbn != null} ? ${book.isbn} : ''" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="regularPrice" class="form-label">정가</label>
+      <input type="number" id="regularPrice" name="regularPrice" class="form-control"
+             th:value="${book.priceStandard != null} ? ${book.priceStandard} : ''" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="salePrice" class="form-label">판매가</label>
+      <input type="number" id="salePrice" name="salePrice" class="form-control"
+             th:value="${book.priceSales != null} ? ${book.priceSales} : ''" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="description" class="form-label">설명</label>
+      <textarea id="description" name="description" class="form-control"
+                th:text="${book.description != null} ? ${book.description} : ''"></textarea>
+    </div>
+
+    <div class="mb-3">
+      <label for="cover" class="form-label">이미지 URL</label>
+      <input type="text" id="cover" name="cover" class="form-control"
+             th:value="${book.cover != null} ? ${book.cover} : ''" />
+      <div th:if="${book.cover != null and !book.cover.isEmpty()}">
+        <img th:src="${book.cover}" alt="도서 이미지" class="mt-2" style="max-width: 150px;"
+             onerror="this.style.display='none'"/>
       </div>
+    </div>
 
-      <div class="mb-3">
-        <label for="author" class="form-label">저자</label>
-        <input type="text" class="form-control" id="author" name="author" th:value="${book.author}" required />
-      </div>
+    <div class="mb-3">
+      <label for="count" class="form-label">재고 수량</label>
+      <input type="number" class="form-control" id="count" name="count" required min="0" />
+    </div>
 
-      <div class="mb-3">
-        <label for="publisher" class="form-label">출판사</label>
-        <input type="text" class="form-control" id="publisher" name="publisher" th:value="${book.publisher}" required />
-      </div>
+    <!-- 1차 카테고리 -->
+    <div class="mb-3">
+      <label for="level1" class="form-label">1차 카테고리</label>
+      <select id="level1" name="level1" class="form-select">
+        <option value="">1차 카테고리 선택</option>
+        <option th:each="cat1 : ${categoryTree}"
+                th:value="${cat1.id}"
+                th:text="${cat1.categoryName}"></option>
+      </select>
+    </div>
 
-      <div class="mb-3">
-        <label for="pubDate" class="form-label">출판일</label>
-        <input type="date" class="form-control" id="pubDate" name="pubDate"
-               th:value="${book.pubDate}" required />
-      </div>
+    <!-- 2차 카테고리 -->
+    <div class="mb-3" th:if="${#lists.size(categoryTree) > 0}">
+      <label for="level2" class="form-label">2차 카테고리</label>
+      <select id="level2" name="level2" class="form-select">
+        <option value="">2차 카테고리 선택</option>
+        <th:block th:each="cat1 : ${categoryTree}">
+          <option th:each="cat2 : ${cat1.children}"
+                  th:value="${cat2.id}"
+                  th:text="${cat2.categoryName}"></option>
+        </th:block>
+      </select>
+    </div>
 
-      <div class="mb-3">
-        <label for="isbn" class="form-label">ISBN</label>
-        <input type="text" class="form-control" id="isbn" name="isbn" th:value="${book.isbn}" required />
-      </div>
+    <!-- 3차 카테고리 (실제 저장용) -->
+    <div class="mb-3" th:if="${#lists.size(categoryTree) > 0}">
+      <label for="categoryId" class="form-label">3차 카테고리</label>
+      <select id="categoryId" name="categoryId" class="form-select" required>
+        <option value="">3차 카테고리 선택</option>
+        <th:block th:each="cat1 : ${categoryTree}">
+          <th:block th:each="cat2 : ${cat1.children}">
+            <option th:each="cat3 : ${cat2.children}"
+                    th:value="${cat3.id}"
+                    th:text="${cat3.categoryName}"></option>
+          </th:block>
+        </th:block>
+      </select>
+    </div>
 
-      <div class="mb-3">
-        <label for="regularPrice" class="form-label">정가</label>
-        <input type="number" class="form-control" id="regularPrice" name="regularPrice"
-               th:value="${book.priceStandard}" required />
-      </div>
-
-      <div class="mb-3">
-        <label for="salePrice" class="form-label">판매가</label>
-        <input type="number" class="form-control" id="salePrice" name="salePrice"
-               th:value="${book.priceSales}" required />
-      </div>
-
-      <div class="mb-3">
-        <label for="description" class="form-label">책 소개</label>
-        <textarea class="form-control" id="description" name="description" rows="4"
-                  th:text="${book.description}"></textarea>
-      </div>
-
-      <div class="mb-3">
-        <label for="contents" class="form-label">목차</label>
-        <textarea class="form-control" id="contents" name="contents" rows="6"></textarea>
-      </div>
-
-      <div class="mb-3">
-        <label for="count" class="form-label">재고 수량</label>
-        <input type="number" class="form-control" id="count" name="count" value="1" min="0" required />
-      </div>
-
-      <div class="mb-3">
-        <label for="categoryId" class="form-label">카테고리</label>
-        <select class="form-select" id="categoryId" name="categoryId" required>
-          <option value="" selected disabled>카테고리를 선택하세요</option>
-          <optgroup label="국내도서">
-            <option value="3">소설</option>
-            <option value="4">컴퓨터/IT</option>
-            <option value="5">인문</option>
-          </optgroup>
-          <optgroup label="외국도서">
-            <option value="6">Fiction</option>
-            <option value="7">Computer/IT</option>
-            <option value="8">Humanities</option>
-          </optgroup>
-        </select>
-      </div>
-
-      <div class="mb-3">
-        <label class="form-label">도서 표지</label><br />
-        <img th:src="${book.cover}" alt="책 표지" style="max-width: 150px; border-radius: 8px;" />
-        <input type="hidden" name="imageFileUrl" th:value="${book.cover}" />
-      </div>
-
-      <button type="submit" class="btn btn-primary">등록</button>
-    </form>
-  </section>
+    <button type="submit" class="btn btn-primary">등록</button>
+    <a th:href="@{/admin/books}" class="btn btn-secondary ms-2">취소</a>
+  </form>
 </main>
-</body>
-</html>

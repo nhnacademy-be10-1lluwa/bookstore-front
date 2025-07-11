@@ -38,8 +38,12 @@ public class AdminPointPolicyController {
 
     @GetMapping("/{policyKey}/update")
     public String showUpdateForm(@PathVariable String policyKey, Model model) {
-        model.addAttribute("request", adminPointPolicyService.prepareUpdateForm(policyKey));
+        PointPolicyUpdateRequest request = adminPointPolicyService.prepareUpdateForm(policyKey);
+        String displayView = adminPointPolicyService.getDisplayView(policyKey);
+
+        model.addAttribute("request", request);
         model.addAttribute("policyKey", policyKey);
+        model.addAttribute("displayView", displayView);
         model.addAttribute("mode", "edit");
         return "admin/policy/point_policy_form";
     }

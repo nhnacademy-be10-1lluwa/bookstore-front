@@ -1,0 +1,169 @@
+/* 🌈 컬러 팔레트 기반 설정 */
+:root {
+    --primary: #4f46e5;         /* 인디고 */
+    --primary-light: #6366f1;
+    --danger: #ef4444;          /* 빨강 */
+    --neutral-light: #f3f4f6;
+    --neutral-dark: #374151;
+    --border-color: #e5e7eb;
+    --badge-user: #64748b;      /* slate */
+    --badge-admin: #0f172a;     /* dark navy */
+    --badge-payco: #f43f5e;     /* rose */
+}
+
+/* 전체 배경 */
+body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(120deg, #f9fafb, #e5e7eb);
+    color: var(--neutral-dark);
+}
+
+/* 카드 스타일 개선 */
+.user-info-card {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 1.25rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.user-info-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 25px 45px rgba(0, 0, 0, 0.1);
+}
+
+/* 제목 */
+.user-title, h2 {
+    text-align: center;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 2rem;
+}
+
+/* info-item 스타일 정리 */
+.info-item {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.info-label {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--neutral-dark);
+}
+
+.info-value {
+    padding: 0.7rem 1rem;
+    background: var(--neutral-light);
+    border-radius: 0.75rem;
+    font-weight: 600;
+    font-size: 1rem;
+    color: #111827;
+}
+
+/* 입력창 */
+.info-input {
+    border: 1px solid var(--border-color);
+    padding: 0.6rem 1rem;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    background-color: white;
+    transition: border 0.2s ease;
+}
+
+.info-input:focus {
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+/* 버튼 */
+.button {
+    padding: 0.6rem 1.4rem;
+    font-size: 1rem;
+    font-weight: bold;
+    border-radius: 0.75rem;
+    border: none;
+    background-color: var(--primary);
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.button:hover {
+    background-color: var(--primary-light);
+}
+
+.button-danger {
+    background-color: var(--danger);
+}
+
+.button-danger:hover {
+    background-color: #dc2626;
+}
+
+.button-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    margin-top: 1rem;
+}
+
+/* 🏅 역할 뱃지 스타일 */
+.role-badge {
+    display: inline-block;
+    padding: 0.4em 0.9em;
+    font-size: 0.85rem;
+    font-weight: bold;
+    border-radius: 999px;
+    text-transform: uppercase;
+    color: white;
+}
+
+/* 역할별 뱃지 */
+.role-badge.USER {
+    background-color: var(--badge-user);
+}
+.role-badge.ADMIN {
+    background-color: var(--badge-admin);
+    box-shadow: 0 0 6px rgba(15, 23, 42, 0.4);
+}
+.role-badge.PAYCO {
+    background-color: var(--badge-payco);
+    font-style: italic;
+    border: 1px solid white;
+}
+
+/* 등급 뱃지 */
+.grade-badge {
+    padding: 4px 12px;
+    border-radius: 999px;
+    font-size: 0.85rem;
+    font-weight: bold;
+    background-color: #f9fafb;
+}
+
+.grade-badge.basic {
+    color: #a16207;
+}
+.grade-badge.royal {
+    color: #7c3aed;
+}
+.grade-badge.gold {
+    color: #f59e0b;
+}
+.grade-badge.platinum {
+    color: #0ea5e9;
+}
+
+/* 반응형 개선 */
+@media (max-width: 600px) {
+    .button-group {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}

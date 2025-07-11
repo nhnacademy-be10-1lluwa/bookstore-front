@@ -72,4 +72,9 @@ public interface CouponServiceClient {
     @PostMapping("/api/member-coupons")
     void issueCoupon(@RequestBody MemberCouponIssueRequest request);
 
+    /**
+     * 사용자 쿠폰 확인
+     */
+    @GetMapping("/api/member-coupons")
+    List<MemberCouponResponse> getAllMemberCoupons();
 }
