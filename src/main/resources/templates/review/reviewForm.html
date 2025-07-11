@@ -20,8 +20,7 @@
               method="post"
               enctype="multipart/form-data">
 
-            <input type="hidden" name="memberId" th:value="${memberId}" />
-            <input type="hidden" name="bookId" th:value="${bookId}" />
+            <input type="hidden" id="bookId" name="bookId" th:value="${bookId}" />
 
             <div>
                 <label>제목<br />
@@ -61,12 +60,12 @@
 
         <!-- 리뷰 수정 form -->
         <form th:if="${isEdit}"
+              id="reviewUpdateForm"
               th:action="@{'/books/' + ${bookId} + '/reviews/' + ${reviewId}}"
               method="post"
               enctype="multipart/form-data">
             <input type="hidden" name="_method" value="patch" />
 
-            <input type="hidden" name="memberId" th:value="${memberId}" />
             <input type="hidden" name="bookId" th:value="${bookId}" />
 
             <div>
@@ -82,11 +81,12 @@
                 </label>
             </div>
 
-            <div>
-                <label>기존 이미지<br /></label>
-                <div th:each="url : ${reviewData.reviewImageUrls}">
+            <div th:each="url : ${reviewData.reviewImageUrls}">
+                <div>
                     <img th:src="${url}" alt="기존 이미지" width="100" />
-                    <input type="hidden" name="keepImageUrls" th:value="${url}" />
+                    <label>
+                        <input type="checkbox" name="deleteImageUrls" th:value="${url}" /> 삭제
+                    </label>
                 </div>
             </div>
 
