@@ -1,13 +1,12 @@
 package com.nhnacademy.illuwa.order.client;
 
 import com.nhnacademy.illuwa.common.dto.PageResponse;
-import com.nhnacademy.illuwa.order.dto.OrderListResponse;
-import com.nhnacademy.illuwa.order.dto.OrderResponse;
-import com.nhnacademy.illuwa.order.dto.PackagingRequestDto;
-import com.nhnacademy.illuwa.order.dto.PackagingResponseDto;
+import com.nhnacademy.illuwa.order.dto.*;
 import com.nhnacademy.illuwa.order.dto.admin.OrderUpdateStatusDto;
+import com.nhnacademy.illuwa.order.dto.member.MemberOrderDirectRequest;
 import com.nhnacademy.illuwa.order.dto.member.MemberOrderInitDirectResponse;
 import com.nhnacademy.illuwa.order.dto.types.OrderStatus;
+import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -32,6 +31,9 @@ public interface OrderServiceClient {
 
     @GetMapping("/api/order/member/init-member-info/books/{bookId}")
     MemberOrderInitDirectResponse fetchMemberDirectInfo(@PathVariable("bookId") Long bookId);
+
+    @PostMapping("/api/order/member/submit-direct")
+    OrderCreateResponse createMemberDirectOrder(@RequestBody @Valid MemberOrderDirectRequest memberOrderDirectRequest);
 
     @GetMapping("/api/order/admin/orders")
     PageResponse<OrderListResponse> getOrderStatusPending(@RequestParam("status") OrderStatus status,
