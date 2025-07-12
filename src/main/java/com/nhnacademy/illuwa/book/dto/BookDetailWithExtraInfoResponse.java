@@ -27,7 +27,7 @@ public class BookDetailWithExtraInfoResponse {
     private boolean giftwrap;
     private Integer count;
     private String imgUrl;
-    private String status;  // 예: "AVAILABLE", "UNAVAILABLE"
+    private String status;
     private Long categoryId;
     private Long level1;
     private Long level2;

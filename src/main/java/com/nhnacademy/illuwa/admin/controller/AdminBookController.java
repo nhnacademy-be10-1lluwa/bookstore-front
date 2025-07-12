@@ -4,6 +4,7 @@ import com.nhnacademy.illuwa.book.client.ProductServiceClient;
 import com.nhnacademy.illuwa.book.dto.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +27,15 @@ public class AdminBookController {
     }
 
     @GetMapping("/manage")
-    public String bookManagePage(Model model) {
-        List<BookDetailWithExtraInfoResponse> registeredBooks = productServiceClient.getAllBooksWithExtraInfo();
-        model.addAttribute("books", registeredBooks);
+    public String bookManagePage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id,asc") String sort,
+            Model model
+    ) {
+        Page<BookDetailWithExtraInfoResponse> bookPage = productServiceClient.getAllBooksWithExtraInfo(page, size, sort);
+        model.addAttribute("bookPage", bookPage);
+        model.addAttribute("currentSort", sort);
         return "admin/book/manage";
     }
 
