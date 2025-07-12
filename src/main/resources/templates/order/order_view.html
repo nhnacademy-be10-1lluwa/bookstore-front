@@ -4,9 +4,93 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head layout:fragment="head">
-    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <style>
+        .order-summary {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 24px;
+            border: 1px solid #e0e0e0;
+            border-radius: 6px;
+            font-family: "Nunito", sans-serif;
+            background: #fafafa;
+        }
+        .order-summary h2 {
+            margin-bottom: 18px;
+            font-weight: 700;
+            text-align: center;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin: 8px 0;
+        }
+        .summary-row .label {
+            font-weight: 600;
+            color: #555;
+        }
+        .summary-row .value {
+            font-weight: 600;
+        }
+        .summary-row.total .value {
+            color: #d32f2f;
+            font-size: 1.1em;
+        }
+        .btn-area {
+            text-align: center;
+            margin-top: 26px;
+        }
+        .btn-area a {
+            padding: 10px 24px;
+            border: none;
+            background: #1976d2;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
 </head>
 <main layout:fragment="content">
+    <section class="order-summary" th:object="${order}">
+
+
+        <div class="summary-row">
+            <span class="label">배송 예정일</span>
+            <span class="value"
+                  th:text="*{#temporals.format(deliveryDate, 'yyyy-MM-dd')}">2025-07-15</span>
+        </div>
+
+        <div class="summary-row">
+            <span class="label">배송비</span>
+            <span class="value" th:text="*{#numbers.formatDecimal(shippingFee, 0, 'COMMA', 0, 'DEFAULT') + '원'}"></span>
+        </div>
+
+        <div class="summary-row" th:if="*{discountPrice != null && discountPrice > 0}">
+            <span class="label">할인 금액</span>
+            <span class="value"
+                  th:text="*{#numbers.formatDecimal(discountPrice, 0, 'COMMA', 0, 'DEFAULT') + '원'}">1,000원</span>
+        </div>
+
+        <div class="summary-row total">
+            <span class="label">최종 결제 금액</span>
+            <span class="value"
+                  th:text="*{#numbers.formatDecimal(finalPrice, 0, 'COMMA', 0, 'DEFAULT') + '원'}">9,000원</span>
+        </div>
+
+        <section class="item-summary">
+            <h3>주문 상품</h3>
+
+            <!-- 각 주문 아이템 반복 -->
+            <div class="summary-row" th:each="it : *{items}">
+                <span class="label" th:text="${it.title}">도서 제목</span>
+                <span class="value">
+                    <span th:text="${it.quantity}">1</span>권&nbsp;|&nbsp;
+                    <span th:text="${#numbers.formatDecimal(it.price, 0, 'COMMA', 0, 'DEFAULT') + '원'}">0원</span>
+                </span>
+            </div>
+        </section>
+    </section>
     <section class="main-content">
         <a th:href="@{/payment}">결제하기</a>
     </section>
