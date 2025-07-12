@@ -30,7 +30,7 @@
     </tr>
     </thead>
     <tbody>
-    <tr th:each="book : ${books}">
+    <tr th:each="book : ${bookPage.content}">
       <td>
         <img th:src="${book.imgUrl}" alt="도서 이미지" style="max-width:100px;" />
       </td>
@@ -45,9 +45,11 @@
       <td th:text="${book.status}">상태</td>
       <td th:text="${book.giftwrap ? '가능' : '불가'}">선물포장</td>
       <td>
-        <span th:if="${book.level1 != null}" th:text="'Lv1: ' + ${book.level1}"></span><br/>
-        <span th:if="${book.level2 != null}" th:text="'Lv2: ' + ${book.level2}"></span><br/>
-        <span th:if="${book.categoryId != null}" th:text="'Lv3: ' + ${book.categoryId}"></span>
+      <td>
+        <span th:if="${book.level1Name != null}" th:text="'대분류: ' + ${book.level1Name}"></span><br/>
+        <span th:if="${book.level2Name != null}" th:text="'중분류: ' + ${book.level2Name}"></span><br/>
+        <span th:if="${book.categoryName != null}" th:text="'소분류: ' + ${book.categoryName}"></span>
+      </td>
       </td>
       <td class="action-buttons">
         <a th:href="@{'/admin/book/edit/' + ${book.id}}">
@@ -60,5 +62,24 @@
     </tr>
     </tbody>
   </table>
+
+
+  <div class="sort-options">
+    <a th:href="@{|/admin/book/manage?page=0&size=${bookPage.size}&sort=title,asc|}">제목순</a> |
+    <a th:href="@{|/admin/book/manage?page=0&size=${bookPage.size}&sort=author,asc|}">저자순</a> |
+    <a th:href="@{|/admin/book/manage?page=0&size=${bookPage.size}&sort=regularPrice,asc|}">정가순</a>
+  </div>
+
+  <div class="pagination">
+    <a th:if="${bookPage.hasPrevious()}"
+       th:href="@{|/admin/book/manage?page=${bookPage.number - 1}&size=${bookPage.size}&sort=id,asc|}">이전</a>
+
+    <span th:text="${bookPage.number + 1}">1</span>
+    /
+    <span th:text="${bookPage.totalPages}">1</span>
+
+    <a th:if="${bookPage.hasNext()}"
+       th:href="@{|/admin/book/manage?page=${bookPage.number + 1}&size=${bookPage.size}&sort=id,asc|}">다음</a>
+  </div>
 </main>
 </html>
