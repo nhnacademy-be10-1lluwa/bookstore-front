@@ -27,8 +27,8 @@ public class AdminBookController {
 
     @GetMapping("/manage")
     public String bookManagePage(Model model) {
-        List<BookDetailResponse> registeredBook = productServiceClient.getRegisteredBook();
-        model.addAttribute("books",registeredBook);
+        List<BookDetailWithExtraInfoResponse> registeredBooks = productServiceClient.getAllBooksWithExtraInfo();
+        model.addAttribute("books", registeredBooks);
         return "admin/book/manage";
     }
 
@@ -105,10 +105,26 @@ public class AdminBookController {
         return "redirect:/admin/book/manage";
     }
 
-    // -> 도서 수정
+    // -> 도서 수정 페이지
     @GetMapping("/edit/{id}")
-    public String updateBook(@PathVariable Long id){
-        productServiceClient.updateBook(id);
+    public String updateBookForm(@PathVariable String id, Model model) {
+        BookDetailWithExtraInfoResponse book = productServiceClient.getBookDetailWithExtraInfo(id);
+        List<CategoryResponse> categoryTree = productServiceClient.getCategoryTree();
+
+        model.addAttribute("book", book);
+        model.addAttribute("categoryTree", categoryTree);
+
+        return "admin/book/book_update";
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateBook(
+            @PathVariable Long id,
+            @ModelAttribute BookUpdateRequest request
+    ) {
+        // 여기서 FeignClient 호출은 JSON으로 보내야 하므로
+        productServiceClient.updateBook(id, request);
+
         return "redirect:/admin/book/manage";
     }
 

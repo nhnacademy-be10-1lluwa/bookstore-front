@@ -1,5 +1,6 @@
 package com.nhnacademy.illuwa.book.dto;
 
+import groovy.transform.builder.Builder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,22 +8,27 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
-
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class BookDetailResponse {
+@AllArgsConstructor
+@Builder
+public class BookDetailWithExtraInfoResponse {
     private Long id;
     private String title;
     private String contents;
     private String description;
     private String author;
     private String publisher;
-    private String publishedDate;
+    private String publishedDate;  // String 타입으로 날짜
     private String isbn;
     private BigDecimal regularPrice;
     private BigDecimal salePrice;
-    private boolean isGiftWrap;
+    private boolean giftwrap;
+    private Integer count;
     private String imgUrl;
+    private String status;  // 예: "AVAILABLE", "UNAVAILABLE"
+    private Long categoryId;
+    private Long level1;
+    private Long level2;
 }
