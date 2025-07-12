@@ -3,65 +3,75 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <title>Category Management</title>
-    <link rel="stylesheet" th:href="@{/css/page/category/category_manage.css}" />
+  <title>카테고리 관리 페이지</title>
+  <link rel="stylesheet" th:href="@{/css/page/category/category_manage.css}" />
 </head>
 <body>
 <main layout:fragment="content">
-    <div class="container mt-4">
-        <h2 class="mb-4">카테고리 관리</h2>
+  <h1>카테고리 관리</h1>
 
-        <div class="card mb-4">
-            <div class="card-header">카테고리 생성</div>
-            <div class="card-body">
-                <form th:action="@{/admin/category/create}" th:object="${newCategory}" method="post">
-                    <div class="mb-3">
-                        <label for="categoryName" class="form-label"></label>
-                        <input placeholder="등록할 카테고리 이름" type="text" class="form-control" id="categoryName" th:field="*{categoryName}" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="parentId" class="form-label">상위 카테고리 (선택)</label>
-                        <select class="form-select" id="parentId" th:field="*{parentId}">
-                            <option value="">-- 상위 없음 (최상위 카테고리로 생성됨) --</option>
-                            <th:block th:if="${categoryTree != null}" th:replace="~{::category-options-fragment(categories=${categoryTree}, level=0)}"></th:block>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-primary">생성</button>
-                </form>
-            </div>
-        </div>
 
-        <div class="card">
-            <div class="card-header">카테고리 목록</div>
-            <div class="card-body category-tree-container">
-                <div th:if="${categoryTree != null}" th:replace="~{::category-tree-fragment(categories=${categoryTree})}"></div>
-                <div th:if="${categoryTree == null or #lists.isEmpty(categoryTree)}" class="text-muted">등록된 카테고리가 없습니다.</div>
-            </div>
-        </div>
+  <p style="font-size: 0.8em; color: #666; margin-bottom: 0.5em; text-align: right;">
+    레벨: 카테고리 단계 표시
+  </p>
 
+  <table>
+    <thead>
+    <tr>
+      <th>ID</th>
+      <th>카테고리명</th>
+      <th>상위 카테고리</th>
+      <th>레벨</th>
+      <th>관리</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="category : ${categoryPage.content}">
+      <td th:text="${category.id}">1</td>
+      <td th:text="${category.categoryName}">카테고리명</td>
+      <td th:text="${category.parentName != null ? category.parentName : '없음'}">상위</td>
+      <td th:text="${category.depth}">0</td>
+      <td>
+        <form th:action="@{/admin/category/delete/{id}(id=${category.id})}" method="post"
+              onsubmit="return confirm('삭제하시겠습니까?');">
+          <button type="submit">삭제</button>
+        </form>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="pagination">
+    <a th:if="${categoryPage.hasPrevious()}"
+       th:href="@{|/admin/category/manage?page=${categoryPage.number - 1}&size=${categoryPage.size}&sort=id,asc|}">이전</a>
+    <span th:text="${categoryPage.number + 1}">1</span> /
+    <span th:text="${categoryPage.totalPages}">1</span>
+    <a th:if="${categoryPage.hasNext()}"
+       th:href="@{|/admin/category/manage?page=${categoryPage.number + 1}&size=${categoryPage.size}&sort=id,asc|}">다음</a>
+  </div>
+
+  <h2>카테고리 등록</h2>
+  <form th:action="@{/admin/category/create}" th:object="${newCategory}" method="post">
+    <div>
+      <label for="categoryName">카테고리명</label>
+      <input type="text" id="categoryName" th:field="*{categoryName}" placeholder="카테고리명" required/>
     </div>
-
-    <div th:fragment="category-tree-fragment(categories)">
-        <ul th:if="${not #lists.isEmpty(categories)}">
-            <li th:each="category : ${categories}">
-                <div class="category-item">
-                    <span th:text="${category.categoryName}">카테고리 이름</span>
-                    <form th:action="@{/admin/category/delete/{id}(id=${category.id})}" method="post"
-                          onsubmit="return confirm('이 카테고리를 삭제하시겠습니까?');">
-                        <button type="submit" class="btn btn-sm btn-danger">삭제</button>
-                    </form>
-                </div>
-                <div th:replace="~{::category-tree-fragment(categories=${category.children})}"></div>
-            </li>
-        </ul>
+    <div>
+      <label for="parentId">상위 카테고리 (선택)</label>
+      <select id="parentId" th:field="*{parentId}">
+        <option th:value="' '" selected>
+          선택하지 않으면 최상위 카테고리로 등록됩니다
+        </option>
+        <option th:each="c : ${allCategories}"
+                th:if="${c.depth <= 2}"
+                th:value="${c.id}"
+                th:text="${#strings.repeat('--', c.depth)} + ' ' + ${c.categoryName}">
+          카테고리명
+        </option>
+      </select>
     </div>
-
-    <th:block th:fragment="category-options-fragment(categories, level)">
-        <th:block th:each="category : ${categories}">
-            <option th:value="${category.id}" th:text="${#strings.repeat('--', level)} + ' ' + ${category.categoryName}"></option>
-            <th:block th:if="${category.children != null}" th:replace="~{::category-options-fragment(categories=${category.children}, level=${level + 1})}"></th:block>
-        </th:block>
-    </th:block>
+    <button type="submit">등록</button>
+  </form>
 </main>
 </body>
 </html>

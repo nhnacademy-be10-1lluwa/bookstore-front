@@ -31,4 +31,7 @@ public class BookDetailWithExtraInfoResponse {
     private Long categoryId;
     private Long level1;
     private Long level2;
+    private String level1Name;
+    private String level2Name;
+    private String categoryName;
 }
