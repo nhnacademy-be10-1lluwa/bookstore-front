@@ -2,6 +2,7 @@ package com.nhnacademy.illuwa.admin.controller;
 
 import com.nhnacademy.illuwa.book.client.ProductServiceClient;
 import com.nhnacademy.illuwa.book.dto.*;
+import com.nhnacademy.illuwa.category.dto.CategoryResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
