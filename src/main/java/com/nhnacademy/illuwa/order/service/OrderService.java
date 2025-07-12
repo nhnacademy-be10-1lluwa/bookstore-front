@@ -2,11 +2,9 @@ package com.nhnacademy.illuwa.order.service;
 
 import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.order.client.OrderServiceClient;
-import com.nhnacademy.illuwa.order.dto.OrderListResponse;
-import com.nhnacademy.illuwa.order.dto.OrderResponse;
-import com.nhnacademy.illuwa.order.dto.PackagingRequestDto;
-import com.nhnacademy.illuwa.order.dto.PackagingResponseDto;
+import com.nhnacademy.illuwa.order.dto.*;
 import com.nhnacademy.illuwa.order.dto.admin.OrderUpdateStatusDto;
+import com.nhnacademy.illuwa.order.dto.member.MemberOrderDirectRequest;
 import com.nhnacademy.illuwa.order.dto.member.MemberOrderInitDirectResponse;
 import com.nhnacademy.illuwa.order.dto.types.OrderStatus;
 import lombok.RequiredArgsConstructor;
@@ -45,6 +43,11 @@ public class OrderService {
     // 회원 바로 주문 정보 불러오기
     public MemberOrderInitDirectResponse getMemberInitDateDirect(Long bookId) {
         return orderServiceClient.fetchMemberDirectInfo(bookId);
+    }
+
+    // 회원 바로 주문하기
+    public OrderCreateResponse sendDirectOrderMember(MemberOrderDirectRequest request) {
+        return orderServiceClient.createMemberDirectOrder(request);
     }
 
     // Pending 상태 주문 조회
