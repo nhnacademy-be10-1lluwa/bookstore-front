@@ -1,5 +1,6 @@
 package com.nhnacademy.illuwa.coupon.dto;
 
+import com.thoughtworks.xstream.converters.time.LocalDateTimeConverter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
