@@ -1,6 +1,6 @@
 package com.nhnacademy.illuwa.category.client;
 
-import com.nhnacademy.illuwa.category.dto.CategoryListResponse;
+import com.nhnacademy.illuwa.category.dto.CategoryFlatResponse;
 import com.nhnacademy.illuwa.category.dto.CategoryResponse;
 import com.nhnacademy.illuwa.category.dto.CategoryCreateRequest;
 import com.nhnacademy.illuwa.config.FeignClientConfig;
@@ -28,17 +28,17 @@ public interface CategoryServiceClient {
 
     // 카테고리 pagination
     @GetMapping("/api/categories/page")
-    Page<CategoryListResponse> getFlatCategories(
+    Page<CategoryFlatResponse> getFlatCategories(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
             @RequestParam("sort") String sort
     );
 
     @GetMapping("/api/categories/flat")
-    List<CategoryListResponse> getFlatCategories();
+    List<CategoryFlatResponse> getFlatCategories();
 
-    @GetMapping("/api/categories/flat-paged")
-    Page<CategoryListResponse> getFlatCategoriesPaged(@RequestParam("page") int page,
+    @GetMapping("/api/categories/flat_paged")
+    Page<CategoryFlatResponse> getFlatCategoriesPaged(@RequestParam("page") int page,
                                                       @RequestParam("size") int size,
                                                       @RequestParam("sort") String sort);
 

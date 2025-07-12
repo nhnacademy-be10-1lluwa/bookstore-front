@@ -1,6 +1,6 @@
 package com.nhnacademy.illuwa.category.controller;
 
-import com.nhnacademy.illuwa.category.dto.CategoryListResponse;
+import com.nhnacademy.illuwa.category.dto.CategoryFlatResponse;
 import com.nhnacademy.illuwa.category.client.CategoryServiceClient;
 import com.nhnacademy.illuwa.category.dto.CategoryCreateRequest;
 import lombok.RequiredArgsConstructor;
@@ -38,11 +38,11 @@ public class AdminCategoryController {
                                      @RequestParam(defaultValue = "id,asc") String sort,
                                      Model model) {
         // 페이징된 목록
-        Page<CategoryListResponse> categoryPage = categoryServiceClient.getFlatCategoriesPaged(page, size, sort);
+        Page<CategoryFlatResponse> categoryPage = categoryServiceClient.getFlatCategoriesPaged(page, size, sort);
 
         // 드롭다운
-        Page<CategoryListResponse> allPage = categoryServiceClient.getFlatCategoriesPaged(0, 100, sort);
-        List<CategoryListResponse> allCategories = allPage.getContent();
+        Page<CategoryFlatResponse> allPage = categoryServiceClient.getFlatCategoriesPaged(0, 100, sort);
+        List<CategoryFlatResponse> allCategories = allPage.getContent();
 
         model.addAttribute("categoryPage", categoryPage);
         model.addAttribute("allCategories", allCategories);

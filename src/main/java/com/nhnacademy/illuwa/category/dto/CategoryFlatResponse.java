@@ -5,7 +5,7 @@ import lombok.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CategoryListResponse {
+public class CategoryFlatResponse {
     private Long id;
     private Long parentId;
     private String parentName;
