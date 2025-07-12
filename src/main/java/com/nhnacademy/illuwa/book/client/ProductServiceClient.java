@@ -1,12 +1,14 @@
 package com.nhnacademy.illuwa.book.client;
 
 import com.nhnacademy.illuwa.book.dto.*;
+import com.nhnacademy.illuwa.category.dto.CategoryResponse;
 import com.nhnacademy.illuwa.config.FeignClientConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.data.domain.Page;
 
 import java.util.List;
 
@@ -74,6 +76,8 @@ public interface ProductServiceClient {
 
     // 도서 부가정보 포함된 도서 목록
     @GetMapping("/api/admin/books/extra_info")
-    List<BookDetailWithExtraInfoResponse> getAllBooksWithExtraInfo();
+    Page<BookDetailWithExtraInfoResponse> getAllBooksWithExtraInfo(@RequestParam int page,
+                                                                   @RequestParam int size,
+                                                                   @RequestParam(defaultValue = "id") String sort);
 
 }
