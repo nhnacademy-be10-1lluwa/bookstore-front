@@ -19,7 +19,7 @@ public class MyCouponController {
     public String myCoupon(Model model) {
 //        List<MemberCouponResponse> couponResponses = couponService.getCoupons("example");
 
-        // 테스트용 List 실제 Api 작동시 삭제 후 위에 있는 couponResponses 사용하기
+       /* // 테스트용 List 실제 Api 작동시 삭제 후 위에 있는 couponResponses 사용하기
         List<MemberCouponResponse> couponResponses = Arrays.asList(
                 new MemberCouponResponse(1L, "test", "test@test.com", "웰컴쿠폰", 1L, "WELCOME_DC50P", false, null,
                         LocalDateTime.of(2025, 7, 2, 10, 0), LocalDateTime.of(2025, 8, 1, 5, 5)),
@@ -29,9 +29,9 @@ public class MyCouponController {
                         LocalDateTime.of(2025, 1, 2, 1, 0), LocalDateTime.of(2025, 9, 1, 8, 55)),
                 new MemberCouponResponse(4L, "test", "test@test.com", "호구쿠폰", 4L, "WELCOME_DC50P", true, LocalDateTime.of(2025, 8, 1, 5, 5),
                         LocalDateTime.of(2025, 2, 2, 7, 0), LocalDateTime.of(2025, 10, 1, 7, 0))
-        );
+        );*/
 
-        List<MemberCouponResponse> availableCoupons = couponResponses.stream()
+       /* List<MemberCouponResponse> availableCoupons = couponResponses.stream()
                 .filter(coupon -> !coupon.isUsed())
                 .toList();
 
@@ -40,7 +40,7 @@ public class MyCouponController {
                 .toList();
 
         model.addAttribute("availableCoupons", availableCoupons);
-        model.addAttribute("usedCoupons", usedCoupons);
+        model.addAttribute("usedCoupons", usedCoupons);*/
 
         return "user/mycoupon";
     }
