@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/page/book/book_register.css}" />
+</head>
+
+<main layout:fragment="content">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div th:each="book : ${searchResults}" th:if="${book.isbn != null}" class="col">
+            <div class="card h-100 book-result-card">
+                <a th:href="@{/admin/book/register_from_api/{isbn}(isbn=${book.isbn})}" class="card-link">
+                    <div class="card-body d-flex">
+                        <img th:if="${book.cover != null}" th:src="${book.cover}" alt="책 표지" class="me-3 book-cover"/>
+                        <div class="flex-grow-1">
+                            <h5 class="card-title" th:text="${book.title}">도서 제목</h5>
+                            <p class="card-text mb-1">
+                                <small class="text-muted" th:text="${book.author}">저자</small>
+                            </p>
+                            <p class="card-text mb-1">
+                                <small class="text-muted" th:text="${book.publisher}">출판사</small>
+                            </p>
+                            <p class="card-text mb-1">
+                                <small class="text-muted" th:text="'정가: ' + ${book.priceStandard} + '원'">정가</small>
+                            </p>
+                            <p class="card-text mb-1">
+                                <small class="text-muted" th:if="${book.priceSales != null}" th:text="'판매가: ' + ${book.priceSales} + '원'">판매가</small>
+                            </p>
+                            <p class="card-text">
+                                <small class="text-muted" th:text="'ISBN: ' + ${book.isbn}">ISBN</small>
+                            </p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</main>
+
+

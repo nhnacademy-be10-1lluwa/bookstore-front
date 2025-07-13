@@ -16,6 +16,6 @@
 /* page styles */
 @import url("page/_home.css");
 @import url("page/_error.css");
-@import url("page/_coupon.css");
-@import url("book/booklist.css");
-@import url("cart/cart.css");
+@import url("page/coupon/_coupon.css");
+@import url("page/book/booklist.css");
+@import url("page/cart/cart.css");

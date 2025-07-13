@@ -6,7 +6,7 @@
   <title>포인트 정책 상세</title>
   <meta charset="UTF-8" />
   <link rel="stylesheet" th:href="@{/css/main.css}" />
-  <link rel="stylesheet" th:href="@{/css/policy/_policy_form.css}" />
+  <link rel="stylesheet" th:href="@{/css/page/policy/_policy_form.css}" />
 </head>
 <body>
 <main layout:fragment="content">
@@ -25,7 +25,7 @@
                class="form-control" placeholder="정책코드 입력" required />
       </div>
 
-      <!-- 수정/상세 모드일 때만 readonly 표시 -->
+      <!-- 수정 모드일 때만 readonly 표시 -->
       <div th:if="${mode != 'new'}" class="form-group" style="margin-bottom: 15px;">
         <label>정책 코드 (policyKey)</label>
         <input type="text" th:value="${policyKey}" readonly class="form-control"
@@ -35,30 +35,25 @@
       <div class="form-group" th:if="${mode == 'edit'}">
         <label for="statusSwitch">상태</label>
         <div style="display: flex; align-items: center; gap: 10px; margin-top: 8px;">
-          <label class="toggle-switch">
+          <label class="toggle-switch" style="display: flex; align-items: center; gap: 10px;">
             <input type="checkbox" id="statusSwitch" name="active"
-                   th:checked="${request.status.name() == 'ACTIVE'}" th:disabled="${mode == 'view'}"/>
+                   th:checked="${request.status.name() == 'ACTIVE'}"
+                   th:disabled="${mode == 'view'}" />
             <span class="slider round"></span>
           </label>
-          <span th:text="${request.status.name() == 'ACTIVE' ? '활성화됨' : '비활성화됨'}" class="status-text"></span>
+          <span id="statusText" class="status-text"></span>
+          <input type="hidden" name="status" id="statusValue" th:value="${request.status.name()}" />
         </div>
       </div>
 
       <!-- 적립 값 -->
       <div class="form-group" style="margin-bottom: 15px;">
         <label>적립 값 <span th:if="${mode != 'view'}" style="color:red;">*</span></label>
-
-        <!-- 읽기 전용: 보기 모드 -->
-        <div th:if="${mode == 'view'}" class="form-control" style="background-color: #f3f4f6;">
-          <span th:text="${request.valueType.name() == 'RATE'
-              ? request.value.multiply(100).stripTrailingZeros().toPlainString() + '%'
-              : #numbers.formatDecimal(request.value, 0, 'COMMA', 2, 'POINT')}"></span>
-        </div>
-
-        <input type="number" step="0.01" th:if="${mode != 'view'}"
-               th:field="*{value}" class="form-control"
+        <input type="text"
+               name="value"
+               class="form-control"
                id="valueInput"
-               th:placeholder="${request.valueType?.name() == 'RATE' ? '예: 0.5 (0.5%)' : '예: 5000 (5,000P)'}"
+               th:value="${displayView}"
                required />
       </div>
 
@@ -96,40 +91,10 @@
         </a>
       </div>
     </form>
-
-    <script>
-      document.addEventListener('DOMContentLoaded', function () {
-        // 상태 토글
-        const toggle = document.getElementById('statusSwitch');
-        const statusText = document.querySelector('.status-text');
-
-        if (toggle && statusText) {
-          function updateStatusText() {
-            statusText.textContent = toggle.checked ? '활성화됨' : '비활성화됨';
-          }
-
-          updateStatusText();
-          toggle.addEventListener('change', updateStatusText);
-        }
-
-        // Placeholder 동적 변경
-        const valueTypeSelect = document.getElementById('valueTypeSelect');
-        const valueInput = document.getElementById('valueInput');
-
-        if (valueTypeSelect && valueInput) {
-          function updatePlaceholder() {
-            const selected = valueTypeSelect.value;
-            valueInput.placeholder = selected === 'RATE'
-                    ? '예: 0.5 (0.5%)'
-                    : '예: 5000 (5,000P)';
-          }
-
-          updatePlaceholder();
-          valueTypeSelect.addEventListener('change', updatePlaceholder);
-        }
-      });
-    </script>
   </section>
 </main>
+<th:block layout:fragment="scripts">
+  <script th:src="@{/js/policy/coupon_policy.js}"></script>
+</th:block>
 </body>
 </html>

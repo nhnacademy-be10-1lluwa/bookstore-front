@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/page/book/book_register.css}" />
+</head>
+
+<main layout:fragment="content">
+    <form th:action="@{|/admin/book/update/${book.id}|}" method="post" enctype="multipart/form-data">
+        <input type="hidden" name="_method" value="patch" />
+
+        <input type="hidden" name="id" th:value="${book.id}" />
+
+        <div class="mb-3">
+            <label for="title" class="form-label">제목</label>
+            <input type="text" id="title" name="title" class="form-control"
+                   th:value="${book.title != null} ? ${book.title} : ''" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="author" class="form-label">저자</label>
+            <input type="text" id="author" name="author" class="form-control"
+                   th:value="${book.author != null} ? ${book.author} : ''" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="publisher" class="form-label">출판사</label>
+            <input type="text" id="publisher" name="publisher" class="form-control"
+                   th:value="${book.publisher != null} ? ${book.publisher} : ''" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="pubDate" class="form-label">출판일</label>
+            <input type="date" id="pubDate" name="pubDate" class="form-control"
+                   th:value="${book.publishedDate != null} ? ${book.publishedDate} : ''" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="isbn" class="form-label">ISBN</label>
+            <input type="text" id="isbn" name="isbn" class="form-control"
+                   th:value="${book.isbn != null} ? ${book.isbn} : ''" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="regularPrice" class="form-label">정가</label>
+            <input type="number" id="regularPrice" name="regularPrice" class="form-control"
+                   th:value="${book.regularPrice != null} ? ${book.regularPrice} : ''" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="salePrice" class="form-label">판매가</label>
+            <input type="number" id="salePrice" name="salePrice" class="form-control"
+                   th:value="${book.salePrice != null} ? ${book.salePrice} : ''" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">설명</label>
+            <textarea id="description" name="description" class="form-control"
+                      th:text="${book.description != null} ? ${book.description} : ''"></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="cover" class="form-label">이미지 URL</label>
+            <input type="text" id="cover" name="cover" class="form-control"
+                   th:value="${book.imgUrl != null} ? ${book.imgUrl} : ''" />
+            <div th:if="${book.imgUrl != null and !book.imgUrl.isEmpty()}">
+                <img th:src="${book.imgUrl}" alt="도서 이미지" class="mt-2" style="max-width: 150px;"
+                     onerror="this.style.display='none'" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="count" class="form-label">등록 수량</label>
+            <input type="number" class="form-control" id="count" name="count" min="0" required
+                   th:value="${book.count != null} ? ${book.count} : 0" />
+        </div>
+
+        <div class="mb-3">
+            <label for="status" class="form-label">도서 상태</label>
+            <select id="status" name="status" class="form-select" required>
+                <option value="NORMAL" th:selected="${book.status == 'NORMAL'}">판매중</option>
+                <option value="OUT_OF_STOCK" th:selected="${book.status == 'OUT_OF_STOCK'}">품절</option>
+                <option value="DISCONTINUED" th:selected="${book.status == 'DISCONTINUED'}">판매종료</option>
+                <option value="DELETED" th:selected="${book.status == 'DELETED'}">삭제됨</option>
+            </select>
+        </div>
+
+        <input type="hidden" name="giftwrap" value="false"/>
+        <input type="checkbox" class="form-check-input" id="giftwrap" name="giftwrap" value="true"
+               th:checked="${book.giftwrap}" />
+        <label class="form-check-label" for="giftwrap">선물 포장 가능</label>
+
+        <div class="mb-3">
+            <label for="level1" class="form-label">1차 카테고리</label>
+            <select id="level1" name="level1" class="form-select">
+                <option value="">1차 카테고리 선택</option>
+                <option th:each="cat1 : ${categoryTree}"
+                        th:value="${cat1.id}"
+                        th:text="${cat1.categoryName}"
+                        th:selected="${cat1.id == book.level1}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3" th:if="${#lists.size(categoryTree) > 0}">
+            <label for="level2" class="form-label">2차 카테고리</label>
+            <select id="level2" name="level2" class="form-select">
+                <option value="">2차 카테고리 선택</option>
+                <th:block th:each="cat1 : ${categoryTree}">
+                    <option th:each="cat2 : ${cat1.children}"
+                            th:value="${cat2.id}"
+                            th:text="${cat2.categoryName}"
+                            th:selected="${cat2.id == book.level2}"></option>
+                </th:block>
+            </select>
+        </div>
+
+        <div class="mb-3" th:if="${#lists.size(categoryTree) > 0}">
+            <label for="categoryId" class="form-label">3차 카테고리</label>
+            <select id="categoryId" name="categoryId" class="form-select" required>
+                <option value="">3차 카테고리 선택</option>
+                <th:block th:each="cat1 : ${categoryTree}">
+                    <th:block th:each="cat2 : ${cat1.children}">
+                        <option th:each="cat3 : ${cat2.children}"
+                                th:value="${cat3.id}"
+                                th:text="${cat3.categoryName}"
+                                th:selected="${cat3.id == book.categoryId}"></option>
+                    </th:block>
+                </th:block>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-primary">수정</button>
+        <a th:href="@{/admin/book/manage}" class="btn btn-secondary ms-2">취소</a>
+    </form>
+</main>
+</html>
