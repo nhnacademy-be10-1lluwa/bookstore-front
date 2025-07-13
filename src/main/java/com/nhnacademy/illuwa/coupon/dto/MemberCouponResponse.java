@@ -1,12 +1,10 @@
 package com.nhnacademy.illuwa.coupon.dto;
 
-import com.thoughtworks.xstream.converters.time.LocalDateTimeConverter;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor

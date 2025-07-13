@@ -6,7 +6,6 @@ import com.nhnacademy.illuwa.order.dto.OrderCreateResponse;
 import com.nhnacademy.illuwa.order.dto.OrderResponse;
 import com.nhnacademy.illuwa.order.dto.guest.GuestOrderDirectRequest;
 import com.nhnacademy.illuwa.order.dto.guest.GuestOrderInitDirectResponse;
-import com.nhnacademy.illuwa.order.dto.member.MemberOrderDirectRequest;
 import com.nhnacademy.illuwa.order.dto.orderRequest.OrderItemDto;
 import com.nhnacademy.illuwa.order.service.OrderService;
 import org.springframework.stereotype.Controller;
