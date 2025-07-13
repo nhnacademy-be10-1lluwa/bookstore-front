@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/page/_address-list.css}"/>
+    <link rel="stylesheet" th:href="@{/css/component/_pagination.css}"/>
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <style>
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            z-index: 999;
+        }
+
+        .modal-content {
+            background: #fff;
+            margin: 5% auto;
+            padding: 20px;
+            max-width: 800px;
+            position: relative;
+            border-radius: 4px;
+            overflow-y: auto;
+            max-height: 80vh;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        .select-address {
+            margin-top: 8px;
+        }
+    </style>
+</head>
+
+<main layout:fragment="content">
+
+    <h2>주문 정보 입력</h2>
+
+    <!-- 주문 입력 폼 -->
+    <form th:action="@{/order/order-form/submit-direct}" method="post" th:object="${orderRequest}" class="order-form">
+
+
+        <!-- 1. 주문 상품 요약 -->
+        <section class="item-summary">
+            <h3>주문 상품</h3>
+            <p>
+                <strong th:text="${init.item.title}">도서 제목</strong>
+                &nbsp;|&nbsp;
+                <span th:text="${#numbers.formatDecimal(init.item.getRegularPrice(), 0, 'COMMA', 0, 'DEFAULT')}">0</span>원
+                <span th:text="${#numbers.formatDecimal(init.item.getSalePrice(), 0, 'COMMA', 0, 'DEFAULT')}">0</span>원
+            </p>
+            <input type="hidden" th:field="*{item.bookId}" th:value="${init.item.bookId}"/>
+            <input type="hidden" id="unitPrice"
+                   th:value="${init.item.getSalePrice() != null ? init.item.getSalePrice() : init.item.getRegularPrice()}"/>
+
+            <label class="quantity-label" style="display:inline-block;margin-left:12px;">
+                수량 :
+                <input type="number"
+                       id="quantityInput"
+                       th:field="*{item.quantity}"
+                       min="1"
+                       th:value="${initialQuantity}"
+                       value="1"
+                       style="width:60px;"/>
+            </label>
+        </section>
+
+        <!-- 2. 배송지 선택 -->
+        <section class="address-select">
+            <h3>배송지 선택</h3>
+
+            <div id="selectedAddressArea" style="margin-top: 10px;"></div>
+
+            <div>
+                <label>우편번호</label>
+                <input type="text" id="postcode" th:field="*{postCode}"
+                       th:value="${address?.postCode}"/>
+                <button type="button" id="postcodeBtn" onclick="openPostcode()">우편번호 찾기</button>
+
+                <label>주소</label>
+                <input type="text" id="address" th:field="*{readAddress}"
+                       th:value="${address?.address}"/>
+
+                <label>상세주소</label>
+                <input type="text" id="detailAddress" th:field="*{detailAddress}"
+                       th:value="${address?.detailAddress}"
+                       placeholder="상세주소를 입력하세요"/>
+
+                <label>받는 사람</label>
+                <input type="text" id="recipientName" th:field="*{recipientName}"
+                       th:value="${address?.recipientName}"
+                       placeholder="받는 분 성함을 입력해주세요"/>
+
+                <label>연락처</label>
+                <input type="tel" id="recipientContact" th:field="*{recipientContact}"
+                       th:value="${address?.recipientContact}"
+                       placeholder="010-0000-0000"/>
+
+                <label for="deliveryDate">배송 날짜</label>
+                <input type="date"
+                       id="deliveryDate"
+                       th:field="*{deliveryDate}"
+                       th:attr="min=${#temporals.format(#temporals.createNow().plusDays(1),'yyyy-MM-dd')}"
+                       th:value="${#temporals.format(#temporals.createNow().plusDays(1),'yyyy-MM-dd')}" />
+                <small class="text-muted">* 미선택 시 자동으로 내일 날짜가 설정됩니다.</small>
+
+            </div>
+
+
+            <button type="button" id="openAddressModal" class="btn">내 주소</button>
+        </section>
+
+        <!-- 3. 쿠폰 적용 -->
+        <section class="coupon-select">
+            <h3>쿠폰 선택</h3>
+            <select th:field="*{memberCouponId}">
+                <option value="">쿠폰 선택 (선택 사항)</option>
+                <!--<option th:each="coupon : ${init.availableCoupons}"
+                        th:value="${coupon.memberCouponId}"
+                        th:attr="data-rate=${coupon.discountRate ?: ''},data-amount=${coupon.discountAmount ?: ''}"
+                        th:text="${coupon.couponName + ' (' + coupon.couponCode + ')'}">
+                </option>-->
+            </select>
+        </section>
+
+        <!-- 4. 포장 옵션 -->
+        <section class="packaging-select">
+            <h3>포장 옵션</h3>
+            <select id="packagingSelect" class="form-select"
+                    th:field="*{item.packagingId}">
+                <option th:each="pkg : ${init.packaging}"
+                        th:value="${pkg.packagingId}"
+                        th:attr="data-price=${pkg.packagingPrice}"
+                        th:selected="${pkg.packagingId == 1}"
+                        th:text="${pkg.packagingName + ' (' + #numbers.formatDecimal(pkg.packagingPrice, 0, 'COMMA', 0, 'DEFAULT') + '원)'}">
+                </option>
+            </select>
+        </section>
+
+        <!-- 5. 포인트 사용 -->
+        <section class="point-use">
+            <h3>포인트 사용</h3>
+            <p>
+                보유 포인트 :
+                <strong th:text="${(init.pointBalance)}"
+                        th:attr="data-balance=${init.pointBalance}">0</strong> P
+            </p>
+            <label>
+                <input type="number"
+                       th:field="*{usedPoint}"
+                       value="0"
+                       min="0"
+                       step="100"
+                       th:placeholder="0"
+                       th:max="${init.pointBalance}"
+                       placeholder="사용할 포인트를 입력하세요"/>
+            </label>
+            <button type="button" id="applyPointBtn">포인트 적용</button>
+        </section>
+
+        <!-- 7. 주문 합계 / 제출 -->
+        <section class="submit-area">
+            <p>
+                예상 결제 금액 :
+                <span id="estimatedTotal"> <!-- JS에서 실시간 계산하면 이곳을 갱신 -->
+                    </span>
+            </p>
+            <button type="submit">주문 확정</button>
+        </section>
+    </form>
+
+    <!-- 주소록 모달 -->
+    <div id="addressModal" class="modal" th:fragment="addressModal">
+        <div class="modal-content">
+            <span id="closeAddressModal" class="modal-close">&times;</span>
+
+            <div class="header-row">
+                <h2 class="title">📚 나의 주소록</h2>
+                <a href="javascript:void(0);" id="newAddressBtn" class="btn add-address">+ 새 주소 등록</a>
+            </div>
+
+            <div class="address-list">
+                <div th:if="${#lists.isEmpty(init.getRecipients())}" class="empty-message">
+                    <p>등록된 주소가 없습니다. 새로운 주소를 등록해주세요! 📭</p>
+                </div>
+
+                <div class="address-card"
+                     th:each="address, stat : ${init.getRecipients()}"
+                     th:data-id="${address.memberAddressId}"
+                     th:data-postcode="${address.postCode}"
+                     th:data-address="${address.address}"
+                     th:data-detail-address="${address.detailAddress}"
+                     th:data-address-name="${address.addressName}"
+                     th:data-recipient-name="${address.recipientName}"
+                     th:data-recipient-contact="${address.recipientContact}">
+                    <div class="address-info">
+                        <div class="name">
+                            <i class="fas fa-user"></i>
+                            <span th:text="${address.recipientName}">홍길동</span>
+                            <span class="badge" th:if="${address.getForcedDefaultAddress()}">기본</span>
+                        </div>
+                        <div class="contact">
+                            <i class="fas fa-phone"></i>
+                            <span th:text="${address.recipientContact}">010-1234-5678</span>
+                        </div>
+                        <div class="address">
+                            <i class="fas fa-home"></i>
+                            <span th:text="${address.address + ' ' + address.detailAddress}">서울 강남구 역삼동 101호</span>
+                        </div>
+                        <div class="alias">
+                            <i class="fas fa-tag"></i>
+                            <span th:text="${address.addressName}">회사</span>
+                        </div>
+
+                    </div>
+                    <button type="button" class="btn select-address">선택</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Hidden input for selected address memberAddressId (if needed by JS or for submit) -->
+    <!--
+    <input type="hidden" th:field="*{recipients.memberAddressId}" value="${id}">
+    -->
+    <!-- 서버에서 주입한 값만 담는 작은 스크립트 -->
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        window.orderMemberInit = {
+            addressCount: /*[[${addressCount}]]*/ 0
+        };
+        /*]]>*/
+    </script>
+    <!-- 실제 동작 로직 -->
+    <script th:src="@{/js/order/order_member_form.js}" defer></script>
+</main>
+</html>
