@@ -53,17 +53,33 @@
                         <span class="detail-label">ISBN:</span>
                         <span class="detail-value" th:text="${book.isbn}">ISBN</span>
                     </div>
-                </div>
-
-                <div class="action-buttons">
                     <div class="detail-item">
                         <span class="detail-label">선물포장:</span>
                         <span class="detail-value"
                               th:text="${book.isGiftWrap() ? '가능' : '불가능'}">포장 여부</span>
                     </div>
-
+                    <div class="detail-item">
+                        <span class="detail-label">선물포장:</span>
+                        <span class="detail-value"
+                              th:text="${book.isGiftWrap() ? '가능' : '불가능'}">포장 여부</span>
+                    </div>
+                </div>
+                <div class="action-buttons">
                     <!-- 주문하기: 수량을 선택해서 GET 파라미터로 전달 -->
-                    <form th:action="@{/order/order-form/{bookId}(bookId=${book.id})}"
+                    <form th:if="${isLoggedIn}" th:action="@{/order/order-form/{bookId}(bookId=${book.id})}"
+                          method="get"
+                          style="display:inline-block; margin-top:12px;">
+                        <label style="margin-right:8px;">
+                            수량&nbsp;
+                            <input type="number"
+                                   name="quantity"
+                                   min="1"
+                                   value="1"
+                                   style="width:60px;" />
+                        </label>
+                        <button type="submit">주문하기</button>
+                    </form>
+                    <form th:unless="${isLoggedIn}" th:action="@{/guest/order/order-form/{bookId}(bookId=${book.id})}"
                           method="get"
                           style="display:inline-block; margin-top:12px;">
                         <label style="margin-right:8px;">
