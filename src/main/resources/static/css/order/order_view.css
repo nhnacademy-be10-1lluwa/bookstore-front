@@ -1,0 +1,141 @@
+/* =================================================================
+   Global & Root Variables
+   공통 및 루트 변수
+   ================================================================= */
+:root {
+    --primary-color: #007bff; /* 주요 색상 (결제 버튼, 최종 금액) */
+    --primary-hover-color: #0056b3;
+    --text-color: #343a40; /* 기본 텍스트 색상 */
+    --light-text-color: #6c757d; /* 보조 텍스트 색상 */
+    --border-color: #e9ecef; /* 테두리 색상 */
+    --background-color: #f8f9fa; /* 페이지 배경색 */
+    --white-color: #ffffff;
+    --border-radius: 12px; /* 둥근 모서리 */
+    --box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08); /* 그림자 효과 */
+}
+
+/* =================================================================
+   Main Layout & Sections
+   메인 레이아웃 및 섹션
+   ================================================================= */
+main {
+    max-width: 800px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
+    color: var(--text-color);
+    background-color: var(--background-color);
+}
+
+/* 주문 정보를 감싸는 카드 스타일 */
+.order-summary {
+    background-color: var(--white-color);
+    border-radius: var(--border-radius);
+    padding: 32px;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--border-color);
+}
+
+/* =================================================================
+   Summary Rows (Label + Value)
+   요약 정보 행 (라벨 + 값)
+   ================================================================= */
+.summary-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 16px;
+}
+
+/* 각 그룹의 마지막 행은 밑줄 제거 */
+.order-summary > .summary-row:last-of-type,
+.item-summary > .summary-row:last-of-type {
+    border-bottom: none;
+}
+
+.summary-row .label {
+    color: var(--light-text-color);
+    font-weight: 500;
+}
+
+.summary-row .value {
+    font-weight: 600;
+}
+
+/* =================================================================
+   Highlighting the Total Price
+   최종 결제 금액 강조
+   ================================================================= */
+.summary-row.total {
+    padding-top: 24px;
+    margin-top: 16px;
+    border-top: 2px solid var(--text-color); /* 위쪽에 더 굵은 구분선 */
+    border-bottom: none;
+}
+
+.summary-row.total .label {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-color);
+}
+
+.summary-row.total .value {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+/* =================================================================
+   Item Summary Section
+   주문 상품 정보 섹션
+   ================================================================= */
+.item-summary {
+    margin-top: 32px;
+    padding-top: 32px;
+    border-top: 1px dashed var(--border-color); /* 점선으로 구분 */
+}
+
+.item-summary h3 {
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.item-summary .value span {
+    margin: 0 2px; /* 수량, 가격 등 세부 항목 간 간격 */
+}
+
+/* =================================================================
+   Call to Action Button
+   결제하기 버튼
+   ================================================================= */
+.main-content {
+    margin-top: 32px;
+}
+
+.main-content a {
+    display: block;
+    width: 100%;
+    padding: 18px;
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    font-weight: 700;
+    border-radius: var(--border-radius);
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.main-content a:hover {
+    background-color: var(--primary-hover-color);
+    transform: translateY(-2px); /* 살짝 위로 떠오르는 효과 */
+    box-shadow: var(--box-shadow);
+}
+
+.main-content a:active {
+    transform: translateY(0);
+}
