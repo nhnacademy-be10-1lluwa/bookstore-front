@@ -3,6 +3,8 @@ package com.nhnacademy.illuwa.order.client;
 import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.order.dto.*;
 import com.nhnacademy.illuwa.order.dto.admin.OrderUpdateStatusDto;
+import com.nhnacademy.illuwa.order.dto.guest.GuestOrderDirectRequest;
+import com.nhnacademy.illuwa.order.dto.guest.GuestOrderInitDirectResponse;
 import com.nhnacademy.illuwa.order.dto.member.MemberOrderDirectRequest;
 import com.nhnacademy.illuwa.order.dto.member.MemberOrderInitDirectResponse;
 import com.nhnacademy.illuwa.order.dto.types.OrderStatus;
@@ -32,8 +34,14 @@ public interface OrderServiceClient {
     @GetMapping("/api/order/member/init-member-info/books/{bookId}")
     MemberOrderInitDirectResponse fetchMemberDirectInfo(@PathVariable("bookId") Long bookId);
 
+    @GetMapping("/api/order/guest/init-guest-info/books/{bookId}")
+    GuestOrderInitDirectResponse fetchGuestDirectInfo(@PathVariable("bookId") Long bookId);
+
     @PostMapping("/api/order/member/submit-direct")
     OrderCreateResponse createMemberDirectOrder(@RequestBody @Valid MemberOrderDirectRequest memberOrderDirectRequest);
+
+    @PostMapping("/api/order/guest/submit-direct")
+    OrderCreateResponse createGuestDirectOrder(@RequestBody @Valid GuestOrderDirectRequest guestOrderDirectRequest);
 
     @GetMapping("/api/order/admin/orders")
     PageResponse<OrderListResponse> getOrderStatusPending(@RequestParam("status") OrderStatus status,
