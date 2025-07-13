@@ -1,5 +1,6 @@
 package com.nhnacademy.illuwa.book.dto;
 
+import com.nhnacademy.illuwa.tag.dto.TagResponse;
 import groovy.transform.builder.Builder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -33,5 +35,6 @@ public class BookDetailWithExtraInfoResponse {
     private Long level2;
     private String level1Name;
     private String level2Name;
+    private List<TagResponse> tags;
     private String categoryName;
 }

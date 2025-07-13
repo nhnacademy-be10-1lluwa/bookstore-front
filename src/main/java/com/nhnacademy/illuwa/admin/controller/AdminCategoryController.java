@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.category.controller;
+package com.nhnacademy.illuwa.admin.controller;
 
 import com.nhnacademy.illuwa.category.dto.CategoryFlatResponse;
 import com.nhnacademy.illuwa.category.client.CategoryServiceClient;

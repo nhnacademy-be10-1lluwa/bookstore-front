@@ -79,7 +79,7 @@ public class AdminBookController {
 
 
 
-    //도서 ISBN -> 도서 상세페이지
+    // 도서 ISBN -> 도서 상세페이지
     @GetMapping("/detail/{isbn}")
     public String bookDetailPage(@PathVariable String isbn) {
         return "admin/book/detail";
@@ -97,7 +97,7 @@ public class AdminBookController {
 
 
 
-    //도서 등록 form -> 도서 직접 등록
+    // (POST) 도서 등록
     @PostMapping("/register/manual")
     public String registerBookManual(
             @ModelAttribute BookRegisterRequest bookRegisterRequest) {
@@ -106,7 +106,7 @@ public class AdminBookController {
             return "redirect:/admin/book/manage";
     }
 
-    // -> 도서 삭제
+    // (POST) 도서 삭제
     @PostMapping("/delete/{id}")
     public String deleteBook(@PathVariable Long id){
         productServiceClient.deleteBook(id);
@@ -125,12 +125,10 @@ public class AdminBookController {
         return "admin/book/book_update";
     }
 
+    // -> (POST) 도서 수정
     @PostMapping("/update/{id}")
-    public String updateBook(
-            @PathVariable Long id,
-            @ModelAttribute BookUpdateRequest request
-    ) {
-        // 여기서 FeignClient 호출은 JSON으로 보내야 하므로
+    public String updateBook(@PathVariable Long id, @ModelAttribute BookUpdateRequest request) {
+
         productServiceClient.updateBook(id, request);
 
         return "redirect:/admin/book/manage";

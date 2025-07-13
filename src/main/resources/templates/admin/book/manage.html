@@ -19,6 +19,7 @@
       <th>저자</th>
       <th>출판사</th>
       <th>출판일</th>
+      <th>태그</th>
       <th>정가</th>
       <th>판매가</th>
       <th>ISBN</th>
@@ -38,13 +39,18 @@
       <td th:text="${book.author}">저자</td>
       <td th:text="${book.publisher}">출판사</td>
       <td th:text="${book.publishedDate}">출판일</td>
+      <td>
+    <span th:each="tag : ${book.tags}"
+          th:text="${tag.name}"
+          style="margin-right: 4px; background: #eee; padding: 2px 4px; border-radius: 3px;">
+    </span>
+      </td>
       <td th:text="${#numbers.formatInteger(book.regularPrice, 3, 'COMMA')} + '원'">정가</td>
       <td th:text="${#numbers.formatInteger(book.salePrice, 3, 'COMMA')} + '원'">판매가</td>
       <td th:text="${book.isbn}">ISBN</td>
       <td th:text="${book.count}">수량</td>
       <td th:text="${book.status}">상태</td>
       <td th:text="${book.giftwrap ? '가능' : '불가'}">선물포장</td>
-      <td>
       <td>
         <span th:if="${book.level1Name != null}" th:text="'대분류: ' + ${book.level1Name}"></span><br/>
         <span th:if="${book.level2Name != null}" th:text="'중분류: ' + ${book.level2Name}"></span><br/>
