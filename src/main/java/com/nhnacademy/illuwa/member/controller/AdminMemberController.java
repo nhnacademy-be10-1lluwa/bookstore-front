@@ -23,14 +23,14 @@ public class AdminMemberController {
     @GetMapping("/admin/member-list")
     public String memberList(
             @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "10") int size,
             Model model) {
         PageResponse<MemberResponse> memberPage =
                 adminMemberService.getPagedMemberList(page, size);
 
         model.addAttribute("memberList", memberPage.content());
         model.addAttribute("memberCount",memberPage.totalElements());
-        model.addAttribute("currentPage", memberPage.page());
+        model.addAttribute("currentPage", page);
         model.addAttribute("pageSize", memberPage.size());
         model.addAttribute("totalPages", memberPage.totalPages());
         model.addAttribute("lastPageIndex", Math.max(0, memberPage.totalPages() - 1));

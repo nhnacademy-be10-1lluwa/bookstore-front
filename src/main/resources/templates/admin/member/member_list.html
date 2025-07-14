@@ -1,31 +1,36 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout/layout}"
+      th:lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
-<head layout:fragment="head">
+<head layout:fragment="head" title="회원 목록">
     <link rel="stylesheet" th:href="@{/css/main.css}" />
-    <title>회원 목록</title>
+    <link rel="stylesheet" th:href="@{/css/page/member/_member-list.css}" />
 </head>
 
+<body>
 <main layout:fragment="content">
     <section class="main-content">
-        <h2>전체 회원목록</h2>
+        <div class="header-row">
+            <h2 class="title">📋 전체 회원목록</h2>
+        </div>
 
-        <div class="book-list">
-            <div class="book-item"
-                 th:each="member, iterStat : ${members.content}"
-                 th:classappend="${member.status.name() == 'DELETED'} ? 'deleted-member'">
-                <h3 th:text="'#' + ((members.number * members.size) + iterStat.index + 1) + '. ' + member.name"
+        <div class="member-list">
+            <div class="member-item"
+                 th:each="member, i : ${memberList}"
+                 th:classappend="${member.status.name() == 'DELETED'} ? ' deleted-member' : ''">
+
+                <h3 th:text="'#' + (${currentPage} * ${pageSize} + ${i.index + 1}) + '. ' + ${member.name}"
                     class="member-name"></h3>
+
 
                 <p><strong>이메일:</strong>
                     <span th:text="${member.email}" class="member-email"></span>
                 </p>
 
                 <p><strong>연락처:</strong>
-                    <span th:class="'grade-tag'"
-                            th:text="${member.contact}"></span>
+                    <span class="grade-tag" th:text="${member.contact}"></span>
                 </p>
 
                 <p><strong>등급:</strong>
@@ -42,27 +47,31 @@
                 </p>
 
                 <p><strong>마지막 로그인:</strong>
-                    <span th:text="${#temporals.format(member.lastLoginAt, 'yyyy-MM-dd HH:mm')}"></span>
+                    <span th:text="${member.lastLoginAt != null ? #temporals.format(member.lastLoginAt, 'yyyy-MM-dd HH:mm') : '미접속'}">미접속</span>
                 </p>
             </div>
         </div>
 
+        <!-- 페이징 -->
+        <div class="pagination">
+            <button th:if="${currentPage > 0}"
+                    th:onclick="'location.href=\'/admin/member-list?page=' + (${currentPage} - 1) + '\''">
+                ◀ 이전
+            </button>
 
-        <div class="pagination" style="margin-top: var(--spacing-xl); text-align: center;">
-            <a th:if="${members.hasPrevious()}"
-               th:href="@{|/members?page=${members.number - 1}|}" class="button">이전</a>
-
-            <span th:each="i : ${#numbers.sequence(0, members.totalPages - 1)}"
-                  th:classappend="${i == members.number} ? 'active-page'"
-                  style="margin: 0 6px;">
-                <a th:href="@{|/members?page=${i}|}"
-                   th:text="${i + 1}"
-                   class="button small"></a>
+            <span th:each="i : ${#numbers.sequence(0, lastPageIndex)}">
+                <a th:href="@{'/admin/member-list?page=' + ${i}}"
+                th:text="${i + 1}"
+                th:class="${i == currentPage} ? 'active-page' : ''">1</a>
             </span>
 
-            <a th:if="${members.hasNext()}"
-               th:href="@{|/members?page=${members.number + 1}|}" class="button">다음</a>
+
+            <button th:if="${currentPage < (totalPages > 0 ? totalPages - 1 : 0)}"
+                    th:onclick="'location.href=\'/admin/member-list?page=' + (${currentPage} + 1) + '\''">
+                다음 ▶
+            </button>
         </div>
     </section>
 </main>
+</body>
 </html>
