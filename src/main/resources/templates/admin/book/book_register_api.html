@@ -3,14 +3,15 @@
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
+
+
+<body>
 <head layout:fragment="head">
   <link rel="stylesheet" th:href="@{/css/main.css}" />
   <link rel="stylesheet" th:href="@{/css/page/book/book_register.css}" />
 </head>
-
-
 <main layout:fragment="content">
-  <form th:action="@{/admin/book/register_api}" method="post">
+  <form th:action="@{/admin/book/register_api}" method="post" enctype="multipart/form-data">
     <div class="mb-3">
       <label for="title" class="form-label">제목</label>
       <input type="text" id="title" name="title" class="form-control"
@@ -60,13 +61,27 @@
     </div>
 
     <div class="mb-3">
-      <label for="cover" class="form-label">이미지 URL</label>
-      <input type="text" id="cover" name="cover" class="form-control"
-             th:value="${book.cover != null} ? ${book.cover} : ''" />
-      <div th:if="${book.cover != null and !book.cover.isEmpty()}">
-        <img th:src="${book.cover}" alt="도서 이미지" class="mt-2" style="max-width: 150px;"
-             onerror="this.style.display='none'"/>
+      <label class="form-label">대표 이미지</label>
+
+      <div>
+        <img id="imagePreview"
+             th:src="${book.cover != null && !book.cover.isEmpty()} ? ${book.cover} : ''"
+             alt="대표 이미지"
+             class="mt-2"
+             style="max-width:150px; display: ${book.cover != null && !book.cover.isEmpty() ? 'block' : 'none'};"
+        />
       </div>
+
+      <input type="hidden" name="cover" th:value="${book.cover != null} ? ${book.cover} : ''" />
+
+      <input
+              type="file"
+              id="coverFile"
+              name="coverFile"
+              class="form-control mt-2"
+              accept="image/*"
+              onchange="previewImage(this)"
+      />
     </div>
 
     <div class="mb-3">
@@ -117,3 +132,23 @@
     <a th:href="@{/admin/books}" class="btn btn-secondary ms-2">취소</a>
   </form>
 </main>
+
+<section layout:fragment="scripts">
+  <script>
+    function previewImage(input) {
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const preview = document.getElementById('imagePreview');
+          preview.src = e.target.result;
+          preview.style.display = 'block';
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+  </script>
+
+</section>
+</body>
+
+
