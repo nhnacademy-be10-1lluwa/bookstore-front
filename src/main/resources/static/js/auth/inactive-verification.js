@@ -1,4 +1,4 @@
-const baseUrl = /*[[${apiBaseUrl}]]*/ '';
+const baseUrl = 'https://book1lluwa.store'
 
 const sendBtn = document.getElementById('sendCodeBtn');
 const timer = document.getElementById('timer');
