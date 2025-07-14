@@ -16,6 +16,34 @@
             <h2 class="title">📋 전체 회원목록</h2>
         </div>
 
+        <p th:if="${selectedGrade != null}">
+            ✅ 현재 선택된 등급: <strong th:text="${selectedGrade}"></strong>
+        </p>
+
+        <!-- 등급 필터 및 포인트 지급 폼 -->
+        <div class="filter-section">
+            <!-- 필터 -->
+            <form method="get" action="/admin/member-list">
+                <label>
+                    <select name="grade" onchange="this.form.submit()">
+                        <option value="">전체 등급</option>
+                        <option value="BASIC" th:selected="${selectedGrade == 'BASIC'}">일반</option>
+                        <option value="GOLD" th:selected="${selectedGrade == 'GOLD'}">골드</option>
+                        <option value="ROYAL" th:selected="${selectedGrade == 'ROYAL'}">로얄</option>
+                        <option value="PLATINUM" th:selected="${selectedGrade == 'PLATINUM'}">플래티넘</option>
+                    </select>
+                </label>
+            </form>
+
+            <!-- 포인트 지급 -->
+            <form id="pointForm" method="post" th:action="@{/admin/point-bonus}" onsubmit="return confirmPointBonus();">
+                <input type="hidden" name="grade" th:value="${selectedGrade}" />
+                <input type="number" name="point" placeholder="포인트 입력" required min="1"/>
+                <button type="submit" th:disabled="${selectedGrade == null || selectedGrade.isEmpty()}">등급 회원 포인트 지급</button>
+            </form>
+        </div>
+
+        <!-- 회원 목록 -->
         <div class="member-list">
             <div class="member-item"
                  th:each="member, i : ${memberList}"
@@ -23,7 +51,6 @@
 
                 <h3 th:text="'#' + (${currentPage} * ${pageSize} + ${i.index + 1}) + '. ' + ${member.name}"
                     class="member-name"></h3>
-
 
                 <p><strong>이메일:</strong>
                     <span th:text="${member.email}" class="member-email"></span>
@@ -52,7 +79,7 @@
             </div>
         </div>
 
-        <!-- 페이징 -->
+        <!-- ✅ 페이징 -->
         <div class="pagination">
             <button th:if="${currentPage > 0}"
                     th:onclick="'location.href=\'/admin/member-list?page=' + (${currentPage} - 1) + '\''">
@@ -61,17 +88,20 @@
 
             <span th:each="i : ${#numbers.sequence(0, lastPageIndex)}">
                 <a th:href="@{'/admin/member-list?page=' + ${i}}"
-                th:text="${i + 1}"
-                th:class="${i == currentPage} ? 'active-page' : ''">1</a>
+                   th:text="${i + 1}"
+                   th:class="${i == currentPage} ? 'active-page' : ''">1</a>
             </span>
-
 
             <button th:if="${currentPage < (totalPages > 0 ? totalPages - 1 : 0)}"
                     th:onclick="'location.href=\'/admin/member-list?page=' + (${currentPage} + 1) + '\''">
                 다음 ▶
             </button>
         </div>
+
     </section>
 </main>
+<th:block layout:fragment="scripts">
+    <script th:src="@{/js/admin/member-list.js}"></script>
+</th:block>
 </body>
 </html>
