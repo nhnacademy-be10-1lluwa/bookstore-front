@@ -27,8 +27,8 @@ public class LoginController {
     private final AuthClient authClient;
     private final InactiveVerificationService inactiveVerificationService;
 
-    @Value("${api.base-url}")
-    private String apiBaseUrl;
+//    @Value("${api.base-url}")
+//    private String apiBaseUrl;
 
     @GetMapping("/login")
     public String login() {
@@ -44,7 +44,7 @@ public class LoginController {
 
         if (inactiveMemberInfo.getStatus() == Status.INACTIVE) {
             model.addAttribute("email", inactiveMemberInfo.getEmail());
-            model.addAttribute("apiBaseUrl", apiBaseUrl != null ? apiBaseUrl : "");
+//            model.addAttribute("apiBaseUrl", apiBaseUrl != null ? apiBaseUrl : "");
             return "auth/inactive-verification";
         }
 
