@@ -1,4 +1,4 @@
-const baseUrl = 'https://book1lluwa.store'
+const baseUrl = window.location.origin;
 
 const sendBtn = document.getElementById('sendCodeBtn');
 const timer = document.getElementById('timer');
@@ -52,7 +52,7 @@ sendBtn.addEventListener('click', async () => {
     }
 
     try {
-        const response = await fetch(baseUrl + '/api/members/inactive/verification', {
+        const response = await fetch( `${baseUrl}/api/members/inactive/verification`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -86,7 +86,7 @@ document.getElementById('verifyBtn').addEventListener('click', async () => {
     }
 
     try {
-        const response = await fetch(baseUrl + '/api/members/inactive/verification/verify', {
+        const response = await fetch(`${baseUrl}/api/members/inactive/verification/verify`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
