@@ -4,7 +4,6 @@ import com.nhnacademy.illuwa.review.dto.ReviewRequest;
 import com.nhnacademy.illuwa.review.dto.ReviewResponse;
 import com.nhnacademy.illuwa.review.service.ReviewService;
 import jakarta.validation.Valid;
-import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;

@@ -1,6 +1,6 @@
 package com.nhnacademy.illuwa.pointhistory.controller;
 
-import com.nhnacademy.illuwa.memberaddress.dto.PageResponse;
+import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.pointhistory.dto.PointHistoryResponse;
 import com.nhnacademy.illuwa.pointhistory.service.PointHistoryService;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +25,11 @@ public class PointHistoryController {
                 pointHistoryService.getPagedMemberPointHistoryList(type, page, size);
 
         model.addAttribute("currentPoint", pointHistoryService.getMemberPoint());
-        model.addAttribute("pointHistoryList", pointHistoryPage.getContent());
-        model.addAttribute("currentPage", pointHistoryPage.getNumber());
-        model.addAttribute("pageSize", pointHistoryPage.getSize());
-        model.addAttribute("totalPages", pointHistoryPage.getTotalPages());
-        model.addAttribute("lastPageIndex", Math.max(0, pointHistoryPage.getTotalPages() - 1));
+        model.addAttribute("pointHistoryList", pointHistoryPage.content());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", pointHistoryPage.size());
+        model.addAttribute("totalPages", pointHistoryPage.totalPages());
+        model.addAttribute("lastPageIndex", Math.max(0, pointHistoryPage.totalPages() - 1));
         model.addAttribute("currentType", type);
         return "mypage/section/point_history";
     }
