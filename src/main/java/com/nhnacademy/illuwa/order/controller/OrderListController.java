@@ -27,6 +27,4 @@ public class OrderListController {
         model.addAttribute("totalPages", orderPage.totalPages());
         return "order/order_list";
     }
-
-
 }

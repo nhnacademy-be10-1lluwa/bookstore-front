@@ -1,6 +1,6 @@
 package com.nhnacademy.illuwa.pointhistory.service;
 
-import com.nhnacademy.illuwa.memberaddress.dto.PageResponse;
+import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.pointhistory.client.PointHistoryServiceClient;
 import com.nhnacademy.illuwa.pointhistory.dto.PointHistoryResponse;
 import lombok.RequiredArgsConstructor;

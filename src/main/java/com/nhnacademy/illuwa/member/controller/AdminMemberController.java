@@ -1,8 +1,8 @@
 package com.nhnacademy.illuwa.member.controller;
 
+import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.member.dto.MemberResponse;
 import com.nhnacademy.illuwa.member.service.AdminMemberService;
-import com.nhnacademy.illuwa.memberaddress.dto.PageResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,12 +28,12 @@ public class AdminMemberController {
         PageResponse<MemberResponse> memberPage =
                 adminMemberService.getPagedMemberList(page, size);
 
-        model.addAttribute("memberList", memberPage.getContent());
-        model.addAttribute("memberCount",memberPage.getTotalElements());
-        model.addAttribute("currentPage", memberPage.getNumber());
-        model.addAttribute("pageSize", memberPage.getSize());
-        model.addAttribute("totalPages", memberPage.getTotalPages());
-        model.addAttribute("lastPageIndex", Math.max(0, memberPage.getTotalPages() - 1));
+        model.addAttribute("memberList", memberPage.content());
+        model.addAttribute("memberCount",memberPage.totalElements());
+        model.addAttribute("currentPage", memberPage.page());
+        model.addAttribute("pageSize", memberPage.size());
+        model.addAttribute("totalPages", memberPage.totalPages());
+        model.addAttribute("lastPageIndex", Math.max(0, memberPage.totalPages() - 1));
         return "admin/member/member_list";
     }
 
