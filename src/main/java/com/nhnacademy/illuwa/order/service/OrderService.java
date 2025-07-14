@@ -6,8 +6,10 @@ import com.nhnacademy.illuwa.order.dto.*;
 import com.nhnacademy.illuwa.order.dto.admin.OrderUpdateStatusDto;
 import com.nhnacademy.illuwa.order.dto.guest.GuestOrderDirectRequest;
 import com.nhnacademy.illuwa.order.dto.guest.GuestOrderInitDirectResponse;
+import com.nhnacademy.illuwa.order.dto.member.MemberOrderCartRequest;
 import com.nhnacademy.illuwa.order.dto.member.MemberOrderDirectRequest;
 import com.nhnacademy.illuwa.order.dto.member.MemberOrderInitDirectResponse;
+import com.nhnacademy.illuwa.order.dto.member.MemberOrderInitFromCartResponse;
 import com.nhnacademy.illuwa.order.dto.types.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -43,8 +45,13 @@ public class OrderService {
     }
 
     // 회원 바로 주문 정보 불러오기
-    public MemberOrderInitDirectResponse getMemberInitDateDirect(Long bookId) {
+    public MemberOrderInitDirectResponse getMemberInitDataDirect(Long bookId) {
         return orderServiceClient.fetchMemberDirectInfo(bookId);
+    }
+
+    // 회원 장바구니 주문 정보 불러오기
+    public MemberOrderInitFromCartResponse getMemberInitDataCart() {
+        return orderServiceClient.fetchMemberCartInfo();
     }
 
     // 비회원 바로 주문 정보 불러오기
@@ -57,6 +64,11 @@ public class OrderService {
         return orderServiceClient.createMemberDirectOrder(request);
     }
 
+    // 회원 장바구니 주문하기
+    public OrderCreateResponse sendCartOrderMember(MemberOrderCartRequest request) {
+        return orderServiceClient.createMemberCartOrder(request);
+    }
+
     // 비회원 바로 주문하기
     public OrderCreateResponse sendDirectOrderGuest(GuestOrderDirectRequest request) {
         return orderServiceClient.createGuestDirectOrder(request);
@@ -65,7 +77,7 @@ public class OrderService {
     // Pending 상태 주문 조회
     public PageResponse<OrderListResponse> getOrderStatusPending(@RequestParam(defaultValue = "0") int page,
                                                                  @RequestParam(defaultValue = "10") int size) {
-        return orderServiceClient.getOrderStatusPending(OrderStatus.Pending, page, size);
+        return orderServiceClient.getOrderByStatus(OrderStatus.Pending, page, size);
     }
 
     // 어드민 주문 상세 조회
