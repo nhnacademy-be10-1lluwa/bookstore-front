@@ -1,11 +1,13 @@
-const baseUrl = window.location.origin;
-
 const sendBtn = document.getElementById('sendCodeBtn');
 const timer = document.getElementById('timer');
 const countdown = document.getElementById('countdown');
 const codeGroup = document.getElementById('codeGroup');
 const errorMessage = document.getElementById('errorMessage');
 const serverEmailInput = document.getElementById('serverEmail');
+
+const baseUrl = "";
+const SEND_API   = "/proxy/members/inactive/verification";
+const VERIFY_API = "/proxy/members/inactive/verification/verify";
 
 let timeLeft = 180;
 let timerInterval;
@@ -52,7 +54,7 @@ sendBtn.addEventListener('click', async () => {
     }
 
     try {
-        const response = await fetch( `${baseUrl}/api/members/inactive/verification`, {
+        const response = await fetch(baseUrl + SEND_API, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -86,7 +88,7 @@ document.getElementById('verifyBtn').addEventListener('click', async () => {
     }
 
     try {
-        const response = await fetch(`${baseUrl}/api/members/inactive/verification/verify`, {
+        const response = await fetch(baseUrl + VERIFY_API, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
