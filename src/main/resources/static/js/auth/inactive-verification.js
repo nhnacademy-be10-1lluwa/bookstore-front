@@ -1,4 +1,4 @@
-const baseUrl = /*[[${apiBaseUrl}]]*/ 'http://localhost:10302';
+const baseUrl = /*[[${apiBaseUrl}]]*/ '';
 
 const sendBtn = document.getElementById('sendCodeBtn');
 const timer = document.getElementById('timer');
