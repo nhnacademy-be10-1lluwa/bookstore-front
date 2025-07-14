@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+  <link rel="stylesheet" th:href="@{/css/main.css}"/>
+  <link rel="stylesheet" th:href="@{/css/page/_address-list.css}"/>
+  <link rel="stylesheet" th:href="@{/css/component/_pagination.css}"/>
+  <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+  <link rel="stylesheet" th:href="@{/css/order/address_modal.css}">
+  <link rel="stylesheet" th:href="@{/css/order/order_form.css}">
+</head>
+
+<main layout:fragment="content">
+
+  <h2>주문 정보 입력</h2>
+
+  <form th:action="@{/guest/order/order-form/submit-direct}" method="post" th:object="${orderRequest}" class="order-form">
+
+
+    <section class="item-summary">
+      <h3>주문 상품</h3>
+      <p>
+        <strong th:text="${init.item.title}">도서 제목</strong>
+        &nbsp;|&nbsp;
+        <span th:text="${#numbers.formatDecimal(init.item.getRegularPrice(), 0, 'COMMA', 0, 'DEFAULT')}">0</span>원
+        <span th:text="${#numbers.formatDecimal(init.item.getSalePrice(), 0, 'COMMA', 0, 'DEFAULT')}">0</span>원
+      </p>
+      <input type="hidden" th:field="*{item.bookId}" th:value="${init.item.bookId}"/>
+      <input type="hidden" id="unitPrice"
+             th:value="${init.item.getSalePrice() != null ? init.item.getSalePrice() : init.item.getRegularPrice()}"/>
+
+      <div class="item-options-group">
+        <label class="quantity-label">
+          수량
+          <input type="number"
+                 id="quantityInput"
+                 th:field="*{item.quantity}"
+                 min="1"
+                 th:value="${initialQuantity}"
+                 value="1"/>
+        </label>
+
+        <label>
+          포장 옵션
+          <select id="packagingSelect" class="form-select" th:field="*{item.packagingId}">
+            <option th:each="pkg : ${init.packaging}"
+                    th:value="${pkg.packagingId}"
+                    th:attr="data-price=${pkg.packagingPrice}"
+                    th:selected="${pkg.packagingId == 1}"
+                    th:text="${pkg.packagingName + ' (' + #numbers.formatDecimal(pkg.packagingPrice, 0, 'COMMA', 0, 'DEFAULT') + '원)'}">
+            </option>
+          </select>
+        </label>
+      </div>
+    </section>
+
+    <section class="basic-input">
+      <h3>주문자 정보</h3>
+      <div>
+        <label for="orderName">주문자 이름</label>
+        <input type="text" id="orderName" th:field="*{name}" required>
+
+        <label for="orderPassword">주문 비밀번호</label>
+        <input type="password" id="orderPassword"  th:field="*{orderPassword}" required>
+
+        <label for="email">주문자 이메일</label>
+        <input type="email" id="email" th:field="*{email}" required>
+
+        <label for="contact">주문자 연락처</label>
+        <input type="tel" id="contact" th:field="*{contact}" required>
+      </div>
+    </section>
+
+    <section class="address-select">
+      <h3>배송지 정보</h3>
+      <div id="selectedAddressArea" style="margin-top: 10px;"></div>
+      <div>
+        <label>우편번호</label>
+        <input type="text" id="postcode" th:field="*{postCode}" th:value="${address?.postCode}"/>
+        <button type="button" id="postcodeBtn" onclick="openPostcode()">우편번호 찾기</button>
+
+        <label>주소</label>
+        <input type="text" id="address" th:field="*{readAddress}" th:value="${address?.address}"/>
+
+        <label>상세주소</label>
+        <input type="text" id="detailAddress" th:field="*{detailAddress}" th:value="${address?.detailAddress}" placeholder="상세주소를 입력하세요"/>
+
+        <label>받는 사람</label>
+        <input type="text" id="recipientName" th:field="*{recipientName}" th:value="${address?.recipientName}" placeholder="받는 분 성함을 입력해주세요"/>
+
+        <label>연락처</label>
+        <input type="tel" id="recipientContact" th:field="*{recipientContact}" th:value="${address?.recipientContact}" placeholder="010-0000-0000"/>
+
+        <label for="deliveryDate">배송 날짜</label>
+        <input type="date"
+               id="deliveryDate"
+               th:field="*{deliveryDate}"
+               th:attr="min=${#temporals.format(#temporals.createNow().plusDays(1),'yyyy-MM-dd')}"
+               th:value="${#temporals.format(#temporals.createNow().plusDays(1),'yyyy-MM-dd')}" />
+        <small class="text-muted">* 미선택 시 자동으로 내일 날짜가 설정됩니다.</small>
+      </div>
+    </section>
+
+    <section class="submit-area">
+      <p>
+        예상 결제 금액 :
+        <span id="estimatedTotal"></span>
+      </p>
+      <button type="submit">주문 확정</button>
+    </section>
+  </form>
+
+  <script th:inline="javascript">
+    /*<![CDATA[*/
+    window.orderMemberInit = {
+      addressCount: 0 // 비회원은 주소록이 없으므로 0으로 고정
+    };
+    /*]]>*/
+  </script>
+  <script th:src="@{/js/order/order_guest_form.js}" defer></script>
+</main>
+</html>

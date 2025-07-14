@@ -1,32 +1,41 @@
 package com.nhnacademy.illuwa.book.dto;
 
+import groovy.transform.builder.Builder;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.format.annotation.DateTimeFormat;
+
+import java.math.BigDecimal;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FinalAladinBookRegisterRequest {
+public class BookUpdateRequest {
+    private Long id;
+
     private String title;
     private String author;
     private String publisher;
-
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private String pubDate;
-
     private String isbn;
-    private int regularPrice;
-    private int salePrice;
+
+    private BigDecimal regularPrice;
+    private BigDecimal salePrice;
+
     private String description;
     private String contents;
 
-    private Integer count; // 재고 수량 (null 허용)
+    private String cover;
 
+    private Integer count;
+
+    private String status;
+
+    private Boolean giftwrap;
+
+    private Long level1;
+    private Long level2;
     private Long categoryId;
-
-    private String imageFileUrl; // 이미지 URL (hidden input으로 전달)
 }

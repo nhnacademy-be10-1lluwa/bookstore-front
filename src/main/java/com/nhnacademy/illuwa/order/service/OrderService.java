@@ -2,11 +2,12 @@ package com.nhnacademy.illuwa.order.service;
 
 import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.order.client.OrderServiceClient;
-import com.nhnacademy.illuwa.order.dto.OrderListResponse;
-import com.nhnacademy.illuwa.order.dto.OrderResponse;
-import com.nhnacademy.illuwa.order.dto.PackagingRequestDto;
-import com.nhnacademy.illuwa.order.dto.PackagingResponseDto;
+import com.nhnacademy.illuwa.order.dto.*;
 import com.nhnacademy.illuwa.order.dto.admin.OrderUpdateStatusDto;
+import com.nhnacademy.illuwa.order.dto.guest.GuestOrderDirectRequest;
+import com.nhnacademy.illuwa.order.dto.guest.GuestOrderInitDirectResponse;
+import com.nhnacademy.illuwa.order.dto.member.MemberOrderDirectRequest;
+import com.nhnacademy.illuwa.order.dto.member.MemberOrderInitDirectResponse;
 import com.nhnacademy.illuwa.order.dto.types.OrderStatus;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +20,6 @@ import java.util.List;
 public class OrderService {
 
     private final OrderServiceClient orderServiceClient;
-
 
     public List<PackagingResponseDto> getPackagingListFromApi() {
         return orderServiceClient.getPackaging();
@@ -40,6 +40,26 @@ public class OrderService {
     // 주문 상세 페이지
     public OrderResponse getOrderDetail(Long orderId) {
         return orderServiceClient.getMemberOrderHistoryDetail(orderId);
+    }
+
+    // 회원 바로 주문 정보 불러오기
+    public MemberOrderInitDirectResponse getMemberInitDateDirect(Long bookId) {
+        return orderServiceClient.fetchMemberDirectInfo(bookId);
+    }
+
+    // 비회원 바로 주문 정보 불러오기
+    public GuestOrderInitDirectResponse getGuestInitDateDirect(Long bookId) {
+        return orderServiceClient.fetchGuestDirectInfo(bookId);
+    }
+
+    // 회원 바로 주문하기
+    public OrderCreateResponse sendDirectOrderMember(MemberOrderDirectRequest request) {
+        return orderServiceClient.createMemberDirectOrder(request);
+    }
+
+    // 비회원 바로 주문하기
+    public OrderCreateResponse sendDirectOrderGuest(GuestOrderDirectRequest request) {
+        return orderServiceClient.createGuestDirectOrder(request);
     }
 
     // Pending 상태 주문 조회

@@ -1,12 +1,14 @@
 package com.nhnacademy.illuwa.order.client;
 
 import com.nhnacademy.illuwa.common.dto.PageResponse;
-import com.nhnacademy.illuwa.order.dto.OrderListResponse;
-import com.nhnacademy.illuwa.order.dto.OrderResponse;
-import com.nhnacademy.illuwa.order.dto.PackagingRequestDto;
-import com.nhnacademy.illuwa.order.dto.PackagingResponseDto;
+import com.nhnacademy.illuwa.order.dto.*;
 import com.nhnacademy.illuwa.order.dto.admin.OrderUpdateStatusDto;
+import com.nhnacademy.illuwa.order.dto.guest.GuestOrderDirectRequest;
+import com.nhnacademy.illuwa.order.dto.guest.GuestOrderInitDirectResponse;
+import com.nhnacademy.illuwa.order.dto.member.MemberOrderDirectRequest;
+import com.nhnacademy.illuwa.order.dto.member.MemberOrderInitDirectResponse;
 import com.nhnacademy.illuwa.order.dto.types.OrderStatus;
+import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,7 +16,6 @@ import java.util.List;
 
 @FeignClient(name = "order-service", url = "${api.base-url}")
 public interface OrderServiceClient {
-
     @GetMapping("/api/packaging")
     List<PackagingResponseDto> getPackaging();
 
@@ -30,6 +31,18 @@ public interface OrderServiceClient {
     @GetMapping("/api/order/member/orders/{orderId}")
     OrderResponse getMemberOrderHistoryDetail(@PathVariable("orderId") Long orderId);
 
+    @GetMapping("/api/order/member/init-member-info/books/{bookId}")
+    MemberOrderInitDirectResponse fetchMemberDirectInfo(@PathVariable("bookId") Long bookId);
+
+    @GetMapping("/api/order/guest/init-guest-info/books/{bookId}")
+    GuestOrderInitDirectResponse fetchGuestDirectInfo(@PathVariable("bookId") Long bookId);
+
+    @PostMapping("/api/order/member/submit-direct")
+    OrderCreateResponse createMemberDirectOrder(@RequestBody @Valid MemberOrderDirectRequest memberOrderDirectRequest);
+
+    @PostMapping("/api/order/guest/submit-direct")
+    OrderCreateResponse createGuestDirectOrder(@RequestBody @Valid GuestOrderDirectRequest guestOrderDirectRequest);
+
     @GetMapping("/api/order/admin/orders")
     PageResponse<OrderListResponse> getOrderStatusPending(@RequestParam("status") OrderStatus status,
                                                           @RequestParam("page") int page,
@@ -41,5 +54,4 @@ public interface OrderServiceClient {
     @PutMapping("/api/order/admin/orders/{orderId}")
     void updateOrderStatus(@PathVariable("orderId") Long orderId,
                            @RequestBody OrderUpdateStatusDto dto);
-
 }

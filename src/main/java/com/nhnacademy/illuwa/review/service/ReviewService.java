@@ -14,25 +14,20 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ReviewService{
     private final ReviewServiceClient reviewServiceClient;
-    private final MemberServiceClient memberServiceClient;
 
-    public void createReview(ReviewRequest request, List<MultipartFile> images) throws Exception {
-        reviewServiceClient.createReview(request, images);
+    public void createReview(Long bookId, ReviewRequest request) throws Exception {
+        reviewServiceClient.createReview(bookId, request);
     }
 
-    public void updateReview(Long bookId, Long reviewId, Long memberId, ReviewRequest request, List<MultipartFile> images) throws Exception {
-        reviewServiceClient.updateReview(bookId, reviewId, memberId, request, images);
+    public void updateReview(Long bookId, Long reviewId, ReviewRequest request) throws Exception {
+        reviewServiceClient.updateReview(bookId, reviewId, request);
     }
 
-    public ReviewResponse getReview(Long bookId, Long reviewId, Long memberId) {
-        return reviewServiceClient.getReviewDetails(bookId, reviewId, memberId);
+    public ReviewResponse getReview(Long reviewId, Long memberId) {
+        return reviewServiceClient.getReviewDetails(reviewId, memberId);
     }
 //    public<ReviewResponse> getReviewPages(Long bookId,  pageable, Long memberId) {
 //
 //    }
 //
-
-    public long getMemberId(){
-        return memberServiceClient.getMember().getMemberId();
-    }
 }

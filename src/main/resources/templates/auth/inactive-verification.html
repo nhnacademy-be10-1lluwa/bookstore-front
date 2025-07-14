@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>휴면회원 인증</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/page/_inactive-verfication.css}" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet" />
+</head>
+<body>
+<main layout:fragment="content">
+    <section class="main-content">
+        <h2>휴면회원 인증</h2>
+
+        <input type="hidden" id="serverEmail" th:value="${email}" />
+        <div class="form-group">
+            <label for="email">이메일</label>
+            <input type="email" id="email" placeholder="your.email@1lluwa.com" required />
+            <button id="sendCodeBtn" type="button">인증번호 발송</button>
+            <div id="timer" class="timer hidden">남은 시간: <span id="countdown">03:00</span></div>
+        </div>
+
+        <div class="form-group hidden fade-in" id="codeGroup">
+            <label for="code">인증번호 입력</label>
+            <div class="inline-group">
+                <input type="text" id="code" placeholder="6자리 숫자 입력" />
+                <button id="verifyBtn" type="button">인증하기</button>
+            </div>
+        </div>
+
+        <p id="errorMessage" class="error-message hidden" style="color: #e74c3c; font-weight: bold; margin-top: 0.5rem;"></p>
+    </section>
+    <script th:src="@{/js/auth/inactive-verification.js}"></script>
+    </main>
+</body>
+</html>

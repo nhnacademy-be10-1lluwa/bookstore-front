@@ -1,0 +1,367 @@
+/* =================================================================
+   Common & Root Variables
+   공통 및 루트 변수
+   ================================================================= */
+:root {
+    --primary-color: #007bff; /* 주 색상 (버튼, 포커스) */
+    --primary-hover-color: #0056b3;
+    --secondary-color: #6c757d; /* 보조 색상 (일반 버튼) */
+    --secondary-hover-color: #5a6268;
+    --background-color: #f8f9fa; /* 페이지 배경색 */
+    --section-bg-color: #ffffff; /* 섹션 배경색 */
+    --border-color: #dee2e6; /* 테두리 색상 */
+    --text-color: #343a40; /* 기본 텍스트 색상 */
+    --light-text-color: #6c757d; /* 보조 텍스트 색상 */
+    --danger-color: #dc3545; /* 강조/삭제 색상 */
+    --border-radius: 8px; /* 둥근 모서리 반경 */
+    --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08); /* 그림자 효과 */
+}
+
+/* =================================================================
+   Main Layout & Form Structure
+   메인 레이아웃 및 폼 구조
+   ================================================================= */
+main {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    font-family: 'Pretendard', 'Malgun Gothic', sans-serif;
+    color: var(--text-color);
+}
+
+.order-form {
+    display: flex;
+    flex-direction: column;
+    gap: 40px; /* 섹션 간의 간격 */
+}
+
+.order-form h2 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 24px;
+    padding-bottom: 16px;
+    border-bottom: 2px solid var(--text-color);
+}
+
+.order-form section {
+    background-color: var(--section-bg-color);
+    padding: 24px;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--box-shadow);
+}
+
+.order-form section h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-top: 0;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+
+/* =================================================================
+   Form Elements (Inputs, Labels, Buttons)
+   폼 요소 (입력 필드, 라벨, 버튼)
+   ================================================================= */
+label {
+    display: block;
+    font-weight: 600;
+    margin: 16px 0 6px 0;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="tel"],
+input[type="date"],
+select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 16px;
+    box-sizing: border-box; /* 패딩과 테두리를 너비에 포함 */
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+select:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+}
+
+/* 개별 버튼 스타일 */
+.btn,
+button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    background-color: var(--secondary-color);
+    color: white;
+}
+
+button:hover {
+    background-color: var(--secondary-hover-color);
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(0);
+}
+
+/* 주요 액션 버튼 (주문 확정 등) */
+button[type="submit"] {
+    background-color: var(--primary-color);
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+}
+
+button[type="submit"]:hover {
+    background-color: var(--primary-hover-color);
+}
+
+#postcodeBtn, #applyPointBtn {
+    margin-top: 10px;
+    width: auto;
+}
+
+#openAddressModal {
+    background-color: var(--primary-color);
+    color: white;
+    margin-top: 15px;
+}
+#openAddressModal:hover {
+    background-color: var(--primary-hover-color);
+}
+
+/* =================================================================
+   Section-specific Styles
+   섹션별 스타일
+   ================================================================= */
+
+/* 1. 주문 상품 요약 */
+.item-summary p {
+    font-size: 18px;
+}
+
+/* 2. 배송지 선택 */
+.address-select input[type="text"]#postcode {
+    width: calc(100% - 140px); /* 버튼 너비만큼 제외 */
+    display: inline-block;
+    margin-right: 10px;
+}
+
+#postcodeBtn {
+    width: 120px;
+    display: inline-block;
+    margin-top: 0;
+}
+.text-muted {
+    font-size: 13px;
+    color: var(--light-text-color);
+}
+
+/* 5. 포인트 사용 */
+.point-use p {
+    font-size: 16px;
+}
+
+.point-use input[type="number"] {
+    display: inline-block;
+    width: calc(100% - 140px);
+    margin-right: 10px;
+}
+
+#applyPointBtn {
+    width: 120px;
+    display: inline-block;
+}
+
+/* 7. 주문 합계 */
+.submit-area {
+    text-align: right;
+}
+
+.submit-area p {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.submit-area #estimatedTotal {
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--danger-color);
+    margin-left: 10px;
+}
+
+
+/* =================================================================
+   Address Modal Styles
+   주소록 모달 스타일
+   ================================================================= */
+.modal {
+    display: none; /* JS로 'flex'로 변경하여 표시 */
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+.modal-content {
+    background-color: #fff;
+    margin: auto;
+    padding: 30px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    width: 90%;
+    max-width: 650px;
+    position: relative;
+    animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-close {
+    color: #aaa;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 32px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.modal-close:hover {
+    color: var(--danger-color);
+}
+
+.modal .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    padding-bottom: 15px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal .header-row .title {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.modal .add-address {
+    background: none;
+    border: 1px solid var(--primary-color);
+    color: var(--primary-color);
+    font-weight: 600;
+}
+.modal .add-address:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+
+.address-list {
+    max-height: 50vh;
+    overflow-y: auto;
+    padding-right: 10px; /* 스크롤바 공간 확보 */
+}
+
+.address-list .empty-message {
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--light-text-color);
+    font-size: 18px;
+}
+
+.address-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    margin-bottom: 15px;
+    transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.address-card:hover {
+    border-color: var(--primary-color);
+    box-shadow: var(--box-shadow);
+}
+
+.address-info div {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+    font-size: 15px;
+}
+.address-info div:last-child {
+    margin-bottom: 0;
+}
+
+.address-info .name {
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.address-info .badge {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 3px 8px;
+    font-size: 12px;
+    border-radius: 10px;
+    font-weight: 500;
+}
+
+.address-info i.fas {
+    color: var(--light-text-color);
+    width: 16px;
+    text-align: center;
+}
+
+.address-card .select-address {
+    flex-shrink: 0; /* 버튼 크기 유지 */
+    margin-left: 20px;
+}
+
+.item-options-group {
+    display: flex;
+    gap: 20px; /* 옵션 간의 간격 */
+    align-items: flex-end;
+    margin-top: 16px;
+    flex-wrap: wrap; /* 화면이 작아지면 줄바꿈 */
+}
+.item-options-group label {
+    flex-grow: 1; /* 가능한 공간을 채우도록 함 */
+    margin: 0;
+}
+.item-options-group label input,
+.item-options-group label select {
+    width: 100%;
+    margin-top: 8px;
+}
+.item-options-group .quantity-label {
+    flex-grow: 0; /* 수량은 공간을 다 차지하지 않도록 설정 */
+    min-width: 120px;
+}

@@ -2,8 +2,10 @@ package com.nhnacademy.illuwa.admin.controller;
 
 import com.nhnacademy.illuwa.book.client.ProductServiceClient;
 import com.nhnacademy.illuwa.book.dto.*;
+import com.nhnacademy.illuwa.category.dto.CategoryResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -26,9 +28,15 @@ public class AdminBookController {
     }
 
     @GetMapping("/manage")
-    public String bookManagePage(Model model) {
-        List<BookDetailResponse> registeredBook = productServiceClient.getRegisteredBook();
-        model.addAttribute("books",registeredBook);
+    public String bookManagePage(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id,asc") String sort,
+            Model model
+    ) {
+        Page<BookDetailWithExtraInfoResponse> bookPage = productServiceClient.getAllBooksWithExtraInfo(page, size, sort);
+        model.addAttribute("bookPage", bookPage);
+        model.addAttribute("currentSort", sort);
         return "admin/book/manage";
     }
 
@@ -71,7 +79,7 @@ public class AdminBookController {
 
 
 
-    //도서 ISBN -> 도서 상세페이지
+    // 도서 ISBN -> 도서 상세페이지
     @GetMapping("/detail/{isbn}")
     public String bookDetailPage(@PathVariable String isbn) {
         return "admin/book/detail";
@@ -89,7 +97,7 @@ public class AdminBookController {
 
 
 
-    //도서 등록 form -> 도서 직접 등록
+    // (POST) 도서 등록
     @PostMapping("/register/manual")
     public String registerBookManual(
             @ModelAttribute BookRegisterRequest bookRegisterRequest) {
@@ -98,34 +106,33 @@ public class AdminBookController {
             return "redirect:/admin/book/manage";
     }
 
-//    @PostMapping("/register")
-//    public String registerBookByAladin(
-//            @ModelAttribute FinalAladinBookRegisterRequest bookRegisterRequest) {
-//
-//            productServiceClient.registerBookByAladin(bookRegisterRequest);
-//            return "redirect:/admin/book/manage";
-//    }
-//
+    // (POST) 도서 삭제
+    @PostMapping("/delete/{id}")
+    public String deleteBook(@PathVariable Long id){
+        productServiceClient.deleteBook(id);
+        return "redirect:/admin/book/manage";
+    }
 
-//    @GetMapping("/book_register_api")
-//    public String registerBookFromAladin(HttpSession session, Model model){
-//
-//        AladinBookRegisterRequest book = (AladinBookRegisterRequest) session.getAttribute("book");
-//
-//        if (book != null) {
-//            model.addAttribute("book", book);
-//            session.removeAttribute("bookDraft");
-//        }
-//
-//        return "admin/book/book_register_api";
-//    }
+    // -> 도서 수정 페이지
+    @GetMapping("/edit/{id}")
+    public String updateBookForm(@PathVariable String id, Model model) {
+        BookDetailWithExtraInfoResponse book = productServiceClient.getBookDetailWithExtraInfo(id);
+        List<CategoryResponse> categoryTree = productServiceClient.getCategoryTree();
 
+        model.addAttribute("book", book);
+        model.addAttribute("categoryTree", categoryTree);
 
-//    @PostMapping("/register/aladin")
-//    public ResponseEntity<Void> registerBookFromAladin(@RequestBody Object aladinBookCreateRequest, Model model) {
-//        ResponseEntity<Void> voidResponseEntity = productServiceClient.registerBookFromAladin(aladinBookCreateRequest);
-//        return productServiceClient.registerBookFromAladin(aladinBookCreateRequest);
-//    }
+        return "admin/book/book_update";
+    }
+
+    // -> (POST) 도서 수정
+    @PostMapping("/update/{id}")
+    public String updateBook(@PathVariable Long id, @ModelAttribute BookUpdateRequest request) {
+
+        productServiceClient.updateBook(id, request);
+
+        return "redirect:/admin/book/manage";
+    }
 
 }
 

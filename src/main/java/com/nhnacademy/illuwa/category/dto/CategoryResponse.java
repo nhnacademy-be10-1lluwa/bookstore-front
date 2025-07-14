@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.book.dto;
+package com.nhnacademy.illuwa.category.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

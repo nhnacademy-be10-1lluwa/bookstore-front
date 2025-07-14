@@ -1,12 +1,13 @@
 package com.nhnacademy.illuwa.order.dto;
 
 import lombok.AllArgsConstructor;
-import lombok.Getter;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 
-@Getter
+
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderItemResponseDto {

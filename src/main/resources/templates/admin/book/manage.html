@@ -2,7 +2,6 @@
 <html layout:decorate="~{layout/layout}"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
 <head layout:fragment="head">
   <meta charset="UTF-8">
   <title>도서 관리 페이지</title>
@@ -11,8 +10,7 @@
 </head>
 
 <main layout:fragment="content">
-  <body>
-  <h1>📚 도서 관리 페이지</h1>
+  <h1>도서 관리 페이지</h1>
   <table>
     <thead>
     <tr>
@@ -21,27 +19,73 @@
       <th>저자</th>
       <th>출판사</th>
       <th>출판일</th>
+      <th>태그</th>
       <th>정가</th>
       <th>판매가</th>
       <th>ISBN</th>
+      <th>재고수량</th>
+      <th>상태</th>
       <th>선물포장</th>
+      <th>카테고리</th>
+      <th>관리</th>
     </tr>
     </thead>
     <tbody>
-    <tr th:each="book : ${books}">
-      <td><img th:src="${book.imgUrl}" alt="도서 이미지"/></td>
+    <tr th:each="book : ${bookPage.content}">
+      <td>
+        <img th:src="${book.imgUrl}" alt="도서 이미지" style="max-width:100px;" />
+      </td>
       <td th:text="${book.title}">도서 제목</td>
       <td th:text="${book.author}">저자</td>
       <td th:text="${book.publisher}">출판사</td>
       <td th:text="${book.publishedDate}">출판일</td>
+      <td>
+    <span th:each="tag : ${book.tags}"
+          th:text="${tag.name}"
+          style="margin-right: 4px; background: #eee; padding: 2px 4px; border-radius: 3px;">
+    </span>
+      </td>
       <td th:text="${#numbers.formatInteger(book.regularPrice, 3, 'COMMA')} + '원'">정가</td>
       <td th:text="${#numbers.formatInteger(book.salePrice, 3, 'COMMA')} + '원'">판매가</td>
       <td th:text="${book.isbn}">ISBN</td>
-      <td th:text="${book.giftWrap ? '가능' : '불가'}">선물포장</td>
+      <td th:text="${book.count}">수량</td>
+      <td th:text="${book.status}">상태</td>
+      <td th:text="${book.giftwrap ? '가능' : '불가'}">선물포장</td>
+      <td>
+        <span th:if="${book.level1Name != null}" th:text="'대분류: ' + ${book.level1Name}"></span><br/>
+        <span th:if="${book.level2Name != null}" th:text="'중분류: ' + ${book.level2Name}"></span><br/>
+        <span th:if="${book.categoryName != null}" th:text="'소분류: ' + ${book.categoryName}"></span>
+      </td>
+      </td>
+      <td class="action-buttons">
+        <a th:href="@{'/admin/book/edit/' + ${book.id}}">
+          <button class="edit-btn">수정</button>
+        </a>
+        <form th:action="@{'/admin/book/delete/' + ${book.id}}" method="post" style="display:inline;">
+          <button class="delete-btn" type="submit">삭제</button>
+        </form>
+      </td>
     </tr>
     </tbody>
   </table>
-  </body>
-</main>
 
+
+  <div class="sort-options">
+    <a th:href="@{|/admin/book/manage?page=0&size=${bookPage.size}&sort=title,asc|}">제목순</a> |
+    <a th:href="@{|/admin/book/manage?page=0&size=${bookPage.size}&sort=author,asc|}">저자순</a> |
+    <a th:href="@{|/admin/book/manage?page=0&size=${bookPage.size}&sort=regularPrice,asc|}">정가순</a>
+  </div>
+
+  <div class="pagination">
+    <a th:if="${bookPage.hasPrevious()}"
+       th:href="@{|/admin/book/manage?page=${bookPage.number - 1}&size=${bookPage.size}&sort=id,asc|}">이전</a>
+
+    <span th:text="${bookPage.number + 1}">1</span>
+    /
+    <span th:text="${bookPage.totalPages}">1</span>
+
+    <a th:if="${bookPage.hasNext()}"
+       th:href="@{|/admin/book/manage?page=${bookPage.number + 1}&size=${bookPage.size}&sort=id,asc|}">다음</a>
+  </div>
+</main>
 </html>
