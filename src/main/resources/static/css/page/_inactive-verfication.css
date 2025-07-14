@@ -1,0 +1,108 @@
+body {
+    font-family: 'Nunito', sans-serif;
+    background: linear-gradient(145deg, #f6f8fb, #e9eff5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background: #ffffff;
+    padding: 3rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+    width: 100%;
+    max-width: 420px;
+    transition: all 0.3s ease;
+}
+
+h2 {
+    text-align: center;
+    color: #1e3a5f;
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    margin-bottom: 1.8rem;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.6rem;
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 0.95rem;
+}
+
+input[type="email"],
+input[type="text"] {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #d0d7e2;
+    border-radius: 0.75rem;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+input:focus {
+    border-color: #5b8def;
+    outline: none;
+}
+
+.inline-group {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+.timer {
+    font-size: 0.9rem;
+    color: #e74c3c;
+    font-weight: bold;
+    margin-top: 0.4rem;
+}
+
+button {
+    padding: 0.7rem 1.3rem;
+    background-color: #3366ff;
+    border: none;
+    border-radius: 0.75rem;
+    color: white;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #2b56d8;
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    background-color: #aab8d0;
+    cursor: not-allowed;
+}
+
+.hidden {
+    display: none;
+}
+
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.error-message {
+    color: #e74c3c;
+    font-size: 0.9rem;
+    margin-top: 0.5rem;
+}
