@@ -20,7 +20,7 @@ public class MyCouponController {
     public String myCoupon(Model model) {
         List<MemberCouponResponse> couponResponses = memberCouponService.getAllMemberCoupons();
 
-       /* List<MemberCouponResponse> availableCoupons = couponResponses.stream()
+        List<MemberCouponResponse> availableCoupons = couponResponses.stream()
                 .filter(coupon -> !coupon.isUsed())
                 .toList();
 
@@ -29,7 +29,7 @@ public class MyCouponController {
                 .toList();
 
         model.addAttribute("availableCoupons", availableCoupons);
-        model.addAttribute("usedCoupons", usedCoupons);*/
+        model.addAttribute("usedCoupons", usedCoupons);
 
         return "user/mycoupon";
     }

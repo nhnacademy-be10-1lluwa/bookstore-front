@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout/layout}"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      th:inline="text">
 
 <head layout:fragment="head">
     <meta charset="UTF-8">
-    <title>쿠폰 정책 등록</title>
+    <title>쿠폰 등록</title>
     <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
+<body>
 <main layout:fragment="content">
     <section class="coupon-form-container">
+
         <h2>쿠폰 등록</h2>
         <form th:action="@{/admin/coupon/coupon/create}" th:object="${couponForm}" method="post">
             <div class="form-group">
                 <label for="couponName">쿠폰 이름</label>
                 <input type="text" id="couponName" th:field="*{couponName}" required>
             </div>
-            <div class="form-group">
+            <div class="form-group" th:inline="text">
                 <label for="policyCode">정책 코드</label>
-                <input type="text" id="policyCode" th:field="*{policyCode}" required>
+                <select id="policyCode" th:field="*{policyCode}" required>
+                    <option value="">-- 정책을 선택하세요 --</option>
+                    <option th:each="policy : ${policyList}"
+                            th:value="${policy.code}"
+                            th:text="${policy.displayString}">
+                    </option>
+                </select>
             </div>
             <div class="form-group">
                 <label for="validFrom">유효 시작일</label>
@@ -51,6 +60,7 @@
             <div class="form-group hide" id="booksIdGroup">
                 <label for="booksId">도서 ID</label>
                 <input type="number" id="booksId" th:field="*{booksId}">
+                <button type="button" onclick="openBookModal()">도서 선택</button>
             </div>
             <div class="form-group hide" id="categoryIdGroup">
                 <label for="categoryId">카테고리 ID</label>
@@ -65,9 +75,25 @@
                 <button type="button" class="btn-cancel" onclick="location.href='/admin/policy/coupon'">취소</button>
             </div>
         </form>
+        <div id="bookModal" class="modal hide">
+            <div class="modal-content">
+                <input type="text" id="bookSearchInput" placeholder="도서명 검색" oninput="filterBookList()">
+                <ul id="bookList">
+                    <li th:each="book : ${bookList}">
+                        <span th:text="${book.title}"></span>
+                        <button type="button"
+                                th:attr="data-book-id=${book.id},data-book-title=${book.title}"
+                                onclick="selectBookWithData(this)">
+                            선택
+                        </button>
+
+                    </li>
+                </ul>
+                <button type="button" onclick="document.getElementById('bookModal').classList.add('hide')">닫기</button>
+            </div>
+        </div>
     </section>
 </main>
-<body>
 <th:block layout:fragment="scripts">
     <script th:src="@{/js/coupon/coupon.js}"></script>
 </th:block>
