@@ -1,18 +1,16 @@
 package com.nhnacademy.illuwa.review.controller;
 
+import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.review.dto.ReviewRequest;
 import com.nhnacademy.illuwa.review.dto.ReviewResponse;
 import com.nhnacademy.illuwa.review.service.ReviewService;
 import jakarta.validation.Valid;
-import jakarta.validation.Validator;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-@Slf4j
 @Controller
 @RequiredArgsConstructor
 @RequestMapping(value = "/books/{bookId}/reviews")
@@ -35,7 +33,6 @@ public class ReviewController {
         reviewService.createReview(bookId, request);
 
         return "redirect:/order_list";
-        //return "redirect:/mypage";
     }
 
     @GetMapping(value = "/{reviewId}")
@@ -61,12 +58,14 @@ public class ReviewController {
         reviewService.updateReview(bookId, reviewId, request);
 
         return "redirect:/order_list";
-        //return "redirect:/mypage";
     }
 
-//    @GetMapping
-//    public String getReviewPages(Model model, @PathVariable Long bookId, @RequestParam int page, ){
-//
-//    }
-//
+    @GetMapping
+    @ResponseBody
+    public PageResponse<ReviewResponse> getReviewPages(@PathVariable Long bookId,
+                                                       @RequestParam(defaultValue = "0") int page,
+                                                       @RequestParam(defaultValue = "5") int size) {
+
+        return reviewService.getReviewPages(bookId, page, size);
+    }
 }

@@ -1,23 +1,21 @@
 package com.nhnacademy.illuwa.review.controller;
 
-import com.nhnacademy.illuwa.review.client.ReviewServiceClient;
 import com.nhnacademy.illuwa.review.dto.ReviewLikeResponse;
-import com.nhnacademy.illuwa.member.client.MemberServiceClient;
+import com.nhnacademy.illuwa.review.service.ReviewLikeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/books/{bookId}/reviews/{reviewId}/likes")
 public class ReviewLikeController {
-//    private final ReviewServiceClient reviewServiceClient;
-//    private final MemberServiceClient memberServiceClient;
-//    @PostMapping
-//    public ResponseEntity<ReviewLikeResponse> toggleLike(@PathVariable Long bookId,
-//                                                         @PathVariable Long reviewId) {
-//
-//        Long memberId = memberServiceClient.getMember().getMemberId();
-//        return reviewServiceClient.toggleLike(memberId, bookId, reviewId);
-//    }
+    private final ReviewLikeService reviewLikeService;
+
+    @PostMapping
+    @ResponseBody
+    public ReviewLikeResponse toggleLike(@PathVariable Long bookId, @PathVariable Long reviewId) {
+
+        return reviewLikeService.toggleLike(bookId, reviewId);
+    }
 }
