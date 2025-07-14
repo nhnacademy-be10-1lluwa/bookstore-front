@@ -6,7 +6,6 @@
   <meta charset="UTF-8">
   <title>도서 관리 페이지</title>
   <link rel="stylesheet" th:href="@{/css/main.css}" />
-  <link rel="stylesheet" th:href="@{/css/page/book/book_manage.css}" />
 </head>
 
 <main layout:fragment="content">
@@ -64,10 +63,31 @@
         <form th:action="@{'/admin/book/delete/' + ${book.id}}" method="post" style="display:inline;">
           <button class="delete-btn" type="submit">삭제</button>
         </form>
+        <button type="button" onclick="openTagModal([[${book.id}]], '[[${book.title}]]')" class="tag-btn">
+          태그 등록
+        </button>
       </td>
     </tr>
     </tbody>
   </table>
+
+  <!--  태그 Modal 창-->
+  <div id="tagModal" class="modal" style="display:none;">
+    <div class="modal-content">
+      <span class="close" onclick="closeTagModal()">&times;</span>
+      <h2 id="modalTitle">태그 등록</h2>
+      <form id="tagForm" method="post">
+        <div th:each="tag : ${allTags}">
+          <label>
+            <input type="checkbox" name="tagIds" th:value="${tag.id}" />
+            <span th:text="${tag.name}"></span>
+          </label>
+          <br/>
+        </div>
+        <button type="submit">등록</button>
+      </form>
+    </div>
+  </div>
 
 
   <div class="sort-options">
@@ -81,11 +101,24 @@
        th:href="@{|/admin/book/manage?page=${bookPage.number - 1}&size=${bookPage.size}&sort=id,asc|}">이전</a>
 
     <span th:text="${bookPage.number + 1}">1</span>
-    /
+
     <span th:text="${bookPage.totalPages}">1</span>
 
     <a th:if="${bookPage.hasNext()}"
        th:href="@{|/admin/book/manage?page=${bookPage.number + 1}&size=${bookPage.size}&sort=id,asc|}">다음</a>
   </div>
 </main>
+
+<script>
+  function openTagModal(bookId, bookTitle) {
+    document.getElementById("tagModal").style.display = "block";
+    document.getElementById("modalTitle").innerText = "태그 등록 - " + bookTitle;
+    document.getElementById("tagForm").action = "/admin/book/" + bookId + "/tag";
+  }
+
+  function closeTagModal() {
+    document.getElementById("tagModal").style.display = "none";
+  }
+</script>
+
 </html>
