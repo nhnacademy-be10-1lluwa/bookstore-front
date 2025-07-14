@@ -2,6 +2,7 @@ package com.nhnacademy.illuwa.admin.controller;
 
 import com.nhnacademy.illuwa.book.client.ProductServiceClient;
 import com.nhnacademy.illuwa.book.dto.*;
+import com.nhnacademy.illuwa.book.service.MinioStorageService;
 import com.nhnacademy.illuwa.category.dto.CategoryResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -21,6 +23,7 @@ import java.util.List;
 public class AdminBookController {
 
     private final ProductServiceClient productServiceClient;
+    private final MinioStorageService minioStorageService;
 
     @GetMapping("/books")
     public String adminBookPage() {
@@ -68,7 +71,13 @@ public class AdminBookController {
 
     // 도서 등록 form(api) -> 도서 등록 -> 도서 관리 페이지 이동
     @PostMapping("/register_api")
-    public String registerBookFromApi(BookApiRegisterRequest request) {
+    public String registerBookFromApi(BookApiRegisterRequest request, @RequestParam(value = "coverFile", required = false) MultipartFile coverFile) {
+
+        if (coverFile != null && !coverFile.isEmpty()) {
+            String uploadedUrl = minioStorageService.uploadBookImage(coverFile);
+            request.setCover(uploadedUrl);
+        }
+
 
         productServiceClient.registerBookByApi(request);
         // 등록 완료 후 도서 관리 목록 페이지 등으로 리다이렉트
@@ -132,6 +141,14 @@ public class AdminBookController {
         productServiceClient.updateBook(id, request);
 
         return "redirect:/admin/book/manage";
+    }
+
+    // 도서 이미지 업로드
+    @PostMapping("/upload")
+    @ResponseBody
+    public String uploadBookImage(@RequestParam("file") MultipartFile file) {
+        String url = minioStorageService.uploadBookImage(file);
+        return url;
     }
 
 }

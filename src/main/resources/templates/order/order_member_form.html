@@ -5,7 +5,7 @@
 
 <head layout:fragment="head">
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
-    <link rel="stylesheet" th:href="@{/css/page/_address-list.css}"/>
+    <link rel="stylesheet" th:href="@{/css/page/address/_address-list.css}"/>
     <link rel="stylesheet" th:href="@{/css/component/_pagination.css}"/>
     <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
     <link rel="stylesheet" th:href="@{/css/order/address_modal.css}">
@@ -62,7 +62,7 @@
             </div>
         </section>
 
-        <section class="address-select">
+        <section class="address-select" th:fragment="address-select">
             <h3>배송지 선택</h3>
 
             <div id="selectedAddressArea" style="margin-top: 10px;"></div>
@@ -106,7 +106,7 @@
             <button type="button" id="openAddressModal" class="btn">내 주소</button>
         </section>
 
-        <section class="point-use">
+        <section class="point-use" th:fragment="point-use">
             <h3>포인트 사용</h3>
             <p>
                 보유 포인트 :
@@ -126,7 +126,7 @@
             <button type="button" id="applyPointBtn">포인트 적용</button>
         </section>
 
-        <section class="submit-area">
+        <section class="submit-area" th:fragment="submit-area">
             <p>
                 예상 결제 금액 :
                 <span id="estimatedTotal"> </span>

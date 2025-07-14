@@ -5,6 +5,8 @@
 
 <head layout:fragment="head">
     <link rel="stylesheet" th:href="@{/css/main.css}" />
+
+    <!-- 주문 폼 공용 스타일 / 스크립트 -->
 </head>
 <main layout:fragment="content">
     <section class="main-content">
@@ -52,6 +54,12 @@
         <div style="text-align:right; margin-top:12px;">
             <button onclick="clearCart()">장바구니 비우기</button>
         </div>
+        <form th:action="@{/order/cart-order-form}"
+              method="get"
+              th:if="${!#lists.isEmpty(cartResponse.bookCarts)}"
+              style="text-align:right; margin-top:12px;">
+            <button type="submit">장바구니 구매하기</button>
+        </form>
     </section>
     <script th:src="@{/js/cart/cart.js}"></script>
 </main>

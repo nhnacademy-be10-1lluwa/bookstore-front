@@ -22,7 +22,8 @@
 
         <div class="header-row">
             <h2 class="title">📚 나의 주소록</h2>
-            <a href="javascript:void(0);" id="newAddressBtn" class="btn add-address">+ 새 주소 등록</a>
+            <a href="#" id="newAddressBtn" class="btn add-address">+ 새 주소 등록</a>
+            <input type="hidden" id="currentAddressCount" th:value="${addressCount}" />
         </div>
 
         <div class="address-list">
