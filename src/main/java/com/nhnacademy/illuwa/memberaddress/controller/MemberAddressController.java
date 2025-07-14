@@ -1,9 +1,9 @@
 package com.nhnacademy.illuwa.memberaddress.controller;
 
+import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.memberaddress.client.MemberAddressServiceClient;
 import com.nhnacademy.illuwa.memberaddress.dto.MemberAddressRequest;
 import com.nhnacademy.illuwa.memberaddress.dto.MemberAddressResponse;
-import com.nhnacademy.illuwa.memberaddress.dto.PageResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -88,12 +88,12 @@ public class MemberAddressController {
         PageResponse<MemberAddressResponse> addressPage =
                 memberAddressServiceClient.getPagedAddressList(page, size);
 
-        model.addAttribute("addressList", addressPage.getContent());
-        model.addAttribute("addressCount", addressPage.getTotalElements());
-        model.addAttribute("currentPage", addressPage.getNumber());
-        model.addAttribute("pageSize", addressPage.getSize());
-        model.addAttribute("totalPages", addressPage.getTotalPages());
-        model.addAttribute("lastPageIndex", Math.max(0, addressPage.getTotalPages() - 1));
+        model.addAttribute("addressList", addressPage.content());
+        model.addAttribute("addressCount", addressPage.totalElements());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", addressPage.size());
+        model.addAttribute("totalPages", addressPage.totalPages());
+        model.addAttribute("lastPageIndex", Math.max(0, addressPage.totalPages() - 1));
 
         return "memberaddress/address_list";
     }
