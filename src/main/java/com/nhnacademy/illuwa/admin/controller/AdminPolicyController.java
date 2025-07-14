@@ -24,7 +24,7 @@ public class AdminPolicyController {
         return "admin/policy/policy";
     }
 
-    // 정책 목록 페이지
+    // 쿠폰 정책 목록 페이지
     @GetMapping("/admin/policy/coupon")
     public String couponPolicyList(Model model) {
         List<CouponPolicyResponse> couponPolicies = couponPolicyService.getAllPolices();
@@ -33,14 +33,14 @@ public class AdminPolicyController {
     }
 
 
-    // 정책 등록 폼
+    // 쿠폰 정책 등록 폼
     @GetMapping("/admin/policy/coupon/create")
     public String couponPolicyCreateFrom(Model model) {
         model.addAttribute("policyFrom", new CouponPolicyFrom());
         return "admin/policy/coupon_policy_create";
     }
 
-    // 정책 폼 데이터 전송
+    // 쿠폰 정책 폼 데이터 전송
     @PostMapping("/admin/policy/coupon/create")
     public String registerCouponPolicy(@ModelAttribute @Valid CouponPolicyFrom policyForm, Model model, RedirectAttributes redirectAttributes) {
         couponPolicyService.createCouponPolicy(policyForm);
@@ -49,7 +49,7 @@ public class AdminPolicyController {
 
     }
 
-    // 정책 수정 페이지 반환
+    // 쿠폰 정책 수정 페이지 반환
     @GetMapping("/admin/policy/coupon/{code}/update")
     public String showUpdateForm(@PathVariable String code, Model model) {
         CouponPolicyResponse policy = couponPolicyService.getPolicyByCode(code);
@@ -57,7 +57,7 @@ public class AdminPolicyController {
         return "admin/policy/coupon_policy_update";
     }
 
-    // 정책 수정 데이터 전송
+    // 쿠폰 정책 수정 데이터 전송
     @PostMapping("/admin/policy/coupon/{code}/update")
     public String updatePolicy(
             @PathVariable String code,
@@ -67,7 +67,7 @@ public class AdminPolicyController {
         return "redirect:/admin/policy/coupon";
     }
 
-    // 정책 삭제 (= 비활성화)
+    // 쿠폰 정책 삭제 (= 비활성화)
     @PostMapping("/admin/policy/coupon/{code}/delete")
     public String deletePolicy(@PathVariable String code) {
         couponPolicyService.deleteCouponPolicy(code); // status INACTIVE로 변경

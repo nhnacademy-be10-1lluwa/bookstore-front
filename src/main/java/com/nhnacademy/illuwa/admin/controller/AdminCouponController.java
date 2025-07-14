@@ -1,8 +1,12 @@
 package com.nhnacademy.illuwa.admin.controller;
 
+import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
+import com.nhnacademy.illuwa.book.service.BookService;
 import com.nhnacademy.illuwa.coupon.dto.coupon.CouponForm;
 import com.nhnacademy.illuwa.coupon.dto.coupon.CouponResponse;
 import com.nhnacademy.illuwa.coupon.dto.coupon.CouponUpdateRequest;
+import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyResponse;
+import com.nhnacademy.illuwa.coupon.service.CouponPolicyService;
 import com.nhnacademy.illuwa.coupon.service.CouponService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -20,6 +24,8 @@ import java.util.List;
 public class AdminCouponController {
 
     private final CouponService couponService;
+    private final CouponPolicyService couponPolicyService;
+    private final BookService bookService;
 
     // 쿠폰 목록 페이지
     @GetMapping("/admin/coupon/coupon")
@@ -33,6 +39,11 @@ public class AdminCouponController {
     // 쿠폰 등록 폼
     @GetMapping("/admin/coupon/coupon/create")
     public String couponPolicyCreateFrom(Model model) {
+        // 쿠폰 정책 리스트 (= 드롭다운을 위해)
+        List<CouponPolicyResponse> couponPolicies = couponPolicyService.getAllPolices();
+        List<BookDetailResponse> bookList = bookService.getAllBooks();
+        model.addAttribute("bookList", bookList);
+        model.addAttribute("policyList", couponPolicies);
         model.addAttribute("couponForm", new CouponForm());
         return "admin/coupon/coupon_create";
     }
@@ -41,6 +52,7 @@ public class AdminCouponController {
     @PostMapping("/admin/coupon/coupon/create")
     public String registerCoupon(@ModelAttribute @Valid CouponForm couponForm) {
         couponService.createCoupon(couponForm);
+
         return "redirect:/admin/coupon/coupon";
     }
 
