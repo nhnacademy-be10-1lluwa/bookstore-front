@@ -1,8 +1,8 @@
 package com.nhnacademy.illuwa.memberaddress.client;
 
+import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.memberaddress.dto.MemberAddressRequest;
 import com.nhnacademy.illuwa.memberaddress.dto.MemberAddressResponse;
-import com.nhnacademy.illuwa.memberaddress.dto.PageResponse;
 import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;

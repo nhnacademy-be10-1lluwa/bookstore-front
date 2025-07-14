@@ -1,7 +1,7 @@
 package com.nhnacademy.illuwa.tag.client;
 
+import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.config.FeignClientConfig;
-import com.nhnacademy.illuwa.tag.dto.PageResponse;
 import com.nhnacademy.illuwa.tag.dto.TagCreateRequest;
 import com.nhnacademy.illuwa.tag.dto.TagResponse;
 import org.springframework.cloud.openfeign.FeignClient;

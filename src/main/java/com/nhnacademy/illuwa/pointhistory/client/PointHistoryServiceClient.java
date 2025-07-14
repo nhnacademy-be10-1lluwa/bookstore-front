@@ -1,6 +1,6 @@
 package com.nhnacademy.illuwa.pointhistory.client;
 
-import com.nhnacademy.illuwa.memberaddress.dto.PageResponse;
+import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.pointhistory.dto.PointHistoryResponse;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,5 +1,6 @@
 package com.nhnacademy.illuwa.admin.controller;
-import com.nhnacademy.illuwa.tag.dto.PageResponse;
+
+import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.tag.client.TagServiceClient;
 import com.nhnacademy.illuwa.tag.dto.TagCreateRequest;
 import com.nhnacademy.illuwa.tag.dto.TagResponse;

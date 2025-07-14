@@ -27,11 +27,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/signup","/guest-login", "/login/inactive-member").permitAll()
+                        .requestMatchers("/", "/login", "/signup","/guest-login").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/mypage").authenticated()
-                        .requestMatchers("/api/members/check-status").permitAll()
-                        .requestMatchers("/api/members/inactive/verification", "/api/members/inactive/verification/verify").permitAll()
                         .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth -> oauth
