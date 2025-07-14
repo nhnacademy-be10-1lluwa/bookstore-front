@@ -37,6 +37,7 @@ public class AdminOrderController {
         return "admin/order/order-detail";
     }
 
+    // 상태 변경하기
     @PostMapping("/admin/order/{orderId}/status")
     public String updateStatus(@PathVariable Long orderId, @RequestParam OrderStatus orderStatus) {
         orderservice.updateStatus(orderId, orderStatus);

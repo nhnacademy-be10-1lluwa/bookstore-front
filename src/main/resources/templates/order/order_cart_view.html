@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+  <link rel="stylesheet" th:href="@{/css/main.css}"/>
+  <link rel="stylesheet" th:href="@{/css/order/order_view.css}"/>
+</head>
+<main layout:fragment="content">
+  <section class="order-summary" th:object="${order}">
+
+
+    <div class="summary-row">
+      <span class="label">배송 예정일</span>
+      <span class="value"
+            th:text="*{#temporals.format(deliveryDate, 'yyyy-MM-dd')}">2025-07-15</span>
+    </div>
+
+    <div class="summary-row">
+      <span class="label">배송비</span>
+      <span class="value" th:text="*{#numbers.formatDecimal(shippingFee, 0, 'COMMA', 0, 'DEFAULT') + '원'}"></span>
+    </div>
+
+    <div class="summary-row" th:if="*{discountPrice != null && discountPrice > 0}">
+      <span class="label">할인 금액</span>
+      <span class="value"
+            th:text="*{#numbers.formatDecimal(discountPrice, 0, 'COMMA', 0, 'DEFAULT') + '원'}">1,000원</span>
+    </div>
+
+    <div class="summary-row total">
+      <span class="label">최종 결제 금액</span>
+      <span class="value"
+            th:text="*{#numbers.formatDecimal(finalPrice, 0, 'COMMA', 0, 'DEFAULT') + '원'}">9,000원</span>
+    </div>
+
+    <section class="item-summary">
+      <h3>주문 상품</h3>
+
+      <!-- 각 주문 아이템 반복 -->
+      <div class="summary-row" th:each="it : *{items}">
+        <span class="label" th:text="${it.title}">도서 제목</span>
+        <span class="value">
+                    <span th:text="${it.quantity}">1</span>권&nbsp;|&nbsp;
+                    <span th:text="${#numbers.formatDecimal(it.price, 0, 'COMMA', 0, 'DEFAULT') + '원'}">0원</span>&nbsp;|&nbsp;
+                    <span th:text="${it.packaging.packagingName}">포장옵션</span>&nbsp;|&nbsp;
+                    <span th:text="${#numbers.formatDecimal(it.packaging.packagingPrice, 0, 'COMMA', 0, 'DEFAULT') + '원'}">0원</span>
+                </span>
+      </div>
+    </section>
+  </section>
+  <section class="main-content">
+    <a th:href="@{/payment}">결제하기</a>
+  </section>
+</main>
+</html>
