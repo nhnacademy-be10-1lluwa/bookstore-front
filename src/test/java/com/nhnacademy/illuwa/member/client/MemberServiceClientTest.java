@@ -1,7 +1,6 @@
 package com.nhnacademy.illuwa.member.client;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.tomakehurst.wiremock.WireMockServer;
 import com.nhnacademy.illuwa.member.dto.MemberResponse;
 import com.nhnacademy.illuwa.member.dto.MemberUpdateRequest;
 import com.nhnacademy.illuwa.member.enums.Role;
@@ -11,13 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.test.context.TestPropertySource;
-import com.github.tomakehurst.wiremock.client.WireMock;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-import static com.github.tomakehurst.wiremock.core.WireMockConfiguration.options;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
