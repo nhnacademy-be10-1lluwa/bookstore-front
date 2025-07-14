@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.auth.dto;
+package com.nhnacademy.illuwa.auth.dto.payco;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

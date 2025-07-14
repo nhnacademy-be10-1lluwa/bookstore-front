@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.auth.dto;
+package com.nhnacademy.illuwa.auth.dto.message;
 
 import jakarta.validation.constraints.Email;
 import lombok.*;
