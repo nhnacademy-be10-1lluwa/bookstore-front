@@ -1,7 +1,5 @@
 spring:
-  thymeleaf:
-    cache: false
   application:
     name: front
   config:
-    import: optional:configserver:https://book1lluwa.store/config/
+    import: optional:configserver:http://localhost:10319/
