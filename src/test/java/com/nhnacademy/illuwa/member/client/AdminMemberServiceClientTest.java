@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -43,7 +42,7 @@ class AdminMemberServiceClientTest {
     @Test
     @DisplayName("회원 페이지 목록 조회 테스트")
     void testGetPagedMemberList() {
-        PageResponse<MemberResponse> mockPageResponse = new PageResponse<MemberResponse>(
+        PageResponse<MemberResponse> mockPageResponse = new PageResponse<>(
                 List.of(
                         MemberResponse.builder()
                                 .memberId(1L)
@@ -106,17 +105,19 @@ class AdminMemberServiceClientTest {
         // given
         List<PointHistoryResponse> mockResponse = List.of(
                 new PointHistoryResponse(
+                        1L,
                         PointHistoryType.EARN,
-                        PointReason.JOIN,
+                        PointReason.GRADE_EVENT,
                         BigDecimal.valueOf(1000),
-                        BigDecimal.valueOf(5000),
+                        BigDecimal.valueOf(6000),
                         LocalDateTime.now()
                 ),
                 new PointHistoryResponse(
-                        PointHistoryType.USE,
-                        PointReason.PURCHASE,
-                        BigDecimal.valueOf(500),
-                        BigDecimal.valueOf(5500),
+                        2L,
+                        PointHistoryType.EARN,
+                        PointReason.GRADE_EVENT,
+                        BigDecimal.valueOf(1000),
+                        BigDecimal.valueOf(6000),
                         LocalDateTime.now()
                 )
         );
