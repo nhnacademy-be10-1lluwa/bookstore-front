@@ -6,6 +6,9 @@
 <head layout:fragment="head">
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" th:href="@{/css/order/order_view.css}"/>
+
+    <!-- SDK 추가 -->
+    <script src="https://js.tosspayments.com/v2/standard"></script>
 </head>
 <main layout:fragment="content">
     <section class="order-summary" th:object="${order}">
@@ -53,7 +56,7 @@
         </section>
     </section>
     <section class="main-content">
-        <a th:href="@{/payment}">결제하기</a>
+        <button id="payBtn" class="btn-primary">결제하기</button>
     </section>
 </main>
 </html>
