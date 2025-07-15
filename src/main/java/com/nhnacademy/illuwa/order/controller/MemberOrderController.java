@@ -8,6 +8,7 @@ import com.nhnacademy.illuwa.order.dto.orderRequest.MemberOrderInfo;
 import com.nhnacademy.illuwa.order.dto.orderRequest.OrderItemDto;
 import com.nhnacademy.illuwa.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -23,6 +24,9 @@ public class MemberOrderController {
 
     private final OrderService orderService;
     private final MemberService memberService;
+
+    @Value("${toss.client-key}")
+    private String tossClientKey;
 
     @GetMapping("/order/order-form/{bookId}")
     public String showOrderForm(@PathVariable("bookId") Long bookId,
@@ -73,6 +77,7 @@ public class MemberOrderController {
         OrderCreateResponse response = orderService.sendDirectOrderMember(request);
         model.addAttribute("order", response);
         model.addAttribute("member", getMemberInfo());
+        model.addAttribute("tossClientKey", tossClientKey);
 
         return "order/order_view";
     }

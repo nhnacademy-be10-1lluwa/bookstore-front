@@ -58,5 +58,41 @@
     <section class="main-content">
         <button id="payBtn" class="btn-primary">결제하기</button>
     </section>
+    <script th:inline="javascript">
+        document.addEventListener("DOMContentLoaded", () => {
+            const CLIENT_KEY = /*[[${tossClientKey}]]*/ "fallback-key-if-null";  // 추후 yml에서 주입
+            const ORDER_NUMBER = /*[[${order.orderNumber}]]*/ "order-123";
+            const ORDER_NAME = /*[[${order.items[0].title}]]*/ "도서 제목";
+            const TOTAL_PRICE = /*[[${order.finalPrice}]]*/ 10000;
+            const CUSTOMER_NAME = /*[[${member.name}]]*/ "홍길동";
+            const CUSTOMER_EMAIL = /*[[${member.email}]]*/ "test@example.com";
+
+            const tossPayments = TossPayments(CLIENT_KEY);
+            const customerKey = "user-" + ORDER_NUMBER;
+
+            const payment = tossPayments.payment({ customerKey });
+            document.getElementById("payBtn").addEventListener("click", function () {
+                payment.requestPayment({
+                    method: "CARD",
+                    amount: {
+                        currency: "KRW",
+                        value: parseInt(TOTAL_PRICE),
+                    },
+                    orderId: ORDER_NUMBER,
+                    orderName: ORDER_NAME,
+                    customerName: CUSTOMER_NAME,
+                    customerEmail: CUSTOMER_EMAIL,
+                    successUrl: window.location.origin + "/payment/success",
+                    failUrl: window.location.origin + "/payment/fail",
+                    card: {
+                        useEscrow: false,
+                        flowMode: "DEFAULT",
+                        useCardPoint: false,
+                        useAppCardOnly: false,
+                    },
+                });
+            });
+        })
+    </script>
 </main>
 </html>
