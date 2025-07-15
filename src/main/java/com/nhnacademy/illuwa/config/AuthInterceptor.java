@@ -47,8 +47,12 @@ public class AuthInterceptor implements HandlerInterceptor {
                 }
             }
 
-            modelAndView.addObject("isLoggedIn", isLoggedIn);
-            modelAndView.addObject("isAdmin", isAdmin);
+            if (modelAndView != null
+                    && modelAndView.getViewName() != null
+                    && !modelAndView.getViewName().startsWith("redirect:")) {
+                modelAndView.addObject("isLoggedIn", isLoggedIn);
+                modelAndView.addObject("isAdmin", isAdmin);
+            }
         }
     }
 }
