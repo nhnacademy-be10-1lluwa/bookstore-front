@@ -1,0 +1,44 @@
+<!-- templates/payment/success.html -->
+<!DOCTYPE html>
+<html lang="ko" layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="utf-8"/>
+    <title>결제 완료</title>
+    <link rel="stylesheet" th:href="@{/css/payment/success.css}"/>
+</head>
+
+<body>
+<main layout:fragment="content">
+    <div class="box_section" style="width:600px">
+        <img src="https://static.toss.im/illusts/check-blue-spot-ending-frame.png"
+             alt="success" width="100"/>
+        <h2>결제 완료 🎉</h2>
+
+        <div class="p-grid typography--p" style="margin-top:40px">
+            <div class="p-grid-col text--left"><b>결제금액</b></div>
+            <div class="p-grid-col text--right"
+                 th:text="${amount} + '원'">9,000원</div>
+        </div>
+        <div class="p-grid typography--p">
+            <div class="p-grid-col text--left"><b>주문번호</b></div>
+            <div class="p-grid-col text--right"
+                 th:text="${orderId}">order-1</div>
+        </div>
+        <div class="p-grid typography--p">
+            <div class="p-grid-col text--left"><b>paymentKey</b></div>
+            <div class="p-grid-col text--right" style="word-break:break-all"
+                 th:text="${paymentKey}">pay_xxx...</div>
+        </div>
+
+        <div class="p-grid" style="margin-top:30px">
+            <a th:href="@{/orders/{id}(id=${orderId})}"
+               class="button p-grid-col5">주문 상세로</a>
+            <a href="/" class="button p-grid-col5"
+               style="background:#e8f3ff;color:#1b64da">홈으로</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>
