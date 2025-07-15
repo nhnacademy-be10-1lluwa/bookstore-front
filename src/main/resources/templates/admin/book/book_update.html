@@ -63,13 +63,18 @@
         </div>
 
         <div class="mb-3">
-            <label for="cover" class="form-label">이미지 URL</label>
-            <input type="text" id="cover" name="cover" class="form-control"
-                   th:value="${book.imgUrl != null} ? ${book.imgUrl} : ''" />
+            <label class="form-label">기존 대표 이미지</label>
             <div th:if="${book.imgUrl != null and !book.imgUrl.isEmpty()}">
-                <img th:src="${book.imgUrl}" alt="도서 이미지" class="mt-2" style="max-width: 150px;"
+                <img th:src="${book.imgUrl}" alt="도서 이미지" class="mt-2"
+                     style="max-width:150px;"
                      onerror="this.style.display='none'" />
             </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="coverFile" class="form-label">새 대표 이미지 업로드</label>
+            <input type="file" id="coverFile" name="coverFile" class="form-control"
+                   accept="image/*"/>
         </div>
 
         <div class="mb-3">
