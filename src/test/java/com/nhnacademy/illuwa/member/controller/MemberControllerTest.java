@@ -75,7 +75,7 @@ public class MemberControllerTest {
                         .param("password", "Test1234!")
                         .param("contact", "010-1234-5678"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/my-info?isLoggedIn=false&isAdmin=false"))
+                .andExpect(redirectedUrl("/my-info"))
                 .andExpect(flash().attribute("message", "회원정보가 정상적으로 수정되었습니다!"));
     }
 
@@ -98,7 +98,7 @@ public class MemberControllerTest {
                         .param("password", "Test1234!")
                         .param("contact", "010-1234-5678"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/my-info?isLoggedIn=false&isAdmin=false"))
+                .andExpect(redirectedUrl("/my-info"))
                 .andExpect(flash().attribute("mode", "edit"))
                 .andExpect(flash().attribute("form", expectedForm))
                 .andExpect(flash().attribute("error", "에러메시지"));

@@ -11,18 +11,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
+@RequestMapping("/payment")
 @RequiredArgsConstructor
 public class PaymentController {
 
     private final PaymentServiceClient paymentServiceClient;
 
-    @GetMapping("/payment/success")
-    public String handlePaymentSuccess(@RequestParam String paymentKey,
-                                       @RequestParam String orderNumber,
-                                       @RequestParam int amount,
+    @GetMapping("/success")
+    public String handlePaymentSuccess(@RequestParam(name = "orderId") String orderNumber,
+                                       @RequestParam(name = "paymentKey") String paymentKey,
+                                       @RequestParam(name = "amount") int amount,
                                        RedirectAttributes redirectAttributes) {
 
-        PaymentConfirmRequest request = new PaymentConfirmRequest(paymentKey, orderNumber, amount);
+        PaymentConfirmRequest request = new PaymentConfirmRequest(orderNumber, paymentKey, amount);
 
         try {
             paymentServiceClient.confirmPayment(request);

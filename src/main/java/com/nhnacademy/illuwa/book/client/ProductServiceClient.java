@@ -51,9 +51,13 @@ public interface ProductServiceClient {
             @RequestPart("imageFile") MultipartFile imageFile
     );
 
-    // 카테고리 모록
+    // 카테고리 목록
     @GetMapping("/api/categories/tree")
-    public List<CategoryResponse> getCategoryTree();
+    List<CategoryResponse> getCategoryTree();
+
+    // 쿠폰 쪽 카테고리 목록
+    @GetMapping("/api/categories")
+    List<CategoryResponse> getAllCategories();
 
     // 도서 삭제
     @DeleteMapping("/api/admin/books/{id}")

@@ -24,7 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(MyPageController.class)
 @AutoConfigureMockMvc(addFilters = false)
-class MyPageControllerTest {
+public class MyPageControllerTest {
 
     @Autowired
     MockMvc mockMvc;

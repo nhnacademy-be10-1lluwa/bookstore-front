@@ -117,7 +117,7 @@ class AdminMemberControllerTest {
                         .param("grade", grade.name())
                         .param("point", point.toPlainString()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/admin/member-list?grade=" + grade.name() + "&isLoggedIn=false&isAdmin=false"));
+                .andExpect(redirectedUrl("/admin/member-list?grade=" + grade.name()));
 
         verify(adminMemberService, times(1)).givePointToGrade(grade, point);
     }
