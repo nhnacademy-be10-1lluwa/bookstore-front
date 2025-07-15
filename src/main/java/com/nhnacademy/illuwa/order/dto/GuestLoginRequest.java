@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GuestLoginRequest {
     private String orderNumber;
-    private String recipientContact;
+    private String orderPassword;
 }

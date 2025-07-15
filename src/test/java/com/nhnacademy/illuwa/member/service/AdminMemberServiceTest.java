@@ -90,7 +90,7 @@ public class AdminMemberServiceTest {
         // then
         assertEquals(expected, actual);
         assertEquals(2, actual.content().size());
-        assertEquals("홍길동", actual.content().get(0).getName());
+        assertEquals("홍길동", actual.content().getFirst().getName());
         verify(adminMemberServiceClient, times(1)).getPagedMemberListFilteredByGrade(GradeName.BASIC, 1, 10);
     }
 
@@ -100,6 +100,7 @@ public class AdminMemberServiceTest {
         // given
         List<PointHistoryResponse> mockResponse = List.of(
                 new PointHistoryResponse(
+                        1L,
                         PointHistoryType.EARN,
                         PointReason.JOIN,
                         BigDecimal.valueOf(1000),
@@ -107,6 +108,7 @@ public class AdminMemberServiceTest {
                         LocalDateTime.now()
                 ),
                 new PointHistoryResponse(
+                        2L,
                         PointHistoryType.USE,
                         PointReason.PURCHASE,
                         BigDecimal.valueOf(500),

@@ -28,8 +28,8 @@ public interface OrderServiceClient {
     PackagingResponseDto createPackaging(PackagingRequestDto packagingRequestDto);
 
     // 비회원 주문 내역 조회하기
-    @GetMapping("/api/order/guest/order-history/{orderNumber}")
-    OrderResponse getGuestOrderHistory(@PathVariable("orderNumber") String orderNumber, @RequestParam("contact") String recipientContact);
+    @GetMapping("/api/order/guest/order-history/{orderId}")
+    OrderResponse getGuestOrderHistory(@PathVariable("orderId") Long orderId);
 
     //회원 주문 내역 조회하기
     @GetMapping("/api/order/member/orders/history")

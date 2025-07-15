@@ -103,6 +103,7 @@ class AdminMemberControllerTest {
 
         List<PointHistoryResponse> mockResponse = List.of(
                 new PointHistoryResponse(
+                1L,
                         PointHistoryType.EARN,
                         PointReason.JOIN,
                         point,
