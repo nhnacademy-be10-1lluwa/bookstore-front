@@ -34,7 +34,8 @@
                     <strong th:text="${itm.title}">도서 제목</strong>
                     &nbsp;|&nbsp;
                     <span th:text="${itm.salePrice != null
-                                     ? #numbers.formatDecimal(itm.salePrice,0,'COMMA',0,'DEFAULT')
+                                     ? #numbers.formatDecimal(
+                                     itm.salePrice,0,'COMMA',0,'DEFAULT')
                                      : ''}"> </span>
                 </p>
 
@@ -65,6 +66,24 @@
                                     th:selected="${pkg.packagingId == 1}"
                                     th:text="${pkg.packagingName
                                              + ' (' + #numbers.formatDecimal(pkg.packagingPrice,0,'COMMA',0,'DEFAULT') + '원)'}">
+                            </option>
+                        </select>
+                    </label>
+                    <label>
+                        쿠폰
+                        <select th:id="'couponSelect_' + ${stat.index}"
+                                th:field="*{cartItems[__${stat.index}__].couponId}"
+                                class="form-select">
+                            <option value="">쿠폰 선택</option>
+                            <option th:each="c : ${couponMap[itm.bookId]}"
+                                    th:value="${c.memberCouponId}"
+                                    th:attr="data-amount=${c.discountAmount != null ? c.discountAmount : 0},
+                 data-percent=${c.discountPercent != null ? c.discountPercent : 0}"
+                                    th:text="${c.couponName + ' (' +
+     (c.discountAmount != null
+         ? #numbers.formatDecimal(c.discountAmount,0,'COMMA',0,'DEFAULT') + '원'
+         : c.discountPercent + '%') + ')'}">
+                            </option>
                             </option>
                         </select>
                     </label>
