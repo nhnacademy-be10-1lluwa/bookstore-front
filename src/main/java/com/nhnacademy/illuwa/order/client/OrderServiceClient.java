@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@FeignClient(name = "order-service", url = "${api.base-url}")
+@FeignClient(name = "order-service", url = "${api.base-url}", contextId = "orderClientForOrder")
 public interface OrderServiceClient {
 
     // 포장옵션 조회하기

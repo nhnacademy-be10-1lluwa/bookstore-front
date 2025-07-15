@@ -1,15 +1,35 @@
-// (Optional) CSS tweak for selected address preview
+// (기존 코드와 동일) CSS 및 다음 우편번호 API 관련 코드는 그대로 둡니다.
 const style = document.createElement('style');
 style.textContent = '.selected-address-preview{margin-bottom:6px;display:block;}';
 document.head.appendChild(style);
 
+window.openPostcode = function () {
+    new daum.Postcode({
+        oncomplete: function (data) {
+            if (data.userSelectedType !== 'R') {
+                alert("도로명 주소로 선택해주세요! 🛣️");
+                return;
+            }
+            let roadAddr = data.roadAddress;
+            let extraAddr = '';
+            if (data.bname && /[동|로|가]$/g.test(data.bname)) {
+                extraAddr += data.bname;
+            }
+            if (data.buildingName) {
+                extraAddr += (extraAddr ? ', ' + data.buildingName : data.buildingName);
+            }
+            const fullAddr = extraAddr ? `${roadAddr} (${extraAddr})` : roadAddr;
+            document.getElementById('postcode').value = data.zonecode;
+            document.getElementById('address').value = fullAddr;
+            document.getElementById('detailAddress').focus();
+        }
+    }).open();
+};
+
+
 document.addEventListener('DOMContentLoaded', () => {
 
-    /**
-     * (수정됨) 로컬 시간대 기준으로 날짜를 YYYY-MM-DD 형식으로 변환하는 헬퍼 함수
-     * @param {Date} date - 변환할 Date 객체
-     * @returns {string} YYYY-MM-DD 형식의 문자열
-     */
+    // ===== 유틸리티 및 초기화 함수들 =====
     function toLocalISOString(date) {
         const year = date.getFullYear();
         const month = (date.getMonth() + 1).toString().padStart(2, '0');
@@ -17,25 +37,18 @@ document.addEventListener('DOMContentLoaded', () => {
         return `${year}-${month}-${day}`;
     }
 
-    /* ----- 배송 날짜 초기값 (내일) ----- */
     (function setDefaultDeliveryDate() {
         const deliveryInput = document.getElementById('deliveryDate');
         if (!deliveryInput) return;
-
         const today = new Date();
         const tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
-
-        // (수정됨) toLocalISOString 헬퍼 함수 사용
         const tomorrowString = toLocalISOString(tomorrow);
-
-        // min, value 기본 세팅 (HTML쪽에서 이미 처리됐더라도 JS에서 한 번 더 보호)
         deliveryInput.min = tomorrowString;
         if (!deliveryInput.value) {
             deliveryInput.value = tomorrowString;
         }
     })();
 
-    /* ----- 사용 포인트 기본값(0) 표시 ----- */
     (function setDefaultUsedPoint() {
         const usedInput = document.querySelector('input[name="usedPoint"]');
         if (usedInput && usedInput.value.trim() === '') {
@@ -43,161 +56,82 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })();
 
-    const modal = document.getElementById('addressModal');
-    const openBtn = document.getElementById('openAddressModal');
-    const closeBtn = document.getElementById('closeAddressModal');
-    const newAddressBtn = document.getElementById('newAddressBtn');
-    const selectedArea = document.getElementById('selectedAddressArea');
+    // ===== DOM 요소 캐싱 =====
+    const form = document.querySelector('.order-form');
+    const itemSummary = document.querySelector('.item-summary');
+    const pointBalance = Number(document.querySelector('.point-use strong')?.getAttribute('data-balance') || 0);
 
-    const addressCount = window.orderMemberInit?.addressCount ?? 0;
-    const pointBalance = Number(
-        document.querySelector('.point-use strong')?.getAttribute('data-balance') || 0
-    );
+    // =============================================
+    // ===== ✨ 핵심 로직: 쿠폰 및 금액 계산 ✨ =====
+    // =============================================
 
-    /* ----- 다음 우편번호 API 함수 (전역) ----- */
-    window.openPostcode = function () {
-        new daum.Postcode({
-            oncomplete: function (data) {
-                if (data.userSelectedType !== 'R') {
-                    alert("도로명 주소로 선택해주세요! 🛣️");
+    function updateCouponAvailability() {
+        const usedMemberCouponIds = new Set();
+        document.querySelectorAll('select[id^="couponSelect_"]').forEach(select => {
+            if (select.value) {
+                usedMemberCouponIds.add(select.value);
+            }
+        });
+
+        document.querySelectorAll('select[id^="couponSelect_"]').forEach(currentSelect => {
+            const currentSelectedValue = currentSelect.value;
+            currentSelect.querySelectorAll('option').forEach(option => {
+                if (!option.value || option.value === currentSelectedValue) {
+                    option.style.display = '';
                     return;
                 }
-
-                let roadAddr = data.roadAddress;
-                let extraAddr = '';
-
-                if (data.bname && /[동|로|가]$/g.test(data.bname)) {
-                    extraAddr += data.bname;
+                if (usedMemberCouponIds.has(option.value)) {
+                    option.style.display = 'none';
+                } else {
+                    option.style.display = '';
                 }
-                if (data.buildingName) {
-                    extraAddr += (extraAddr ? ', ' + data.buildingName : data.buildingName);
-                }
-
-                const fullAddr = extraAddr ? `${roadAddr} (${extraAddr})` : roadAddr;
-
-                document.getElementById('postcode').value = data.zonecode;
-                document.getElementById('address').value = fullAddr;
-                document.getElementById('detailAddress').focus();
-            }
-        }).open();
-    };
-
-    /** 모달 열기 */
-    if (openBtn) {
-        openBtn.addEventListener('click', () => {
-            modal.style.display = 'block';
+            });
         });
     }
 
-    /* ----- (수정됨) Delegated handler: 주소 선택 후 모달 닫기 ----- */
-    modal.addEventListener('click', (e) => {
-        const btn = e.target.closest('.select-address');
-        if (!btn) return;
-
-        const card = btn.closest('.address-card');
-        const id = card.dataset.id;
-        const labelHtml = card.querySelector('.address-info').innerHTML;
-
-        selectedArea.innerHTML = `
-      <input type="hidden" name="memberAddressId" value="${id}">
-      <div class="selected-address-preview">${labelHtml}</div>
-    `;
-
-        // 폼 필드 채우기
-        document.getElementById('postcode').value = card.dataset.postcode || '';
-        document.getElementById('address').value = card.dataset.address || '';
-        document.getElementById('detailAddress').value = card.dataset.detailAddress || '';
-        document.getElementById('recipientName').value = card.dataset.recipientName || '';
-        document.getElementById('recipientContact').value = card.dataset.recipientContact || '';
-
-        // 모달 닫기
-        modal.style.display = 'none';
-    });
-
-    /** 모달 닫기 이벤트들 */
-    if (closeBtn) closeBtn.addEventListener('click', () => modal.style.display = 'none');
-    window.addEventListener('click', e => {
-        if (e.target === modal) modal.style.display = 'none';
-    });
-
-    /** 새 주소 등록 버튼 */
-    if (newAddressBtn) {
-        newAddressBtn.addEventListener('click', () => {
-            if (addressCount >= 10) {
-                alert('주소는 최대 10개까지 등록 가능합니다! 😯');
-                return;
-            }
-            // 새 주소 등록 페이지로 이동하는 로직은 그대로 둡니다.
-            // 실제 프로젝트에 맞게 주소 확인 필요
-            // window.location.href = '/addresses/new';
-            alert("'/addresses/new' 페이지로 이동합니다. (데모)");
-        });
-    }
-
-    /* ----- 주문 폼 필수 입력 검증 ----- */
-    const form = document.querySelector('.order-form');
-    form.addEventListener('submit', function (event) {
-        const postCode = form.querySelector('input[name="postCode"]').value.trim();
-        const address = form.querySelector('input[name="address"]').value.trim();
-        const detailAddress = form.querySelector('input[name="detailAddress"]').value.trim();
-        const recipientName = form.querySelector('#recipientName').value.trim();
-        const recipientContact = form.querySelector('#recipientContact').value.trim();
-
-        const usedPointInput = form.querySelector('input[name="usedPoint"]');
-        if (usedPointInput && usedPointInput.value.trim() === '') {
-            usedInput.value = 0; // Default to 0 if empty
-        }
-
-        // (수정됨) 배송 날짜가 비어있을 때 toLocalISOString 사용
-        const deliveryInput = document.getElementById('deliveryDate');
-        if (deliveryInput && !deliveryInput.value) {
-            const today = new Date();
-            const tomorrow = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
-            deliveryInput.value = toLocalISOString(tomorrow);
-        }
-
-        if (!postCode || !address || !detailAddress || !recipientName || !recipientContact) {
-            alert("필수 입력란을 모두 채워주세요! 🙏");
-            event.preventDefault();
-        }
-    });
-
-    /* ---------- 주문 금액 계산 (장바구니형으로 변경됨) ---------- */
+    /**
+     * ✅ [수정] 전체 주문 금액을 다시 계산하는 함수
+     */
     function calculateOrder() {
-        let subtotal = 0;
+        let booksSubtotal = 0;
+        let totalPackagingPrice = 0;
         let totalDiscount = 0;
 
-        // Iterate through each item in the cart
-        document.querySelectorAll('.item-summary > div').forEach((itemDiv, index) => {
-            const quantityInput = itemDiv.querySelector(`input[name="items[${index}].quantity"]`);
-            const packagingSelect = itemDiv.querySelector(`select[name="items[${index}].packagingId"]`);
-            const priceSpan = itemDiv.querySelector('p span'); // Assuming salePrice is here
-
+        document.querySelectorAll('.item-summary .item-options-group').forEach((itemGroup, index) => {
+            const quantityInput = itemGroup.querySelector(`input[type="number"]`);
             const quantity = Number(quantityInput?.value || 1);
-            const unitPriceText = priceSpan.textContent.replace(/[^0-9]/g, ''); // Remove non-numeric characters
-            const unitPrice = Number(unitPriceText || 0);
 
-            const pkgPrice = packagingSelect ? Number(packagingSelect.selectedOptions[0].dataset.price || 0) : 0;
+            // [수정 1-1] 가격을 가져오는 선택자 수정 (parentElement를 통해 부모로 올라가서 찾기)
+            const priceSpan = itemGroup.parentElement.querySelector('p > span');
+            const unitPrice = Number(priceSpan?.textContent.replace(/[^0-9]/g, '') || 0);
 
-            // Calculate item total for this specific item
-            const itemSubtotal = (unitPrice * quantity) + pkgPrice;
-            subtotal += itemSubtotal;
+            const packagingSelect = itemGroup.querySelector(`select[name="cartItems[${index}].packagingId"]`);
+            const pkgPrice = Number(packagingSelect?.selectedOptions[0]?.dataset.price || 0);
+
+            // [수정 1-2] 사용자의 계산 공식 (단가+포장비)*수량 을 반영
+            // 책 가격과 포장비 모두 수량을 곱해서 합산합니다.
+            booksSubtotal += unitPrice * quantity;
+            totalPackagingPrice += pkgPrice * quantity;
+
+            const couponSelect = itemGroup.querySelector(`#couponSelect_${index}`);
+            if (couponSelect && couponSelect.value) {
+                const selectedOption = couponSelect.selectedOptions[0];
+                const amount = Number(selectedOption.dataset.amount || 0);
+                const percent = Number(selectedOption.dataset.percent || 0);
+
+                if (percent > 0) {
+                    totalDiscount += (unitPrice * quantity) * (percent / 100);
+                } else {
+                    totalDiscount += amount;
+                }
+            }
         });
 
-        // Apply coupon discount to the total subtotal
-        const couponSel = document.querySelector('select[name="memberCouponId"]');
-        if (couponSel && couponSel.value) {
-            const opt = couponSel.selectedOptions[0];
-            const rate = Number(opt.dataset.rate || 0);
-            const amt = Number(opt.dataset.amount || 0);
-            totalDiscount = rate > 0 ? subtotal * (rate / 100) : amt;
-        }
+        const subtotal = booksSubtotal + totalPackagingPrice;
+        const usedPoint = Number(form.querySelector('input[name="usedPoint"]')?.value || 0);
 
-        const usedPointEl = form.querySelector('input[name="usedPoint"]');
-        const usedPoint = Number(usedPointEl?.value || 0);
-
-        const afterDiscount = Math.max(subtotal - totalDiscount, 0);
-        const afterPoint = Math.max(afterDiscount - usedPoint, 0);
+        const afterDiscount = Math.max(0, subtotal - totalDiscount);
+        const afterPoint = Math.max(0, afterDiscount - usedPoint);
         const shippingFee = afterPoint >= 50000 ? 0 : 3000;
         const total = afterPoint + shippingFee;
 
@@ -207,29 +141,99 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Add event listeners for each quantity and packaging input
-    document.querySelectorAll('input[name$=".quantity"]').forEach(input => {
-        input.addEventListener('input', calculateOrder);
-    });
+    // ===== 이벤트 리스너 설정 =====
+    if (itemSummary) {
 
-    document.querySelectorAll('select[name$=".packagingId"]').forEach(select => {
-        select.addEventListener('change', calculateOrder);
-    });
+        // 'input' 이벤트: 수량 입력창에 타이핑할 때마다 실시간으로 반응합니다.
+        itemSummary.addEventListener('input', (e) => {
+            if (e.target.matches('input[type="number"]')) {
+                calculateOrder();
+            }
+        });
 
-    // Existing event listeners (no change needed here as they already target elements outside specific items)
-    document.querySelector('select[name="memberCouponId"]')?.addEventListener('change', calculateOrder);
+        // 'change' 이벤트: 드롭다운(포장, 쿠폰) 선택을 완료했거나,
+        // 수량 입력창에서 포커스가 벗어났을 때(화살표 클릭 포함) 반응합니다.
+        itemSummary.addEventListener('change', (e) => {
+            // <select> 요소가 변경된 경우
+            if (e.target.matches('select')) {
+                // 쿠폰 선택이 바뀌었다면 다른 쿠폰 목록을 업데이트합니다.
+                if (e.target.matches('select[id^="couponSelect_"]')) {
+                    updateCouponAvailability();
+                }
+                // 그리고 항상 금액을 재계산합니다.
+                calculateOrder();
+            }
+        });
+    }
+
     form.querySelector('input[name="usedPoint"]')?.addEventListener('input', calculateOrder);
 
+    /**
+     * ✅ [수정 2] 포인트 적용 버튼 로직 수정
+     * '모두 사용'이 아닌, 입력된 값을 검증하고 초과 시 보유 포인트로 값을 변경하는 로직
+     */
     document.getElementById('applyPointBtn')?.addEventListener('click', () => {
         const usedInput = form.querySelector('input[name="usedPoint"]');
+        if (!usedInput) return;
+
         const used = Number(usedInput.value || 0);
         if (used > pointBalance) {
             alert('보유 포인트를 초과했습니다! 😅');
-            usedInput.value = pointBalance; // 초과 시 최댓값으로 설정
+            usedInput.value = pointBalance; // 초과 시 보유 포인트 최댓값으로 설정
         }
-        calculateOrder();
+        calculateOrder(); // 값 검증 및 변경 후 금액 재계산
     });
 
-    // Initial calculation when the page loads
+    form.addEventListener('submit', function (event) {
+        const recipientName = document.getElementById('recipientName').value.trim();
+        const recipientContact = document.getElementById('recipientContact').value.trim();
+        const postCode = document.getElementById('postcode').value.trim();
+        const address = document.getElementById('address').value.trim();
+        const detailAddress = document.getElementById('detailAddress').value.trim();
+
+        if (!recipientName || !recipientContact || !postCode || !address || !detailAddress) {
+            alert("필수 배송 정보를 모두 입력해주세요! 🙏");
+            event.preventDefault();
+        }
+    });
+
+    // ===== 페이지 로드 시 초기 실행 =====
+    // ✅ [수정 3] 이 코드가 정상 실행되면 주소 버튼도 함께 해결됩니다.
     calculateOrder();
+    updateCouponAvailability();
+
+    // ===== 주소 모달 관련 로직 (기존과 동일) =====
+    const modal = document.getElementById('addressModal');
+    const openBtn = document.getElementById('openAddressModal');
+    const closeBtn = document.getElementById('closeAddressModal');
+    const selectedArea = document.getElementById('selectedAddressArea');
+
+    if (openBtn) {
+        openBtn.addEventListener('click', () => { modal.style.display = 'block'; });
+    }
+    if (closeBtn) {
+        closeBtn.addEventListener('click', () => { modal.style.display = 'none'; });
+    }
+
+    window.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
+
+    if (modal) {
+        modal.addEventListener('click', (e) => {
+            const btn = e.target.closest('.select-address');
+            if (!btn) return;
+
+            const card = btn.closest('.address-card');
+            const id = card.dataset.id;
+            const labelHtml = card.querySelector('.address-info').innerHTML;
+
+            selectedArea.innerHTML = `<input type="hidden" name="memberAddressId" value="${id}"><div class="selected-address-preview">${labelHtml}</div>`;
+            document.getElementById('recipientName').value = card.dataset.recipientName || '';
+            document.getElementById('recipientContact').value = card.dataset.recipientContact || '';
+            document.getElementById('postcode').value = card.dataset.postcode || '';
+            document.getElementById('address').value = card.dataset.address || '';
+            document.getElementById('detailAddress').value = card.dataset.detailAddress || '';
+
+            modal.style.display = 'none';
+        });
+    }
 });

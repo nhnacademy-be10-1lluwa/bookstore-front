@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @NoArgsConstructor
@@ -18,7 +19,7 @@ public class MemberOrderInitFromCartResponse {
     private CartResponse cartResponse;
 
     private List<MemberAddressDto> recipients;
-    private List<MemberCouponResponse> availableCoupons;
+    private Map<Long, List<MemberCouponDto>> couponMap;
     private List<PackagingResponseDto> packaging;
     private BigDecimal pointBalance;
 
