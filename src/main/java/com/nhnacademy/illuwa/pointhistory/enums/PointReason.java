@@ -4,11 +4,12 @@ import java.util.Arrays;
 import java.util.Optional;
 
 public enum PointReason {
-    PURCHASE(null),     // 구매 적립
+    PURCHASE("book_default_rate"),     // 구매 적립
     USED_IN_ORDER(null),  //사용
     JOIN("join_point"),   // 회원가입
     REVIEW("review_point"), // 일반리뷰
-    PHOTO_REVIEW("photo_review_point"); // 포토리뷰
+    PHOTO_REVIEW("photo_review_point"), // 포토리뷰
+    GRADE_EVENT("grade_event");  //등급별 이벤트포인트
 
     private final String policyKey;
 
@@ -26,5 +27,4 @@ public enum PointReason {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Invalid reason: " + value));
     }
-
 }

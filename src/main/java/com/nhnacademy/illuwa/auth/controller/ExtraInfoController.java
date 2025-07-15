@@ -1,7 +1,6 @@
 package com.nhnacademy.illuwa.auth.controller;
 
-import com.nhnacademy.illuwa.auth.dto.MemberRegisterRequest;
-import com.nhnacademy.illuwa.auth.dto.PaycoMemberUpdateRequest;
+import com.nhnacademy.illuwa.auth.dto.payco.PaycoMemberUpdateRequest;
 import com.nhnacademy.illuwa.member.client.MemberServiceClient;
 import com.nhnacademy.illuwa.member.dto.MemberResponse;
 import jakarta.validation.Valid;
@@ -11,7 +10,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 
 @RequiredArgsConstructor
 @Controller

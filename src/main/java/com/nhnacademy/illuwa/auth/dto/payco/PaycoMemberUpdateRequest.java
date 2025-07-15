@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.auth.dto;
+package com.nhnacademy.illuwa.auth.dto.payco;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;

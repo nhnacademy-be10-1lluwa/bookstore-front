@@ -1,7 +1,8 @@
 package com.nhnacademy.illuwa.auth.service;
 
 import com.nhnacademy.illuwa.auth.client.InactiveVerificationServiceClient;
-import com.nhnacademy.illuwa.auth.dto.*;
+import com.nhnacademy.illuwa.auth.dto.message.InactiveCheckResponse;
+import com.nhnacademy.illuwa.auth.dto.message.SendVerificationRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
