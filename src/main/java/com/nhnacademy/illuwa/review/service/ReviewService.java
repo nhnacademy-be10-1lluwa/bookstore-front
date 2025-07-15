@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Map;
+
 @Service
 @RequiredArgsConstructor
 public class ReviewService{
@@ -28,5 +31,9 @@ public class ReviewService{
     public PageResponse<ReviewResponse> getReviewPages(Long bookId, int page, int size) {
         Page<ReviewResponse> pagingData = reviewServiceClient.getReviewPages(bookId, page, size);
         return PageResponse.from(pagingData);
+    }
+
+    public Map<Long, Boolean> areReviewsWritten(List<Long> bookIds){
+        return reviewServiceClient.areReviewsWritten(bookIds);
     }
 }
