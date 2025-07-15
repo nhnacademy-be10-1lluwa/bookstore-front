@@ -29,8 +29,14 @@
 
 <div th:replace="~{layout/header :: header}"></div>
 
-<main layout:fragment="content">
 
+<main>
+    <form th:action="@{/books/search}" method="get" class="search-form">
+        <input type="text" name="keyword" placeholder="검색어를 입력하세요" required />
+        <button type="submit">검색</button>
+    </form>
+
+    <div layout:fragment="content"></div>
 </main>
 
 <div th:replace="~{layout/footer :: footer}"></div>
