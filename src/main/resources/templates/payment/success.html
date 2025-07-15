@@ -1,42 +1,35 @@
-<!-- templates/payment/success.html -->
 <!DOCTYPE html>
 <html lang="ko" layout:decorate="~{layout/layout}"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
-    <meta charset="utf-8"/>
+    <meta charset="UTF-8"/>
     <title>결제 완료</title>
-    <link rel="stylesheet" th:href="@{/css/payment/success.css}"/>
+    <link rel="stylesheet" th:href="@{/css/page/payment/_success.css}"/>
 </head>
 
 <body>
 <main layout:fragment="content">
-    <div class="box_section" style="width:600px">
-        <img src="https://static.toss.im/illusts/check-blue-spot-ending-frame.png"
-             alt="success" width="100"/>
-        <h2>결제 완료 🎉</h2>
+    <div class="payment-success-container">
+        <img src="https://static.toss.im/illusts/check-blue-spot-ending-frame.png" alt="success" width="100"/>
+        <h2>결제를 완료했어요 🎉</h2>
+        <p>결제 정보가 정상적으로 승인되었습니다.</p>
 
-        <div class="p-grid typography--p" style="margin-top:40px">
-            <div class="p-grid-col text--left"><b>결제금액</b></div>
-            <div class="p-grid-col text--right"
-                 th:text="${amount} + '원'">9,000원</div>
-        </div>
-        <div class="p-grid typography--p">
-            <div class="p-grid-col text--left"><b>주문번호</b></div>
-            <div class="p-grid-col text--right"
-                 th:text="${orderId}">order-1</div>
-        </div>
-        <div class="p-grid typography--p">
-            <div class="p-grid-col text--left"><b>paymentKey</b></div>
-            <div class="p-grid-col text--right" style="word-break:break-all"
-                 th:text="${paymentKey}">pay_xxx...</div>
-        </div>
+        <table class="payment-info-table">
+            <tr><td class="title">결제 상태</td><td th:text="${payment.status}">DONE</td></tr>
+            <tr><td class="title">주문 번호</td><td th:text="${payment.orderId}">order-20250715</td></tr>
+            <tr><td class="title">주문명</td><td th:text="${payment.orderName}">일루와 도서 결제</td></tr>
+            <tr><td class="title">결제 금액</td><td th:text="${#numbers.formatInteger(payment.totalAmount, 3, 'COMMA')} + '원'">19,200원</td></tr>
+            <tr><td class="title">요청 시각</td><td th:text="${#temporals.format(payment.requestedAt, 'yyyy-MM-dd HH:mm:ss')}">2025-07-15 15:22:00</td></tr>
+            <tr><td class="title">승인 시각</td><td th:text="${#temporals.format(payment.approvedAt, 'yyyy-MM-dd HH:mm:ss')}">2025-07-15 15:22:10</td></tr>
+            <tr><td class="title">카드 번호</td><td th:text="${payment.card.number}">1234****5678</td></tr>
+            <tr><td class="title">카드사 코드</td><td th:text="${payment.card.issuerCode}">71</td></tr>
+            <tr><td class="title">카드 종류</td><td th:text="${payment.card.cardType}">신용</td></tr>
+        </table>
 
-        <div class="p-grid" style="margin-top:30px">
-            <a th:href="@{/orders/{id}(id=${orderId})}"
-               class="button p-grid-col5">주문 상세로</a>
-            <a href="/" class="button p-grid-col5"
-               style="background:#e8f3ff;color:#1b64da">홈으로</a>
+
+        <div class="payment-buttons">
+            <a th:href="@{/}" class="btn-home">홈으로</a>
         </div>
     </div>
 </main>
