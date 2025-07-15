@@ -1,9 +1,9 @@
 package com.nhnacademy.illuwa.member.client;
 
+import com.nhnacademy.illuwa.auth.dto.payco.PaycoMemberUpdateRequest;
 import com.nhnacademy.illuwa.member.dto.MemberResponse;
 import com.nhnacademy.illuwa.member.dto.MemberUpdateRequest;
 import com.nhnacademy.illuwa.member.dto.PasswordCheckRequest;
-import com.nhnacademy.illuwa.auth.dto.PaycoMemberUpdateRequest;
 import com.nhnacademy.illuwa.member.enums.Role;
 import com.nhnacademy.illuwa.member.enums.Status;
 
