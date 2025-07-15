@@ -9,10 +9,10 @@
 
 <main layout:fragment="content">
     <div class="login-page-layout">
-        <section class="member-login-container">
+        <section class="login-container">
             <h2>로그인</h2>
             <div th:if="${error}" class="error-message" th:text="${error}"></div>
-            <form th:action="@{/login}" method="post">
+            <form th:action="@{/login}" method="post" class="login-form">
                 <div class="form-group">
                     <label for="email">이메일</label>
                     <input type="text"
@@ -31,12 +31,12 @@
                            required>
                 </div>
 
-                <button type="submit" class="auth-button button-secondary">로그인</button>
+                <button type="submit" class="auth-button button-secondary full-width">로그인</button>
             </form>
-            <a th:href="@{/oauth2/authorization/payco}" class="oauth-button">
+            <a th:href="@{/oauth2/authorization/payco}" class="oauth-button full-width">
                 <img th:src="@{/images/PAYCO_loginButton.png}" alt="PAYCO 로그인">
             </a>
-            <a th:href="@{/guest-login}" class="button button-primary">비회원 주문조회</a>
+            <a th:href="@{/guest-login}" class="button button-primary full-width">비회원 주문조회</a>
         </section>
     </div>
 </main>
