@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.auth.dto;
+package com.nhnacademy.illuwa.auth.dto.message;
 
 import com.nhnacademy.illuwa.member.enums.Status;
 import lombok.Builder;

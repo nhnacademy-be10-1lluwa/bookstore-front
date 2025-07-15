@@ -6,10 +6,16 @@
 <head layout:fragment="head">
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
     <link rel="stylesheet" th:href="@{/css/order/order_view.css}"/>
+
+    <!-- SDK 추가 -->
+    <script src="https://js.tosspayments.com/v2/standard"></script>
 </head>
 <main layout:fragment="content">
     <section class="order-summary" th:object="${order}">
 
+        <!-- 숨겨진 회원 정보 (결제 단계에서 사용) -->
+        <input type="hidden" id="memberName" th:value="${member.name}"/>
+        <input type="hidden" id="memberEmail" th:value="${member.email}"/>
 
         <div class="summary-row">
             <span class="label">배송 예정일</span>
@@ -50,7 +56,7 @@
         </section>
     </section>
     <section class="main-content">
-        <a th:href="@{/payment}">결제하기</a>
+        <button id="payBtn" class="btn-primary">결제하기</button>
     </section>
 </main>
 </html>

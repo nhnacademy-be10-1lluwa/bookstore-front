@@ -56,7 +56,16 @@
 
                 <label>
                     쿠폰 적용
-                    <select th:field="*{memberCouponId}" id="couponSelect"> <option value="">쿠폰 선택 (선택 사항)</option>
+                    <select th:field="*{memberCouponId}" id="couponSelect" class="form-select">
+                        <option value="">쿠폰 선택 (선택 사항)</option>
+                        <option th:each="coupon : ${init.availableCoupons}"
+                                th:value="${coupon.memberCouponId}"
+                                th:text="${coupon.couponName + ' (' +
+                                         (coupon.discountAmount != null
+                                             ? #numbers.formatDecimal(coupon.discountAmount, 0, 'COMMA', 0, 'DEFAULT') + '원 할인'
+                                             : coupon.discountPercent + '% 할인')
+                                         + ')'}">
+                        </option>
                     </select>
                 </label>
             </div>

@@ -136,13 +136,22 @@ public class AdminBookController {
 
     // -> (POST) 도서 수정
     @PostMapping("/update/{id}")
-    public String updateBook(@PathVariable Long id, @ModelAttribute BookUpdateRequest request) {
+    public String updateBook(
+            @PathVariable Long id,
+            @ModelAttribute BookUpdateRequest request,
+            @RequestParam(value = "coverFile", required = false) MultipartFile coverFile) {
+
+        if (coverFile != null && !coverFile.isEmpty()) {
+            String newUrl = minioStorageService.uploadBookImage(coverFile);
+            request.setCover(newUrl);
+        } else {
+            request.setCover(request.getCover());
+        }
 
         productServiceClient.updateBook(id, request);
 
         return "redirect:/admin/book/manage";
     }
-
     // 도서 이미지 업로드
     @PostMapping("/upload")
     @ResponseBody

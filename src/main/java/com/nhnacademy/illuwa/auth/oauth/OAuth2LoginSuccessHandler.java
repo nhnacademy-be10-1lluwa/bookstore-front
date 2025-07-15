@@ -1,8 +1,7 @@
 package com.nhnacademy.illuwa.auth.oauth;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.nhnacademy.illuwa.auth.client.AuthClient;
-import com.nhnacademy.illuwa.auth.dto.SocialLoginRequest;
+import com.nhnacademy.illuwa.auth.dto.payco.SocialLoginRequest;
 import com.nhnacademy.illuwa.auth.dto.TokenResponse;
 import com.nhnacademy.illuwa.auth.utils.JwtCookieUtil;
 import jakarta.servlet.ServletException;

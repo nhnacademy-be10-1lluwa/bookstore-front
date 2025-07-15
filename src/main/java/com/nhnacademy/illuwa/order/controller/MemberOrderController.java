@@ -1,10 +1,10 @@
 package com.nhnacademy.illuwa.order.controller;
 
+import com.nhnacademy.illuwa.member.dto.MemberResponse;
+import com.nhnacademy.illuwa.member.service.MemberService;
 import com.nhnacademy.illuwa.order.dto.OrderCreateResponse;
-import com.nhnacademy.illuwa.order.dto.member.MemberOrderCartRequest;
-import com.nhnacademy.illuwa.order.dto.member.MemberOrderDirectRequest;
-import com.nhnacademy.illuwa.order.dto.member.MemberOrderInitDirectResponse;
-import com.nhnacademy.illuwa.order.dto.member.MemberOrderInitFromCartResponse;
+import com.nhnacademy.illuwa.order.dto.member.*;
+import com.nhnacademy.illuwa.order.dto.orderRequest.MemberOrderInfo;
 import com.nhnacademy.illuwa.order.dto.orderRequest.OrderItemDto;
 import com.nhnacademy.illuwa.order.service.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +22,7 @@ import java.util.Map;
 public class MemberOrderController {
 
     private final OrderService orderService;
+    private final MemberService memberService;
 
     @GetMapping("/order/order-form/{bookId}")
     public String showOrderForm(@PathVariable("bookId") Long bookId,
@@ -59,6 +60,8 @@ public class MemberOrderController {
         req.setCartItems(items);
 
         model.addAttribute("orderRequest", req);
+        Map<Long, List<MemberCouponDto>> map = memberInfo.getCouponMap();
+        model.addAttribute("couponMap", map);
         model.addAttribute("init", memberInfo);
 
         return "order/order_member_cart_form";
@@ -69,6 +72,7 @@ public class MemberOrderController {
 
         OrderCreateResponse response = orderService.sendDirectOrderMember(request);
         model.addAttribute("order", response);
+        model.addAttribute("member", getMemberInfo());
 
         return "order/order_view";
     }
@@ -78,8 +82,13 @@ public class MemberOrderController {
 
         OrderCreateResponse response = orderService.sendCartOrderMember(request);
         model.addAttribute("order", response);
+        model.addAttribute("member", getMemberInfo());
+
 
         return "order/order_cart_view";
     }
 
+    protected MemberOrderInfo getMemberInfo() {
+        return MemberOrderInfo.fromMemberResponse(memberService.getMember());
+    }
 }

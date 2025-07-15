@@ -1,10 +1,10 @@
 package com.nhnacademy.illuwa.auth.controller;
 
 import com.nhnacademy.illuwa.auth.client.InactiveVerificationServiceClient;
-import com.nhnacademy.illuwa.auth.dto.SendMessageResponse;
-import com.nhnacademy.illuwa.auth.dto.SendVerificationRequest;
-import com.nhnacademy.illuwa.auth.dto.VerifyCodeRequest;
-import com.nhnacademy.illuwa.auth.dto.VerifyCodeResponse;
+import com.nhnacademy.illuwa.auth.dto.message.SendMessageResponse;
+import com.nhnacademy.illuwa.auth.dto.message.SendVerificationRequest;
+import com.nhnacademy.illuwa.auth.dto.message.VerifyCodeRequest;
+import com.nhnacademy.illuwa.auth.dto.message.VerifyCodeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/proxy/members/inactive/verification")
-public class InactiveVerificationProxy {
+public class InactiveVerificationController {
 
     private final InactiveVerificationServiceClient inactiveVerificationServiceClient;
 

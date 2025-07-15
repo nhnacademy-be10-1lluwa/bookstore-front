@@ -16,7 +16,7 @@ import java.util.List;
 public class MemberOrderInitDirectResponse {
     private BookItemOrderDto item;
     private List<MemberAddressDto> recipients;
-    private List<MemberCouponResponse> availableCoupons;
+    private List<MemberCouponDto> availableCoupons;
     private List<PackagingResponseDto> packaging;
     private BigDecimal pointBalance;
 }
