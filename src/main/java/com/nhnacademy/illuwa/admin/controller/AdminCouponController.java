@@ -2,6 +2,7 @@ package com.nhnacademy.illuwa.admin.controller;
 
 import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
 import com.nhnacademy.illuwa.book.service.BookService;
+import com.nhnacademy.illuwa.category.dto.CategoryResponse;
 import com.nhnacademy.illuwa.coupon.dto.coupon.CouponForm;
 import com.nhnacademy.illuwa.coupon.dto.coupon.CouponResponse;
 import com.nhnacademy.illuwa.coupon.dto.coupon.CouponUpdateRequest;
@@ -41,9 +42,14 @@ public class AdminCouponController {
     public String couponPolicyCreateFrom(Model model) {
         // 쿠폰 정책 리스트 (= 드롭다운을 위해)
         List<CouponPolicyResponse> couponPolicies = couponPolicyService.getAllPolices();
+        // 도서 리스트 (= 드롭다운을 위해)
         List<BookDetailResponse> bookList = bookService.getAllBooks();
-        model.addAttribute("bookList", bookList);
+        // 카테고리 리스트 (= 드롭다운을 위해)
+        List<CategoryResponse> categoryList = bookService.getAllCategory();
+
         model.addAttribute("policyList", couponPolicies);
+        model.addAttribute("bookList", bookList);
+        model.addAttribute("categoryList", categoryList);
         model.addAttribute("couponForm", new CouponForm());
         return "admin/coupon/coupon_create";
     }

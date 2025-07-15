@@ -61,5 +61,37 @@ function filterBookList() {
     }
 }
 
+function openCategoryModal() {
+    const modal = document.getElementById("categoryModal");
+    if (modal) {
+        modal.classList.remove("hide");
+    } else {
+        alert("모달 엘리먼트를 찾지 못했습니다. id=categoryModal 위치를 확인하세요.");
+    }
+}
+
+function selectCategory(categoryId, categoryName) {
+    document.getElementById("categoryId").value = categoryId;
+    // 필요하면 categoryName도 표시 가능
+    document.getElementById("categoryModal").classList.add("hide");
+}
+
+function selectCategoryWithData(btn) {
+    var categoryId = btn.getAttribute('data-category-id');
+    var categoryName = btn.getAttribute('data-category-name');
+    selectCategory(categoryId, categoryName);
+}
+
+function filterCategoryList() {
+    const input = document.getElementById("categorySearchInput").value.toLowerCase();
+    const categoryList = document.getElementById("categoryList");
+    const items = categoryList.getElementsByTagName("li");
+    for (let i = 0; i < items.length; i++) {
+        const name = items[i].querySelector("span").textContent.toLowerCase();
+        items[i].style.display = name.includes(input) ? "" : "none";
+    }
+}
+
+
 
 

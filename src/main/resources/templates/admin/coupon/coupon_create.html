@@ -62,9 +62,14 @@
                 <input type="number" id="booksId" th:field="*{booksId}">
                 <button type="button" onclick="openBookModal()">도서 선택</button>
             </div>
+<!--            <div class="form-group hide" id="categoryIdGroup">-->
+<!--                <label for="categoryId">카테고리 ID</label>-->
+<!--                <input type="number" id="categoryId" th:field="*{categoryId}">-->
+<!--            </div>-->
             <div class="form-group hide" id="categoryIdGroup">
                 <label for="categoryId">카테고리 ID</label>
                 <input type="number" id="categoryId" th:field="*{categoryId}">
+                <button type="button" onclick="openCategoryModal()">카테고리 선택</button>
             </div>
             <div class="form-group">
                 <label for="issueCount">발급 수량</label>
@@ -75,6 +80,7 @@
                 <button type="button" class="btn-cancel" onclick="location.href='/admin/policy/coupon'">취소</button>
             </div>
         </form>
+        <!-- 도서 검색/선택 모달 -->
         <div id="bookModal" class="modal hide">
             <div class="modal-content">
                 <input type="text" id="bookSearchInput" placeholder="도서명 검색" oninput="filterBookList()">
@@ -86,10 +92,26 @@
                                 onclick="selectBookWithData(this)">
                             선택
                         </button>
-
                     </li>
                 </ul>
                 <button type="button" onclick="document.getElementById('bookModal').classList.add('hide')">닫기</button>
+            </div>
+        </div>
+        <!-- 카테고리 검색/선택 모달 -->
+        <div id="categoryModal" class="modal hide">
+            <div class="modal-content">
+                <input type="text" id="categorySearchInput" placeholder="카테고리명 검색" oninput="filterCategoryList()">
+                <ul id="categoryList">
+                    <li th:each="category : ${categoryList}">
+                        <span th:text="${category.categoryName}"></span>
+                        <button type="button"
+                                th:attr="data-category-id=${category.id},data-category-name=${category.categoryName}"
+                                onclick="selectCategoryWithData(this)">
+                            선택
+                        </button>
+                    </li>
+                </ul>
+                <button type="button" onclick="document.getElementById('categoryModal').classList.add('hide')">닫기</button>
             </div>
         </div>
     </section>
