@@ -8,6 +8,7 @@ import com.nhnacademy.illuwa.order.dto.OrderCreateResponse;
 import com.nhnacademy.illuwa.order.dto.OrderResponse;
 import com.nhnacademy.illuwa.order.dto.guest.GuestOrderDirectRequest;
 import com.nhnacademy.illuwa.order.dto.guest.GuestOrderInitDirectResponse;
+import com.nhnacademy.illuwa.order.dto.guest.OrderGuestCreateResponse;
 import com.nhnacademy.illuwa.order.dto.orderRequest.OrderItemDto;
 import com.nhnacademy.illuwa.order.service.OrderService;
 import org.springframework.stereotype.Controller;
@@ -61,8 +62,13 @@ public class GuestOrderController {
     @PostMapping("/guest/order/order-form/submit-direct")
     public String sendOrder(@ModelAttribute("orderRequest")GuestOrderDirectRequest request, Model model) {
         OrderCreateResponse response = orderService.sendDirectOrderGuest(request);
-        model.addAttribute("order", response);
 
+        GuestInfo guestInfo = new GuestInfo(request.getName(), request.getEmail());
+
+        model.addAttribute("order", response);
+        model.addAttribute("member", guestInfo);
         return "order/order_view";
     }
+
+
 }
