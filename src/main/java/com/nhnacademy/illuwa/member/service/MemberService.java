@@ -59,7 +59,7 @@ public class MemberService {
         return memberServiceClient.checkPassword(request);
     }
 
-    public Map<Long, String> getMemberNameFromReviewers(@RequestBody List<Long> reviewerIds) {
-        return memberServiceClient.getMemberNameFromReviewers(reviewerIds);
+    public Map<Long, String> getNamesFromIdList(@RequestBody List<Long> reviewerIds) {
+        return memberServiceClient.getNamesFromIdList(reviewerIds);
     }
 }
