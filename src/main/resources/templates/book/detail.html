@@ -13,13 +13,14 @@
 <body>
 <main layout:fragment="content">
     <section class="main-content">
-        <div class="container" th:if="${book != null}"> <div class="book-detail">
-            <div class="book-images">
-                <img id="main-image" class="main-image"
-                     th:src="${book.imgUrl != null and !book.imgUrl.isEmpty() ? book.imgUrl : '/images/default-book.jpg'}"
-                     th:alt="${book.title}">
-
-                <div class="image-thumbnails" id="thumbnails">
+        <div class="container" th:if="${book != null}">
+            <div class="book-detail">
+                <div class="book-images">
+                    <img id="main-image" class="main-image"
+                         th:src="${book.imgUrl != null and !book.imgUrl.isEmpty() ? book.imgUrl : '/images/default-book.jpg'}"
+                         th:alt="${book.title}">
+                    <div class="image-thumbnails" id="thumbnails">
+                    </div>
                 </div>
             </div>
 
@@ -54,11 +55,6 @@
                     <div class="detail-item">
                         <span class="detail-label">ISBN:</span>
                         <span class="detail-value" th:text="${book.isbn}">ISBN</span>
-                    </div>
-                    <div class="detail-item">
-                        <span class="detail-label">선물포장:</span>
-                        <span class="detail-value"
-                              th:text="${book.isGiftWrap() ? '가능' : '불가능'}">포장 여부</span>
                     </div>
                     <div class="detail-item">
                         <span class="detail-label">선물포장:</span>
@@ -106,7 +102,7 @@
                 </form>
             </div>
         </div>
-
+        <div>
             <div class="tabs">
                 <div class="tab-nav">
                     <button class="tab-button active" data-tab="description">상품설명</button>
@@ -148,7 +144,7 @@
                     <span th:each="i : ${#numbers.sequence(1, review.reviewRating)}">⭐</span>
                 </div>
                 <h3 th:text="'제목: ' + ${review.reviewTitle}">제목</h3>
-                <div th:if="${review.reviewImageUrls != null}">
+                <div>
                     <img th:each="img : ${review.reviewImageUrls}" th:src="@{${img}}" alt="리뷰 이미지" style="max-width: 200px;" />
                 </div>
                 <p th:text="${review.reviewContent}">내용</p>
@@ -174,26 +170,41 @@
                                   style="width: 100%;"></textarea>
                     </label>
 
-                    <button type="button" th:onclick="'submitComment(' + ${review.reviewId} + ', ' + ${review.bookId} + ')'">
+                    <button type="button" th:onclick="|submitComment(${review.reviewId}, ${review.bookId})|">
                         등록
                     </button>
                 </div>
 
                 <span style="cursor: pointer;"
                       th:data-review-id="${review.reviewId}"
-                      th:onclick="'toggleComments(this, ' + ${review.bookId} + ')'"> 댓글 보이기
+                      th:onclick="|toggleComments(this, ${review.bookId})|"> 댓글 보이기
                 </span>
             </div>
         </div>
         <!-- 페이징 UI -->
         <div class="review-pagination" id="review-pagination">
-            <ul>
-                <li th:each="pageNum : ${#numbers.sequence(1, reviewTotalPages)}"
-                    th:classappend="${pageNum == reviewPage.page() + 1} ? 'active' : ''">
-                    <a href="javascript:void(0);" th:text="${pageNum}"
-                       th:onclick="'goToPage(' + (pageNum - 1) + ')'"></a>
-                </li>
-            </ul>
+            <div class="pagination">
+                <!-- 이전 페이지 -->
+                <a th:if="${!reviewPage.first}"
+                   href="#"
+                   th:data-page="${reviewPage.page - 1}"
+                   class="page-link">« Prev</a>
+
+                <!-- 페이지 번호 목록 -->
+                <span th:each="i : ${#numbers.sequence(0, reviewPage.totalPages - 1)}"
+                      th:classappend="${i == reviewPage.page} ? 'current'">
+                    <a href="#"
+                       th:data-page="${i}"
+                       th:text="${i + 1}"
+                       class="page-link">1</a>
+                </span>
+
+                <!-- 다음 페이지 -->
+                <a th:if="${!reviewPage.last}"
+                   href="#"
+                   th:data-page="${reviewPage.page + 1}"
+                   class="page-link">Next »</a>
+            </div>
         </div>
     </section>
 </main>
