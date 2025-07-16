@@ -7,6 +7,7 @@ import com.nhnacademy.illuwa.category.dto.CategoryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
@@ -16,6 +17,10 @@ import java.util.List;
 public class BookService {
 
     private final ProductServiceClient productServiceClient;
+
+    public BookDetailResponse findBookByIsbn(String isbn){
+        return productServiceClient.findBookByIsbn(isbn);
+    }
 
     public List<SearchBookResponse> bookList() {
         return productServiceClient.findBooks();

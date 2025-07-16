@@ -8,13 +8,11 @@ import com.nhnacademy.illuwa.member.enums.Status;
 import com.nhnacademy.illuwa.pointhistory.dto.PointHistoryResponse;
 import com.nhnacademy.illuwa.pointhistory.enums.PointHistoryType;
 import com.nhnacademy.illuwa.pointhistory.enums.PointReason;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -34,16 +32,10 @@ class AdminMemberServiceClientTest {
     @Mock
     private AdminMemberServiceClient adminMemberServiceClient;
 
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
-
-
     @Test
     @DisplayName("회원 페이지 목록 조회 테스트")
     void testGetPagedMemberList() {
-        PageResponse<MemberResponse> mockPageResponse = new PageResponse<MemberResponse>(
+        PageResponse<MemberResponse> mockPageResponse = new PageResponse<>(
                 List.of(
                         MemberResponse.builder()
                                 .memberId(1L)
@@ -85,7 +77,6 @@ class AdminMemberServiceClientTest {
         when(adminMemberServiceClient.getPagedMemberListFilteredByGrade(eq(GradeName.BASIC), eq(0), eq(10)))
                 .thenReturn(mockPageResponse);
 
-        // then
         PageResponse<MemberResponse> response = adminMemberServiceClient.getPagedMemberListFilteredByGrade(GradeName.BASIC, 0, 10);
 
         assertNotNull(response);
@@ -106,17 +97,19 @@ class AdminMemberServiceClientTest {
         // given
         List<PointHistoryResponse> mockResponse = List.of(
                 new PointHistoryResponse(
+                        1L,
                         PointHistoryType.EARN,
-                        PointReason.JOIN,
+                        PointReason.GRADE_EVENT,
                         BigDecimal.valueOf(1000),
-                        BigDecimal.valueOf(5000),
+                        BigDecimal.valueOf(6000),
                         LocalDateTime.now()
                 ),
                 new PointHistoryResponse(
-                        PointHistoryType.USE,
-                        PointReason.PURCHASE,
-                        BigDecimal.valueOf(500),
-                        BigDecimal.valueOf(5500),
+                        2L,
+                        PointHistoryType.EARN,
+                        PointReason.GRADE_EVENT,
+                        BigDecimal.valueOf(1000),
+                        BigDecimal.valueOf(6000),
                         LocalDateTime.now()
                 )
         );
@@ -131,9 +124,9 @@ class AdminMemberServiceClientTest {
         assertNotNull(response);
         assertEquals(2, response.size());
         assertEquals(PointHistoryType.EARN, response.getFirst().getType());
-        assertEquals(PointReason.JOIN, response.getFirst().getReason());
+        assertEquals(PointReason.GRADE_EVENT, response.getFirst().getReason());
         assertEquals(BigDecimal.valueOf(1000), response.getFirst().getAmount());
-        assertEquals(BigDecimal.valueOf(5000), response.getFirst().getBalance());
+        assertEquals(BigDecimal.valueOf(6000), response.getFirst().getBalance());
         assertNotNull(response.getFirst().getCreatedAt());
     }
 

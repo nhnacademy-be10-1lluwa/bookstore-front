@@ -1,14 +1,15 @@
 package com.nhnacademy.illuwa.review.service;
 
+import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.review.client.ReviewServiceClient;
 import com.nhnacademy.illuwa.review.dto.ReviewRequest;
 import com.nhnacademy.illuwa.review.dto.ReviewResponse;
-import com.nhnacademy.illuwa.member.client.MemberServiceClient;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +27,13 @@ public class ReviewService{
     public ReviewResponse getReview(Long reviewId, Long memberId) {
         return reviewServiceClient.getReviewDetails(reviewId, memberId);
     }
-//    public<ReviewResponse> getReviewPages(Long bookId,  pageable, Long memberId) {
-//
-//    }
-//
+
+    public PageResponse<ReviewResponse> getReviewPages(Long bookId, int page, int size) {
+        Page<ReviewResponse> pagingData = reviewServiceClient.getReviewPages(bookId, page, size);
+        return PageResponse.from(pagingData);
+    }
+
+    public Map<Long, Boolean> areReviewsWritten(List<Long> bookIds){
+        return reviewServiceClient.areReviewsWritten(bookIds);
+    }
 }

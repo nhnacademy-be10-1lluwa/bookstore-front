@@ -5,6 +5,7 @@ import com.nhnacademy.illuwa.order.dto.*;
 import com.nhnacademy.illuwa.order.dto.admin.OrderUpdateStatusDto;
 import com.nhnacademy.illuwa.order.dto.guest.GuestOrderDirectRequest;
 import com.nhnacademy.illuwa.order.dto.guest.GuestOrderInitDirectResponse;
+import com.nhnacademy.illuwa.order.dto.guest.OrderGuestCreateResponse;
 import com.nhnacademy.illuwa.order.dto.member.MemberOrderCartRequest;
 import com.nhnacademy.illuwa.order.dto.member.MemberOrderDirectRequest;
 import com.nhnacademy.illuwa.order.dto.member.MemberOrderInitDirectResponse;
@@ -28,8 +29,8 @@ public interface OrderServiceClient {
     PackagingResponseDto createPackaging(PackagingRequestDto packagingRequestDto);
 
     // 비회원 주문 내역 조회하기
-    @GetMapping("/api/order/guest/order-history/{orderNumber}")
-    OrderResponse getGuestOrderHistory(@PathVariable("orderNumber") String orderNumber, @RequestParam("contact") String recipientContact);
+    @GetMapping("/api/order/guest/order-history/{orderId}")
+    OrderResponse getGuestOrderHistory(@PathVariable("orderId") Long orderId);
 
     //회원 주문 내역 조회하기
     @GetMapping("/api/order/member/orders/history")

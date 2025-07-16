@@ -34,7 +34,7 @@ public class AdminOrderController {
     public String getDetailOrder(@PathVariable("orderId") Long orderId, Model model) {
         OrderResponse order = orderservice.getAdminOrderDetail(orderId);
         model.addAttribute("order", order);
-        return "admin/order/order-detail";
+        return "order/order_detail";
     }
 
     // 상태 변경하기

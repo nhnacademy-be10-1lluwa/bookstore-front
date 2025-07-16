@@ -10,6 +10,27 @@
     <section class="main-content">
         <h1>주문내역 상세 정보</h1>
     </section>
+
+    <section class="guest-info">
+        <h1>주문자 정보</h1>
+        <table class="summary-table">
+            <tbody>
+            <tr>
+                <th scope="row">이름</th>
+                <td th:text="${guest.name}">홍길동</td>
+            </tr>
+            <tr>
+                <th scope="row">연락처</th>
+                <td th:tel="${guest.contact}">010-1234-5678</td>
+            </tr>
+            <tr>
+                <th scope="row">이메일</th>
+                <td th:email="${guest.email}">guest@1lluwa.com</td>
+            </tr>
+            </tbody>
+        </table>
+    </section>
+
     <!-- ▣ 주문 요약 -->
     <section class="order-summary">
         <h1>주문 정보</h1>

@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout/layout}"
+<html lang="ko"
+      layout:decorate="~{layout/layout}"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head layout:fragment="head">
   <link rel="stylesheet" th:href="@{/css/main.css}" />
+  <title>주문 관리</title>
 </head>
+<body>
 <main layout:fragment="content">
   <section class="order-summary">
     <h1>주문 정보</h1>
@@ -13,7 +16,7 @@
       <tbody>
       <tr>
         <th scope="row">주문 번호</th>
-        <td th:text="${order.orderNumber}">20250708-0001</td>
+        <td th:text="${order}">20250708-0001</td>
       </tr>
       <tr th:if="${order.memberId != null}">
         <th scope="row">회원 번호</th>
@@ -49,13 +52,15 @@
           method = "post">
       <input type="hidden" name="_method" value="put"/>
 
-        <select name="orderStatus" th:value="*{orderStatus}">
+      <label>
+        <select name="orderStatus" th:value="*{order.orderStatus}">
           <option th:each="st : ${T(com.nhnacademy.illuwa.order.dto.types.OrderStatus).values()}"
                   th:value="${st}"
                   th:text="${st}"
-                  th:selected="${st} == *{orderStatus}">
+                  th:selected="${st} == *{order.orderStatus}">
           </option>
         </select>
+      </label>
       <button type="submit">저장</button>
     </form>
   </section>
@@ -75,16 +80,17 @@
       </tr>
       </thead>
       <tbody>
-      <tr th:each="item : ${order.items}">
+      <tr th:each="item, iterStat : ${order.items}">
         <td th:text="${item.title}">책 제목</td>
         <td th:text="${item.quantity}">2</td>
         <td th:text="${#numbers.formatDecimal(item.getPrice(),0,'COMMA',0,'POINT')} + '원'">10,000원</td>
         <td th:text="${item.packaging.packagingName}">일반포장</td>
-        <td th:text="${#numbers.formatDecimal(item.packaging.getPackagingPrice(), 0, 'COMMA', 0, 'POINT')} + '원'">2,000원</td>
-        <td th:text="${#numbers.formatDecimal(item.getTotalPrice(),0,'COMMA',0,'POINT')} + '원'">20,000원</td>
+        <td th:text="|${#numbers.formatDecimal(item.packaging.getPackagingPrice(), 0, 'COMMA', 0, 'POINT')}원|">2,000원</td>
+        <td th:text="|${#numbers.formatDecimal(item.getTotalPrice(),0,'COMMA',0,'POINT')}원|">20,000원</td>
       </tr>
       </tbody>
     </table>
   </section>
 </main>
+</body>
 </html>
