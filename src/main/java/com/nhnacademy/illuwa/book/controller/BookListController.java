@@ -28,7 +28,7 @@ public class BookListController {
         return "book/book_list";
     }
 
-    @PostMapping("/book_search")
+    @PostMapping("/book-search")
     public String searchBook(@RequestParam("keyword") String keyword, Model model) {
         BookDetailResponse book = bookService.bookDetail(keyword);
         List<BookDetailResponse> books = new ArrayList<>();

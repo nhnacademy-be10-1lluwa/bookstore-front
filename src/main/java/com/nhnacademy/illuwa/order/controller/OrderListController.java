@@ -16,7 +16,7 @@ public class OrderListController {
         this.orderService = orderService;
     }
 
-    @GetMapping("/order_list")
+    @GetMapping("/order-list")
     public String orderList(@RequestParam(defaultValue = "0") int page,
                             @RequestParam(defaultValue = "10") int size,
                             Model model) {
@@ -25,6 +25,7 @@ public class OrderListController {
         model.addAttribute("orderPage", orderPage);
         model.addAttribute("currentPage", orderPage.page());
         model.addAttribute("totalPages", orderPage.totalPages());
+
         return "order/order_list";
     }
 }
