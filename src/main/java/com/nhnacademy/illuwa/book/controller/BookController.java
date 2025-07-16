@@ -38,7 +38,7 @@ public class BookController {
         Long bookId = bookDetail.getId();
         PageResponse<ReviewResponse> reviewPage = reviewService.getReviewPages(bookId, 0, 5);
         List<Long> memberIds = reviewPage.content().stream().map(ReviewResponse::getMemberId).toList();
-        Map<Long,String> nameMap = memberService.getMemberNameFromReviewers(memberIds);
+        Map<Long,String> nameMap = memberService.getNamesFromIdList(memberIds);
 
         model.addAttribute("book", bookDetail);
         model.addAttribute("reviewContent", reviewPage.content());

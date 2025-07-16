@@ -33,5 +33,5 @@ public interface MemberServiceClient {
     void updatePaycoMember(@RequestBody PaycoMemberUpdateRequest request);
 
     @PostMapping("api/members/names")
-    Map<Long, String> getMemberNameFromReviewers(@RequestBody List<Long> reviewerIds);
+    Map<Long, String> getNamesFromIdList(@RequestBody List<Long> reviewerIds);
 }
