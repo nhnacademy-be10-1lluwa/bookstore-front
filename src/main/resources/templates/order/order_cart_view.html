@@ -6,6 +6,8 @@
 <head layout:fragment="head">
   <link rel="stylesheet" th:href="@{/css/main.css}"/>
   <link rel="stylesheet" th:href="@{/css/order/order_view.css}"/>
+
+  <script src="https://js.tosspayments.com/v2/standard"></script>
 </head>
 <main layout:fragment="content">
   <section class="order-summary" th:object="${order}">
@@ -54,7 +56,47 @@
     </section>
   </section>
   <section class="main-content">
-    <a th:href="@{/payment}">결제하기</a>
+    <button id="payBtn" class="btn-primary">결제하기</button>
   </section>
+  <script th:inline="javascript">
+    document.addEventListener("DOMContentLoaded", () => {
+      const CLIENT_KEY = /*[[${tossClientKey}]]*/ "fallback-key-if-null";  // 추후 yml에서 주입
+      const ORDER_NUMBER = /*[[${order.orderNumber}]]*/ "order-123";
+      const TOTAL_PRICE = /*[[${order.finalPrice}]]*/ 10000;
+      const CUSTOMER_NAME = /*[[${member.name}]]*/ "홍길동";
+      const CUSTOMER_EMAIL = /*[[${member.email}]]*/ "test@example.com";
+
+      const items = /*[[${order.items}]]*/ [];
+      const firstTitle = items[0]?.title;
+      const itemCount = items.length;
+      const ORDER_NAME = `${firstTitle} 외 ${itemCount - 1}권`;
+
+      const tossPayments = TossPayments(CLIENT_KEY);
+      const customerKey = "user-" + ORDER_NUMBER;
+
+      const payment = tossPayments.payment({ customerKey });
+      document.getElementById("payBtn").addEventListener("click", function () {
+        payment.requestPayment({
+          method: "CARD",
+          amount: {
+            currency: "KRW",
+            value: parseInt(TOTAL_PRICE),
+          },
+          orderId: ORDER_NUMBER,
+          orderName: ORDER_NAME,
+          customerName: CUSTOMER_NAME,
+          customerEmail: CUSTOMER_EMAIL,
+          successUrl: window.location.origin + "/payment/success",
+          failUrl: window.location.origin + "/payment/fail",
+          card: {
+            useEscrow: false,
+            flowMode: "DEFAULT",
+            useCardPoint: false,
+            useAppCardOnly: false,
+          },
+        });
+      });
+    })
+  </script>
 </main>
 </html>
