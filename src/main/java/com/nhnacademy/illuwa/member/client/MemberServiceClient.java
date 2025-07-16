@@ -32,6 +32,6 @@ public interface MemberServiceClient {
     @PutMapping("/api/members/internal/social-members")
     void updatePaycoMember(@RequestBody PaycoMemberUpdateRequest request);
 
-    @PostMapping("api/members/names")
+    @PostMapping("/api/members/names")
     Map<Long, String> getNamesFromIdList(@RequestBody List<Long> reviewerIds);
 }
