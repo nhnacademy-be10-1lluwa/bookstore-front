@@ -19,15 +19,31 @@ public class BookSearchController {
     private final BookSearchService bookSearchService;
 
     @GetMapping("/search")
-    public String searchBooks(
-            @RequestParam String keyword, Pageable pageable, Model model)
+    public String searchBooks(@RequestParam(required = false) String keyword, @RequestParam(required = false) String category, Pageable pageable, Model model)
     {
+        Page<BookDocument> results = null;
 
-
-        Page<BookDocument> results = bookSearchService.searchBooks(keyword, pageable);
+        if (category != null && !category.isBlank()) {
+            results = bookSearchService.searchBooksByCategory(category, pageable);
+        }
+        else if (keyword != null && !keyword.isBlank()) {
+            results = bookSearchService.searchBooks(keyword, pageable);
+        }
         model.addAttribute("books", results.getContent());
         model.addAttribute("page", results);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("category", category);
+
+        return "book/search_result";
+    }
+
+
+    @GetMapping("/search/category")
+    public String searchBooksByCategory(@RequestParam String category, Pageable pageable, Model model) {
+        Page<BookDocument> results = bookSearchService.searchBooksByCategory(category, pageable);
+        model.addAttribute("books", results.getContent());
+        model.addAttribute("page", results);
+        model.addAttribute("category", category);
         return "book/search_result";
     }
 }
