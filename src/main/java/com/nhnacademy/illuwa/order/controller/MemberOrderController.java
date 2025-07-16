@@ -88,7 +88,7 @@ public class MemberOrderController {
         OrderCreateResponse response = orderService.sendCartOrderMember(request);
         model.addAttribute("order", response);
         model.addAttribute("member", getMemberInfo());
-
+        model.addAttribute("tossClientKey", tossClientKey);
 
         return "order/order_cart_view";
     }
