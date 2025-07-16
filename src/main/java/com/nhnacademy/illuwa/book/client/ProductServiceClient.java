@@ -92,4 +92,6 @@ public interface ProductServiceClient {
                                                                    @RequestParam int size,
                                                                    @RequestParam(defaultValue = "id") String sort);
 
+    @PostMapping("/api/bookmarks")
+    Boolean toggleBookmark(@RequestParam long bookId);
 }
