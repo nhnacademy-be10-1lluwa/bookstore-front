@@ -10,4 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface BookSearchClient {
     @GetMapping("/api/search")
     Page<BookDocument> searchBooks(@RequestParam String keyword, @RequestParam int page, @RequestParam int size, @RequestParam String sort);
+
+    @GetMapping("/api/search/category")
+    Page<BookDocument> searchBooksByCategory(@RequestParam String category, @RequestParam int page, @RequestParam int size, @RequestParam String sort);
 }
