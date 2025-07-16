@@ -5,6 +5,7 @@ import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
 import com.nhnacademy.illuwa.book.dto.SearchBookResponse;
 import com.nhnacademy.illuwa.category.dto.CategoryResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +32,10 @@ public class BookService {
 
     public List<BookDetailResponse> getAllBooks() {
         return productServiceClient.getRegisteredBook();
+    }
+
+    public Page<BookDetailResponse> getPagedBooks(int page, int size, String sort) {
+        return productServiceClient.getRegisteredBookPaged(page, size, sort);
     }
 
     public List<CategoryResponse> getAllCategory() {

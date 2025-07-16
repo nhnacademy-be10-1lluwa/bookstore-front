@@ -35,6 +35,14 @@ public interface ProductServiceClient {
     @GetMapping("/api/books")
     List<BookDetailResponse> getRegisteredBook();
 
+    //페이징 처리 도서목록
+    @GetMapping("/api/books/paged")
+    Page<BookDetailResponse> getRegisteredBookPaged(
+            @RequestParam("page") int page,
+            @RequestParam("size") int size,
+            @RequestParam(defaultValue = "id") String sort
+    );
+
     // 도서 검색(외부 API)
     @GetMapping("/api/admin/books/external")
     List<BookExternalResponse> searchAladinBooksByTitle(@RequestParam("title") String title);
