@@ -6,13 +6,13 @@ import com.nhnacademy.illuwa.member.dto.MemberUpdateRequest;
 import com.nhnacademy.illuwa.member.dto.PasswordCheckRequest;
 import com.nhnacademy.illuwa.member.enums.Role;
 import com.nhnacademy.illuwa.member.enums.Status;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -21,6 +21,7 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class MemberServiceTest {
 
     @Mock
@@ -28,11 +29,6 @@ public class MemberServiceTest {
 
     @InjectMocks
     MemberService memberService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     @DisplayName("getMember() 테스트")
