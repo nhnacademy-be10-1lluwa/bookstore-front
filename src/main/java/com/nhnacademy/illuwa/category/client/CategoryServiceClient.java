@@ -16,7 +16,7 @@ public interface CategoryServiceClient {
     @GetMapping("/api/categories/tree")
     List<CategoryResponse> getCategoryTree();
 
-    @GetMapping("/api/categories")
+    @GetMapping("/api/public/categories")
     List<CategoryResponse> getAllCategories();
 
     // 카테고리 생성

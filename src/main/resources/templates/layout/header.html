@@ -7,147 +7,17 @@
         </h1>
         <nav class="main-header__nav">
             <ul class="main-header__nav-menu nav-menu nav-menu--left">
-                <li class="nav-menu__item has-submenu">
-                    <a href="#" class="nav-menu__item-link_main">카테고리1</a>
+                <li th:each="category : ${categories}" class="nav-menu__item has-submenu">
+                    <a href="#" th:text="${category.categoryName}" class="nav-menu__item-link_main"></a>
                     <ul class="submenu">
-                        <li class="nav-menu__item has-submenu">
-                            <a href="#" class="nav-menu__item-link">카테고리1</a>
+                        <li th:each="child : ${category.children}" class="nav-menu__item has-submenu">
+                            <a href="#" th:text="${child.categoryName}" class="nav-menu__item-link"></a>
                             <ul class="submenu">
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리1</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리2</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리3</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-menu__item has-submenu">
-                            <a href="#" class="nav-menu__item-link">카테고리2</a>
-                            <ul class="submenu">
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리1</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리2</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리3</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-menu__item has-submenu">
-                            <a href="#" class="nav-menu__item-link">카테고리3</a>
-                            <ul class="submenu">
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리1</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리2</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리3</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-menu__item has-submenu">
-                    <a href="#" class="nav-menu__item-link_main">카테고리2</a>
-                    <ul class="submenu">
-                        <li class="nav-menu__item has-submenu">
-                            <a href="#" class="nav-menu__item-link">카테고리1</a>
-                            <ul class="submenu">
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리1</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리2</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리3</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-menu__item has-submenu">
-                            <a href="#" class="nav-menu__item-link">카테고리2</a>
-                            <ul class="submenu">
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리1</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리2</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리3</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-menu__item has-submenu">
-                            <a href="#" class="nav-menu__item-link">카테고리3</a>
-                            <ul class="submenu">
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리1</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리2</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리3</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-menu__item has-submenu">
-                    <a href="#" class="nav-menu__item-link_main">카테고리3</a>
-                    <ul class="submenu">
-                        <li class="nav-menu__item has-submenu">
-                            <a href="#" class="nav-menu__item-link">카테고리1</a>
-                            <ul class="submenu">
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리1</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리2</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리3</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-menu__item has-submenu">
-                            <a href="#" class="nav-menu__item-link">카테고리2</a>
-                            <ul class="submenu">
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리1</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리2</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리3</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-menu__item has-submenu">
-                            <a href="#" class="nav-menu__item-link">카테고리3</a>
-                            <ul class="submenu">
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리1</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리2</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리3</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-menu__item has-submenu">
-                    <a href="#" class="nav-menu__item-link_main">카테고리4</a>
-                    <ul class="submenu">
-                        <li class="nav-menu__item has-submenu">
-                            <a href="#" class="nav-menu__item-link">카테고리1</a>
-                            <ul class="submenu">
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리1</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리2</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리3</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-menu__item has-submenu">
-                            <a href="#" class="nav-menu__item-link">카테고리2</a>
-                            <ul class="submenu">
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리1</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리2</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리3</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-menu__item has-submenu">
-                            <a href="#" class="nav-menu__item-link">카테고리3</a>
-                            <ul class="submenu">
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리1</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리2</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리3</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </li>
-                <li class="nav-menu__item has-submenu">
-                    <a href="#" class="nav-menu__item-link_main">카테고리5</a>
-                    <ul class="submenu">
-                        <li class="nav-menu__item has-submenu">
-                            <a href="#" class="nav-menu__item-link">카테고리1</a>
-                            <ul class="submenu">
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리1</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리2</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리3</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-menu__item has-submenu">
-                            <a href="#" class="nav-menu__item-link">카테고리2</a>
-                            <ul class="submenu">
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리1</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리2</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리3</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-menu__item has-submenu">
-                            <a href="#" class="nav-menu__item-link">카테고리3</a>
-                            <ul class="submenu">
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리1</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리2</a></li>
-                                <li><a th:href="@{/books}" class="nav-menu__item-link">작은카테고리3</a></li>
+                                <li th:each="sub : ${child.children}">
+                                    <a th:href="@{|/books/search?category=${sub.categoryName}|}"
+                                       th:text="${sub.categoryName}"
+                                       class="nav-menu__item-link"></a>
+                                </li>
                             </ul>
                         </li>
                     </ul>

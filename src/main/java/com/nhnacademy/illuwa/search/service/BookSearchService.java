@@ -15,17 +15,22 @@ public class BookSearchService {
     private final BookSearchClient bookSearchClient;
 
     public Page<BookDocument> searchBooks(String keyword, Pageable pageable) {
-        String sortParam = pageable.getSort()
-                .stream()
+        String sortParam = pageable.getSort().stream()
                 .map(order -> order.getProperty() + "," + order.getDirection().name().toLowerCase())
                 .findFirst()
                 .orElse("id,asc"); // 기본정렬
 
-        return bookSearchClient.searchBooks(
-                keyword,
-                pageable.getPageNumber(),
-                pageable.getPageSize(),
-                sortParam
-        );
+        return bookSearchClient.searchBooks(keyword, pageable.getPageNumber(), pageable.getPageSize(), sortParam);
     }
+
+    public Page<BookDocument> searchBooksByCategory(String category, Pageable pageable) {
+        String sortParam = pageable.getSort()
+                .stream()
+                .map(order -> order.getProperty() + "," + order.getDirection().name().toLowerCase())
+                .findFirst()
+                .orElse("id,asc");
+
+        return bookSearchClient.searchBooksByCategory(category, pageable.getPageNumber(), pageable.getPageSize(), sortParam);
+    }
+
 }
