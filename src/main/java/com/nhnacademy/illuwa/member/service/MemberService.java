@@ -11,6 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 
+import java.util.List;
+import java.util.Map;
+
 @RequiredArgsConstructor
 @Service
 public class MemberService {
@@ -54,5 +57,9 @@ public class MemberService {
 
     public boolean checkPassword(@RequestBody PasswordCheckRequest request){
         return memberServiceClient.checkPassword(request);
+    }
+
+    public Map<Long, String> getMemberNameFromReviewers(@RequestBody List<Long> reviewerIds) {
+        return memberServiceClient.getMemberNameFromReviewers(reviewerIds);
     }
 }
