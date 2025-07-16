@@ -11,6 +11,7 @@ import com.nhnacademy.illuwa.order.dto.guest.GuestOrderInitDirectResponse;
 import com.nhnacademy.illuwa.order.dto.guest.OrderGuestCreateResponse;
 import com.nhnacademy.illuwa.order.dto.orderRequest.OrderItemDto;
 import com.nhnacademy.illuwa.order.service.OrderService;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -20,6 +21,9 @@ public class GuestOrderController {
     private final OrderServiceClient orderServiceClient;
     private final OrderService orderService;
     private final GuestClientService guestClientService;
+
+    @Value("${toss.client-key}")
+    private String tossClientKey;
 
     public GuestOrderController(OrderServiceClient orderServiceClient, OrderService orderService, GuestClientService guestClientService) {
         this.orderServiceClient = orderServiceClient;
@@ -67,6 +71,8 @@ public class GuestOrderController {
 
         model.addAttribute("order", response);
         model.addAttribute("member", guestInfo);
+        model.addAttribute("tossClientKey", tossClientKey);
+
         return "order/order_view";
     }
 
