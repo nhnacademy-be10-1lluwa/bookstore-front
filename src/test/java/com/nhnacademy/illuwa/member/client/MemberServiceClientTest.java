@@ -7,12 +7,12 @@ import com.nhnacademy.illuwa.member.dto.PasswordCheckRequest;
 import com.nhnacademy.illuwa.member.enums.Role;
 import com.nhnacademy.illuwa.member.enums.Status;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -21,15 +21,11 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 
+@ExtendWith(MockitoExtension.class)
 class MemberServiceClientTest {
 
     @Mock
     private MemberServiceClient memberServiceClient;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     private MemberResponse createMockMemberResponse() {
         return MemberResponse.builder()
