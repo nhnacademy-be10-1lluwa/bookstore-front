@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head layout:fragment="head">
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <title>리뷰 작성</title>
+</head>
+
+<body>
+<main layout:fragment="content">
+    <section class="review" style="position: relative;"
+             th:with="actionUrl=${mode == 'edit'}
+                    ? '/books/' + ${bookId} + '/reviews/save?mode=edit&reviewId=' + ${reviewId} + '&orderId=' + ${orderId}
+                    : '/books/' + ${bookId} + '/reviews/save?mode=new&orderId=' + ${orderId}">
+
+        <form th:action="@{${actionUrl}}"
+              method="post"
+              enctype="multipart/form-data"
+              class="form-card"
+              th:data-mode="${mode}">
+
+            <h2 th:switch="${mode}">
+                <span th:case="'edit'">📝 리뷰 수정</span>
+                <span th:case="'view'">🔍 리뷰 보기</span>
+                <span th:case="*">📝 리뷰 작성</span>
+            </h2>
+
+            <input type="hidden" name="bookId" th:value="${bookId}" />
+            <input type="hidden" name="reviewId" th:if="${reviewId != null}" th:value="${reviewId}" />
+            <input type="hidden" name="orderId" th:value="${orderId}" />
+
+            <div>
+                <label>제목<br />
+                    <input type="text" name="reviewTitle" required
+                           th:readonly="${mode == 'view'}"
+                           th:value="${review?.reviewTitle}" />
+                </label>
+            </div>
+
+            <div>
+                <label>내용<br />
+                    <textarea name="reviewContent" rows="5" required
+                              th:readonly="${mode == 'view'}"
+                              th:text="${review?.reviewContent}"></textarea>
+                </label>
+            </div>
+
+            <div th:if="${mode != 'view'}">
+                <label>이미지 업로드<br />
+                    <input type="file" name="images" multiple />
+                </label>
+            </div>
+
+            <div th:if="${review?.reviewImageUrls != null}">
+                <label>기존 이미지</label>
+                <div th:each="url : ${review.reviewImageUrls}">
+                    <div>
+                        <img th:src="@{${url}}" alt="기존 이미지" width="100" />
+                        <label th:if="${mode != 'view'}">
+                            <input type="checkbox" name="deleteImageUrls" th:value="${url}" /> 삭제
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label>평점<br />
+                    <select name="reviewRating" required th:disabled="${mode == 'view'}">
+                        <option value="" disabled>선택</option>
+                        <option th:each="i : ${#numbers.sequence(1,5)}"
+                                th:value="${i}"
+                                th:text="${i + '점'}"
+                                th:selected="${review?.reviewRating == i}">i점</option>
+                    </select>
+                </label>
+            </div>
+
+            <div th:if="${mode == 'new' or mode == 'edit'}">
+                <button type="submit" th:text="${mode == 'edit'} ? '리뷰 수정' : '리뷰 등록'"></button>
+            </div>
+
+            <div th:if="${mode == 'view' and reviewId != null}" style="margin-top: 30px;">
+                <button type="button"
+                        th:onclick="|location.href='/books/' + ${bookId} + '/reviews/' + ${reviewId} + '/edit?orderId=' + ${orderId}|">
+                    ✏️ 수정하기
+                </button>
+            </div>
+        </form>
+
+        <div style="margin-top: 30px;">
+            <button type="button"
+                    th:onclick="|location.href='/order-detail/' + ${orderId}|">
+                  주문상세로 돌아가기
+            </button>
+            <button type="button"
+                    th:onclick="|location.href='/mypage'|">
+                내가 쓴 리뷰 모아보기
+            </button>
+        </div>
+    </section>
+</main>
+</body>
+</html>
