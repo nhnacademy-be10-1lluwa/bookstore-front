@@ -6,7 +6,7 @@
 
 <head layout:fragment="head">
   <link rel="stylesheet" th:href="@{/css/main.css}" />
-  <title>주문 상세</title>
+  <title>주문 관리</title>
 </head>
 <body>
 <main layout:fragment="content">
@@ -77,7 +77,6 @@
         <th scope="col">포장 옵션</th>
         <th scope="col">포장지 단가</th>
         <th scope="col">합계</th>
-        <th scope="col">리뷰</th>
       </tr>
       </thead>
       <tbody>
@@ -88,21 +87,6 @@
         <td th:text="${item.packaging.packagingName}">일반포장</td>
         <td th:text="|${#numbers.formatDecimal(item.packaging.getPackagingPrice(), 0, 'COMMA', 0, 'POINT')}원|">2,000원</td>
         <td th:text="|${#numbers.formatDecimal(item.getTotalPrice(),0,'COMMA',0,'POINT')}원|">20,000원</td>
-
-        <td>
-          <div th:if="${order.orderStatus.name() == 'CONFIRMED'}">
-            <button type="button"
-                    th:if="${!reviewStatusMap[iterStat.index]}"
-                    th:onclick="|location.href='@{/books/{bookId}/reviews/write(bookId=${item.bookId})}'|">
-              리뷰쓰기
-            </button>
-            <button type="button"
-                    th:if="${reviewStatusMap[iterStat.index]}"
-                    th:onclick="|location.href='@{/books/{bookId}/reviews/{reviewId}/edit(bookId=${item.bookId}, reviewId=${item.reviewId})}'|">
-              리뷰수정
-            </button>
-          </div>
-        </td>
       </tr>
       </tbody>
     </table>
