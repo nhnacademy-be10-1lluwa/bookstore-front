@@ -4,6 +4,7 @@ import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
 import com.nhnacademy.illuwa.book.dto.SearchBookResponse;
 import com.nhnacademy.illuwa.book.service.BookService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -21,10 +22,24 @@ import java.util.List;
 public class BookListController {
     private final BookService bookService;
 
+//    @GetMapping("/books/list")
+//    public String listBooks(Model model) {
+//        List<BookDetailResponse> books = bookService.getAllBooks();
+//        model.addAttribute("books", books);
+//        return "book/book_list";
+//    }
+
     @GetMapping("/books/list")
-    public String listBooks(Model model) {
-        List<BookDetailResponse> books = bookService.getAllBooks();
-        model.addAttribute("books", books);
+    public String listBooks(Model model,
+                            @RequestParam(defaultValue = "0") int page,
+                            @RequestParam(defaultValue = "15") int size,
+                            @RequestParam(defaultValue = "id,asc") String sort) {
+
+        Page<BookDetailResponse> bookPage = bookService.getPagedBooks(page, size, sort);
+
+        model.addAttribute("bookPage", bookPage);
+        model.addAttribute("sort", sort);
+
         return "book/book_list";
     }
 

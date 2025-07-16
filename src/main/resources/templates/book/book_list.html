@@ -2,28 +2,27 @@
 <html layout:decorate="~{layout/layout}"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
 <head layout:fragment="head">
-    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
 </head>
 
 <main layout:fragment="content">
     <section class="main-content">
         <h2>도서 목록</h2>
 
-        <form th:action="@{/book_search}" method="post" class="search-form">
+        <form th:action="@{/book_search}" method="post" class="search">
             <input type="text" name="keyword" placeholder="도서 제목 또는 저자를 입력하세요" required />
             <button type="submit">검색</button>
         </form>
 
-        <div th:if="${#lists.isEmpty(books)}" class="empty-message">
+        <div th:if="${#lists.isEmpty(bookPage.content)}" class="empty-message">
             등록된 도서가 없습니다.
         </div>
 
-        <div th:if="${not #lists.isEmpty(books)}">
+        <div th:if="${not #lists.isEmpty(bookPage.content)}">
             <div id="book-list" class="book-list">
                 <div class="book-card"
-                     th:each="book : ${books}"
+                     th:each="book : ${bookPage.content}"
                      th:data-id="${book.isbn}">
                     <img th:src="@{${book.imgUrl}}"
                          th:alt="${book.title} + ' 표지'"
@@ -45,10 +44,25 @@
                     </div>
                 </div>
             </div>
+
+            <div class="pagination">
+                <a th:if="${bookPage.hasPrevious()}"
+                   th:href="@{/books/list(page=${bookPage.number - 1}, size=${bookPage.size}, sort=${sort})}">&laquo; 이전</a>
+                <span th:unless="${bookPage.hasPrevious()}" class="disabled">&laquo; 이전</span>
+
+                <th:block th:if="${bookPage.totalPages > 0}" th:each="pageNumber : ${#numbers.sequence(0, bookPage.totalPages - 1)}">
+                    <a th:if="${pageNumber != bookPage.number}"
+                       th:href="@{/books/list(page=${pageNumber}, size=${bookPage.size}, sort=${sort})}"
+                       th:text="${pageNumber + 1}">1</a>
+                    <span th:if="${pageNumber == bookPage.number}"
+                          class="current-page" th:text="${pageNumber + 1}">1</span>
+                </th:block>
+
+                <a th:if="${bookPage.hasNext()}"
+                   th:href="@{/books/list(page=${bookPage.number + 1}, size=${bookPage.size}, sort=${sort})}">다음 &raquo;</a>
+                <span th:unless="${bookPage.hasNext()}" class="disabled">다음 &raquo;</span>
+            </div>
         </div>
-
-
-
     </section>
     <script th:src="@{/js/book/booklist.js}"></script>
 </main>
