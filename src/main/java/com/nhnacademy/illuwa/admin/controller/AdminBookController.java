@@ -7,6 +7,7 @@ import com.nhnacademy.illuwa.category.dto.CategoryResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,22 @@ public class AdminBookController {
             Model model
     ) {
         Page<BookDetailWithExtraInfoResponse> bookPage = productServiceClient.getAllBooksWithExtraInfo(page, size, sort);
-        model.addAttribute("bookPage", bookPage);
+
+        List<BookDetailWithExtraInfoResponse> convertedList = bookPage.getContent().stream()
+                .map(book -> {
+                    book.setImgUrl(convertMinioUrl(book.getImgUrl()));
+                    return book;
+                })
+                .toList();
+
+        Page<BookDetailWithExtraInfoResponse> convertedPage = new PageImpl<>(
+                convertedList,
+                bookPage.getPageable(),
+                bookPage.getTotalElements()
+        );
+
+
+        model.addAttribute("bookPage", convertedPage);
         model.addAttribute("currentSort", sort);
         return "admin/book/manage";
     }
@@ -158,6 +174,16 @@ public class AdminBookController {
     public String uploadBookImage(@RequestParam("file") MultipartFile file) {
         String url = minioStorageService.uploadBookImage(file);
         return url;
+    }
+
+    private String convertMinioUrl(String originalUrl) {
+        if (originalUrl == null) {
+            return null;
+        }
+        return originalUrl.replace(
+                "http://storage.java21.net:8000/",
+                "https://book1lluwa.store/minio/"
+        );
     }
 
 }
