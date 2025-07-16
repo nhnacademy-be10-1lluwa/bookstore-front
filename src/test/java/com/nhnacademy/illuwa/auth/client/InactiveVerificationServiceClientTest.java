@@ -7,9 +7,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
-import org.springframework.test.context.ActiveProfiles;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -20,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
         },
         webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
-class InactiveVerificationServiceClientIntegrationTest {
+public class InactiveVerificationServiceClientTest {
 
     static WireMockServer wireMockServer;
     static final ObjectMapper objectMapper = new ObjectMapper();

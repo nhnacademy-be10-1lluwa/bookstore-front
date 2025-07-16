@@ -15,7 +15,7 @@ public class PaycoUserInfoClient {
     @Value("${spring.security.oauth2.client.registration.payco.client-id}")
     private String clientId;
 
-    private final RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate;
 
     public Map<String, Object> getUserInfo(String accessToken) {
         HttpHeaders headers = new HttpHeaders();

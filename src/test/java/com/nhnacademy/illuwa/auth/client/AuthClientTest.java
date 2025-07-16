@@ -1,75 +1,114 @@
 package com.nhnacademy.illuwa.auth.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import com.nhnacademy.illuwa.auth.dto.MemberLoginRequest;
 import com.nhnacademy.illuwa.auth.dto.MemberRegisterRequest;
 import com.nhnacademy.illuwa.auth.dto.TokenResponse;
 import com.nhnacademy.illuwa.auth.dto.payco.SocialLoginRequest;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
-@ExtendWith(MockitoExtension.class)
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
+
+@SpringBootTest(
+        properties = {
+        "api.base-url=http://localhost:9876"
+        },
+        webEnvironment = SpringBootTest.WebEnvironment.NONE
+)
 public class AuthClientTest {
+    static WireMockServer wireMockServer;
+    static final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule()).configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
-    @Mock
-    private AuthClient authClient;
 
-    private MemberRegisterRequest registerRequest;
-    private MemberLoginRequest loginRequest;
-    private SocialLoginRequest socialLoginRequest;
-    private TokenResponse tokenResponse;
+    @Autowired
+    AuthClient client;
 
+    @MockBean
+    ClientRegistrationRepository clientRegistrationRepository;
+
+    @BeforeAll
+    static void startWireMock() {
+        wireMockServer = new WireMockServer(9876);
+        wireMockServer.start();
+    }
+    @AfterAll
+    static void stopWireMock() {
+        if (wireMockServer != null) wireMockServer.stop();
+    }
     @BeforeEach
-    public void setUp() {
-        registerRequest = new MemberRegisterRequest(
-                "John Doe",
-                null,
-                "john@example.com",
-                "Password1!",
-                "010-1234-5678"
+    void resetMocks() {
+        wireMockServer.resetAll();
+    }
+
+    @Test
+    @DisplayName("회원가입 동작 확인")
+    void testSignup() throws Exception {
+        MemberRegisterRequest memberRegisterRequest = new MemberRegisterRequest("riveroad", LocalDate.of(2000, 8, 25), "riveroad@kakao.com", "testPassword1234!", "010-1111-1111");
+
+        wireMockServer.stubFor(WireMock.post(WireMock.urlPathEqualTo("/api/auth/signup"))
+                .withRequestBody(equalToJson(objectMapper.writeValueAsString(memberRegisterRequest)))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withStatus(204)));
+
+        client.signup(memberRegisterRequest);
+    }
+
+    @Test
+    @DisplayName("로그인 동작 확인")
+    void testLogin() throws Exception {
+        MemberLoginRequest memberLoginRequest = new MemberLoginRequest("riveroad@kakao.com", "testPassword1234!");
+        TokenResponse tokenResponse = new TokenResponse("access_token", "refresh_token", 10000);
+
+        wireMockServer.stubFor(WireMock.post(WireMock.urlPathEqualTo("/api/auth/login"))
+                .withRequestBody(equalToJson(objectMapper.writeValueAsString(memberLoginRequest)))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(objectMapper.writeValueAsString(tokenResponse))
+                        .withStatus(200))
         );
-        loginRequest = new MemberLoginRequest("john@example.com", "Password1!");
-        socialLoginRequest = new SocialLoginRequest("google", "google123", null);
-        tokenResponse = new TokenResponse("access-token", "refresh-token", 100000);
+
+        TokenResponse result = client.login(memberLoginRequest);
+        Assertions.assertEquals(tokenResponse, result);
     }
 
     @Test
-    @DisplayName("회원가입 작동 테스트")
-    public void testSignup() {
-        doNothing().when(authClient).signup(any(MemberRegisterRequest.class));
-        authClient.signup(registerRequest);
-        verify(authClient, times(1)).signup(registerRequest);
-    }
+    @DisplayName("소셜 로그인 동작 확인")
+    void testSocialLogin() throws Exception {
+        SocialLoginRequest socialLoginRequest = new SocialLoginRequest(
+                "kakao",
+                "kakao-12345678",
+                new HashMap<>(Map.of(
+                        "nickname", "riveroad",
+                        "email", "riveroad@kakao.com",
+                        "profileImage", "profile.png"
+                ))
+        );
+        TokenResponse tokenResponse = new TokenResponse("access_token", "refresh_token", 10000);
 
-    @Test
-    @DisplayName("로그인 작동 테스트")
-    public void testLogin() {
-        when(authClient.login(any(MemberLoginRequest.class))).thenReturn(tokenResponse);
-        TokenResponse response = authClient.login(loginRequest);
+        wireMockServer.stubFor(WireMock.post(WireMock.urlPathEqualTo("/api/auth/social-login"))
+                .withRequestBody(equalToJson(objectMapper.writeValueAsString(socialLoginRequest)))
+                .willReturn(aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(objectMapper.writeValueAsString(tokenResponse))
+                        .withStatus(200))
+        );
 
-        assertNotNull(response);
-        assertEquals("access-token", response.getAccessToken());
-        assertEquals("refresh-token", response.getRefreshToken());
-        verify(authClient, times(1)).login(loginRequest);
-    }
-
-    @Test
-    public void testSocialLogin() {
-        when(authClient.socialLogin(any(SocialLoginRequest.class))).thenReturn(tokenResponse);
-        TokenResponse response = authClient.socialLogin(socialLoginRequest);
-
-        assertNotNull(response);
-        assertEquals("access-token", response.getAccessToken());
-        assertEquals("refresh-token", response.getRefreshToken());
-        verify(authClient, times(1)).socialLogin(socialLoginRequest);
+        TokenResponse result = client.socialLogin(socialLoginRequest);
+        Assertions.assertEquals(tokenResponse, result);
     }
 
 }
