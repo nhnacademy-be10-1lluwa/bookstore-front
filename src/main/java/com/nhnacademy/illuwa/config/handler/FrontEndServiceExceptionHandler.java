@@ -7,16 +7,34 @@ import com.nhnacademy.illuwa.common.dto.ErrorResponse;
 import com.nhnacademy.illuwa.common.exception.BackendApiException;
 import feign.FeignException;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.ValidationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 
 @ControllerAdvice
 @Slf4j
 public class FrontEndServiceExceptionHandler {
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public String handleValidationException(MethodArgumentNotValidException ex, Model model, HttpServletRequest request) {
+        List<String> errors = ex.getBindingResult().getFieldErrors().stream()
+                .map(err -> err.getField() + ": " + err.getDefaultMessage())
+                .toList();
+
+        model.addAttribute("errors", errors);
+        model.addAttribute("path", request.getRequestURI());
+        model.addAttribute("status", 400);
+        model.addAttribute("code", "VALIDATION_ERROR");
+
+        return "error";
+    }
+
     // FeignErrorDecoder가 변환하여 던진 커스텀 예외들을 처리
     // 예시: BadRequestException, NotFoundException 등 BackendApiException의 하위 클래스들
     @ExceptionHandler(BackendApiException.class)
@@ -32,6 +50,8 @@ public class FrontEndServiceExceptionHandler {
 
         return "error";
     }
+
+
 
     @ExceptionHandler(FeignException.class)
     public String handleFeignException(FeignException ex, Model model, HttpServletRequest request) {
