@@ -7,6 +7,9 @@ import com.nhnacademy.illuwa.member.dto.PasswordCheckRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @FeignClient(name = "user-service", url = "${api.base-url}", contextId = "userClientForMember")
 public interface MemberServiceClient {
 
@@ -28,4 +31,7 @@ public interface MemberServiceClient {
     // 페이코 회원 초기 정보 설정
     @PutMapping("/api/members/internal/social-members")
     void updatePaycoMember(@RequestBody PaycoMemberUpdateRequest request);
+
+    @PostMapping("api/members/names")
+    Map<Long, String> getMemberNameFromReviewers(@RequestBody List<Long> reviewerIds);
 }

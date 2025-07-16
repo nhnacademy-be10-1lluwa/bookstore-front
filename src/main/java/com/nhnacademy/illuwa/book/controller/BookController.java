@@ -3,6 +3,7 @@ package com.nhnacademy.illuwa.book.controller;
 import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
 import com.nhnacademy.illuwa.book.service.BookService;
 import com.nhnacademy.illuwa.common.dto.PageResponse;
+import com.nhnacademy.illuwa.member.service.MemberService;
 import com.nhnacademy.illuwa.review.dto.ReviewResponse;
 import com.nhnacademy.illuwa.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
@@ -11,12 +12,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
 
 @Controller
 @RequiredArgsConstructor
 public class BookController {
     private final BookService bookService;
     private final ReviewService reviewService;
+    private final MemberService memberService;
 
     @GetMapping("/user/book-info/{isbn}")
     public String bookInfo(@PathVariable String isbn, Model model) {
@@ -31,10 +37,13 @@ public class BookController {
 
         Long bookId = bookDetail.getId();
         PageResponse<ReviewResponse> reviewPage = reviewService.getReviewPages(bookId, 0, 5);
+        List<Long> memberIds = reviewPage.content().stream().map(ReviewResponse::getMemberId).toList();
+        Map<Long,String> nameMap = memberService.getMemberNameFromReviewers(memberIds);
 
         model.addAttribute("book", bookDetail);
         model.addAttribute("reviewContent", reviewPage.content());
         model.addAttribute("reviewPage", reviewPage);
+        model.addAttribute("nameMap", nameMap);
 
         return "book/detail";
     }
