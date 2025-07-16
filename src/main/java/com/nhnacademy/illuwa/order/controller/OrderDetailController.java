@@ -30,17 +30,18 @@ public class OrderDetailController {
                 .map(OrderItemResponseDto::getBookId)
                 .collect(Collectors.toList());
 
-        // 2. 한 번에 리뷰 존재 여부 조회 (N+1 제거)
-        Map<Long, Boolean> reviewExistMap = reviewService.areReviewsWritten(bookIds);
+        Map<Long, Long> reviewIdMap = reviewService.getExistingReviewIdMap(bookIds);
 
-        Map<Integer, Boolean> reviewStatusMap = new HashMap<>();
+        Map<Integer, Long> reviewIdIndexMap = new HashMap<>();
+
         for (int i = 0; i < items.size(); i++) {
             Long bookId = items.get(i).getBookId();
-            Boolean exists = reviewExistMap.getOrDefault(bookId, false);
-            reviewStatusMap.put(i, exists);
+            if (reviewIdMap.containsKey(bookId)) {
+                reviewIdIndexMap.put(i, reviewIdMap.get(bookId));
+            }
         }
         model.addAttribute("order", orderResponse);
-        model.addAttribute("reviewStatusMap", reviewStatusMap);
+        model.addAttribute("reviewIdIndexMap", reviewIdIndexMap);
 
         return "order/order_detail";
     }
