@@ -51,4 +51,7 @@ public interface ReviewServiceClient {
 
     @PostMapping("/api/book-reviews/reviews/check-batch")
     Map<Long, Boolean> areReviewsWritten(@RequestBody List<Long> bookIds);
+
+    @PostMapping("/api/book-reviews/reviews/check")
+    Map<Long, Long> getExistingReviewIdMap(@RequestBody List<Long> bookIds);
 }
