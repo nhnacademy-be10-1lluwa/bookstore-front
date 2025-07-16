@@ -36,9 +36,9 @@
                            th:text="${#numbers.formatInteger(book.salePrice, 0)} + '원'">가격</p>
                     </div>
                     <div class="action">
-                        <form th:action="@{/cart/add}" method="post">
-                            <input type="hidden" name="bookId" th:value="${book.id}" /> <input type="number"
-                                                                                               name="amount"  value="1" min="1" />
+                        <form th:action="@{/cart/add}" method="post" onclick="event.stopPropagation()">
+                            <input type="hidden" name="bookId" th:value="${book.id}"/>
+                            <input type="number" name="amount"  value="1" min="1" />
                             <button type="submit"> 장바구니 담기
                             </button>
                         </form>

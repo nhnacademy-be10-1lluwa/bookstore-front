@@ -9,12 +9,12 @@ import com.nhnacademy.illuwa.member.enums.Status;
 import com.nhnacademy.illuwa.pointhistory.dto.PointHistoryResponse;
 import com.nhnacademy.illuwa.pointhistory.enums.PointHistoryType;
 import com.nhnacademy.illuwa.pointhistory.enums.PointReason;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -25,17 +25,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
+@ExtendWith(MockitoExtension.class)
 public class AdminMemberServiceTest {
     @Mock
     private AdminMemberServiceClient adminMemberServiceClient;
 
     @InjectMocks
     private AdminMemberService adminMemberService;
-
-    @BeforeEach
-    void setUp() {
-        MockitoAnnotations.openMocks(this);
-    }
 
     @Test
     @DisplayName("getPagedMemberList 정상 동작 테스트")
@@ -90,7 +86,7 @@ public class AdminMemberServiceTest {
         // then
         assertEquals(expected, actual);
         assertEquals(2, actual.content().size());
-        assertEquals("홍길동", actual.content().get(0).getName());
+        assertEquals("홍길동", actual.content().getFirst().getName());
         verify(adminMemberServiceClient, times(1)).getPagedMemberListFilteredByGrade(GradeName.BASIC, 1, 10);
     }
 
@@ -100,6 +96,7 @@ public class AdminMemberServiceTest {
         // given
         List<PointHistoryResponse> mockResponse = List.of(
                 new PointHistoryResponse(
+                        1L,
                         PointHistoryType.EARN,
                         PointReason.JOIN,
                         BigDecimal.valueOf(1000),
@@ -107,6 +104,7 @@ public class AdminMemberServiceTest {
                         LocalDateTime.now()
                 ),
                 new PointHistoryResponse(
+                        2L,
                         PointHistoryType.USE,
                         PointReason.PURCHASE,
                         BigDecimal.valueOf(500),
