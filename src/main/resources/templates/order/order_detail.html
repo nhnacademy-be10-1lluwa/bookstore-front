@@ -1,15 +1,18 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout/layout}"
+<html lang="ko"
+      layout:decorate="~{layout/layout}"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head layout:fragment="head">
     <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <title>주문 상세</title>
 </head>
+<body>
 <main layout:fragment="content">
-    <!--<section class="main-content">
-        <a th:href="@{/order_view}">구매 확정하기</a>
-    </section>-->
+    <section class="main-content">
+        <a th:href="@{/order-view}">구매 확정하기</a>
+    </section>
     <section class="order-summary">
         <h1>주문 정보</h1>
         <table class="summary-table">
@@ -36,11 +39,11 @@
             </tr>
             <tr>
                 <th scope="row">배송비</th>
-                <td th:text="${#numbers.formatDecimal(order.shippingFee, 0, 'COMMA', 0, 'POINT')} + '원'">1000</td>
+                <td th:text="|${#numbers.formatDecimal(order.shippingFee, 0, 'COMMA', 0, 'POINT')}원|">1000</td>
             </tr>
             <tr>
                 <th scope="row">총 결제금액</th>
-                <td th:text="${#numbers.formatDecimal(order.totalPrice,0,'COMMA',0,'POINT')} + '원'">15,000원</td>
+                <td th:text="|${#numbers.formatDecimal(order.totalPrice,0,'COMMA',0,'POINT')}원|">15,000원</td>
             </tr>
             </tbody>
         </table>
@@ -66,22 +69,22 @@
             <tr th:each="item, iterStat: ${order.items}">
                 <td th:text="${item.title}">책 제목</td>
                 <td th:text="${item.quantity}">2</td>
-                <td th:text="${#numbers.formatDecimal(item.getPrice(),0,'COMMA',0,'POINT')} + '원'">10,000원</td>
+                <td th:text="|${#numbers.formatDecimal(item.price,0,'COMMA',0,'POINT')}원|">10,000원</td>
                 <td th:text="${item.packaging.packagingName}">일반포장</td>
-                <td th:text="${#numbers.formatDecimal(item.packaging.getPackagingPrice(), 0, 'COMMA', 0, 'POINT')} + '원'">2,000원</td>
-                <td th:text="${#numbers.formatDecimal(item.getTotalPrice(),0,'COMMA',0,'POINT')} + '원'">20,000원</td>
+                <td th:text="|${#numbers.formatDecimal(item.packaging.packagingPrice, 0, 'COMMA', 0, 'POINT')}원|">2,000원</td>
+                <td th:text="|${#numbers.formatDecimal(item.totalPrice,0,'COMMA',0,'POINT')}원|">20,000원</td>
                 <td>
-                    <div th:if="${order.orderStatus.name() == 'Confirmed'}">
-                        <button type="button"
-                                th:if="${!reviewStatusMap[iterStat.index]}"
-                                th:onclick="|location.href='@{/books/{bookId}/reviews/write(bookId=${item.bookId})}'|">
+                    <div th:if="${order.orderStatus == 'Confirmed'}">
+                        <a th:if="${!reviewStatusMap[iterStat.index]}"
+                           th:href="@{/books/{bookId}/reviews/write(bookId=${item.bookId})}"
+                           class="btn btn-review">
                             리뷰쓰기
-                        </button>
-                        <button type="button"
-                                th:if="${reviewStatusMap[iterStat.index]}"
-                                th:onclick="|location.href='@{/books/{bookId}/reviews/{reviewId}/edit(bookId=${item.bookId}, reviewId=${item.reviewId})}'|">
+                        </a>
+                        <a th:if="${reviewStatusMap[iterStat.index]}"
+                           th:href="@{/books/{bookId}/reviews/{reviewId}/edit(bookId=${item.bookId}, reviewId=${item.reviewId})}"
+                           class="btn btn-review">
                             리뷰수정
-                        </button>
+                        </a>
                     </div>
                 </td>
             </tr>
@@ -89,4 +92,5 @@
         </table>
     </section>
 </main>
+</body>
 </html>
