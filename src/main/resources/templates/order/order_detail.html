@@ -11,9 +11,6 @@
 </head>
 <body>
 <main layout:fragment="content">
-    <section class="main-content">
-        <a th:href="@{/order-view}">구매 확정하기</a>
-    </section>
     <section class="order-summary">
         <h1>주문 정보</h1>
         <table class="summary-table">
@@ -95,6 +92,13 @@
             </tr>
             </tbody>
         </table>
+
+        <!-- 환불 버튼 -->
+        <form th:if="${order.orderStatus != null and order.orderStatus.toString().equals('Pending')}"
+              th:action="@{/payment/{orderNumber}/refund(orderNumber=${order.orderNumber})}" method="post" style="margin-top: 20px">
+            <input type="text" name="cancelReason" placeholder="환불 사유를 입력해주세요" required />
+            <button type="submit">환불 요청</button>
+        </form>
     </section>
 </main>
 </body>

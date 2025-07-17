@@ -1,16 +1,15 @@
 package com.nhnacademy.illuwa.payment.controller;
 
+import com.nhnacademy.illuwa.order.client.OrderServiceClient;
 import com.nhnacademy.illuwa.payment.client.PaymentServiceClient;
 import com.nhnacademy.illuwa.payment.dto.PaymentConfirmRequest;
 import com.nhnacademy.illuwa.payment.dto.PaymentResponse;
+import com.nhnacademy.illuwa.payment.dto.PaymentRefundRequest;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/payment")
@@ -18,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class PaymentController {
 
     private final PaymentServiceClient paymentServiceClient;
+    private final OrderServiceClient orderServiceClient;
 
     @GetMapping("/success")
     public String handlePaymentSuccess(@RequestParam(name = "orderId") String orderNumber,
@@ -36,5 +36,15 @@ public class PaymentController {
         } catch (FeignException e) {
             return "payment/fail";
         }
+    }
+
+    @PostMapping("/{orderNumber}/refund")
+    public String refundOrder(@PathVariable String orderNumber, @RequestParam String cancelReason) {
+        PaymentRefundRequest request = new PaymentRefundRequest(orderNumber, cancelReason);
+        PaymentResponse paymentResponse = paymentServiceClient.requestRefund(request);
+
+        orderServiceClient.cancelOrder(orderNumber);
+
+        return "redirect:/order-detail/" + paymentResponse.getOrderId();
     }
 }

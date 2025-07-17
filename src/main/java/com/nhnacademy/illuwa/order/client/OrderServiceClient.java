@@ -76,4 +76,8 @@ public interface OrderServiceClient {
     @PutMapping("/api/order/admin/orders/{orderId}")
     void updateOrderStatus(@PathVariable("orderId") Long orderId,
                            @RequestBody OrderUpdateStatusDto dto);
+
+    // 주문 취소
+    @PostMapping("/api/order/common/orders/{orderNumber}/cancel")
+    void cancelOrder(@PathVariable("orderNumber") String orderNumber);
 }
