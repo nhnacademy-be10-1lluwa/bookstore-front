@@ -1,5 +1,6 @@
 package com.nhnacademy.illuwa.member.controller;
 
+import com.nhnacademy.illuwa.common.ca.CategoryControllerAdvice;
 import com.nhnacademy.illuwa.common.exception.BackendApiException;
 import com.nhnacademy.illuwa.member.dto.MemberResponse;
 import com.nhnacademy.illuwa.member.dto.MemberUpdateRequest;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.math.BigDecimal;
@@ -23,7 +26,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
-@WebMvcTest(MemberController.class)
+@WebMvcTest(controllers = MemberController.class,
+        excludeFilters = {
+                @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {CategoryControllerAdvice.class})
+        })
 @AutoConfigureMockMvc(addFilters = false)
 public class MemberControllerTest {
 
