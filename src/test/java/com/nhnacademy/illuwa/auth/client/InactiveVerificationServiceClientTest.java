@@ -53,7 +53,7 @@ public class InactiveVerificationServiceClientTest {
                 .email("inactive@test.com")
                 .build();
 
-        wireMockServer.stubFor(post(urlEqualTo("/api/members/check-status"))
+        wireMockServer.stubFor(post(urlEqualTo("/api/members/inactive/check-status"))
                 .withRequestBody(equalToJson(objectMapper.writeValueAsString(request)))
                 .willReturn(aResponse()
                         .withHeader("Content-Type", "application/json")

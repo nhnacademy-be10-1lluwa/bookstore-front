@@ -9,6 +9,8 @@
 <body>
 <div class="coupon-list-container">
     <div class="coupon-list-title">발급 가능한 쿠폰</div>
+    <a th:href="@{/}" class="main-btn">🏠 메인 페이지로 이동</a>
+    <a th:href="@{/mycoupon}" class="main-btn">🎟️ 내 쿠폰함으로 이동</a>
     <div th:if="${#lists.isEmpty(coupons)}" class="no-coupon-msg">
         현재 발급 가능한 쿠폰이 없습니다
     </div>

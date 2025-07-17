@@ -23,3 +23,24 @@ body { background: #f6f6f9; font-family: 'Noto Sans KR', sans-serif;}
 }
 .issue-btn:hover { background: #ece4fa; color: #342056; }
 .no-coupon-msg { text-align: center; color: #b1b1b1; font-size: 1.15rem; margin: 60px 0 20px 0;}
+
+.main-btn {
+    display: inline-block;
+    margin: 24px 0 12px 24px;   /* 위, 오른쪽, 아래, 왼쪽 */
+    padding: 10px 22px;
+    background-color: #24243e;  /* 네이비 계열 */
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    box-shadow: 0 2px 8px rgba(36,36,62,0.08);
+    cursor: pointer;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+.main-btn:hover {
+    background-color: #6a82fb; /* 마우스 올리면 파랗게 */
+    color: #fff;
+    box-shadow: 0 4px 18px rgba(36,36,62,0.12);
+}

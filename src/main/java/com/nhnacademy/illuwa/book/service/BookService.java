@@ -22,9 +22,9 @@ public class BookService {
         return productServiceClient.findBookByIsbn(isbn);
     }
 
-    public List<SearchBookResponse> bookList() {
-        return productServiceClient.findBooks();
-    }
+//    public List<SearchBookResponse> bookList() {
+//        return productServiceClient.findBooks();
+//    }
 
     public BookDetailResponse bookDetail(@RequestParam String keyword) {
         return productServiceClient.getBookDetail(keyword);
