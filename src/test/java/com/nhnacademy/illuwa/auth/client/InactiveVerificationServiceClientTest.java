@@ -54,7 +54,7 @@ public class InactiveVerificationServiceClientTest {
                 .contact("010-1111-1111")
                 .build();
 
-        wireMockServer.stubFor(post(urlEqualTo("/api/members/check-status"))
+        wireMockServer.stubFor(post(urlEqualTo("/api/members/inactive/check-status"))
                 .withRequestBody(equalToJson(objectMapper.writeValueAsString(request)))
                 .willReturn(aResponse()
                         .withHeader("Content-Type", "application/json")
