@@ -31,7 +31,7 @@
 
 
 <main>
-    <form th:action="@{/books/search}" method="get" class="search-form">
+    <form th:action="@{/api/books/search-es}" method="get" class="search-form">
         <input type="text" name="keyword" placeholder="검색어를 입력하세요" required />
         <button type="submit">검색</button>
     </form>

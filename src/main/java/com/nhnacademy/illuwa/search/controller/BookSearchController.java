@@ -4,7 +4,6 @@ import com.nhnacademy.illuwa.search.dto.BookDocument;
 import com.nhnacademy.illuwa.search.service.BookSearchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,11 +13,11 @@ import org.springframework.data.domain.Pageable;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/books")
+@RequestMapping("/api/books/search-es")
 public class BookSearchController {
     private final BookSearchService bookSearchService;
 
-    @GetMapping("/search")
+    @GetMapping()
     public String searchBooks(@RequestParam(required = false) String keyword, @RequestParam(required = false) String category, Pageable pageable, Model model)
     {
         Page<BookDocument> results = null;
@@ -38,7 +37,7 @@ public class BookSearchController {
     }
 
 
-    @GetMapping("/search/category")
+    @GetMapping("/category")
     public String searchBooksByCategory(@RequestParam String category, Pageable pageable, Model model) {
         Page<BookDocument> results = bookSearchService.searchBooksByCategory(category, pageable);
         model.addAttribute("books", results.getContent());
