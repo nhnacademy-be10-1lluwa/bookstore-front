@@ -7,12 +7,14 @@
         </h1>
         <nav class="main-header__nav">
             <ul class="main-header__nav-menu nav-menu nav-menu--left">
-                <li th:each="category : ${categories}" class="nav-menu__item has-submenu">
+                <li th:each="category : ${categories}" th:if="${#lists.isEmpty(category.parentId)}" class="nav-menu__item has-submenu">
                     <a href="#" th:text="${category.categoryName}" class="nav-menu__item-link_main"></a>
-                    <ul class="submenu">
+                    <ul class="submenu"
+                    th:unless="${#lists.isEmpty(category.children)}">
                         <li th:each="child : ${category.children}" class="nav-menu__item has-submenu">
                             <a href="#" th:text="${child.categoryName}" class="nav-menu__item-link"></a>
-                            <ul class="submenu">
+                            <ul class="submenu"
+                            th:unless="${#lists.isEmpty(child.children)}">
                                 <li th:each="sub : ${child.children}">
                                     <a th:href="@{|/books/search?category=${sub.categoryName}|}"
                                        th:text="${sub.categoryName}"
