@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @FeignClient(name = "user-service", url = "${api.base-url}", contextId = "userClientForInactiveMember")
 public interface InactiveVerificationServiceClient {
     // 회원 휴면상태 체크
-    @PostMapping("/api/members/check-status")
+    @PostMapping("/api/members/inactive/check-status")
     InactiveCheckResponse getInactiveMemberInfo(@RequestBody SendVerificationRequest request);
 
     @PostMapping("/api/members/inactive/verification")
