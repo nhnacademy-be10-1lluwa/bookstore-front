@@ -16,7 +16,7 @@
                             <ul class="submenu"
                             th:unless="${#lists.isEmpty(child.children)}">
                                 <li th:each="sub : ${child.children}">
-                                    <a th:href="@{|/books/search?category=${sub.categoryName}|}"
+                                    <a th:href="@{|/api/books/search-es?category=${sub.categoryName}|}"
                                        th:text="${sub.categoryName}"
                                        class="nav-menu__item-link"></a>
                                 </li>
