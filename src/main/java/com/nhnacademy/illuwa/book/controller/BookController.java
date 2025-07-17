@@ -47,6 +47,7 @@ public class BookController {
 //        model.addAttribute("reviewContent", reviewPage.content());
 //        model.addAttribute("reviewPage", reviewPage);
 //        model.addAttribute("nameMap", nameMap);
+//        model.addAttribute("activeMenu", "");
 
         return "book/detail";
     }

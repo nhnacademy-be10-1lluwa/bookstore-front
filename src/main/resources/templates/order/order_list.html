@@ -5,15 +5,18 @@
 
 <head layout:fragment="head">
     <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/page/member/_mypage.css}" />
 </head>
 <main layout:fragment="content">
+    <div class="mypage-container">
+        <div th:replace="~{layout/mypage-sidebar :: sidebar(${activeMenu})}"></div>
+        <section class=mypage-content>
     <!-- <section class="main-content">
        <a th:href="@{/order_history}">주문내역 상세정보</a>
      </section>
      <section>
        <a th:href="@{/write_review}">리뷰 작성하기</a>
      </section>-->
-    <section>
         <section>
             <table class="order-table">
                 <thead>
@@ -59,6 +62,7 @@
                    th:href="@{/order-list(page=${currentPage+1},size=${orderPage.size})}">Next »</a>
             </div>
         </section>
-    </section>
+        </section>
+    </div>
 </main>
 </html>
