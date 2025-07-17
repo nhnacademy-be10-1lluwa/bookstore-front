@@ -30,7 +30,6 @@ public class InactiveVerificationServiceTest {
                 .status(Status.INACTIVE)
                 .name("riveroad")
                 .email("email@test.com")
-                .contact("010-1111-1111")
                 .build();
 
         when(inactiveVerificationServiceClient.getInactiveMemberInfo(request)).thenReturn(expected);

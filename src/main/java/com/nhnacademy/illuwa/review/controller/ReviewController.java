@@ -115,4 +115,11 @@ public class ReviewController {
     public Map<Long, Boolean> areReviewsWritten(@RequestBody List<Long> bookIds) {
         return reviewService.areReviewsWritten(bookIds);
     }
+
+    // 내가 쓴 리뷰목록 조회 (페이지)
+    @GetMapping("/review-history")
+    public String getReviewPages(@RequestParam(defaultValue = "0") int page,
+                                 @RequestParam(defaultValue = "5") int size) {
+        return "mypage/section/review_history";
+    }
 }

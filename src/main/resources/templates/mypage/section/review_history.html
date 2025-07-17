@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head layout:fragment="head">
+    <meta charset="UTF-8" />
+    <title>내 리뷰 목록</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/page/member/_mypage.css}" />
+<!--    <link rel="stylesheet" th:href="@{/page/review/_review_history.css}" />-->
+</head>
+
+<main layout:fragment="content">
+    <div class="mypage-container">
+        <div th:replace="~{layout/mypage-sidebar :: sidebar(${activeMenu})}"></div>
+            <section class="main-content">
+            <h2>📚 내가 쓴 리뷰</h2>
+
+            <table class="review-table">
+                <thead>
+                <tr>
+                    <th>책 제목</th>
+                    <th>리뷰 제목</th>
+                    <th>평점</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="review : ${reviewList}">
+                    <td th:text="${review.bookTitle}">책 제목</td>
+                    <td>
+                        <a th:href="@{'/books/' + ${review.bookId} + '/reviews/' + ${review.reviewId} + '?mode=view'}"
+                           th:text="${review.reviewTitle}">리뷰 제목</a>
+                    </td>
+                    <td>
+                        <div class="star-rating small">
+                                <span th:each="i : ${#numbers.sequence(1,5)}"
+                                      th:class="${i <= review.reviewRating} ? 'star filled' : 'star'">★</span>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- 페이지네이션 -->
+            <div class="pagination" th:if="${reviews.totalPages > 1}">
+                <a th:if="${!reviews.first}" th:href="@{'/mypage/reviews?page=' + ${reviews.number - 1}}">&laquo; 이전</a>
+
+                <a th:each="pageNum : ${#numbers.sequence(0, reviews.totalPages - 1)}"
+                   th:classappend="${pageNum == reviews.number} ? ' active' : ''"
+                   th:href="@{'/mypage/reviews?page=' + ${pageNum}}"
+                   th:text="${pageNum + 1}">1</a>
+
+                <a th:if="${!reviews.last}" th:href="@{'/mypage/reviews?page=' + ${reviews.number + 1}}">다음 &raquo;</a>
+            </div>
+        </section>
+    </div>
+</main>
+<body>
+</body>
+</html>

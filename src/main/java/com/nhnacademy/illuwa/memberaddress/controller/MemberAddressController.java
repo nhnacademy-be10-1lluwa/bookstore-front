@@ -94,6 +94,7 @@ public class MemberAddressController {
         model.addAttribute("pageSize", addressPage.size());
         model.addAttribute("totalPages", addressPage.totalPages());
         model.addAttribute("lastPageIndex", Math.max(0, addressPage.totalPages() - 1));
+        model.addAttribute("activeMenu", "address-list");
 
         return "memberaddress/address_list";
     }

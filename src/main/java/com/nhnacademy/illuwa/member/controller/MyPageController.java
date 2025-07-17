@@ -16,6 +16,7 @@ public class MyPageController {
     public String myPage( Model model) {
         MemberResponse member = memberService.getMember();
         model.addAttribute("member", member);
+        model.addAttribute("activeMenu", "");
         return "mypage/mypage";
     }
 }

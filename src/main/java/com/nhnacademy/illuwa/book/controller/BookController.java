@@ -1,11 +1,13 @@
 package com.nhnacademy.illuwa.book.controller;
 
+import com.nhnacademy.illuwa.auth.utils.JwtCookieUtil;
 import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
 import com.nhnacademy.illuwa.book.service.BookService;
 import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.member.service.MemberService;
 import com.nhnacademy.illuwa.review.dto.ReviewResponse;
 import com.nhnacademy.illuwa.review.service.ReviewService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,8 +30,11 @@ public class BookController {
     }
 
 
+    //accessToken 검증하는 공통 서비스 이용하기
     @GetMapping("/user/books/{isbn}")
-    public String bookDetail(@PathVariable("isbn") String isbn, Model model) {
+    public String bookDetail(@PathVariable("isbn") String isbn, Model model,
+                             HttpServletRequest request) {
+        boolean isLoginUser = JwtCookieUtil.checkAccessToken(request);
 
         BookDetailResponse bookDetail = bookService.findBookByIsbn(isbn);
 

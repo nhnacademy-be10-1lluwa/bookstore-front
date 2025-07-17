@@ -1,7 +1,13 @@
 .mypage-container {
     display: flex;
-    min-height: 500px;
+    min-height: 100vh;
 }
+
+.mypage-content {
+    flex-grow: 1;
+    padding: 2rem;
+}
+
 
 .mypage-sidebar {
     width: 220px;
@@ -45,7 +51,8 @@
     font-weight: bold;
 }
 
-.mypage-content {
-    flex-grow: 1;
-    padding: 2rem;
+.mypage-sidebar a.active {
+    background-color: #c7d2fe;
+    font-weight: bold;
+    color: #1e3a8a;
 }
