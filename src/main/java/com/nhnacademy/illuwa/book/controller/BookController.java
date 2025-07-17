@@ -39,14 +39,14 @@ public class BookController {
         BookDetailResponse bookDetail = bookService.findBookByIsbn(isbn);
 
         Long bookId = bookDetail.getId();
-        PageResponse<ReviewResponse> reviewPage = reviewService.getReviewPages(bookId, 0, 5);
-        List<Long> memberIds = reviewPage.content().stream().map(ReviewResponse::getMemberId).toList();
-        Map<Long,String> nameMap = memberService.getNamesFromIdList(memberIds);
+//        PageResponse<ReviewResponse> reviewPage = reviewService.getReviewPages(bookId, 0, 5);
+//        List<Long> memberIds = reviewPage.content().stream().map(ReviewResponse::getMemberId).toList();
+//        Map<Long,String> nameMap = memberService.getNamesFromIdList(memberIds);
 
         model.addAttribute("book", bookDetail);
-        model.addAttribute("reviewContent", reviewPage.content());
-        model.addAttribute("reviewPage", reviewPage);
-        model.addAttribute("nameMap", nameMap);
+//        model.addAttribute("reviewContent", reviewPage.content());
+//        model.addAttribute("reviewPage", reviewPage);
+//        model.addAttribute("nameMap", nameMap);
 
         return "book/detail";
     }
