@@ -6,7 +6,8 @@
 
 <head layout:fragment="head" title="포인트 히스토리">
   <link rel="stylesheet" th:href="@{/css/main.css}" />
-  <link rel="stylesheet" th:href="@{/css/page/_point-history.css}" />
+  <link rel="stylesheet" th:href="@{/css/page/member/_mypage.css}" />
+  <link rel="stylesheet" th:href="@{/css/page/member/_point-history.css}" />
   <link rel="stylesheet" th:href="@{/css/component/_pagination.css}" />
   <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -14,8 +15,9 @@
 
 <body>
 <main layout:fragment="content">
-  <section class="main-content">
-
+  <div class="mypage-container">
+    <div th:replace="~{layout/mypage-sidebar :: sidebar(${activeMenu})}"></div>
+    <section th:class="mypage-content">
     <div class="point-header">
       <h1>📊 포인트 히스토리</h1>
       <div class="current-point"
@@ -74,8 +76,8 @@
         다음 ▶
       </a>
     </div>
-
   </section>
+  </div>
 </main>
 <th:block layout:fragment="scripts">
   <script th:src="@{/js/mypage/mypage.js}"></script>

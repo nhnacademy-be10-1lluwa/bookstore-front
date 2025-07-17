@@ -1,0 +1,99 @@
+/* 전체 섹션 기본 스타일 */
+.review {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: #fffdf9;
+    border-radius: 16px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+    font-family: 'Pretendard', sans-serif;
+}
+
+/* 폼 카드 */
+.form-card {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 제목 */
+h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+/* 입력 필드 공통 */
+input[type="text"],
+textarea,
+select {
+    width: 100%;
+    padding: 12px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus,
+textarea:focus,
+select:focus {
+    border-color: #FFD700;
+    outline: none;
+}
+
+/* 파일 업로드 */
+input[type="file"] {
+    margin-top: 8px;
+}
+
+
+/* 기존 이미지 썸네일 */
+.review img {
+    margin-top: 8px;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* 체크박스 정렬 */
+.review label input[type="checkbox"] {
+    margin-left: 6px;
+}
+
+/* 별점 */
+.star-rating {
+    display: inline-flex;
+    gap: 4px;
+    font-size: 1.8rem;
+    line-height: 1;
+    margin-top: 8px;
+    user-select: none;
+}
+
+.star {
+    color: #ccc;
+    transition: color 0.3s ease;
+}
+
+.star.filled {
+    color: #FFD700;
+    text-shadow: 0 0 4px rgba(255, 215, 0, 0.5);
+}
+
+/* 반응형 대응 */
+@media (max-width: 600px) {
+    .review {
+        padding: 20px;
+    }
+
+    .star-rating {
+        font-size: 1.4rem;
+        gap: 2px;
+    }
+
+    button {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+    }
+}

@@ -51,7 +51,6 @@ public class InactiveVerificationServiceClientTest {
                 .status(com.nhnacademy.illuwa.member.enums.Status.INACTIVE)
                 .name("inactive")
                 .email("inactive@test.com")
-                .contact("010-1111-1111")
                 .build();
 
         wireMockServer.stubFor(post(urlEqualTo("/api/members/inactive/check-status"))

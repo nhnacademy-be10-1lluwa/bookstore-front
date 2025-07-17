@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <title>My Page - BookStore</title>
+    <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/page/member/_mypage.css}" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="icon" href="/favicon/favicon.ico" />
+
+    <th:block layout:fragment="head"></th:block>
+</head>
+
+<body>
+
+<div th:replace="~{layout/header :: header}"></div>
+
+<main class="mypage-container">
+    <!-- sidebar 위치 고정 -->
+    <div th:replace="~{layout/mypage-sidebar :: sidebar(${activeMenu})}"></div>
+
+    <!-- 각 페이지별 콘텐츠 삽입 -->
+    <section class="mypage-content">
+        <div layout:fragment="content"></div>
+    </section>
+</main>
+
+<div th:replace="~{layout/footer :: footer}"></div>
+
+<th:block layout:fragment="scripts"></th:block>
+</body>
+</html>

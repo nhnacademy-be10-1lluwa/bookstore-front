@@ -6,6 +6,7 @@
 
 <head layout:fragment="head">
     <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/page/member/_mypage.css}" />
     <link rel="stylesheet" th:href="@{/css/page/member/_myinfo.css}" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -16,8 +17,12 @@
     </style>
 </head>
 
+<body>
 <main layout:fragment="content">
-    <section class="main-content">
+<div class="mypage-container">
+    <div th:replace="~{layout/mypage-sidebar :: sidebar(${activeMenu})}"></div>
+
+    <section class="mypage-content">
         <div class="user-info-card" id="userInfoCard">
 
             <!-- infoView: 회원정보 보기 -->
@@ -94,10 +99,10 @@
             </form>
         </div>
     </section>
+</div>
 </main>
-<body>
-<th:block layout:fragment="scripts">
-    <script th:src="@{/js/mypage/mypage.js}"></script>
-</th:block>
+    <th:block layout:fragment="scripts">
+        <script th:src="@{/js/mypage/mypage.js}"></script>
+    </th:block>
 </body>
 </html>

@@ -10,5 +10,4 @@ public class InactiveCheckResponse {
     private Status status;
     private String name;
     private String email;
-    private String contact;
 }

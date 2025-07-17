@@ -31,6 +31,7 @@ public class PointHistoryController {
         model.addAttribute("totalPages", pointHistoryPage.totalPages());
         model.addAttribute("lastPageIndex", Math.max(0, pointHistoryPage.totalPages() - 1));
         model.addAttribute("currentType", type);
+        model.addAttribute("activeMenu", "point-history");
         return "mypage/section/point_history";
     }
 

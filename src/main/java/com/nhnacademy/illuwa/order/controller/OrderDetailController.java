@@ -41,8 +41,9 @@ public class OrderDetailController {
 //                reviewIdIndexMap.put(i, reviewIdMap.get(bookId));
 //            }
 //        }
-        model.addAttribute("order", orderResponse);
+//        model.addAttribute("order", orderResponse);
 //        model.addAttribute("reviewIdIndexMap", reviewIdIndexMap);
+//        model.addAttribute("activeMenu", "order-list");
 
         return "order/order_detail";
     }

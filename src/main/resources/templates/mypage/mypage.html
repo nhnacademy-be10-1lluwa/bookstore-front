@@ -14,22 +14,12 @@
 
 <main layout:fragment="content">
     <div class="mypage-container">
-        <!-- 왼쪽 탭 메뉴 -->
-        <nav class="mypage-sidebar">
-            <h2 class="sidebar-title">
-                <span th:text="${member.getName()}">OOO</span>님
-            </h2>
-            <ul>
-                <li><a th:href="@{/my-info}">👤 개인정보</a></li>
-                <li><a th:href="@{/order-list}">🧾 주문 내역</a></li>
-                <li><a th:href="@{/point-history}">💰 포인트 히스토리</a></li>
-                <li><a th:href="@{/mycoupon}">🎟️ 쿠폰 내역</a></li>
-                <li><a th:href="@{/address-list}">🏠 주소록 관리</a></li>
-            </ul>
-        </nav>
-
+        <div th:replace="~{layout/mypage-sidebar :: sidebar(${activeMenu})}"></div>
         <section class="mypage-content">
             <h3>마이페이지에 오신 걸 환영합니다 !</h3>
         </section>
     </div>
 </main>
+
+
+

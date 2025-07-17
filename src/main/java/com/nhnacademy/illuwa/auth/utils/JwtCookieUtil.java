@@ -1,5 +1,7 @@
 package com.nhnacademy.illuwa.auth.utils;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
@@ -27,5 +29,15 @@ public class JwtCookieUtil {
                 .build();
 
         response.addHeader(HttpHeaders.SET_COOKIE, c.toString());
+    }
+
+    public static boolean checkAccessToken(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        for(Cookie cookie : cookies) {
+            if("ACCESS_TOKEN".equals(cookie.getValue())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

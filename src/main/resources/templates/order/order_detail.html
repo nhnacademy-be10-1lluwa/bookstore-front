@@ -6,100 +6,109 @@
 
 <head layout:fragment="head">
     <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/page/member/_mypage.css}" />
     <link rel="stylesheet" th:href="@{/css/order/order_detail.css}" />
     <title>주문 상세</title>
 </head>
+
 <body>
 <main layout:fragment="content">
-    <section class="order-summary">
-        <h1>주문 정보</h1>
-        <table class="summary-table">
-            <tbody>
-            <tr>
-                <th scope="row">주문 번호</th>
-                <td th:text="${order.orderNumber}">20250708-0001</td>
-            </tr>
-            <tr th:if="${order.memberId != null}">
-                <th scope="row">회원 번호</th>
-                <td th:text="${order.memberId}">123</td>
-            </tr>
-            <tr>
-                <th scope="row">주문 일시</th>
-                <td th:text="${#temporals.format(order.orderDate,'yyyy-MM-dd HH:mm')}">2025-07-08 14:30</td>
-            </tr>
-            <tr>
-                <th scope="row">예상 배송일</th>
-                <td th:text="${order.deliveryDate}">2025-07-10</td>
-            </tr>
-            <tr>
-                <th scope="row">주문 상태</th>
-                <td th:text="${order.orderStatus}">PENDING</td>
-            </tr>
-            <tr>
-                <th scope="row">배송비</th>
-                <td th:text="|${#numbers.formatDecimal(order.shippingFee, 0, 'COMMA', 0, 'POINT')}원|">1000</td>
-            </tr>
-            <tr>
-                <th scope="row">총 결제금액</th>
-                <td th:text="|${#numbers.formatDecimal(order.totalPrice,0,'COMMA',0,'POINT')}원|">15,000원</td>
-            </tr>
-            </tbody>
-        </table>
-    </section>
-    <!-- ▣ 주문 상품 목록 -->
-    <section class="order-items">
-        <h2>주문 상품</h2>
+    <div class="mypage-container">
+        <div th:replace="~{layout/mypage-sidebar :: sidebar(${activeMenu})}"></div>
+        <!-- 실제 주문 상세 컨텐츠 -->
+        <section class=mypage-content>
+            <a th:href="@{/order-view}">구매 확정하기</a>
+        <section class="order-summary">
+            <h1>주문 정보</h1>
+            <table class="summary-table">
+                <tbody>
+                <tr>
+                    <th scope="row">주문 번호</th>
+                    <td th:text="${order.orderNumber}">20250708-0001</td>
+                </tr>
+                <tr th:if="${order.memberId != null}">
+                    <th scope="row">회원 번호</th>
+                    <td th:text="${order.memberId}">123</td>
+                </tr>
+                <tr>
+                    <th scope="row">주문 일시</th>
+                    <td th:text="${#temporals.format(order.orderDate,'yyyy-MM-dd HH:mm')}">2025-07-08 14:30</td>
+                </tr>
+                <tr>
+                    <th scope="row">예상 배송일</th>
+                    <td th:text="${order.deliveryDate}">2025-07-10</td>
+                </tr>
+                <tr>
+                    <th scope="row">주문 상태</th>
+                    <td th:text="${order.orderStatus}">PENDING</td>
+                </tr>
+                <tr>
+                    <th scope="row">배송비</th>
+                    <td th:text="|${#numbers.formatDecimal(order.shippingFee, 0, 'COMMA', 0, 'POINT')}원|">1000</td>
+                </tr>
+                <tr>
+                    <th scope="row">총 결제금액</th>
+                    <td th:text="|${#numbers.formatDecimal(order.totalPrice,0,'COMMA',0,'POINT')}원|">15,000원</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+        <!-- ▣ 주문 상품 목록 -->
+        <section class="order-items">
+            <h2>주문 상품</h2>
+            <table class="item-table">
+                <thead>
+                <tr>
+                    <th scope="col">상품명</th>
+                    <th scope="col">수량</th>
+                    <th scope="col">단가</th>
+                    <th scope="col">포장 옵션</th>
+                    <th scope="col">포장지 단가</th>
+                    <th scope="col">합계</th>
+                    <th scope="col">리뷰</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item, iterStat : ${order.items}">
+                    <td th:text="${item.title}">책 제목</td>
+                    <td th:text="${item.quantity}">2</td>
+                    <td th:text="|${#numbers.formatDecimal(item.price,0,'COMMA',0,'POINT')}원|">10,000원</td>
+                    <td th:text="${item.packaging.packagingName}">일반포장</td>
+                    <td th:text="|${#numbers.formatDecimal(item.packaging.packagingPrice, 0, 'COMMA', 0, 'POINT')}원|">2,000원</td>
+                    <td th:text="|${#numbers.formatDecimal(item.totalPrice,0,'COMMA',0,'POINT')}원|">20,000원</td>
+                    <td>
+                        <div th:if="${order.orderStatus.toString() == 'Confirmed'}">
+                            <!-- 리뷰가 없는 경우 -->
+                            <form th:if="${!reviewIdIndexMap.containsKey(iterStat.index)}"
+                                  th:action="@{/books/{bookId}/reviews/new(bookId=${item.bookId})}"
+                                  method="get">
+                                <input type="hidden" name="orderId" th:value="${order.orderId}" />
+                                <button type="submit" class="btn btn-review">리뷰쓰기</button>
+                            </form>
 
-        <table class="item-table">
-            <thead>
-            <tr>
-                <th scope="col">상품명</th>
-                <th scope="col">수량</th>
-                <th scope="col">단가</th>
-                <th scope="col">포장 옵션</th>
-                <th scope="col">포장지 단가</th>
-                <th scope="col">합계</th>
-                <th scope="col">리뷰</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="item, iterStat : ${order.items}">
-                <td th:text="${item.title}">책 제목</td>
-                <td th:text="${item.quantity}">2</td>
-                <td th:text="|${#numbers.formatDecimal(item.price,0,'COMMA',0,'POINT')}원|">10,000원</td>
-                <td th:text="${item.packaging.packagingName}">일반포장</td>
-                <td th:text="|${#numbers.formatDecimal(item.packaging.packagingPrice, 0, 'COMMA', 0, 'POINT')}원|">2,000원</td>
-                <td th:text="|${#numbers.formatDecimal(item.totalPrice,0,'COMMA',0,'POINT')}원|">20,000원</td>
-                <td>
-                    <div th:if="${order.orderStatus.toString() == 'Confirmed'}">
-                        <!-- 리뷰가 없는 경우 -->
-                        <form th:if="${!reviewIdIndexMap.containsKey(iterStat.index)}"
-                              th:action="@{/books/{bookId}/reviews/new(bookId=${item.bookId})}"
-                              method="get">
-                            <input type="hidden" name="orderId" th:value="${order.orderId}" />
-                            <button type="submit" class="btn btn-review">리뷰쓰기</button>
-                        </form>
 
-                        <!-- 리뷰가 있는 경우 -->
-                        <form th:if="${reviewIdIndexMap.containsKey(iterStat.index)}"
-                              th:action="@{/books/{bookId}/reviews/{reviewId}(bookId=${item.bookId}, reviewId=${reviewIdIndexMap[iterStat.index]})}"
-                              method="get">
-                            <input type="hidden" name="orderId" th:value="${order.orderId}" />
-                            <button type="submit" class="btn btn-review">작성한 리뷰</button>
-                        </form>
-                    </div>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+                            <!-- 리뷰가 있는 경우 -->
+                            <form th:if="${reviewIdIndexMap.containsKey(iterStat.index)}"
+                                  th:action="@{/books/{bookId}/reviews/{reviewId}(bookId=${item.bookId}, reviewId=${reviewIdIndexMap[iterStat.index]})}"
+                                  method="get">
+                                <input type="hidden" name="orderId" th:value="${order.orderId}" />
+                                <button type="submit" class="btn btn-review">작성한 리뷰</button>
+                            </form>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
 
-        <!-- 환불 버튼 -->
-        <form th:if="${order.orderStatus != null and order.orderStatus.toString().equals('Pending')}"
-              th:action="@{/payment/{orderNumber}/refund(orderNumber=${order.orderNumber})}" method="post" style="margin-top: 20px">
-            <input type="text" name="cancelReason" placeholder="환불 사유를 입력해주세요" required />
-            <button type="submit">환불 요청</button>
-        </form>
-    </section>
+            <!-- 환불 버튼 -->
+            <form th:if="${order.orderStatus != null and order.orderStatus.toString().equals('Pending')}"
+                  th:action="@{/payment/{orderNumber}/refund(orderNumber=${order.orderNumber})}" method="post" style="margin-top: 20px">
+                <input type="text" name="cancelReason" placeholder="환불 사유를 입력해주세요" required />
+                <button type="submit">환불 요청</button>
+            </form>
+        </section>
+        </section>
+    </div>
 </main>
 </body>
 </html>

@@ -25,6 +25,7 @@ public class OrderListController {
         model.addAttribute("orderPage", orderPage);
         model.addAttribute("currentPage", orderPage.page());
         model.addAttribute("totalPages", orderPage.totalPages());
+        model.addAttribute("activeMenu", "order-list");
 
         return "order/order_list";
     }

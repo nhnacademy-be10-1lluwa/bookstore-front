@@ -37,6 +37,7 @@ public class MemberController {
 
         model.addAttribute("member", member);
         model.addAttribute("mode", StringUtils.hasText(mode) ? mode : "view");
+        model.addAttribute("activeMenu", "my-info");
 
         return "mypage/section/myinfo";
     }
