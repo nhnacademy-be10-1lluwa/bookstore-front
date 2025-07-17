@@ -12,10 +12,10 @@
     <p>검색어: <span th:text="${keyword}"></span></p>
 
         <div class="search-options">
-            <a th:href="@{|/books/search?keyword=${keyword}&sort=title.keyword,asc|}">제목순</a>
-            <a th:href="@{|/books/search?keyword=${keyword}&sort=salePrice,asc|}">낮은가격순</a>
-            <a th:href="@{|/books/search?keyword=${keyword}&sort=salePrice,desc|}">높은가격순</a>
-            <a th:href="@{|/books/search?keyword=${keyword}&sort=publishedDate,desc|}">최신순</a>
+            <a th:href="@{|/api/books/search-es?keyword=${keyword}&sort=title.keyword,asc|}">제목순</a>
+            <a th:href="@{|/api/books/search-es?keyword=${keyword}&sort=salePrice,asc|}">낮은가격순</a>
+            <a th:href="@{|/api/books/search-es?keyword=${keyword}&sort=salePrice,desc|}">높은가격순</a>
+            <a th:href="@{|/api/books/search-es?keyword=${keyword}&sort=publishedDate,desc|}">최신순</a>
         </div>
 
 
@@ -33,11 +33,11 @@
 
     <div class="pagination">
         <span th:if="${page.hasPrevious()}">
-            <a th:href="@{|/books/search?keyword=${keyword}&page=${page.number - 1}&size=${page.size}&sort=${#lists.arrayJoin(page.sort.iterator(), ',')}|}">이전</a>
+            <a th:href="@{|/api/books/search-es?keyword=${keyword}&page=${page.number - 1}&size=${page.size}&sort=${#lists.arrayJoin(page.sort.iterator(), ',')}|}">이전</a>
         </span>
         <span th:text="${page.number + 1}"></span> / <span th:text="${page.totalPages}"></span>
         <span th:if="${page.hasNext()}">
-            <a th:href="@{|/books/search?keyword=${keyword}&page=${page.number + 1}&size=${page.size}&sort=${#lists.arrayJoin(page.sort.iterator(), ',')}|}">다음</a>
+            <a th:href="@{|/api/books/search-es?keyword=${keyword}&page=${page.number + 1}&size=${page.size}&sort=${#lists.arrayJoin(page.sort.iterator(), ',')}|}">다음</a>
         </span>
     </div>
 </section>
