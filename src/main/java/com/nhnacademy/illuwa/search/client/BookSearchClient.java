@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @FeignClient(name = "product-service", url = "${api.base-url}")
 public interface BookSearchClient {
-    @GetMapping("/api/search")
+    @GetMapping("/api/books/search")
     Page<BookDocument> searchBooks(@RequestParam String keyword, @RequestParam int page, @RequestParam int size, @RequestParam String sort);
 
-    @GetMapping("/api/search/category")
+    @GetMapping("/api/books/search/category")
     Page<BookDocument> searchBooksByCategory(@RequestParam String category, @RequestParam int page, @RequestParam int size, @RequestParam String sort);
 }
