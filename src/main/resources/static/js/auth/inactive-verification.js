@@ -6,8 +6,8 @@ const errorMessage = document.getElementById('errorMessage');
 const serverEmailInput = document.getElementById('serverEmail');
 
 const baseUrl = "";
-const SEND_API   = "/proxy/members/inactive/code";
-const VERIFY_API = "/proxy/members/inactive/verification";
+const SEND_API   = "/verifications/inactive/code";
+const VERIFY_API = "/verifications/inactive/verify";
 
 let timeLeft = 180;
 let timerInterval;

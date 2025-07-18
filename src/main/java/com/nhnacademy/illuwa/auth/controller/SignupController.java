@@ -8,9 +8,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequiredArgsConstructor
 @Controller
+@RequiredArgsConstructor
+@RequestMapping("/auth")
 public class SignupController {
 
     private final AuthClient authClient;
@@ -23,6 +25,6 @@ public class SignupController {
     @PostMapping("/signup")
     public String signupSubmit(@Valid @ModelAttribute MemberRegisterRequest memberRegisterRequest) {
         authClient.signup(memberRegisterRequest);
-        return "redirect:/login";
+        return "redirect:/auth/login";
     }
 }
