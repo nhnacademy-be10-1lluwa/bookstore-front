@@ -29,7 +29,6 @@ public class PaymentController {
 
         try {
             PaymentResponse paymentResponse = paymentServiceClient.confirmPayment(request);
-            orderServiceClient.notificatePaymentSuccess(orderNumber);
             model.addAttribute("payment", paymentResponse);
 
             return "payment/success";

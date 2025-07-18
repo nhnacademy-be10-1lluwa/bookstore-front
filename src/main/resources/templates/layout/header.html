@@ -27,9 +27,12 @@
             </ul>
 
             <ul class="main-header__nav-menu nav-menu nav-menu--right">
-                <li><a th:href="@{/books/list}" class="button-header-clean">도서 목록</a></li>
-                <li><a th:href="@{/cart}" class="button-header-clean">장바구니</a></li>
-
+                <li>
+                    <a th:href="@{/books/list}" class="button-header-clean">도서 목록</a>
+                </li>
+                <li th:if="${isLoggedIn}">
+                    <a th:href="@{/cart}" class="button-header-clean">장바구니</a>
+                </li>
                 <li th:if="${isLoggedIn}">
                     <a th:href="@{/mypage}" class="button-header-clean">마이페이지</a>
                 </li>
