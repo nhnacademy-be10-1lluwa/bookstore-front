@@ -162,50 +162,50 @@
                     </span>
 
                     <!-- 댓글 목록 -->
-                    <div id="comment-box-[[${review.reviewId}]]" class="comment-box" style="display: none;"></div>
+                    <div id=comment-section>
+                        <div id="comment-box-[[${review.reviewId}]]" class="comment-box" style="display: none;"></div>
+                        <!-- 페이징 UI -->
+                        <div class="review-pagination" id="review-pagination">
+                            <div class="pagination">
+                                <!-- 이전 페이지 -->
+                                <a th:if="${!reviewPage.first}"
+                                   href="#"
+                                   th:data-page="${reviewPage.page - 1}"
+                                   class="page-link">« Prev</a>
 
-                    <!-- 댓글 입력 폼 (로그인한 경우만) -->
-                    <div th:if="${isLoggedIn}">
-                        <div th:id="'comment-form-' + ${review.reviewId}" style="display: none; margin-top: 10px;">
-                            <label>
+                                <!-- 페이지 번호 목록 -->
+                                <span th:each="i : ${#numbers.sequence(0, reviewPage.totalPages - 1)}"
+                                      th:classappend="${i == reviewPage.page} ? 'current'">
+                            <a href="#"
+                               th:data-page="${i}"
+                               th:text="${i + 1}"
+                               class="page-link">1</a>
+                            </span>
+
+                                <!-- 다음 페이지 -->
+                                <a th:if="${!reviewPage.last}"
+                                   href="#"
+                                   th:data-page="${reviewPage.page + 1}"
+                                   class="page-link">Next »</a>
+                            </div>
+                        </div>
+
+                        <!-- 댓글 입력 폼 (로그인한 경우만) -->
+                        <div th:if="${isLoggedIn}">
+                            <div th:id="'comment-form-' + ${review.reviewId}" style="display: none; margin-top: 10px;">
+                                <label>
                                 <textarea th:id="'comment-input-' + ${review.reviewId}"
-                                                    placeholder="댓글을 입력하세요..."
-                                                    rows="3"
-                                                    style="width: 100%;"></textarea>
-                            </label>
+                                          placeholder="댓글을 입력하세요..."
+                                          rows="3"
+                                          style="width: 100%;"></textarea>
+                                </label>
 
-                            <button type="button" th:onclick="|submitComment(${review.reviewId}, ${review.bookId})|">
-                                등록
-                            </button>
+                                <button type="button" th:onclick="|submitComment(${review.reviewId}, ${review.bookId})|">
+                                    등록
+                                </button>
+                            </div>
                         </div>
                     </div>
-
-                    <!-- 페이징 UI -->
-                    <div class="review-pagination" id="review-pagination">
-                        <div class="pagination">
-                            <!-- 이전 페이지 -->
-                            <a th:if="${!reviewPage.first}"
-                               href="#"
-                               th:data-page="${reviewPage.page - 1}"
-                               class="page-link">« Prev</a>
-
-                            <!-- 페이지 번호 목록 -->
-                            <span th:each="i : ${#numbers.sequence(0, reviewPage.totalPages - 1)}"
-                                  th:classappend="${i == reviewPage.page} ? 'current'">
-                    <a href="#"
-                       th:data-page="${i}"
-                       th:text="${i + 1}"
-                       class="page-link">1</a>
-                </span>
-
-                            <!-- 다음 페이지 -->
-                            <a th:if="${!reviewPage.last}"
-                               href="#"
-                               th:data-page="${reviewPage.page + 1}"
-                               class="page-link">Next »</a>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </section>

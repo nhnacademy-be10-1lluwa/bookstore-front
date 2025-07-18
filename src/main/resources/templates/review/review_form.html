@@ -19,8 +19,8 @@
         <!-- 리뷰 작성 컨텐츠 -->
         <section class="review" style="position: relative;"
                  th:with="actionUrl=${mode == 'edit'}
-                        ? '/books/' + ${bookId} + '/reviews/save?mode=edit&reviewId=' + ${reviewId} + '&orderId=' + ${orderId}
-                        : '/books/' + ${bookId} + '/reviews/save?mode=new&orderId=' + ${orderId}">
+                        ? '/reviews/save?mode=edit&book-id='+${bookId} + '&review-id=' + ${reviewId} + '&order-id=' + ${orderId}
+                        : '/reviews/save?mode=new&book-id='+${bookId} + '&order-id=' + ${orderId}">
 
             <form th:action="@{${actionUrl}}"
                   method="post"
@@ -34,9 +34,9 @@
                     <span th:case="*">📝 리뷰 작성</span>
                 </h2>
 
-                <input type="hidden" name="bookId" th:value="${bookId}" />
-                <input type="hidden" name="reviewId" th:if="${reviewId != null}" th:value="${reviewId}" />
-                <input type="hidden" name="orderId" th:value="${orderId}" />
+                <input type="hidden" name="book-id" th:value="${bookId}" />
+                <input type="hidden" name="review-id" th:if="${reviewId != null}" th:value="${reviewId}" />
+                <input type="hidden" name="order-id" th:value="${orderId}" />
 
                 <div>
                     <label>제목<br />
@@ -97,7 +97,7 @@
 
                 <div th:if="${mode == 'view' and reviewId != null}" style="margin-top: 30px;">
                     <button type="button"
-                            th:onclick="|location.href='/books/' + ${bookId} + '/reviews/' + ${reviewId} + '/edit?orderId=' + ${orderId}|">
+                            th:onclick="|location.href='/reviews/' + ${reviewId} + '/edit?book-id='+ ${bookId} + '&order-id=' + ${orderId}|">
                         ✏️ 수정하기
                     </button>
                 </div>
