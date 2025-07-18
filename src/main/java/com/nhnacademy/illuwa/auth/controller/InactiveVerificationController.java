@@ -13,19 +13,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/proxy/members/inactive/verification")
+@RequestMapping("/proxy/members/inactive")
 public class InactiveVerificationController {
 
     private final InactiveVerificationServiceClient inactiveVerificationServiceClient;
 
     /** 인증번호 발송 */
-    @PostMapping
+    @PostMapping("/code")
     public SendMessageResponse send(@RequestBody SendVerificationRequest req) {
         return inactiveVerificationServiceClient.sendCode(req);
     }
 
     /** 인증번호 검증 */
-    @PostMapping("/verify")
+    @PostMapping("/verification")
     public VerifyCodeResponse verify(@RequestBody VerifyCodeRequest req) {
         return inactiveVerificationServiceClient.verify(req);
     }
