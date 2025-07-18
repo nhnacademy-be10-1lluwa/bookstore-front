@@ -1,6 +1,6 @@
-package com.nhnacademy.illuwa.bookmark.client;
+package com.nhnacademy.illuwa.booklike.client;
 
-import com.nhnacademy.illuwa.bookmark.dto.BookLikeResponse;
+import com.nhnacademy.illuwa.booklike.dto.BookLikeResponse;
 import com.nhnacademy.illuwa.config.FeignClientConfig;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -1,6 +1,6 @@
-package com.nhnacademy.illuwa.bookmark.service;
+package com.nhnacademy.illuwa.booklike.service;
 
-import com.nhnacademy.illuwa.bookmark.client.BookLikeServiceClient;
+import com.nhnacademy.illuwa.booklike.client.BookLikeServiceClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

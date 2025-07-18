@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.bookmark.dto;
+package com.nhnacademy.illuwa.booklike.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
