@@ -16,7 +16,7 @@
 
         <a th:if="${isLoggedIn}" th:href="@{/coupons}" class="button button-primary">쿠폰발급</a>
 
-        <a th:unless="${isLoggedIn}" th:href="@{/login}" class="button button-primary">로그인하기</a>
+        <a th:unless="${isLoggedIn}" th:href="@{/auth/login}" class="button button-primary">로그인하기</a>
 
         <a th:if="${isLoggedIn}" th:href="@{/mypage}" class="button button-primary">마이페이지</a>
 
