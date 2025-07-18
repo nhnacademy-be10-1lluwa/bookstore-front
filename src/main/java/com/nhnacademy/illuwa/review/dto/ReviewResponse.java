@@ -17,6 +17,4 @@ public class ReviewResponse {
     private Long bookId;
     private Long memberId;
     private List<String> reviewImageUrls;
-    private boolean likedByMe;
-    private Long likeCount;
 }

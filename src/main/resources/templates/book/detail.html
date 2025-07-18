@@ -2,7 +2,7 @@
 <html lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{layout/layout}">
+      layout:decorate="~{layout/layout}" xmlns="">
 
 <head layout:fragment="head">
     <meta charset="UTF-8">
@@ -126,84 +126,92 @@
             <p>요청하신 도서가 존재하지 않거나, 정보를 불러오는 데 실패했습니다.</p>
             <a th:href="@{/}" class="btn btn-primary">메인으로 돌아가기</a>
         </div>
-    </section>
 
-    <!-- 리뷰 섹션 -->
-    <section class="review">
-        <h2>리뷰</h2>
-        <div id="review-list">
-            <div th:each="review : ${reviewContent}" class="review-box">
-                <div>
-                    <strong th:text="'작성자: ' + ${nameMap.get(review.memberId)}">작성자</strong>
-                    <strong th:text="'게시일: ' + ${#temporals.format(review.reviewDate, 'yyyy-MM-dd')}">게시일</strong>
-                </div>
-                <div>
-                    <span th:each="i : ${#numbers.sequence(1, review.reviewRating)}">⭐</span>
-                </div>
-                <h3 th:text="'제목: ' + ${review.reviewTitle}">제목</h3>
-                <div>
-                    <img th:each="img : ${review.reviewImageUrls}" th:src="@{${img}}" alt="리뷰 이미지" style="max-width: 200px;" />
-                </div>
-                <p th:text="${review.reviewContent}">내용</p>
+        <!-- 리뷰 섹션 -->
+        <section class="review">
+            <h2>리뷰</h2>
+            <div id="review-list">
+                <div th:each="review : ${reviewContent}" class="review-box">
+                    <div>
+                        <strong th:text="'작성자: ' + ${nameMap[review.memberId]}">작성자</strong>
+                        <strong th:text="'게시일: ' + ${#temporals.format(review.reviewDate, 'yyyy-MM-dd')}">게시일</strong>
+                    </div>
+                    <div>
+                        <span th:each="i : ${#numbers.sequence(1, review.reviewRating)}">⭐</span>
+                    </div>
+                    <h3 th:text="'제목: ' + ${review.reviewTitle}">제목</h3>
+                    <div>
+                        <img th:each="img : ${review.reviewImageUrls}" th:src="@{${img}}" alt="리뷰 이미지" style="max-width: 200px;" />
+                    </div>
+                    <p th:text="${review.reviewContent}">내용</p>
 
-                <!-- 좋아요 영역 -->
-                <div>
-                    <button class="like-btn"
-                            th:attr="data-book-id=${review.bookId}, data-review-id=${review.reviewId}">
-                        <span class="like-icon" th:text="${review.likedByMe} ? '❤️' : '🤍'"></span>
-                        좋아요 <span class="like-count" th:id="'like-count-' + ${review.reviewId}" th:text="${review.likeCount}">0</span>
-                    </button>
-                </div>
+                    <!-- 좋아요 영역 -->
+                    <div>
+                        <button class="like-btn"
+                                th:attr="data-book-id=${review.bookId}, data-review-id=${review.reviewId}">
+                            <span th:if="${isLoggedIn}" class="review-like">
+                                <span class="like-icon" th:text="${myLikedReviewIds.contains(review.reviewId)} ? '❤️' : '🤍'"></span>
+                            </span>
+                            좋아요 <span class="like-count" th:id="'like-count-' + ${review.reviewId}" th:text="${likeCountMap[review.reviewId]}">0</span>
+                        </button>
+                    </div>
 
-                <!-- 댓글 목록 -->
-                <div id="comment-box-[[${review.reviewId}]]" class="comment-box" style="display: none;"></div>
+                    <span style="cursor: pointer;"
+                          th:data-review-id="${review.reviewId}"
+                          th:onclick="|toggleComments(this, ${review.bookId})|"> 댓글 보이기
+                    </span>
 
-                <!-- 댓글 입력 폼 -->
-                <div id="comment-form-[[${review.reviewId}]]" style="display: none; margin-top: 10px;">
-                    <label>
-                        <textarea id="comment-input-[[${review.reviewId}]]"
-                                  placeholder="댓글을 입력하세요..."
-                                  rows="3"
-                                  style="width: 100%;"></textarea>
-                    </label>
+                    <!-- 댓글 목록 -->
+                    <div id="comment-box-[[${review.reviewId}]]" class="comment-box" style="display: none;"></div>
 
-                    <button type="button" th:onclick="|submitComment(${review.reviewId}, ${review.bookId})|">
-                        등록
-                    </button>
-                </div>
+                    <!-- 댓글 입력 폼 (로그인한 경우만) -->
+                    <div th:if="${isLoggedIn}">
+                        <div th:id="'comment-form-' + ${review.reviewId}" style="display: none; margin-top: 10px;">
+                            <label>
+                                <textarea th:id="'comment-input-' + ${review.reviewId}"
+                                                    placeholder="댓글을 입력하세요..."
+                                                    rows="3"
+                                                    style="width: 100%;"></textarea>
+                            </label>
 
-                <span style="cursor: pointer;"
-                      th:data-review-id="${review.reviewId}"
-                      th:onclick="|toggleComments(this, ${review.bookId})|"> 댓글 보이기
-                </span>
-            </div>
-        </div>
-        <!-- 페이징 UI -->
-        <div class="review-pagination" id="review-pagination">
-            <div class="pagination">
-                <!-- 이전 페이지 -->
-                <a th:if="${!reviewPage.first}"
-                   href="#"
-                   th:data-page="${reviewPage.page - 1}"
-                   class="page-link">« Prev</a>
+                            <button type="button" th:onclick="|submitComment(${review.reviewId}, ${review.bookId})|">
+                                등록
+                            </button>
+                        </div>
+                    </div>
 
-                <!-- 페이지 번호 목록 -->
-                <span th:each="i : ${#numbers.sequence(0, reviewPage.totalPages - 1)}"
-                      th:classappend="${i == reviewPage.page} ? 'current'">
+                    <!-- 페이징 UI -->
+                    <div class="review-pagination" id="review-pagination">
+                        <div class="pagination">
+                            <!-- 이전 페이지 -->
+                            <a th:if="${!reviewPage.first}"
+                               href="#"
+                               th:data-page="${reviewPage.page - 1}"
+                               class="page-link">« Prev</a>
+
+                            <!-- 페이지 번호 목록 -->
+                            <span th:each="i : ${#numbers.sequence(0, reviewPage.totalPages - 1)}"
+                                  th:classappend="${i == reviewPage.page} ? 'current'">
                     <a href="#"
                        th:data-page="${i}"
                        th:text="${i + 1}"
                        class="page-link">1</a>
                 </span>
 
-                <!-- 다음 페이지 -->
-                <a th:if="${!reviewPage.last}"
-                   href="#"
-                   th:data-page="${reviewPage.page + 1}"
-                   class="page-link">Next »</a>
+                            <!-- 다음 페이지 -->
+                            <a th:if="${!reviewPage.last}"
+                               href="#"
+                               th:data-page="${reviewPage.page + 1}"
+                               class="page-link">Next »</a>
+                        </div>
+                    </div>
+
+                </div>
             </div>
-        </div>
+        </section>
     </section>
+
+
 </main>
 <th:block layout:fragment="scripts">
     <script th:src="@{/js/book/detail.js}"></script>

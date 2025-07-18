@@ -34,6 +34,6 @@ public class OAuth2LoginSuccessHandler implements AuthenticationSuccessHandler {
         JwtCookieUtil.addAccessToken(response, tokenResponse.getAccessToken(), (int) tokenResponse.getExpiresIn());
         JwtCookieUtil.addRefreshToken(response, tokenResponse.getRefreshToken(), (int) Duration.ofDays(14).toSeconds());
 
-        response.sendRedirect("/extra-info");
+        response.sendRedirect("/auth/extra-info");
     }
 }

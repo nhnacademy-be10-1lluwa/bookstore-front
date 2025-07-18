@@ -12,32 +12,31 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/books/{bookId}/reviews/{reviewId}/comments")
+@RequestMapping("/reviews/{review-id}/comments")
 public class CommentController {
     private final CommentService commentService;
 
     @PostMapping
     @ResponseBody
-    public CommentResponse createComment(@PathVariable Long bookId,
-                                         @PathVariable Long reviewId,
+    public CommentResponse createComment(@PathVariable(name = "review-id") long reviewId,
                                          @RequestBody @Valid CommentRequest request) {
 
-        return commentService.createComment(bookId, reviewId, request);
+        return commentService.createComment(reviewId, request);
     }
 
     @GetMapping
     @ResponseBody
-    public List<CommentResponse> getCommentList(@PathVariable Long bookId, @PathVariable Long reviewId) {
-        return commentService.getCommentList(bookId, reviewId);
+    public List<CommentResponse> getCommentList(@PathVariable(name = "review-id") long reviewId) {
+
+        return commentService.getCommentList(reviewId);
     }
 
-    @PostMapping("/{commentId}")
+    @PostMapping("/{comment-id}")
     @ResponseBody
-    public CommentResponse updateComment(@PathVariable Long bookId,
-                                         @PathVariable Long reviewId,
-                                         @PathVariable Long commentId,
+    public CommentResponse updateComment(@PathVariable(name = "review-id") Long reviewId,
+                                         @PathVariable(name = "comment-id") Long commentId,
                                          @RequestBody @Valid CommentRequest request) {
 
-        return commentService.updateComment(bookId, reviewId, commentId, request);
+        return commentService.updateComment(reviewId, commentId, request);
     }
 }

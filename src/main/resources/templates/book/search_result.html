@@ -4,7 +4,6 @@
       layout:decorate="~{layout/layout}">
 <head>
     <title>도서 검색 결과</title>
-    <link rel="stylesheet" th:href="@{/css/page/book/detail.css}" />
 </head>
 <body>
 <section layout:fragment="content">
@@ -20,7 +19,9 @@
 
 
     <div class="book-list">
-        <div class="book-card" th:each="book : ${books}">
+        <div class="book-card" th:each="book : ${books}"
+             th:data-id="${book.id}"
+             th:onclick="|window.location.href='/books/${book.id}'|">
             <img th:src="${book.thumbnailUrl}" alt="도서 이미지" width="150"/>
             <h3 th:text="${book.title}"></h3>
             <p th:text="'저자: ' + ${book.author}"></p>
