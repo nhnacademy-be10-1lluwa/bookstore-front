@@ -13,18 +13,15 @@ import java.util.List;
 public class CommentService {
     private final ReviewServiceClient reviewServiceClient;
 
-    public CommentResponse createComment(Long bookId, Long reviewId, CommentRequest request) {
-
-        return reviewServiceClient.createComment(bookId, reviewId, request);
+    public CommentResponse createComment(Long reviewId, CommentRequest request) {
+        return reviewServiceClient.createComment(reviewId, request);
     }
 
-    public List<CommentResponse> getCommentList(Long bookId, Long reviewId) {
-
-        return reviewServiceClient.getCommentList(bookId, reviewId);
+    public List<CommentResponse> getCommentList(Long reviewId) {
+        return reviewServiceClient.getCommentList(reviewId);
     }
 
-    public CommentResponse updateComment(Long bookId, Long reviewId, Long commentId, CommentRequest request) {
-
-        return reviewServiceClient.updateComment(bookId, reviewId, commentId, request);
+    public CommentResponse updateComment(Long reviewId, Long commentId, CommentRequest request) {
+        return reviewServiceClient.updateComment(reviewId, commentId, request);
     }
 }
