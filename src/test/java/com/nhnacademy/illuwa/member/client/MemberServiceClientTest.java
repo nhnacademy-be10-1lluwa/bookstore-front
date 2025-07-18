@@ -1,34 +1,67 @@
 package com.nhnacademy.illuwa.member.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import com.nhnacademy.illuwa.auth.dto.payco.PaycoMemberUpdateRequest;
 import com.nhnacademy.illuwa.member.dto.MemberResponse;
 import com.nhnacademy.illuwa.member.dto.MemberUpdateRequest;
 import com.nhnacademy.illuwa.member.dto.PasswordCheckRequest;
 import com.nhnacademy.illuwa.member.enums.Role;
 import com.nhnacademy.illuwa.member.enums.Status;
-
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.any;
+import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
 
-@ExtendWith(MockitoExtension.class)
-class MemberServiceClientTest {
+@SpringBootTest(
+        properties = {
+                "api.base-url=http://localhost:9877"
+        },
+        webEnvironment = SpringBootTest.WebEnvironment.NONE
+)
+public class MemberServiceClientTest {
+    static WireMockServer wireMockServer;
+    static final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule()).configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
-    @Mock
-    private MemberServiceClient memberServiceClient;
 
-    private MemberResponse createMockMemberResponse() {
-        return MemberResponse.builder()
+    @Autowired
+    MemberServiceClient client;
+
+    @MockBean
+    ClientRegistrationRepository clientRegistrationRepository;
+
+    @BeforeAll
+    static void startWireMock() {
+        wireMockServer = new WireMockServer(9877);
+        wireMockServer.start();
+    }
+    @AfterAll
+    static void stopWireMock() {
+        if (wireMockServer != null) wireMockServer.stop();
+    }
+    @BeforeEach
+    void resetMocks() {
+        wireMockServer.resetAll();
+    }
+
+    @Test
+    @DisplayName("회원 단일 조회 동작 확인")
+    void testGetMember() throws Exception {
+        MemberResponse memberResponse = MemberResponse.builder()
                 .memberId(1L)
                 .paycoId("payco123")
                 .name("홍길동")
@@ -42,81 +75,128 @@ class MemberServiceClientTest {
                 .createdAt(LocalDateTime.now().minusYears(1))
                 .lastLoginAt(LocalDateTime.now())
                 .build();
+
+        wireMockServer.stubFor(WireMock.get("/api/members")
+                .willReturn(WireMock.aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(objectMapper.writeValueAsString(memberResponse))
+                        .withStatus(200))
+        );
+
+        MemberResponse result = client.getMember();
+        Assertions.assertEquals(memberResponse, result);
     }
 
     @Test
-    @DisplayName("회원 단일 조회 테스트")
-    void testGetMember() {
-        MemberResponse mockResponse = createMockMemberResponse();
-        Mockito.when(memberServiceClient.getMember()).thenReturn(mockResponse);
-
-        MemberResponse response = memberServiceClient.getMember();
-
-        assertNotNull(response);
-        assertEquals(mockResponse.getMemberId(), response.getMemberId());
-        assertEquals(mockResponse.getName(), response.getName());
-        assertEquals(mockResponse.getEmail(), response.getEmail());
-    }
-
-    @Test
-    @DisplayName("회원 수정 테스트")
-    void testUpdateMember() {
-        MemberUpdateRequest updateRequest = MemberUpdateRequest.builder()
+    @DisplayName("회원 수정 동작 확인")
+    void testUpdateMember() throws Exception {
+        MemberResponse memberResponse = MemberResponse.builder()
+                .memberId(1L)
+                .paycoId("payco123")
                 .name("홍길동")
-                .currentPassword("currentPass123")
-                .password("newPass123")
+                .birth(LocalDate.of(1990, 1, 1))
+                .email("hong@sample.com")
+                .role(Role.USER)
                 .contact("010-1234-5678")
+                .gradeName("일반")
+                .point(BigDecimal.valueOf(10000))
+                .status(Status.ACTIVE)
+                .createdAt(LocalDateTime.now().minusYears(1))
+                .lastLoginAt(LocalDateTime.now())
+                .build();
+        MemberUpdateRequest memberUpdateRequest =
+                new MemberUpdateRequest("임꺽정", "currentPassword1234!", "updatePassword1234!", "010-1111-1111");
+
+        wireMockServer.stubFor(WireMock.put("/api/members")
+                .withRequestBody(equalToJson(objectMapper.writeValueAsString(memberUpdateRequest)))
+                .willReturn(WireMock.aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(objectMapper.writeValueAsString(memberResponse))
+                        .withStatus(200)
+                )
+        );
+
+        MemberResponse result = client.updateMember(memberUpdateRequest);
+        Assertions.assertEquals(memberResponse, result);
+    }
+
+    @Test
+    @DisplayName("회원 삭제 동작 확인")
+    void testDeleteMember() throws Exception {
+        wireMockServer.stubFor(WireMock.delete("/api/members")
+            .willReturn(WireMock.aResponse()
+                .withHeader("Content-Type", "application/json")
+                .withStatus(200)
+            )
+        );
+
+        client.deleteMember();
+    }
+
+    @Test
+    @DisplayName("비밀번호 검증 동작 확인")
+    void testCheckPassword() throws Exception {
+        PasswordCheckRequest passwordCheckRequest = PasswordCheckRequest.builder()
+                .inputPassword("123456")
                 .build();
 
-        MemberResponse mockResponse = createMockMemberResponse();
-        Mockito.when(memberServiceClient.updateMember(any(MemberUpdateRequest.class))).thenReturn(mockResponse);
+        wireMockServer.stubFor(WireMock.post("/api/members/check-pw")
+                .withRequestBody(equalToJson(objectMapper.writeValueAsString(passwordCheckRequest)))
+                .willReturn(WireMock.aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withBody("true")
+                        .withStatus(200)
+                )
+        );
 
-        MemberResponse response = memberServiceClient.updateMember(updateRequest);
-
-        assertNotNull(response);
-        assertEquals(mockResponse.getMemberId(), response.getMemberId());
-        assertEquals(mockResponse.getName(), response.getName());
+        boolean result = client.checkPassword(passwordCheckRequest);
+        Assertions.assertTrue(result);
     }
 
     @Test
-    @DisplayName("회원 삭제 테스트")
-    void testDeleteMember() {
-        Mockito.doNothing().when(memberServiceClient).deleteMember();
+    @DisplayName("페이코 회원 초기 정보 설정 동작 확인")
+    void testUpdatePaycoMember() throws Exception {
+        PaycoMemberUpdateRequest paycoMemberUpdateRequest = new PaycoMemberUpdateRequest(
+                "페이코회원",
+                LocalDate.of(1990, 1, 1),
+                "test@payco.test",
+                "010-1234-1234"
+        );
 
-        assertDoesNotThrow(() -> memberServiceClient.deleteMember());
+        wireMockServer.stubFor(WireMock.put("/api/members/internal/social-members")
+                .withRequestBody(equalToJson(objectMapper.writeValueAsString(paycoMemberUpdateRequest)))
+                .willReturn(WireMock.aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withStatus(200)
+                        .withBody("")
+                )
+        );
 
-        Mockito.verify(memberServiceClient, Mockito.times(1)).deleteMember();
+        client.updatePaycoMember(paycoMemberUpdateRequest);
     }
 
     @Test
-    @DisplayName("비밀번호 확인 테스트")
-    void testCheckPassword() {
-        PasswordCheckRequest pwRequest = PasswordCheckRequest.builder()
-                .inputPassword("password123")
-                .build();
+    @DisplayName("리스트에서 회원 불러오기 동작 확인")
+    void testGetNamesFromIdList() throws Exception {
+        Map<Long, String> responseMap = new HashMap<Long, String>();
+        responseMap.put(1L, "홍길동");
 
-        Mockito.when(memberServiceClient.checkPassword(any(PasswordCheckRequest.class))).thenReturn(true);
+        List<Long> reviewersIdList = new ArrayList<Long>();
+        reviewersIdList.add(1L);
 
-        boolean result = memberServiceClient.checkPassword(pwRequest);
+        wireMockServer.stubFor(WireMock.post("/api/members/names")
+                .withRequestBody(equalToJson(objectMapper.writeValueAsString(reviewersIdList)))
+                .willReturn(WireMock.aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(objectMapper.writeValueAsString(responseMap))
+                        .withStatus(200)
+                )
+        );
 
-        assertTrue(result);
+        Map<Long, String> result = client.getNamesFromIdList(reviewersIdList);
+        Assertions.assertEquals(responseMap, result);
     }
 
-    @Test
-    @DisplayName("페이코 회원 초기 정보 설정 테스트")
-    void testUpdatePaycoMember() {
-        PaycoMemberUpdateRequest paycoRequest = new PaycoMemberUpdateRequest();
-        paycoRequest.setName("홍길동");
-        paycoRequest.setBirth(LocalDate.of(1990, 1, 1));
-        paycoRequest.setEmail("hong@sample.com");
-        paycoRequest.setContact("010-1234-5678");
-
-        Mockito.doNothing().when(memberServiceClient).updatePaycoMember(any(PaycoMemberUpdateRequest.class));
-
-        assertDoesNotThrow(() -> memberServiceClient.updatePaycoMember(paycoRequest));
-
-        Mockito.verify(memberServiceClient, Mockito.times(1)).updatePaycoMember(paycoRequest);
-    }
 }
 
 

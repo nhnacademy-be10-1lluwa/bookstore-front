@@ -29,7 +29,6 @@ public class PaymentController {
 
         try {
             PaymentResponse paymentResponse = paymentServiceClient.confirmPayment(request);
-
             model.addAttribute("payment", paymentResponse);
 
             return "payment/success";

@@ -5,9 +5,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head layout:fragment="head">
-    <link rel="stylesheet" th:href="@{/css/main.css}" />
-    <link rel="stylesheet" th:href="@{/css/page/member/_mypage.css}" />
-    <link rel="stylesheet" th:href="@{/css/order/order_detail.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/page/member/_mypage.css}"/>
+    <link rel="stylesheet" th:href="@{/css/order/order_detail.css}"/>
     <title>주문 상세</title>
 </head>
 
@@ -80,18 +80,19 @@
                         <div th:if="${order.orderStatus.toString() == 'Confirmed'}">
                             <!-- 리뷰가 없는 경우 -->
                             <form th:if="${!reviewIdIndexMap.containsKey(iterStat.index)}"
-                                  th:action="@{/books/{bookId}/reviews/new(bookId=${item.bookId})}"
+                                  th:action="@{/reviews/new}"
                                   method="get">
-                                <input type="hidden" name="orderId" th:value="${order.orderId}" />
+                                <input type="hidden" name="book-id" th:value="${item.bookId}">
+                                <input type="hidden" name="order-id" th:value="${order.orderId}" />
                                 <button type="submit" class="btn btn-review">리뷰쓰기</button>
                             </form>
 
-
                             <!-- 리뷰가 있는 경우 -->
                             <form th:if="${reviewIdIndexMap.containsKey(iterStat.index)}"
-                                  th:action="@{/books/{bookId}/reviews/{reviewId}(bookId=${item.bookId}, reviewId=${reviewIdIndexMap[iterStat.index]})}"
+                                  th:action="@{/reviews/{reviewId}(reviewId=${reviewIdIndexMap[iterStat.index]})}"
                                   method="get">
-                                <input type="hidden" name="orderId" th:value="${order.orderId}" />
+                                <input type="hidden" name="book-id" th:value="${item.bookId}">
+                                <input type="hidden" name="order-id" th:value="${order.orderId}" />
                                 <button type="submit" class="btn btn-review">작성한 리뷰</button>
                             </form>
                         </div>
@@ -100,13 +101,14 @@
                 </tbody>
             </table>
 
-            <!-- 환불 버튼 -->
-            <form th:if="${order.orderStatus != null and order.orderStatus.toString().equals('Pending')}"
-                  th:action="@{/payment/{orderNumber}/refund(orderNumber=${order.orderNumber})}" method="post" style="margin-top: 20px">
-                <input type="text" name="cancelReason" placeholder="환불 사유를 입력해주세요" required />
-                <button type="submit">환불 요청</button>
-            </form>
-        </section>
+                <!-- 환불 버튼 -->
+                <form th:if="${order.orderStatus != null and order.orderStatus.toString().equals('Pending')}"
+                      th:action="@{/payment/{orderNumber}/refund(orderNumber=${order.orderNumber})}" method="post"
+                      style="margin-top: 20px">
+                    <input type="text" name="cancelReason" placeholder="환불 사유를 입력해주세요" required/>
+                    <button type="submit">환불 요청</button>
+                </form>
+            </section>
         </section>
     </div>
 </main>

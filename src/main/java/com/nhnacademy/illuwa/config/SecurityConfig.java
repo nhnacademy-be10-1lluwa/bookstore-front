@@ -27,13 +27,13 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/", "/login", "/signup","/guest-login", "/proxy/**").permitAll()
+                        .requestMatchers("/", "/auth/login", "/auth/signup","/guest-login", "/verifications/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/mypage").authenticated()
                         .anyRequest().permitAll()
                 )
                 .oauth2Login(oauth -> oauth
-                        .loginPage("/login")
+                        .loginPage("/auth/login")
                         .authorizationEndpoint(auth -> auth
                                 .baseUri("/oauth2/authorization")
                                 .authorizationRequestResolver(paycoAuthorizationResolver)
@@ -56,7 +56,7 @@ public class SecurityConfig {
                 .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
                 .exceptionHandling(exception -> exception
                         .authenticationEntryPoint(((request, response, authException) -> {
-                            response.sendRedirect("/login");
+                            response.sendRedirect("/auth/login");
                         }))
                         .accessDeniedHandler((request, response, accessDeniedException) -> {
                             response.sendRedirect("/");

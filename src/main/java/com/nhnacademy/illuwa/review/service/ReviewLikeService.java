@@ -22,7 +22,6 @@ public class ReviewLikeService {
         return reviewServiceClient.getLikeCountsFromReviews(reviewIds);
     }
 
-    @GetMapping("/api/reviews/likes/status")
     public List<Long> getMyLikedReviews(List<Long> reviewIds) {
         return reviewServiceClient.getMyLikedReviews(reviewIds);
     }

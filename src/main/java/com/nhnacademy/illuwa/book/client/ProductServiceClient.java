@@ -19,6 +19,9 @@ public interface ProductServiceClient {
     @GetMapping("/api/books/{id}")
     BookDetailResponse getBookDetail(@PathVariable String id);
 
+    @GetMapping("/api/books/{id}")
+    BookDetailResponse findBookById(@PathVariable Long id);
+
     // 도서 검색 - ISBN
     @GetMapping("/api/books/isbn/{isbn}")
     BookDetailResponse findBookByIsbn(@PathVariable String isbn);

@@ -6,7 +6,6 @@ import com.nhnacademy.illuwa.order.dto.*;
 import com.nhnacademy.illuwa.order.dto.admin.OrderUpdateStatusDto;
 import com.nhnacademy.illuwa.order.dto.guest.GuestOrderDirectRequest;
 import com.nhnacademy.illuwa.order.dto.guest.GuestOrderInitDirectResponse;
-import com.nhnacademy.illuwa.order.dto.guest.OrderGuestCreateResponse;
 import com.nhnacademy.illuwa.order.dto.member.MemberOrderCartRequest;
 import com.nhnacademy.illuwa.order.dto.member.MemberOrderDirectRequest;
 import com.nhnacademy.illuwa.order.dto.member.MemberOrderInitDirectResponse;
@@ -90,4 +89,20 @@ public class OrderService {
     public void updateStatus(Long orderId, OrderStatus status) {
         orderServiceClient.updateOrderStatus(orderId, new OrderUpdateStatusDto(status));
     }
+
+    // 주문 확정 수작업
+    public void orderConfirmedUpdate() {
+        orderServiceClient.runOrderConfirmedUpdate();
+    }
+
+    // 회원 등급 업데이트 수작업
+    public void memberGradeUpdate() {
+        orderServiceClient.runMemberGradeUpdate();
+    }
+
+    // awaiting 상태 주문 테이블 정리
+    public void orderCleanUp() {
+        orderServiceClient.runOrderCleanUp();
+    }
+
 }
