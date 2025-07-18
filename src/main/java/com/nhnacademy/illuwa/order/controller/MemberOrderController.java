@@ -1,5 +1,6 @@
 package com.nhnacademy.illuwa.order.controller;
 
+import com.nhnacademy.illuwa.cart.client.CartServiceClient;
 import com.nhnacademy.illuwa.member.dto.MemberResponse;
 import com.nhnacademy.illuwa.member.service.MemberService;
 import com.nhnacademy.illuwa.order.dto.OrderCreateResponse;
@@ -24,6 +25,7 @@ public class MemberOrderController {
 
     private final OrderService orderService;
     private final MemberService memberService;
+    private final CartServiceClient cartServiceClient;
 
     @Value("${toss.client-key}")
     private String tossClientKey;
@@ -86,6 +88,8 @@ public class MemberOrderController {
     public String sendOrderByCart(@ModelAttribute("orderRequest") MemberOrderCartRequest request, Model model) {
 
         OrderCreateResponse response = orderService.sendCartOrderMember(request);
+        cartServiceClient.clearCart();
+
         model.addAttribute("order", response);
         model.addAttribute("member", getMemberInfo());
         model.addAttribute("tossClientKey", tossClientKey);
