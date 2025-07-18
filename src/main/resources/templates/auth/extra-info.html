@@ -11,7 +11,7 @@
     <section class="auth-container">
         <h2>추가 정보 입력</h2>
         <div th:if="${error}" class="error-message" th:text="${error}"></div>
-        <form th:action="@{/extra-info}" method="post">
+        <form th:action="@{/auth/extra-info}" method="post">
             <div class="form-group">
                 <label for="name">이름</label>
                 <input type="text"
