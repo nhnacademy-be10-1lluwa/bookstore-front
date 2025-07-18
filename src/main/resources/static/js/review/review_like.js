@@ -4,10 +4,9 @@ document.addEventListener('click', function (e) {
         return;
     }
 
-    const bookId = button.getAttribute('data-book-id');
     const reviewId = button.getAttribute('data-review-id');
 
-    fetch(`/books/${bookId}/reviews/${reviewId}/likes`, {
+    fetch(`/reviews/${reviewId}/likes`, {
         method: 'POST'
     })
         .then(response => {
