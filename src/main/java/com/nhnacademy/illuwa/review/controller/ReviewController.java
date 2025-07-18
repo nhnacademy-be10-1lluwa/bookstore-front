@@ -13,19 +13,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import java.util.List;
-import java.util.Map;
-
 @Controller
 @RequiredArgsConstructor
 public class ReviewController {
     private final ReviewService reviewService;
 
     // 리뷰 작성 폼
-    @GetMapping("/books/{bookId}/reviews/new")
+    @GetMapping("/reviews/new")
     public String showCreateForm(Model model,
-                                 @PathVariable long bookId,
-                                 @RequestParam Long orderId) {
+                                 @RequestParam(name = "book-id") long bookId,
+                                 @RequestParam(name = "order-id") Long orderId) {
         model.addAttribute("mode", "new");
         model.addAttribute("bookId", bookId);
         model.addAttribute("orderId", orderId);
@@ -34,10 +31,10 @@ public class ReviewController {
     }
 
     // 리뷰 상세 보기
-    @GetMapping("/books/{bookId}/reviews/{reviewId}")
-    public String showDetail(@PathVariable long bookId,
-                             @PathVariable long reviewId,
-                             @RequestParam Long orderId,
+    @GetMapping("/reviews/{review-id}")
+    public String showDetail(@RequestParam(name = "book-id") long bookId,
+                             @PathVariable(name = "review-id") long reviewId,
+                             @RequestParam(name = "order-id") Long orderId,
                              Model model) {
         ReviewResponse review = reviewService.getReview(bookId, reviewId);
         model.addAttribute("mode", "view");
@@ -49,10 +46,10 @@ public class ReviewController {
     }
 
     // 리뷰 수정 폼
-    @GetMapping("/books/{bookId}/reviews/{reviewId}/edit")
-    public String showEditForm(@PathVariable long bookId,
-                               @PathVariable long reviewId,
-                               @RequestParam Long orderId,
+    @GetMapping("/reviews/{review-id}/edit")
+    public String showEditForm(@RequestParam(name = "book-id") long bookId,
+                               @PathVariable(name = "review-id") long reviewId,
+                               @RequestParam(name = "order-id") Long orderId,
                                Model model) {
         ReviewResponse review = reviewService.getReview(bookId, reviewId);
         model.addAttribute("mode", "edit");
@@ -64,12 +61,12 @@ public class ReviewController {
     }
 
     // 리뷰 등록/수정 처리
-    @PostMapping(value = "/books/{bookId}/reviews/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public String saveReview(@RequestParam("mode") String mode,
+    @PostMapping(value = "/reviews/save", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public String saveReview(@RequestParam(name = "mode") String mode,
                              @Valid @ModelAttribute ReviewRequest request,
-                             @PathVariable long bookId,
-                             @RequestParam(value = "reviewId", required = false) Long reviewId,
-                             @RequestParam("orderId") Long orderId,
+                             @RequestParam(name = "book-id") long bookId,
+                             @RequestParam(name = "review-id", required = false) Long reviewId,
+                             @RequestParam(name = "order-id") Long orderId,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes,
                              Model model) {
@@ -101,19 +98,12 @@ public class ReviewController {
     }
 
     // 리뷰 목록 조회 (페이지)
-    @GetMapping("/books/{bookId}/reviews")
+    @GetMapping("/public/reviews")
     @ResponseBody
-    public PageResponse<ReviewResponse> getReviewPages(@PathVariable Long bookId,
+    public PageResponse<ReviewResponse> getReviewPages(@RequestParam(name = "book-id") long bookId,
                                                        @RequestParam(defaultValue = "0") int page,
                                                        @RequestParam(defaultValue = "5") int size) {
         return reviewService.getReviewPages(bookId, page, size);
-    }
-
-    // 리뷰 존재 여부 확인 (배치 체크용)
-    @PostMapping("/books/reviews/check-batch")
-    @ResponseBody
-    public Map<Long, Boolean> areReviewsWritten(@RequestBody List<Long> bookIds) {
-        return reviewService.areReviewsWritten(bookIds);
     }
 
     // 내가 쓴 리뷰목록 조회 (페이지)
