@@ -184,11 +184,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const subtotal = (unitPrice * qty) + pkgPrice; // 포장비는 할인에서 제외
     const afterDiscount = Math.max(subtotal - discount, 0);
     const afterPoint = Math.max(afterDiscount - usedPoint, 0);
-    const shippingFee = afterPoint >= 50000 ? 0 : 3000;
-    const total = afterPoint + shippingFee;
+    /*const shippingFee = afterPoint >= 50000 ? 0 : 3000;*/
+    /*const total = afterPoint + shippingFee;*/
     const estEl = document.getElementById('estimatedTotal');
     if (estEl) {
-      estEl.textContent = new Intl.NumberFormat('ko-KR').format(Math.round(total)) + '원';
+      estEl.textContent = new Intl.NumberFormat('ko-KR').format(Math.round(afterPoint)) + '원';
     }
   }
 

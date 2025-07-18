@@ -98,13 +98,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // 금액 계산
         const subtotal = (unitPrice + pkgPrice) * qty;
-        const shippingFee = subtotal >= 50000 ? 0 : 3000;
-        const total = subtotal + shippingFee;
+       /* const shippingFee = subtotal >= 50000 ? 0 : 3000;
+        const total = subtotal + shippingFee;*/
 
         // 화면 표시
         const estEl = document.getElementById('estimatedTotal');
         if (estEl) {
-            estEl.textContent = new Intl.NumberFormat('ko-KR').format(total) + '원';
+            estEl.textContent = new Intl.NumberFormat('ko-KR').format(subtotal) + '원';
         }
     }
 

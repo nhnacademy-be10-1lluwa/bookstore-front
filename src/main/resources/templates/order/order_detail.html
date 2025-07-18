@@ -5,9 +5,9 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head layout:fragment="head">
-    <link rel="stylesheet" th:href="@{/css/main.css}" />
-    <link rel="stylesheet" th:href="@{/css/page/member/_mypage.css}" />
-    <link rel="stylesheet" th:href="@{/css/order/order_detail.css}" />
+    <link rel="stylesheet" th:href="@{/css/main.css}"/>
+    <link rel="stylesheet" th:href="@{/css/page/member/_mypage.css}"/>
+    <link rel="stylesheet" th:href="@{/css/order/order_detail.css}"/>
     <title>주문 상세</title>
 </head>
 
@@ -101,13 +101,14 @@
                 </tbody>
             </table>
 
-            <!-- 환불 버튼 -->
-            <form th:if="${order.orderStatus != null and order.orderStatus.toString().equals('Pending')}"
-                  th:action="@{/payment/{orderNumber}/refund(orderNumber=${order.orderNumber})}" method="post" style="margin-top: 20px">
-                <input type="text" name="cancelReason" placeholder="환불 사유를 입력해주세요" required />
-                <button type="submit">환불 요청</button>
-            </form>
-        </section>
+                <!-- 환불 버튼 -->
+                <form th:if="${order.orderStatus != null and order.orderStatus.toString().equals('Pending')}"
+                      th:action="@{/payment/{orderNumber}/refund(orderNumber=${order.orderNumber})}" method="post"
+                      style="margin-top: 20px">
+                    <input type="text" name="cancelReason" placeholder="환불 사유를 입력해주세요" required/>
+                    <button type="submit">환불 요청</button>
+                </form>
+            </section>
         </section>
     </div>
 </main>

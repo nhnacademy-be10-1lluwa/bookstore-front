@@ -80,4 +80,21 @@ public interface OrderServiceClient {
     // 주문 취소
     @PostMapping("/api/order/common/orders/{orderNumber}/cancel")
     void cancelOrder(@PathVariable("orderNumber") String orderNumber);
+
+    // 환불
+    @PostMapping("/api/order/common/orders/{orderId}/refund")
+    void refundOrder(@PathVariable("orderId") Long orderId);
+
+
+    // 주문 확정 수작업
+    @GetMapping("/api/order/admin/batch/order-confirmed-update")
+    String runOrderConfirmedUpdate();
+
+    // 회원 등급 업데이트 수작업
+    @GetMapping("/api/order/admin/batch/member-grade-update")
+    String runMemberGradeUpdate();
+
+    // awaiting 상태 주문 테이블 정리
+    @GetMapping("/api/order/admin/batch/order-cleanup")
+    String runOrderCleanUp();
 }

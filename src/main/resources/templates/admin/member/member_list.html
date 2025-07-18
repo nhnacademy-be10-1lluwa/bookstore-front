@@ -41,6 +41,9 @@
                 <input type="number" name="point" placeholder="포인트 입력" required min="1"/>
                 <button type="submit" th:disabled="${selectedGrade == null || selectedGrade.isEmpty()}">등급 회원 포인트 지급</button>
             </form>
+            <form action="/admin/order/member-grade-update" method="post">
+                <button type="submit">회원 등급 최신화</button>
+            </form>
         </div>
 
         <!-- 회원 목록 -->
