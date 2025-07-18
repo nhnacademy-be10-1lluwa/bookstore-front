@@ -5,8 +5,12 @@
 
 <head layout:fragment="head">
     <link rel="stylesheet" th:href="@{/css/main.css}" />
+    <link rel="stylesheet" th:href="@{/css/page/member/_mypage.css}" />
 </head>
 <main layout:fragment="content">
+    <div class="mypage-container">
+        <div th:replace="~{layout/mypage-sidebar :: sidebar(${activeMenu})}"></div>
+        <section class="mypage-content">
     <div class="two-column-coupon-layout">
         <section class="coupon-section">
             <h1>보유 중인 쿠폰</h1>
@@ -65,6 +69,8 @@
                 </div>
             </div>
         </section>
+    </div>
+    </section>
     </div>
 </main>
 </html>

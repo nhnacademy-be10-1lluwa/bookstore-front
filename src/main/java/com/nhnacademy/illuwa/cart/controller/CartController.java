@@ -34,15 +34,15 @@ public class CartController {
 
     @PostMapping("/cart/add")
     public String addBookToCart(@RequestParam("bookId") Long bookId,
-                                @RequestParam("amount") int amount) { // 리다이렉트 시 메시지 전달용
+                                @RequestParam("quantity") int quantity) { // 리다이렉트 시 메시지 전달용
 
-        log.info("Received SSR cart add request - BookId: {}, Amount: {}", bookId, amount);
+        log.info("Received SSR cart add request - BookId: {}, Quantity: {}", bookId,quantity);
 
         // BookCartRequest DTO 생성
-        BookCartRequest request = new BookCartRequest(null, bookId, amount); // memberId는 게이트웨이에서 주입될 것이므로 여기서는 null
+        BookCartRequest request = new BookCartRequest(null, bookId,quantity); // memberId는 게이트웨이에서 주입될 것이므로 여기서는 null
         cartService.addBookCart(request);
 
-        return "redirect:/books/list"; // 도서 목록 페이지로 리다이렉트
+        return "redirect:/cart"; // 장바구니 페이지로 리다이렉트
     }
 
     // bookstore-front/cart/controller/CartController.java

@@ -108,8 +108,18 @@ public class ReviewController {
 
     // 내가 쓴 리뷰목록 조회 (페이지)
     @GetMapping("/review-history")
-    public String getReviewPages(@RequestParam(defaultValue = "0") int page,
+    public String getReviewHistory(Model model,
+                                   @RequestParam(name = "book-id") long bookId,
+                                 @RequestParam(defaultValue = "0") int page,
                                  @RequestParam(defaultValue = "5") int size) {
+        PageResponse<ReviewResponse> reviewPage = reviewService.getReviewPages(bookId, page, size);
+        model.addAttribute("reviewList", reviewPage.content());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("pageSize", reviewPage.size());
+        model.addAttribute("totalPages", reviewPage.totalPages());
+        model.addAttribute("lastPageIndex", Math.max(0, reviewPage.totalPages() - 1));
+        model.addAttribute("bookId", bookId);
+        model.addAttribute("activeMenu", "review-history");
         return "mypage/section/review_history";
     }
 }
