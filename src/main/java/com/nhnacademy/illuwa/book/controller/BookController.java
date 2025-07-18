@@ -12,6 +12,7 @@ import com.nhnacademy.illuwa.review.service.ReviewLikeService;
 import com.nhnacademy.illuwa.review.service.ReviewService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +37,7 @@ public class BookController {
 //        return "book/book_info";
 //    }
 
-    @GetMapping("/books/{isbn}")
+    @GetMapping("/books/isbn/{isbn}")
     public String bookDetail(@PathVariable("isbn") String isbn, Model model, HttpServletRequest request) {
         boolean isLoginUser = JwtCookieUtil.checkAccessToken(request);
 
@@ -65,6 +66,18 @@ public class BookController {
         List<CommentResponse> commentList = commentService.getCommentList(bookId);
         model.addAttribute("commentList", commentList);
 
-        return "book/detail";
-    }
+            return "book/detail";
+        }
+
+
+
+        //도서 상세페이지
+        @GetMapping("/books/{id}")
+        public String bookDetailBySearch(@PathVariable("id") Long bookId, Model model){
+
+            BookDetailResponse bookDetail = bookService.findBookById(bookId);
+            model.addAttribute("book", bookDetail);
+
+            return "book/detail";
+        }
 }
