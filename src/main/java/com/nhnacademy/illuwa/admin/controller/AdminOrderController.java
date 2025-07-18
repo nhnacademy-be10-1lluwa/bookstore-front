@@ -44,4 +44,24 @@ public class AdminOrderController {
         return "redirect:/admin/order/orders";
     }
 
+    @PostMapping("/admin/order/order-confirmed-update")
+    public String orderConfirmedUpdate() {
+        orderservice.orderConfirmedUpdate();
+        return "redirect:/admin/";
+    }
+
+    @PostMapping("/admin/order/member-grade-update")
+    public String memberGradeUpdate() {
+        orderservice.memberGradeUpdate();
+        return "redirect:/admin/member-list";
+    }
+
+    @PostMapping("/admin/order/order-cleanup")
+    public String orderCleanUp() {
+        orderservice.orderCleanUp();
+        return "redirect:/admin/";
+    }
+
+
+
 }
