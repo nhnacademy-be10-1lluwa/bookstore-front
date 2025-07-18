@@ -37,7 +37,7 @@ public class BookController {
 //        return "book/book_info";
 //    }
 
-    @GetMapping("/books/{isbn}")
+    @GetMapping("/books/isbn/{isbn}")
     public String bookDetail(@PathVariable("isbn") String isbn, Model model, HttpServletRequest request) {
         boolean isLoginUser = JwtCookieUtil.checkAccessToken(request);
 
