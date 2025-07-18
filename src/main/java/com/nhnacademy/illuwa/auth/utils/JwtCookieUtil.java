@@ -34,7 +34,7 @@ public class JwtCookieUtil {
     public static boolean checkAccessToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
         for(Cookie cookie : cookies) {
-            if("ACCESS_TOKEN".equals(cookie.getValue())) {
+            if("ACCESS_TOKEN".equals(cookie.getName())) {
                 return true;
             }
         }
