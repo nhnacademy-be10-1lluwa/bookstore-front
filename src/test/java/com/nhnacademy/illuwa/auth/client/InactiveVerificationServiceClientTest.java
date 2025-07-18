@@ -70,7 +70,7 @@ public class InactiveVerificationServiceClientTest {
         SendVerificationRequest req = new SendVerificationRequest("user@test.com");
         SendMessageResponse res = new SendMessageResponse(true, "user@test.com", "ok", "message");
 
-        wireMockServer.stubFor(post(urlEqualTo("/api/members/inactive/verification"))
+        wireMockServer.stubFor(post(urlEqualTo("/api/members/inactive/code"))
                 .withRequestBody(equalToJson(objectMapper.writeValueAsString(req)))
                 .willReturn(aResponse()
                         .withHeader("Content-Type", "application/json")
@@ -87,7 +87,7 @@ public class InactiveVerificationServiceClientTest {
         VerifyCodeRequest req = new VerifyCodeRequest("user@test.com", "code123");
         VerifyCodeResponse res = new VerifyCodeResponse(true, 99L, "user@test.com", "success");
 
-        wireMockServer.stubFor(post(urlEqualTo("/api/members/inactive/verification/verify"))
+        wireMockServer.stubFor(post(urlEqualTo("/api/members/inactive/verification"))
                 .withRequestBody(equalToJson(objectMapper.writeValueAsString(req)))
                 .willReturn(aResponse()
                         .withHeader("Content-Type", "application/json")
