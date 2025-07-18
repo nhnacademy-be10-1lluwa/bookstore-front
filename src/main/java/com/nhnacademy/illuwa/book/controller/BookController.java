@@ -17,8 +17,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -43,10 +45,10 @@ public class BookController {
         Long bookId = bookDetail.getId();
         PageResponse<ReviewResponse> reviewPage = reviewService.getReviewPages(bookId, 0, 5);
 
-        List<Long> memberIds = reviewPage.content().stream().map(ReviewResponse::getMemberId).toList();
+        List<Long> memberIds = Optional.ofNullable(reviewPage.content()).orElse(Collections.emptyList()).stream().map(ReviewResponse::getMemberId).toList();
         Map<Long,String> nameMap = memberService.getNamesFromIdList(memberIds);
 
-        List<Long> reviewIds = reviewPage.content().stream().map(ReviewResponse::getReviewId).toList();
+        List<Long> reviewIds = Optional.ofNullable(reviewPage.content()).orElse(Collections.emptyList()).stream().map(ReviewResponse::getReviewId).toList();
         Map<Long, Long> likeCountMap = reviewLikeService.getLikeCountsFromReviews(reviewIds);
 
         model.addAttribute("book", bookDetail);
