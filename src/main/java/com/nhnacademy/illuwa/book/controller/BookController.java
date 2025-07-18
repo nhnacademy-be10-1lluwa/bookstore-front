@@ -12,7 +12,6 @@ import com.nhnacademy.illuwa.review.service.ReviewLikeService;
 import com.nhnacademy.illuwa.review.service.ReviewService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,11 +31,39 @@ public class BookController {
     private final CommentService commentService;
     private final MemberService memberService;
 
-//    @GetMapping("/user/book-info/{isbn}")
-//    public String bookInfo(@PathVariable String isbn, Model model) {
-//        return "book/book_info";
-//    }
+    //도서 상세페이지
+    @GetMapping("/books/{id}")
+    public String bookDetailBySearch(@PathVariable("id") Long bookId, Model model, HttpServletRequest request){
+        boolean isLoginUser = JwtCookieUtil.checkAccessToken(request);
 
+        BookDetailResponse bookDetail = bookService.findBookById(bookId);
+
+        PageResponse<ReviewResponse> reviewPage = reviewService.getReviewPages(bookId, 0, 5);
+
+        List<Long> memberIds = Optional.ofNullable(reviewPage.content()).orElse(Collections.emptyList()).stream().map(ReviewResponse::getMemberId).toList();
+        Map<Long,String> nameMap = memberService.getNamesFromIdList(memberIds);
+
+        List<Long> reviewIds = Optional.ofNullable(reviewPage.content()).orElse(Collections.emptyList()).stream().map(ReviewResponse::getReviewId).toList();
+        Map<Long, Long> likeCountMap = reviewLikeService.getLikeCountsFromReviews(reviewIds);
+
+        model.addAttribute("book", bookDetail);
+        model.addAttribute("reviewContent", reviewPage.content());
+        model.addAttribute("reviewPage", reviewPage);
+        model.addAttribute("nameMap", nameMap);
+        model.addAttribute("likeCountMap", likeCountMap);
+
+        if(isLoginUser) {
+            List<Long> myLikedReviewIds = reviewLikeService.getMyLikedReviews(reviewIds);
+            model.addAttribute("myLikedReviewIds", myLikedReviewIds);
+        }
+
+        List<CommentResponse> commentList = commentService.getCommentList(bookId);
+        model.addAttribute("commentList", commentList);
+
+        return "book/detail";
+    }
+
+    // isbn 기준으로 도서상세 가져오기
     @GetMapping("/books/isbn/{isbn}")
     public String bookDetail(@PathVariable("isbn") String isbn, Model model, HttpServletRequest request) {
         boolean isLoginUser = JwtCookieUtil.checkAccessToken(request);
@@ -66,18 +93,6 @@ public class BookController {
         List<CommentResponse> commentList = commentService.getCommentList(bookId);
         model.addAttribute("commentList", commentList);
 
-            return "book/detail";
-        }
-
-
-
-        //도서 상세페이지
-        @GetMapping("/books/{id}")
-        public String bookDetailBySearch(@PathVariable("id") Long bookId, Model model){
-
-            BookDetailResponse bookDetail = bookService.findBookById(bookId);
-            model.addAttribute("book", bookDetail);
-
-            return "book/detail";
-        }
+        return "book/detail";
+    }
 }
