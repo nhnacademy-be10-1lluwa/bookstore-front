@@ -7,8 +7,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.time.LocalDateTime;
-import java.util.Arrays;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -30,6 +28,7 @@ public class MyCouponController {
 
         model.addAttribute("availableCoupons", availableCoupons);
         model.addAttribute("usedCoupons", usedCoupons);
+        model.addAttribute("activeMenu", "mycoupon");
 
         return "user/mycoupon";
     }

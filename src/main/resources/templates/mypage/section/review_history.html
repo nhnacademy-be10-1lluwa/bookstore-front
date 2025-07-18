@@ -14,7 +14,7 @@
 <main layout:fragment="content">
     <div class="mypage-container">
         <div th:replace="~{layout/mypage-sidebar :: sidebar(${activeMenu})}"></div>
-            <section class="main-content">
+        <section class="mypage-content">
             <h2>📚 내가 쓴 리뷰</h2>
 
             <table class="review-table">
@@ -43,15 +43,17 @@
             </table>
 
             <!-- 페이지네이션 -->
-            <div class="pagination" th:if="${reviews.totalPages > 1}">
-                <a th:if="${!reviews.first}" th:href="@{'/mypage/reviews?page=' + ${reviews.number - 1}}">&laquo; 이전</a>
+            <div class="pagination" th:if="${totalPages > 1}">
+                <a th:if="${currentPage > 0}"
+                   th:href="@{'/review-history?book-id=' + ${bookId} + '&page=' + ${currentPage - 1}}">&laquo; 이전</a>
 
-                <a th:each="pageNum : ${#numbers.sequence(0, reviews.totalPages - 1)}"
-                   th:classappend="${pageNum == reviews.number} ? ' active' : ''"
-                   th:href="@{'/mypage/reviews?page=' + ${pageNum}}"
+                <a th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+                   th:classappend="${pageNum == currentPage} ? ' active' : ''"
+                   th:href="@{'/review-history?book-id=' + ${bookId} + '&page=' + ${pageNum}}"
                    th:text="${pageNum + 1}">1</a>
 
-                <a th:if="${!reviews.last}" th:href="@{'/mypage/reviews?page=' + ${reviews.number + 1}}">다음 &raquo;</a>
+                <a th:if="${currentPage < totalPages - 1}"
+                   th:href="@{'/review-history?book-id=' + ${bookId} + '&page=' + ${currentPage + 1}}">다음 &raquo;</a>
             </div>
         </section>
     </div>

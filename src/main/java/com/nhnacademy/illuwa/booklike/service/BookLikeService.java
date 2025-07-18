@@ -1,6 +1,7 @@
 package com.nhnacademy.illuwa.booklike.service;
 
 import com.nhnacademy.illuwa.booklike.client.BookLikeServiceClient;
+import com.nhnacademy.illuwa.booklike.dto.BookLikeResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -9,5 +10,7 @@ import org.springframework.stereotype.Service;
 public class BookLikeService {
     private final BookLikeServiceClient bookLikeServiceClient;
 
-
+    public BookLikeResponse toggleBookLikes(Long bookId){
+        return bookLikeServiceClient.toggleBookLikes(bookId);
+    }
 }

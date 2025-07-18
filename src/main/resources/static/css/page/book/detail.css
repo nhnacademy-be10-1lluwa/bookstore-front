@@ -223,3 +223,88 @@ body {
 #div_button {
     display: flex;
 }
+
+.book-header {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.book-title {
+    font-size: 24px;
+    margin: 0;
+}
+
+.book-author {
+    font-size: 18px;
+    color: #666;
+}
+
+.book-like-section {
+    margin: 15px 0;
+}
+
+.like-btn {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+}
+
+.like-icon {
+    font-size: 20px;
+    transition: transform 0.2s ease;
+}
+
+.like-btn:hover .like-icon {
+    transform: scale(1.2);
+}
+
+.book-actions {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.cart-form {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.cart-btn {
+    background-color: #007bff;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.cart-btn:hover {
+    background-color: #0056b3;
+}
+
+.book-like-section .like-btn {
+    font-size: 16px;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: white;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+}
+
+.book-like-section .like-btn:hover {
+    border-color: #ff5a5a;
+    background-color: #fff0f0;
+}
