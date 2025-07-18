@@ -38,7 +38,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
                 @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {CategoryControllerAdvice.class})
         })
 @AutoConfigureMockMvc(addFilters = false)
-class AdminMemberControllerTest {
+public class AdminMemberControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
@@ -51,7 +51,7 @@ class AdminMemberControllerTest {
 
     @Test
     @DisplayName("회원 관리 페이지 뷰 반환")
-    void adminMemberManagementTest() throws Exception {
+    public void adminMemberManagementTest() throws Exception {
         mockMvc.perform(get("/admin/member-management"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/member/member_management"));
@@ -59,7 +59,7 @@ class AdminMemberControllerTest {
 
     @Test
     @DisplayName("회원 리스트 페이지 뷰 및 모델 데이터 반환")
-    void memberListTest() throws Exception {
+    public void memberListTest() throws Exception {
         List<MemberResponse> members = List.of(
                 MemberResponse.builder()
                         .memberId(1L)
@@ -107,7 +107,7 @@ class AdminMemberControllerTest {
 
     @Test
     @DisplayName("등급별 보너스 포인트 지급 후 등급 리스트 페이지로 리다이렉트")
-    void giveBonusTest() throws Exception {
+    public void giveBonusTest() throws Exception {
         GradeName grade = GradeName.BASIC;
         BigDecimal point = BigDecimal.valueOf(1000);
 
@@ -135,7 +135,7 @@ class AdminMemberControllerTest {
 
     @Test
     @DisplayName("회원 주문 리스트 페이지 뷰 반환")
-    void memberOrderListTest() throws Exception {
+    public void memberOrderListTest() throws Exception {
         mockMvc.perform(get("/admin/member-orderlist"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/member/member_orderlist"));
@@ -143,7 +143,7 @@ class AdminMemberControllerTest {
 
     @Test
     @DisplayName("비회원 주문 리스트 페이지 뷰 반환")
-    void guestOrderListTest() throws Exception {
+    public void guestOrderListTest() throws Exception {
         mockMvc.perform(get("/admin/guest-orderlist"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/member/guest_orderlist"));

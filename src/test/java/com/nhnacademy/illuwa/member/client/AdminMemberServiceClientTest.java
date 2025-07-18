@@ -1,5 +1,10 @@
 package com.nhnacademy.illuwa.member.client;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.github.tomakehurst.wiremock.WireMockServer;
+import com.github.tomakehurst.wiremock.client.WireMock;
 import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.grade.enums.GradeName;
 import com.nhnacademy.illuwa.member.dto.MemberResponse;
@@ -8,13 +13,9 @@ import com.nhnacademy.illuwa.member.enums.Status;
 import com.nhnacademy.illuwa.pointhistory.dto.PointHistoryResponse;
 import com.nhnacademy.illuwa.pointhistory.enums.PointHistoryType;
 import com.nhnacademy.illuwa.pointhistory.enums.PointReason;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 
@@ -23,20 +24,40 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.eq;
-import static org.mockito.Mockito.when;
+@SpringBootTest(
+        properties = {
+                "api.base-url=http://localhost:9876"
+        },
+        webEnvironment = SpringBootTest.WebEnvironment.NONE
+)
+public class AdminMemberServiceClientTest {
+    static WireMockServer wireMockServer;
+    static final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule()).configure(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS, false);
 
 
-@ExtendWith(MockitoExtension.class)
-class AdminMemberServiceClientTest {
+    @Autowired
+    AdminMemberServiceClient client;
 
-    @Mock
-    private AdminMemberServiceClient adminMemberServiceClient;
+    @MockBean
+    ClientRegistrationRepository clientRegistrationRepository;
+
+    @BeforeAll
+    static void startWireMock() {
+        wireMockServer = new WireMockServer(9876);
+        wireMockServer.start();
+    }
+    @AfterAll
+    static void stopWireMock() {
+        if (wireMockServer != null) wireMockServer.stop();
+    }
+    @BeforeEach
+    void resetMocks() {
+        wireMockServer.resetAll();
+    }
 
     @Test
-    @DisplayName("회원 페이지 목록 조회 테스트")
-    void testGetPagedMemberList() {
+    @DisplayName("관리자 회원 관리 작동 확인")
+    void testGetPagedMembers() throws Exception {
         PageResponse<MemberResponse> mockPageResponse = new PageResponse<>(
                 List.of(
                         MemberResponse.builder()
@@ -76,27 +97,24 @@ class AdminMemberServiceClientTest {
                 true
         );
 
-        when(adminMemberServiceClient.getPagedMemberListFilteredByGrade(eq(GradeName.BASIC), eq(0), eq(10)))
-                .thenReturn(mockPageResponse);
+        wireMockServer.stubFor(WireMock.get(WireMock.urlPathEqualTo("/api/admin/members/paged"))
+                .withQueryParam("grade", WireMock.matching(".*"))
+                .withQueryParam("page", WireMock.matching("[0-9]+"))
+                .withQueryParam("size", WireMock.matching("[0-9]+"))
+                .willReturn(WireMock.aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(objectMapper.writeValueAsString(mockPageResponse))
+                        .withStatus(200))
+        );
 
-        PageResponse<MemberResponse> response = adminMemberServiceClient.getPagedMemberListFilteredByGrade(GradeName.BASIC, 0, 10);
-
-        assertNotNull(response);
-        assertEquals(2, response.content().size());
-        assertEquals("홍길동", response.content().getFirst().getName());
-        assertEquals(5, response.totalPages());
-        assertEquals(50L, response.totalElements());
-        assertEquals(1, response.page());
-        assertEquals(10, response.size());
-        assertTrue(response.first());
-        assertFalse(response.last());
+        PageResponse<MemberResponse> result = client.getPagedMemberListFilteredByGrade(GradeName.BASIC, 1, 10);
+        Assertions.assertEquals(mockPageResponse, result);
 
     }
 
     @Test
-    @DisplayName("등급별 포인트 지급 테스트")
-    void testGivePointToGrade() {
-        // given
+    @DisplayName("등급별 포인트 지급 작동 확인")
+    void testGivePointToGrade() throws Exception {
         List<PointHistoryResponse> mockResponse = List.of(
                 new PointHistoryResponse(
                         1L,
@@ -116,20 +134,17 @@ class AdminMemberServiceClientTest {
                 )
         );
 
-        when(adminMemberServiceClient.givePointToGrade(eq(GradeName.BASIC), eq(BigDecimal.valueOf(1500))))
-                .thenReturn(mockResponse);
+        wireMockServer.stubFor(WireMock.post(WireMock.urlPathEqualTo("/api/members/grades/event-point"))
+                .withQueryParam("grade", WireMock.matching(".*"))
+                .withQueryParam("point", WireMock.matching("\\d+(\\.\\d+)?"))
+                .willReturn(WireMock.aResponse()
+                        .withHeader("Content-Type", "application/json")
+                        .withBody(objectMapper.writeValueAsString(mockResponse))
+                        .withStatus(200))
+        );
 
-        // when
-        List<PointHistoryResponse> response = adminMemberServiceClient.givePointToGrade(GradeName.BASIC, BigDecimal.valueOf(1500));
+        List<PointHistoryResponse> result = client.givePointToGrade(GradeName.BASIC, BigDecimal.valueOf(1000));
+        Assertions.assertEquals(mockResponse, result);
 
-        // then
-        assertNotNull(response);
-        assertEquals(2, response.size());
-        assertEquals(PointHistoryType.EARN, response.getFirst().getType());
-        assertEquals(PointReason.GRADE_EVENT, response.getFirst().getReason());
-        assertEquals(BigDecimal.valueOf(1000), response.getFirst().getAmount());
-        assertEquals(BigDecimal.valueOf(6000), response.getFirst().getBalance());
-        assertNotNull(response.getFirst().getCreatedAt());
     }
-
 }
