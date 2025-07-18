@@ -11,9 +11,9 @@ public interface InactiveVerificationServiceClient {
     @PostMapping("/api/members/inactive/check-status")
     InactiveCheckResponse getInactiveMemberInfo(@RequestBody SendVerificationRequest request);
 
-    @PostMapping("/api/members/inactive/verification")
+    @PostMapping("/api/members/inactive/code")
     SendMessageResponse sendCode(SendVerificationRequest req);
 
-    @PostMapping("/api/members/inactive/verification/verify")
+    @PostMapping("/api/members/inactive/verification")
     VerifyCodeResponse verify(VerifyCodeRequest req);
 }
