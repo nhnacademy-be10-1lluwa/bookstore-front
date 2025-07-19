@@ -2,6 +2,8 @@ package com.nhnacademy.illuwa.order.dto.orderRequest;
 
 
 import com.nhnacademy.illuwa.member.dto.MemberResponse;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,7 +14,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MemberOrderInfo {
+    @NotBlank
     private String name;
+    @NotBlank
+    @Email
     private String email;
 
     public static MemberOrderInfo fromMemberResponse(MemberResponse dto) {
