@@ -6,6 +6,7 @@
   <meta charset="UTF-8">
   <title>도서 관리 페이지</title>
   <link rel="stylesheet" th:href="@{/css/main.css}" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <main layout:fragment="content">
@@ -18,7 +19,6 @@
       <th>저자</th>
       <th>출판사</th>
       <th>출판일</th>
-      <th>태그</th>
       <th>정가</th>
       <th>판매가</th>
       <th>ISBN</th>
@@ -26,6 +26,7 @@
       <th>상태</th>
       <th>선물포장</th>
       <th>카테고리</th>
+      <th>태그</th>
       <th>관리</th>
     </tr>
     </thead>
@@ -38,12 +39,6 @@
       <td th:text="${book.author}">저자</td>
       <td th:text="${book.publisher}">출판사</td>
       <td th:text="${book.publishedDate}">출판일</td>
-      <td>
-    <span th:each="tag : ${book.tags}"
-          th:text="${tag.name}"
-          style="margin-right: 4px; background: #eee; padding: 2px 4px; border-radius: 3px;">
-    </span>
-      </td>
       <td th:text="${#numbers.formatInteger(book.regularPrice, 3, 'COMMA')} + '원'">정가</td>
       <td th:text="${#numbers.formatInteger(book.salePrice, 3, 'COMMA')} + '원'">판매가</td>
       <td th:text="${book.isbn}">ISBN</td>
@@ -55,6 +50,13 @@
         <span th:if="${book.level2Name != null}" th:text="'중분류: ' + ${book.level2Name}"></span><br/>
         <span th:if="${book.categoryName != null}" th:text="'소분류: ' + ${book.categoryName}"></span>
       </td>
+      <td>
+        <span th:each="bookTag : ${book.bookTags}" class="badge bg-info me-1">
+          <span th:text="${bookTag.name}"></span>
+          <form th:action="@{/admin/book/{bookId}/tags/remove/{tagId}(bookId=${book.id}, tagId=${bookTag.id})}" method="post" style="display : inline;">
+            <button type="submit" class="btn-close btn-close-white" aria-label="Close" style="font-size: 0.5rem;"></button>
+          </form>
+        </span>
       </td>
       <td class="action-buttons">
         <a th:href="@{'/admin/book/edit/' + ${book.id}}">
@@ -63,7 +65,11 @@
         <form th:action="@{'/admin/book/delete/' + ${book.id}}" method="post" style="display:inline;">
           <button class="delete-btn" type="submit">삭제</button>
         </form>
-        <button type="button" onclick="openTagModal([[${book.id}]], '[[${book.title}]]')" class="tag-btn">
+        <button type="button"
+                class="btn btn-sm btn-outline-primary tag-btn"
+                data-bs-toggle="modal"
+                data-bs-target="#tagModal"
+                th:attr="data-book-id=${book.id}, data-book-title=${book.title}">
           태그 등록
         </button>
       </td>
@@ -71,21 +77,36 @@
     </tbody>
   </table>
 
-  <!--  태그 Modal 창-->
-  <div id="tagModal" class="modal" style="display:none;">
-    <div class="modal-content">
-      <span class="close" onclick="closeTagModal()">&times;</span>
-      <h2 id="modalTitle">태그 등록</h2>
-      <form id="tagForm" method="post">
-        <div th:each="tag : ${allTags}">
-          <label>
-            <input type="checkbox" name="tagIds" th:value="${tag.id}" />
-            <span th:text="${tag.name}"></span>
-          </label>
-          <br/>
+
+  <div class="modal fade" id="tagModal" tabindex="-1" aria-labelledby="tagModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="tagModalLabel">도서에 태그 등록</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <button type="submit">등록</button>
-      </form>
+
+        <!-- action 은 JS 가 열 때 동적으로 채움 -->
+        <form id="addTagForm" method="post">
+          <div class="modal-body">
+            <p><strong>선택된 도서:</strong>
+              <span id="modalBookTitle" class="text-primary"></span></p>
+
+            <label for="tagSelect" class="form-label">등록할 태그</label>
+            <select id="tagSelect" name="tagId" class="form-select" required>
+              <option value="">-- 태그를 선택하세요 --</option>
+              <option th:each="tag : ${allTags}"
+                      th:value="${tag.id}"
+                      th:text="${tag.name}"></option>
+            </select>
+          </div>
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+            <button type="submit" class="btn btn-primary">태그 추가</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 
@@ -98,27 +119,31 @@
 
   <div class="pagination">
     <a th:if="${bookPage.hasPrevious()}"
-       th:href="@{|/admin/book/manage?page=${bookPage.number - 1}&size=${bookPage.size}&sort=id,asc|}">이전</a>
+       th:href="@{|/admin/book/manage?page=${bookPage.number - 1}&size=${bookPage.size}&sort=${currentSort}|}">이전</a>
 
     <span th:text="${bookPage.number + 1}">1</span>
 
     <span th:text="${bookPage.totalPages}">1</span>
 
     <a th:if="${bookPage.hasNext()}"
-       th:href="@{|/admin/book/manage?page=${bookPage.number + 1}&size=${bookPage.size}&sort=id,asc|}">다음</a>
+       th:href="@{|/admin/book/manage?page=${bookPage.number + 1}&size=${bookPage.size}&sort=${currentSort}|}">다음</a>
   </div>
 </main>
 
-<script>
-  function openTagModal(bookId, bookTitle) {
-    document.getElementById("tagModal").style.display = "block";
-    document.getElementById("modalTitle").innerText = "태그 등록 - " + bookTitle;
-    document.getElementById("tagForm").action = "/admin/book/" + bookId + "/tag";
-  }
+<script layout:fragment="script">
+  document.addEventListener('DOMContentLoaded', () => {
+    const tagModal = document.getElementById('tagModal');
 
-  function closeTagModal() {
-    document.getElementById("tagModal").style.display = "none";
-  }
+    tagModal.addEventListener('show.bs.modal', event => {
+      const btn       = event.relatedTarget;
+      const bookId    = btn.getAttribute('data-book-id');
+      const bookTitle = btn.getAttribute('data-book-title');
+
+      document.getElementById('modalBookTitle').textContent = bookTitle;
+      document.getElementById('addTagForm').action = `/admin/book/${bookId}/tags/add`;
+    });
+  });
 </script>
+
 
 </html>

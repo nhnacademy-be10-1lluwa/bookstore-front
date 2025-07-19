@@ -95,4 +95,13 @@ public interface ProductServiceClient {
                                                                    @RequestParam int size,
                                                                    @RequestParam(defaultValue = "id") String sort);
 
+    // 도서에 태그 등록
+    @PostMapping("/api/admin/books/{bookId}/tags/{tagId}")
+    void addTagToBook(@PathVariable("bookId") Long bookId, @PathVariable("tagId") Long tagId);
+
+    // 도서에서 태그 삭제
+    @DeleteMapping("/api/admin/books/{bookId}/tags/{tagId}")
+    void removeTagFromBook(@PathVariable("bookId") Long bookId, @PathVariable("tagId") Long tagId);
+
+
 }

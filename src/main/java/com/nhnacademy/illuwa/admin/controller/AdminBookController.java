@@ -4,10 +4,13 @@ import com.nhnacademy.illuwa.book.client.ProductServiceClient;
 import com.nhnacademy.illuwa.book.dto.*;
 import com.nhnacademy.illuwa.book.service.MinioStorageService;
 import com.nhnacademy.illuwa.category.dto.CategoryResponse;
+import com.nhnacademy.illuwa.tag.client.TagServiceClient;
+import com.nhnacademy.illuwa.tag.dto.TagResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,7 @@ public class AdminBookController {
 
     private final ProductServiceClient productServiceClient;
     private final MinioStorageService minioStorageService;
+    private final TagServiceClient tagServiceClient;
 
     @GetMapping("/books")
     public String adminBookPage() {
@@ -43,6 +47,7 @@ public class AdminBookController {
         List<BookDetailWithExtraInfoResponse> convertedList = bookPage.getContent().stream()
                 .map(book -> {
                     book.setImgUrl(convertMinioUrl(book.getImgUrl()));
+                    book.setBookTags(tagServiceClient.getTagsByBookId(book.getId()));
                     return book;
                 })
                 .toList();
@@ -53,7 +58,9 @@ public class AdminBookController {
                 bookPage.getTotalElements()
         );
 
+        List<TagResponse> allTags = tagServiceClient.getAllTags();
 
+        model.addAttribute("allTags", allTags);
         model.addAttribute("bookPage", convertedPage);
         model.addAttribute("currentSort", sort);
         return "admin/book/manage";
@@ -176,6 +183,7 @@ public class AdminBookController {
         return url;
     }
 
+    // Nginx 경로 우회 메서드(http -> https)
     private String convertMinioUrl(String originalUrl) {
         if (originalUrl == null) {
             return null;
@@ -185,6 +193,24 @@ public class AdminBookController {
                 "https://book1lluwa.store/minio/"
         );
     }
+
+    //태그 등록
+    @PostMapping("/{bookId}/tags/add")
+    public String addTagToBook(@PathVariable Long bookId, @RequestParam Long tagId) {
+        productServiceClient.addTagToBook(bookId, tagId);
+        return "redirect:/admin/book/manage";
+    }
+
+    @PostMapping("/{bookId}/tags/remove/{tagId}")
+    public String removeTagFromBook(@PathVariable Long bookId, @PathVariable Long tagId) {
+        productServiceClient.removeTagFromBook(bookId, tagId);
+        return "redirect:/admin/book/manage";
+    }
+
+
+
+
+
 
 }
 
