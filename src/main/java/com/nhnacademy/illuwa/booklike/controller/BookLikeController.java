@@ -20,9 +20,8 @@ public class BookLikeController {
     }
 
     @PostMapping("/book-likes/toggle")
-    public String toggleBookLike(@RequestParam Long bookId,
-                                 @RequestParam String bookIsbn){
+    public String toggleBookLike(@RequestParam Long bookId){
         bookLikeService.toggleBookLikes(bookId);
-        return "redirect:/books/" + bookIsbn;
+        return "redirect:/books/" + bookId;
     }
 }

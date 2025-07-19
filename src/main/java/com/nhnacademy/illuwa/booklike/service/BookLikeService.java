@@ -13,4 +13,8 @@ public class BookLikeService {
     public BookLikeResponse toggleBookLikes(Long bookId){
         return bookLikeServiceClient.toggleBookLikes(bookId);
     }
+
+    public Boolean isLikedByMe(Long bookId){
+        return bookLikeServiceClient.isLikedByMe(bookId);
+    }
 }
