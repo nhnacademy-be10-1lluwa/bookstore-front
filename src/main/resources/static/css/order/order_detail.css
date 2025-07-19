@@ -1,10 +1,137 @@
-form .btn-review {
-    all: unset;
-    display: inline-block;
-    padding: 4px 8px;
-    background-color: #f3f3f3;
-    border-radius: 5px;
-    cursor: pointer;
+.mypage-content section {
+    margin-bottom: 40px; /* 섹션 간의 간격 */
+}
+
+.mypage-content section:last-child {
+    margin-bottom: 0;
+}
+
+/* 헤더 스타일 (h1, h2) */
+.mypage-content h1, .mypage-content h2 {
+    font-weight: 600;
+    color: #202124;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #e9ecef;
+    margin-bottom: 20px;
+}
+
+.mypage-content h1 {
+    font-size: 1.5rem; /* 24px */
+}
+
+.mypage-content h2 {
+    font-size: 1.3rem; /* 20px */
+}
+
+/* 주문 정보 테이블 (.summary-table) */
+.summary-table {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid #dee2e6;
+}
+
+.summary-table th, .summary-table td {
+    padding: 15px;
+    border-bottom: 1px solid #f1f3f5;
+    font-size: 0.95rem;
+}
+
+.summary-table th {
+    width: 20%;
+    background-color: #f8f9fa;
+    text-align: left;
+    font-weight: 500;
+    color: #495057;
+}
+
+.summary-table td {
+    text-align: left;
     color: #333;
-    font-size: 0.9rem;
+}
+
+/* 주문 상품 목록 테이블 (.item-table) */
+.item-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+}
+
+.item-table thead th {
+    background-color: #f8f9fa;
+    padding: 12px;
+    border-bottom: 1px solid #dee2e6;
+    font-weight: 500;
+    color: #495057;
+}
+
+.item-table tbody td {
+    padding: 15px 12px;
+    border-bottom: 1px solid #f1f3f5;
+    vertical-align: middle;
+}
+
+.item-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* 상품명은 왼쪽 정렬 */
+.item-table tbody td:first-child {
+    text-align: left;
+    font-weight: 500;
+}
+
+/* 버튼 공통 스타일 */
+.mypage-content button, .btn.btn-review {
+    padding: 8px 16px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    color: #333;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.mypage-content button:hover, .btn.btn-review:hover {
+    background-color: #f5f5f5;
+    border-color: #aaa;
+}
+
+/* 리뷰쓰기 버튼 */
+.btn.btn-review {
+    background-color: #1a73e8;
+    color: #fff;
+    border-color: #1a73e8;
+}
+
+.btn.btn-review:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* 하단 액션 버튼 (주문확정, 환불 등) */
+.mypage-content form {
+    display: inline-block; /* 버튼들이 한 줄에 오도록 */
+    margin-right: 10px;
+}
+
+.mypage-content form button {
+    background-color: #6c757d;
+    color: #fff;
+    border-color: #6c757d;
+}
+
+.mypage-content form button:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+/* 환불 사유 선택 select 스타일 */
+.mypage-content select[name="cancelReason"] {
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background-color: #fff;
+    margin-right: 5px;
+    height: 38px; /* 버튼과 높이 맞춤 */
 }
