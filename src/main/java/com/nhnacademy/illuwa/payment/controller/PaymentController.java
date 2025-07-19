@@ -37,12 +37,12 @@ public class PaymentController {
         }
     }
 
-    @PostMapping("/{orderNumber}/refund")
+    /*@PostMapping("/{orderNumber}/refund")
     public String refundOrder(@PathVariable String orderNumber, @RequestParam String cancelReason) {
         PaymentRefundRequest request = new PaymentRefundRequest(orderNumber, cancelReason);
         paymentServiceClient.requestRefund(request);
         orderServiceClient.cancelOrder(orderNumber);
 
         return "redirect:/order-list/";
-    }
+    }*/
 }

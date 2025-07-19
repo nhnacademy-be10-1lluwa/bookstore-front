@@ -5,7 +5,6 @@ import com.nhnacademy.illuwa.order.dto.*;
 import com.nhnacademy.illuwa.order.dto.admin.OrderUpdateStatusDto;
 import com.nhnacademy.illuwa.order.dto.guest.GuestOrderDirectRequest;
 import com.nhnacademy.illuwa.order.dto.guest.GuestOrderInitDirectResponse;
-import com.nhnacademy.illuwa.order.dto.guest.OrderGuestCreateResponse;
 import com.nhnacademy.illuwa.order.dto.member.MemberOrderCartRequest;
 import com.nhnacademy.illuwa.order.dto.member.MemberOrderDirectRequest;
 import com.nhnacademy.illuwa.order.dto.member.MemberOrderInitDirectResponse;
@@ -77,14 +76,21 @@ public interface OrderServiceClient {
     void updateOrderStatus(@PathVariable("orderId") Long orderId,
                            @RequestBody OrderUpdateStatusDto dto);
 
+    // 주문 확정
+    @PostMapping("/api/order/common/orders/{order-id}/Confirmed")
+    void confirmOrder(@PathVariable("order-id") Long orderId);
+
     // 주문 취소
+    @PostMapping("/api/order/common/orders/{order-id}/order-cancel")
+    void cancelOrder(@PathVariable("order-id") Long orderId);
+
+    // 결제 취소
     @PostMapping("/api/order/common/orders/{orderNumber}/cancel")
-    void cancelOrder(@PathVariable("orderNumber") String orderNumber);
+    void cancelPayment(@PathVariable("orderNumber") String orderNumber);
 
     // 환불
     @PostMapping("/api/order/common/orders/{orderId}/refund")
     void refundOrder(@PathVariable("orderId") Long orderId);
-
 
     // 주문 확정 수작업
     @GetMapping("/api/order/admin/batch/order-confirmed-update")
