@@ -41,18 +41,6 @@ public interface ReviewServiceClient {
     @GetMapping("/api/reviews/likes/status")
     List<Long> getMyLikedReviews(@RequestParam List<Long> reviewIds);
 
-    @PostMapping("/api/public/reviews/{review-id}/comments")
-    CommentResponse createComment(@PathVariable(name = "review-id") long reviewId,
-                                  @RequestBody @Valid CommentRequest request);
-
-    @GetMapping("/api/public/reviews/{review-id}/comments")
-    List<CommentResponse> getCommentList(@PathVariable(name = "review-id") long reviewId);
-
-    @PostMapping("/api/reviews/{review-id}/comments/{comment-id}")
-    CommentResponse updateComment(@PathVariable(name = "review-id") long reviewId,
-                                  @PathVariable(name = "comment-id") long commentId,
-                                  @RequestBody @Valid CommentRequest request);
-
     @PostMapping("/api/reviews/check")
     Map<Long, Long> getExistingReviewIdMap(@RequestBody List<Long> bookIds);
 }

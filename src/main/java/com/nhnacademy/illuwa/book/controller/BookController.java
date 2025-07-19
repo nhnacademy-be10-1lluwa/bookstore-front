@@ -6,9 +6,7 @@ import com.nhnacademy.illuwa.book.service.BookService;
 import com.nhnacademy.illuwa.booklike.service.BookLikeService;
 import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.member.service.MemberService;
-import com.nhnacademy.illuwa.review.dto.CommentResponse;
 import com.nhnacademy.illuwa.review.dto.ReviewResponse;
-import com.nhnacademy.illuwa.review.service.CommentService;
 import com.nhnacademy.illuwa.review.service.ReviewLikeService;
 import com.nhnacademy.illuwa.review.service.ReviewService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -29,7 +27,6 @@ public class BookController {
     private final BookService bookService;
     private final ReviewService reviewService;
     private final ReviewLikeService reviewLikeService;
-    private final CommentService commentService;
     private final MemberService memberService;
     private final BookLikeService bookLikeService;
 
@@ -42,8 +39,8 @@ public class BookController {
 
         PageResponse<ReviewResponse> reviewPage = reviewService.getReviewPages(bookId, 0, 5);
 
-        List<Long> memberIds = Optional.ofNullable(reviewPage.content()).orElse(Collections.emptyList()).stream().map(ReviewResponse::getMemberId).toList();
-        Map<Long,String> nameMap = memberService.getNamesFromIdList(memberIds);
+        List<Long> reviewMemberIds = Optional.ofNullable(reviewPage.content()).orElse(Collections.emptyList()).stream().map(ReviewResponse::getMemberId).toList();
+        Map<Long, String> reviewerNameMap = memberService.getNamesFromIdList(reviewMemberIds);
 
         List<Long> reviewIds = Optional.ofNullable(reviewPage.content()).orElse(Collections.emptyList()).stream().map(ReviewResponse::getReviewId).toList();
         Map<Long, Long> likeCountMap = reviewLikeService.getLikeCountsFromReviews(reviewIds);
@@ -51,7 +48,7 @@ public class BookController {
         model.addAttribute("book", bookDetail);
         model.addAttribute("reviewContent", reviewPage.content());
         model.addAttribute("reviewPage", reviewPage);
-        model.addAttribute("nameMap", nameMap);
+        model.addAttribute("reviewerNameMap", reviewerNameMap);
         model.addAttribute("likeCountMap", likeCountMap);
         model.addAttribute("isLoggedIn", isLoginUser);
 
@@ -60,9 +57,6 @@ public class BookController {
             List<Long> myLikedReviewIds = reviewLikeService.getMyLikedReviews(reviewIds);
             model.addAttribute("myLikedReviewIds", myLikedReviewIds);
         }
-
-        List<CommentResponse> commentList = commentService.getCommentList(bookId);
-        model.addAttribute("commentList", commentList);
 
         return "book/detail";
     }
@@ -73,12 +67,12 @@ public class BookController {
         boolean isLoginUser = JwtCookieUtil.checkAccessToken(request);
 
         BookDetailResponse bookDetail = bookService.findBookByIsbn(isbn);
-
         Long bookId = bookDetail.getId();
+
         PageResponse<ReviewResponse> reviewPage = reviewService.getReviewPages(bookId, 0, 5);
 
-        List<Long> memberIds = Optional.ofNullable(reviewPage.content()).orElse(Collections.emptyList()).stream().map(ReviewResponse::getMemberId).toList();
-        Map<Long,String> nameMap = memberService.getNamesFromIdList(memberIds);
+        List<Long> reviewMemberIds = Optional.ofNullable(reviewPage.content()).orElse(Collections.emptyList()).stream().map(ReviewResponse::getMemberId).toList();
+        Map<Long, String> reviewerNameMap = memberService.getNamesFromIdList(reviewMemberIds);
 
         List<Long> reviewIds = Optional.ofNullable(reviewPage.content()).orElse(Collections.emptyList()).stream().map(ReviewResponse::getReviewId).toList();
         Map<Long, Long> likeCountMap = reviewLikeService.getLikeCountsFromReviews(reviewIds);
@@ -86,7 +80,7 @@ public class BookController {
         model.addAttribute("book", bookDetail);
         model.addAttribute("reviewContent", reviewPage.content());
         model.addAttribute("reviewPage", reviewPage);
-        model.addAttribute("nameMap", nameMap);
+        model.addAttribute("reviewerNameMap", reviewerNameMap);
         model.addAttribute("likeCountMap", likeCountMap);
         model.addAttribute("isLoggedIn", isLoginUser);
 
@@ -95,9 +89,6 @@ public class BookController {
             List<Long> myLikedReviewIds = reviewLikeService.getMyLikedReviews(reviewIds);
             model.addAttribute("myLikedReviewIds", myLikedReviewIds);
         }
-
-        List<CommentResponse> commentList = commentService.getCommentList(bookId);
-        model.addAttribute("commentList", commentList);
 
         return "book/detail";
     }
