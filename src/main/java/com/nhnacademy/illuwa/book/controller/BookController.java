@@ -3,6 +3,7 @@ package com.nhnacademy.illuwa.book.controller;
 import com.nhnacademy.illuwa.auth.utils.JwtCookieUtil;
 import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
 import com.nhnacademy.illuwa.book.service.BookService;
+import com.nhnacademy.illuwa.booklike.service.BookLikeService;
 import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.member.service.MemberService;
 import com.nhnacademy.illuwa.review.dto.CommentResponse;
@@ -30,6 +31,7 @@ public class BookController {
     private final ReviewLikeService reviewLikeService;
     private final CommentService commentService;
     private final MemberService memberService;
+    private final BookLikeService bookLikeService;
 
     //도서 상세페이지
     @GetMapping("/books/{id}")
@@ -51,8 +53,10 @@ public class BookController {
         model.addAttribute("reviewPage", reviewPage);
         model.addAttribute("nameMap", nameMap);
         model.addAttribute("likeCountMap", likeCountMap);
+        model.addAttribute("isLoggedIn", isLoginUser);
 
         if(isLoginUser) {
+            model.addAttribute("isMyLikedBook", bookLikeService.isLikedByMe(bookId));
             List<Long> myLikedReviewIds = reviewLikeService.getMyLikedReviews(reviewIds);
             model.addAttribute("myLikedReviewIds", myLikedReviewIds);
         }
@@ -84,8 +88,10 @@ public class BookController {
         model.addAttribute("reviewPage", reviewPage);
         model.addAttribute("nameMap", nameMap);
         model.addAttribute("likeCountMap", likeCountMap);
+        model.addAttribute("isLoggedIn", isLoginUser);
 
         if(isLoginUser) {
+            model.addAttribute("isMyLikedBook", bookLikeService.isLikedByMe(bookId));
             List<Long> myLikedReviewIds = reviewLikeService.getMyLikedReviews(reviewIds);
             model.addAttribute("myLikedReviewIds", myLikedReviewIds);
         }
