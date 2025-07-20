@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-
 <html layout:decorate="~{layout/layout}"
       th:lang="ko"
       xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
-
 <head layout:fragment="head">
     <link rel="stylesheet" th:href="@{/css/main.css}" />
     <link rel="stylesheet" th:href="@{/css/page/member/_mypage.css}" />
@@ -12,14 +9,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 </head>
 
+<body>
 <main layout:fragment="content">
     <div class="mypage-container">
         <div th:replace="~{layout/mypage-sidebar :: sidebar(${activeMenu})}"></div>
         <section class="mypage-content">
-            <h3>마이페이지에 오신 걸 환영합니다 !</h3>
+            <h3 th:text="${member.getName()} + '님'"></h3>
+            <h3> 마이페이지에 오신 걸 환영합니다 !</h3>
         </section>
     </div>
 </main>
-
-
-
+</body>
+</html>

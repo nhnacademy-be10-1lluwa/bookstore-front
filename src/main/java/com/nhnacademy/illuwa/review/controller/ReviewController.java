@@ -26,7 +26,7 @@ public class ReviewController {
     @GetMapping("/reviews/new")
     public String showCreateForm(Model model,
                                  @RequestParam(name = "book-id") long bookId,
-                                 @RequestParam(name = "order-id") Long orderId) {
+                                 @RequestParam(name = "order-id", required = false) Long orderId) {
         model.addAttribute("activeMenu", model.getAttribute("activeMenu"));
         model.addAttribute("mode", "new");
         model.addAttribute("bookId", bookId);
@@ -42,6 +42,10 @@ public class ReviewController {
                              @RequestParam(name = "order-id", required = false) Long orderId,
                              Model model) {
         ReviewResponse review = reviewService.getReview(bookId, reviewId);
+        if (review == null) {
+            throw new IllegalArgumentException("해당 리뷰를 찾을 수 없습니다.");
+        }
+
         model.addAttribute("mode", "view");
         model.addAttribute("bookId", bookId);
         model.addAttribute("reviewId", reviewId);
@@ -54,7 +58,7 @@ public class ReviewController {
     @GetMapping("/reviews/{review-id}/edit")
     public String showEditForm(@RequestParam(name = "book-id") long bookId,
                                @PathVariable(name = "review-id") long reviewId,
-                               @RequestParam(name = "order-id") Long orderId,
+                               @RequestParam(name = "order-id", required = false) Long orderId,
                                Model model) {
         ReviewResponse review = reviewService.getReview(bookId, reviewId);
         model.addAttribute("mode", "edit");
@@ -71,7 +75,7 @@ public class ReviewController {
                              @Valid @ModelAttribute ReviewRequest request,
                              @RequestParam(name = "book-id") long bookId,
                              @RequestParam(name = "review-id", required = false) Long reviewId,
-                             @RequestParam(name = "order-id") Long orderId,
+                             @RequestParam(name = "order-id", required = false) Long orderId,
                              BindingResult bindingResult,
                              RedirectAttributes redirectAttributes,
                              Model model) {
@@ -89,16 +93,18 @@ public class ReviewController {
         try {
             if ("edit".equals(mode)) {
                 if (reviewId == null) throw new IllegalArgumentException("리뷰 ID가 없습니다.");
-                reviewService.updateReview(bookId, reviewId, request);
+                ReviewResponse updated = reviewService.updateReview(bookId, reviewId, request);
                 redirectAttributes.addFlashAttribute("message", "리뷰가 성공적으로 수정되었어요! ✨");
+                return "redirect:/reviews/" + updated.getReviewId() + "?book-id=" + bookId +
+                        (orderId != null ? "&order-id=" + orderId : "");
             } else {
                 reviewService.createReview(bookId, request);
                 redirectAttributes.addFlashAttribute("message", "리뷰가 성공적으로 등록되었어요! 🎉");
+                return "redirect:/order-detail/" + orderId;
             }
         } catch (Exception e) {
             return "review/review_form";
         }
-        return "redirect:/order-detail/" + orderId;
     }
 
     // 리뷰 목록 조회 (페이지)

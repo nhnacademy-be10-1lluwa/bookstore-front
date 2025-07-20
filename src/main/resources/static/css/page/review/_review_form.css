@@ -80,20 +80,3 @@ input[type="file"] {
     color: #FFD700;
     text-shadow: 0 0 4px rgba(255, 215, 0, 0.5);
 }
-
-/* 반응형 대응 */
-@media (max-width: 600px) {
-    .review {
-        padding: 20px;
-    }
-
-    .star-rating {
-        font-size: 1.4rem;
-        gap: 2px;
-    }
-
-    button {
-        font-size: 0.9rem;
-        padding: 10px 16px;
-    }
-}

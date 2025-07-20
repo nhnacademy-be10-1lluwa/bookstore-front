@@ -122,6 +122,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (e.target === modal) modal.style.display = 'none';
   });
 
+  /*<![CDATA[*/
+  window.orderMemberInit = {
+    addressCount: /*[[${addressCount}]]*/ 0
+  };
+  /*]]>*/
   /** 새 주소 등록 버튼 */
   if (newAddressBtn) {
     newAddressBtn.addEventListener('click', () => {
@@ -132,7 +137,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // 새 주소 등록 페이지로 이동하는 로직은 그대로 둡니다.
       // 실제 프로젝트에 맞게 주소 확인 필요
       // window.location.href = '/addresses/new';
-      alert("'/addresses/new' 페이지로 이동합니다. (데모)");
+      alert(" 새 주소 등록 페이지로 이동합니다. (데모)");
     });
   }
 

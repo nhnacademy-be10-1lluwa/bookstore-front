@@ -18,12 +18,16 @@
         <div th:replace="~{layout/mypage-sidebar :: sidebar(${activeMenu})}"></div>
 
         <!-- 리뷰 작성 컨텐츠 -->
+        <!-- 들어올 수 있는 경로가 2가지라 orderId null 여부 체크 -->
         <section class="review" style="position: relative;"
                  th:with="actionUrl=${mode == 'edit'}
-                        ? '/reviews/save?mode=edit&book-id='+${bookId} + '&review-id=' + ${reviewId} + '&order-id=' + ${orderId}
-                        : '/reviews/save?mode=new&book-id='+${bookId} + '&order-id=' + ${orderId}">
+                    ? '/reviews/save?mode=edit&book-id=' + ${bookId} +
+                      '&review-id=' + ${reviewId} +
+                      (${orderId} != null ? '&order-id=' + ${orderId} : '')
+                    : '/reviews/save?mode=new&book-id=' + ${bookId} +
+                      (${orderId} != null ? '&order-id=' + ${orderId} : '')">
 
-            <form th:action="@{${actionUrl}}"
+        <form th:action="@{${actionUrl}}"
                   method="post"
                   enctype="multipart/form-data"
                   class="form-card"
@@ -98,7 +102,8 @@
 
                 <div th:if="${mode == 'view' and reviewId != null}" style="margin-top: 30px;">
                     <button type="button"
-                            th:onclick="|location.href='/reviews/' + ${reviewId} + '/edit?book-id='+ ${bookId} + '&order-id=' + ${orderId}|">
+                            th:onclick="|location.href='/reviews/' + ${reviewId} + '/edit?book-id=' + ${bookId}
+                                        + (${orderId} != null ? '&order-id=' + ${orderId} : '')|">
                         ✏️ 수정하기
                     </button>
                 </div>
