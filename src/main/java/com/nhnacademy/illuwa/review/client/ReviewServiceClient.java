@@ -1,6 +1,6 @@
 package com.nhnacademy.illuwa.review.client;
 
-
+import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.config.FeignClientConfig;
 import com.nhnacademy.illuwa.review.dto.*;
 import jakarta.validation.Valid;
@@ -10,11 +10,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
 @FeignClient(name = "product-service", url = "${api.base-url}", contextId = "ProductClientForReview", configuration = FeignClientConfig.class)
 public interface ReviewServiceClient {
+
+
     @PostMapping(value = "/api/reviews", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ReviewResponse createReview(@RequestParam(name = "book-id") long bookId,
                                 @ModelAttribute @Valid ReviewRequest request) throws Exception;
@@ -32,6 +35,10 @@ public interface ReviewServiceClient {
                                         @RequestParam(defaultValue = "0") int page,
                                         @RequestParam(defaultValue = "5") int size);
 
+    @GetMapping(value = "/api/reviews")
+    PageResponse<ReviewResponse> getMemberReviewPages(@RequestParam("page") int page,
+                                                      @RequestParam("size") int size);
+
     @PostMapping("/api/reviews/{review-id}/likes")
     ReviewLikeResponse toggleLike(@PathVariable(name = "review-id") long reviewId);
 
@@ -43,4 +50,7 @@ public interface ReviewServiceClient {
 
     @PostMapping("/api/reviews/check")
     Map<Long, Long> getExistingReviewIdMap(@RequestBody List<Long> bookIds);
+
+    @GetMapping("/api/reviews/book-title")
+    Map<Long, String> getBookTitleMapFromReviewIds(@RequestParam("reviewIds") Collection<Long> reviewIds);
 }

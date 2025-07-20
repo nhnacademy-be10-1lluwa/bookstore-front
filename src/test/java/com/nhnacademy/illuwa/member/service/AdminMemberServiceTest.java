@@ -105,7 +105,7 @@ public class AdminMemberServiceTest {
                 ),
                 new PointHistoryResponse(
                         2L,
-                        PointHistoryType.USE,
+                        PointHistoryType.DEDUCT,
                         PointReason.PURCHASE,
                         BigDecimal.valueOf(500),
                         BigDecimal.valueOf(5500),

@@ -16,10 +16,14 @@
         <div class="container" th:if="${book != null}">
             <div class="book-detail">
                 <div class="book-images">
-                    <img id="main-image" class="main-image"
-                         th:src="${book.imgUrl != null and !book.imgUrl.isEmpty() ? book.imgUrl : '/images/default-book.jpg'}"
-                         th:alt="${book.title}" />
-                    <div class="image-thumbnails" id="thumbnails">
+                    <div class="book-images">
+                        <img th:if="${!#lists.isEmpty(book.imageUrls)}"
+                             th:src="${book.imageUrls[0]}"
+                             alt="도서 이미지"
+                             style="width: 200px; height: 300px; object-fit: cover;" />
+                        <div class="image-thumbnails" id="thumbnails">
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
@@ -60,9 +64,24 @@
                         <span class="detail-value" th:text="${book.isbn}">ISBN</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">선물포장:</span>
-                        <span class="detail-value"
-                              th:text="${book.isGiftWrap() ? '가능' : '불가능'}">포장 여부</span>
+                        <span class="detail-label">재고</span>
+                        <span class="detail-value" th:text="${book.count != null and book.count > 0 ? book.count + '권' : '품절'}">수량</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">판매상태</span>
+                        <span class="detail-value">
+                                <span th:switch="${book.status}">
+                                    <span th:case="'NORMAL'">정상 판매</span>
+                                    <span th:case="'OUT_OF_STOCK'">품절</span>
+                                    <span th:case="'DISCONTINUED'">절판</span>
+                                    <span th:case="'DELETED'">삭제됨</span>
+                                    <span th:case="*">정보 없음</span>
+                                </span>
+                            </span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">선물포장</span>
+                        <span class="detail-value" th:text="${book.isGiftWrap() ? '가능' : '불가능'}">포장 여부</span>
                     </div>
                 </div>
 
