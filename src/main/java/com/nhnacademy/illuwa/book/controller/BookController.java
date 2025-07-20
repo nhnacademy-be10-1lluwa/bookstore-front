@@ -53,7 +53,7 @@ public class BookController {
         model.addAttribute("isLoggedIn", isLoginUser);
 
         if(isLoginUser) {
-            //model.addAttribute("isMyLikedBook", bookLikeService.isLikedByMe(bookId));
+            model.addAttribute("isMyLikedBook", bookLikeService.isLikedByMe(bookId));
             List<Long> myLikedReviewIds = reviewLikeService.getMyLikedReviews(reviewIds);
             model.addAttribute("myLikedReviewIds", myLikedReviewIds);
         }
@@ -85,7 +85,7 @@ public class BookController {
         model.addAttribute("isLoggedIn", isLoginUser);
 
         if(isLoginUser) {
-            //model.addAttribute("isMyLikedBook", bookLikeService.isLikedByMe(bookId));
+            model.addAttribute("isMyLikedBook", bookLikeService.isLikedByMe(bookId));
             List<Long> myLikedReviewIds = reviewLikeService.getMyLikedReviews(reviewIds);
             model.addAttribute("myLikedReviewIds", myLikedReviewIds);
         }
