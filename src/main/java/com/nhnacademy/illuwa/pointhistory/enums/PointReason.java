@@ -6,6 +6,7 @@ import java.util.Optional;
 public enum PointReason {
     PURCHASE("book_default_rate"),     // 구매 적립
     USED_IN_ORDER(null),  //사용
+    REFUND(null),         //환불
     JOIN("join_point"),   // 회원가입
     REVIEW("review_point"), // 일반리뷰
     PHOTO_REVIEW("photo_review_point"), // 포토리뷰
