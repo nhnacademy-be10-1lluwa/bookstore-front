@@ -1,0 +1,42 @@
+.book-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #fdfdfd;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.book-card img {
+    width: 120px;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+.book-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.book-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+.book-meta span {
+    font-size: 0.95rem;
+    color: #666;
+}
+
+.book-price {
+    margin-top: 10px;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #e85a4f;
+}
