@@ -1,5 +1,6 @@
 package com.nhnacademy.illuwa.order.dto;
 
+import com.nhnacademy.illuwa.order.dto.orderRequest.OrderItemDto;
 import com.nhnacademy.illuwa.order.dto.types.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
