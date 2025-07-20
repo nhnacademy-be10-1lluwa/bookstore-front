@@ -26,7 +26,7 @@ public class AdminOrderController {
         model.addAttribute("orderPage", orders);
         model.addAttribute("currentPage", orders.page());
         model.addAttribute("totalPages", orders.totalPages());
-        return "redirect:/admin/order/orders?order-status=" + orderStatus;
+        return "/admin/order/orders";
     }
 
     // 멤버 주문 상세 페이지 <- 여기서 배송중으로 변경 처리
