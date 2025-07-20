@@ -1,7 +1,7 @@
 package com.nhnacademy.illuwa.order.controller;
 
 import com.nhnacademy.illuwa.common.dto.PageResponse;
-import com.nhnacademy.illuwa.order.dto.OrderListResponse;
+import com.nhnacademy.illuwa.order.dto.query.list.OrderListResponse;
 import com.nhnacademy.illuwa.order.service.MemberOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;

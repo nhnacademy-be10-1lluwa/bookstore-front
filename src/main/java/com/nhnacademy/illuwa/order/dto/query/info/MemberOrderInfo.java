@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.order.dto.orderRequest;
+package com.nhnacademy.illuwa.order.dto.query.info;
 
 
 import com.nhnacademy.illuwa.member.dto.MemberResponse;

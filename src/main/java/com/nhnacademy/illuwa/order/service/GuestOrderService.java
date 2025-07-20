@@ -1,9 +1,9 @@
 package com.nhnacademy.illuwa.order.service;
 
-import com.nhnacademy.illuwa.order.dto.OrderCreateResponse;
-import com.nhnacademy.illuwa.order.dto.OrderResponse;
-import com.nhnacademy.illuwa.order.dto.guest.GuestOrderDirectRequest;
-import com.nhnacademy.illuwa.order.dto.guest.GuestOrderInitDirectResponse;
+import com.nhnacademy.illuwa.order.dto.query.info.OrderCreateResponse;
+import com.nhnacademy.illuwa.order.dto.query.detail.OrderResponse;
+import com.nhnacademy.illuwa.order.dto.command.create.GuestOrderDirectRequest;
+import com.nhnacademy.illuwa.order.dto.query.info.GuestOrderInitDirectResponse;
 
 public interface GuestOrderService {
 

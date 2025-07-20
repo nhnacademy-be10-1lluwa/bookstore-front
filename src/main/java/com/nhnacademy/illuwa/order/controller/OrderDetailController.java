@@ -1,7 +1,7 @@
 package com.nhnacademy.illuwa.order.controller;
 
-import com.nhnacademy.illuwa.order.dto.OrderItemResponseDto;
-import com.nhnacademy.illuwa.order.dto.OrderResponse;
+import com.nhnacademy.illuwa.order.dto.query.detail.OrderItemResponseDto;
+import com.nhnacademy.illuwa.order.dto.query.detail.OrderResponse;
 import com.nhnacademy.illuwa.order.service.MemberOrderService;
 import com.nhnacademy.illuwa.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;

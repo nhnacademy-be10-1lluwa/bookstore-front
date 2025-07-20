@@ -3,10 +3,14 @@ package com.nhnacademy.illuwa.order.controller;
 
 import com.nhnacademy.illuwa.cart.client.CartServiceClient;
 import com.nhnacademy.illuwa.member.service.MemberService;
-import com.nhnacademy.illuwa.order.dto.OrderCreateResponse;
-import com.nhnacademy.illuwa.order.dto.member.*;
-import com.nhnacademy.illuwa.order.dto.orderRequest.MemberOrderInfo;
-import com.nhnacademy.illuwa.order.dto.orderRequest.OrderItemDto;
+import com.nhnacademy.illuwa.order.dto.query.info.OrderCreateResponse;
+import com.nhnacademy.illuwa.order.dto.command.create.MemberOrderCartRequest;
+import com.nhnacademy.illuwa.order.dto.command.create.MemberOrderDirectRequest;
+import com.nhnacademy.illuwa.order.dto.query.info.MemberOrderInfo;
+import com.nhnacademy.illuwa.order.dto.query.detail.OrderItemResponse;
+import com.nhnacademy.illuwa.order.dto.query.info.MemberCouponResponse;
+import com.nhnacademy.illuwa.order.dto.query.info.MemberOrderInitDirectResponse;
+import com.nhnacademy.illuwa.order.dto.query.info.MemberOrderInitFromCartResponse;
 import com.nhnacademy.illuwa.order.service.CommonOrderService;
 import com.nhnacademy.illuwa.order.service.MemberOrderService;
 import lombok.RequiredArgsConstructor;
@@ -39,7 +43,7 @@ public class MemberOrderController {
         MemberOrderInitDirectResponse memberInfo = memberOrderService.initDirect(bookId);
         MemberOrderDirectRequest req = new MemberOrderDirectRequest();
 
-        OrderItemDto item = new OrderItemDto();
+        OrderItemResponse item = new OrderItemResponse();
         item.setBookId(bookId);
         item.setQuantity(quantity);
         req.setItem(item);
@@ -55,10 +59,10 @@ public class MemberOrderController {
         MemberOrderInitFromCartResponse memberInfo = memberOrderService.initFromCart();
         MemberOrderCartRequest req = new MemberOrderCartRequest();
 
-        List<OrderItemDto> items = memberInfo.getCartResponse().getBookCarts()
+        List<OrderItemResponse> items = memberInfo.getCartResponse().getBookCarts()
                         .stream()
                                 .map(b -> {
-                                    OrderItemDto dto = new OrderItemDto();
+                                    OrderItemResponse dto = new OrderItemResponse();
                                     dto.setBookId(b.getBookId());
                                     dto.setQuantity(b.getAmount());
                                     dto.setPrice(BigDecimal.valueOf(b.getSalePrice()));
@@ -68,7 +72,7 @@ public class MemberOrderController {
         req.setCartItems(items);
 
         model.addAttribute("orderRequest", req);
-        Map<Long, List<MemberCouponDto>> map = memberInfo.getCouponMap();
+        Map<Long, List<MemberCouponResponse>> map = memberInfo.getCouponMap();
         model.addAttribute("couponMap", map);
         model.addAttribute("init", memberInfo);
 

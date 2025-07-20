@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.order.dto;
+package com.nhnacademy.illuwa.order.dto.command.create;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class PackagingRequestDto {
+public class PackagingRequest {
 
     @NotBlank
     @Size(max = 20)

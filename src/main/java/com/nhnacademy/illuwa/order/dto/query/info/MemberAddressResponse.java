@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.order.dto.member;
+package com.nhnacademy.illuwa.order.dto.query.info;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberAddressDto {
+public class MemberAddressResponse {
     private Long memberAddressId; // 식별자
     private String addressName; // 주소 별칭
     private String recipientName; // 수령인

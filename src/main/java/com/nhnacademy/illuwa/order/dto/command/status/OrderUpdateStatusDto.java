@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.order.dto.admin;
+package com.nhnacademy.illuwa.order.dto.command.status;
 
 import com.nhnacademy.illuwa.order.dto.types.OrderStatus;
 import jakarta.validation.Valid;

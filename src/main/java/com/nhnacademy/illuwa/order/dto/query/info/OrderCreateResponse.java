@@ -1,6 +1,7 @@
-package com.nhnacademy.illuwa.order.dto;
+package com.nhnacademy.illuwa.order.dto.query.info;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.nhnacademy.illuwa.order.dto.query.detail.OrderItemResponseDto;
 import com.nhnacademy.illuwa.order.dto.types.OrderStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;

@@ -2,12 +2,13 @@ package com.nhnacademy.illuwa.order.controller;
 
 import com.nhnacademy.illuwa.guest.dto.GuestResponse;
 import com.nhnacademy.illuwa.guest.service.GuestClientService;
-import com.nhnacademy.illuwa.order.dto.GuestLoginRequest;
-import com.nhnacademy.illuwa.order.dto.OrderCreateResponse;
-import com.nhnacademy.illuwa.order.dto.OrderResponse;
-import com.nhnacademy.illuwa.order.dto.guest.GuestOrderDirectRequest;
-import com.nhnacademy.illuwa.order.dto.guest.GuestOrderInitDirectResponse;
-import com.nhnacademy.illuwa.order.dto.orderRequest.OrderItemDto;
+import com.nhnacademy.illuwa.auth.dto.GuestLoginRequest;
+import com.nhnacademy.illuwa.order.dto.query.info.GuestInfo;
+import com.nhnacademy.illuwa.order.dto.query.info.OrderCreateResponse;
+import com.nhnacademy.illuwa.order.dto.query.detail.OrderResponse;
+import com.nhnacademy.illuwa.order.dto.command.create.GuestOrderDirectRequest;
+import com.nhnacademy.illuwa.order.dto.query.info.GuestOrderInitDirectResponse;
+import com.nhnacademy.illuwa.order.dto.query.detail.OrderItemResponse;
 import com.nhnacademy.illuwa.order.service.GuestOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
@@ -45,7 +46,7 @@ public class GuestOrderController {
         GuestOrderInitDirectResponse guestInfo = guestOrderService.initDirect(bookId);
 
         GuestOrderDirectRequest req = new GuestOrderDirectRequest();
-        OrderItemDto item = new OrderItemDto();
+        OrderItemResponse item = new OrderItemResponse();
         item.setBookId(bookId);
         item.setQuantity(quantity);
         req.setItem(item);

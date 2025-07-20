@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.order.dto;
+package com.nhnacademy.illuwa.auth.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
