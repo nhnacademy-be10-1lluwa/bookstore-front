@@ -1,6 +1,10 @@
 package com.nhnacademy.illuwa.order.dto.guest;
 
 import com.nhnacademy.illuwa.order.dto.orderRequest.OrderItemDto;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,16 +15,35 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class GuestOrderDirectRequest {
+    @NotNull
     private LocalDate deliveryDate;
+
+    @NotBlank
     private String recipientName;
+
+    @NotBlank
     private String recipientContact;
+
+    @NotBlank
     private String postCode;
+
+    @NotBlank
     private String readAddress;
+
+    @NotBlank
     private String detailAddress;
+
+    @NotNull
+    @Valid
     private OrderItemDto item;
 
+    @NotBlank
     private String name;
-    private String orderPassword;
+
+    @NotBlank
+    @Email
     private String email;
+
+    @NotBlank
     private String contact;
 }
