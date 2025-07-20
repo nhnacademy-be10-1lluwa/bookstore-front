@@ -88,8 +88,7 @@
                 <!-- 도서 좋아요 버튼 -->
                 <div class="book-like-section" th:if="${isLoggedIn}">
                     <form th:action="@{/book-likes/toggle}" method="post">
-                        <input type="hidden" name="bookId" th:value="${book.id}" />
-                        <input type="hidden" name="bookIsbn" th:value="${book.isbn}" />
+                        <input type="hidden" name="book-id" th:value="${book.id}" />
                         <button type="submit" class="like-btn" style="background: none; border: none; cursor: pointer;">
                             <span class="like-icon" th:text="${isMyLikedBook} ? '❤️ 이 책 좋아요' : '🤍 이 책 좋아요' " style="font-size: 20px;"></span>
                         </button>
@@ -121,10 +120,7 @@
                         <button type="submit" class="cart-btn">주문하기</button>
                     </form>
                 </div>
-
-
             </div>
-        </div>
 
         <div>
             <div class="tabs">

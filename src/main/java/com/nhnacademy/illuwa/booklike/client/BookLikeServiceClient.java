@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface BookLikeServiceClient {
 
     @PostMapping("/api/book-likes")
-    void toggleBookLikes(@RequestParam long bookId);
+    void toggleBookLikes(@RequestParam("book-id") long bookId);
 
     @GetMapping("/api/book-likes/check")
-    Boolean isLikedByMe(@RequestParam Long bookId);
+    Boolean isLikedByMe(@RequestParam("book-id") long bookId);
 
     @GetMapping("/api/book-likes/list")
     PageResponse<SimpleBookResponse> getLikedBooksByMember(@RequestParam("page") int page,

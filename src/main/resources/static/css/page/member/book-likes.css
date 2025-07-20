@@ -40,3 +40,73 @@
     font-weight: bold;
     color: #e85a4f;
 }
+
+.book-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); /* 최소 180px, 자동 채움 */
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.book-card {
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.book-info {
+    text-align: center;
+}
+
+.book-title {
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.book-meta span {
+    display: block;
+    font-size: 0.85rem;
+    color: #555;
+}
+
+/* 페이지네이션 */
+.pagination {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.pagination a {
+    margin: 0 5px;
+    padding: 6px 12px;
+    border: 1px solid #2a7ae2;
+    border-radius: 4px;
+    color: #2a7ae2;
+    text-decoration: none;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.pagination a.active {
+    background-color: #2a7ae2;
+    color: white;
+}
+
+.pagination a:hover {
+    background-color: #1a5bb8;
+    color: white;
+}
+
+.book-card-link {
+    display: block;
+}
+
+.book-card-link:hover {
+    box-shadow: 0 4px 8px rgba(42, 122, 226, 0.3);
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+}
