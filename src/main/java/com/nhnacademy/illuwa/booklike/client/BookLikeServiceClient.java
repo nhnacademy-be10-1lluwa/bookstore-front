@@ -1,6 +1,6 @@
 package com.nhnacademy.illuwa.booklike.client;
 
-import com.nhnacademy.illuwa.book.dto.BestSellerResponse;
+import com.nhnacademy.illuwa.book.dto.SimpleBookResponse;
 import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.config.FeignClientConfig;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -18,6 +18,6 @@ public interface BookLikeServiceClient {
     Boolean isLikedByMe(@RequestParam Long bookId);
 
     @GetMapping("/api/book-likes/list")
-    PageResponse<BestSellerResponse> getLikedBooksByMember(@RequestParam("page") int page,
+    PageResponse<SimpleBookResponse> getLikedBooksByMember(@RequestParam("page") int page,
                                                            @RequestParam("size") int size);
 }

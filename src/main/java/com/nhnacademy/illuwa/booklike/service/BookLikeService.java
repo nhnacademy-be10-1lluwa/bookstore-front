@@ -1,6 +1,6 @@
 package com.nhnacademy.illuwa.booklike.service;
 
-import com.nhnacademy.illuwa.book.dto.BestSellerResponse;
+import com.nhnacademy.illuwa.book.dto.SimpleBookResponse;
 import com.nhnacademy.illuwa.booklike.client.BookLikeServiceClient;
 import com.nhnacademy.illuwa.common.dto.PageResponse;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class BookLikeService {
         bookLikeServiceClient.toggleBookLikes(bookId);
     }
 
-    public PageResponse<BestSellerResponse> getLikedBooksByMember(int page, int size){
+    public PageResponse<SimpleBookResponse> getLikedBooksByMember(int page, int size){
         return bookLikeServiceClient.getLikedBooksByMember(page, size);
     }
 
