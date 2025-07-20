@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -37,4 +38,5 @@ public class BookDetailWithExtraInfoResponse {
     private String level2Name;
     private List<TagResponse> tags;
     private String categoryName;
+    private List<TagResponse> bookTags;
 }

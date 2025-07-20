@@ -5,6 +5,9 @@ import com.nhnacademy.illuwa.tag.client.TagServiceClient;
 import com.nhnacademy.illuwa.tag.dto.TagCreateRequest;
 import com.nhnacademy.illuwa.tag.dto.TagResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,14 +21,13 @@ public class AdminTagController {
 
     @GetMapping("/manage")
     public String tagManagePage(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id,asc") String sort,
+            @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
             Model model
     ) {
-        PageResponse<TagResponse> tagPage = tagServiceClient.getAllTags(page, size, sort);
+        PageResponse<TagResponse> tagPage = tagServiceClient.getAllTags(pageable);
         model.addAttribute("tagPage", tagPage);
         model.addAttribute("newTag", new TagCreateRequest());
+        model.addAttribute("sort", pageable.getSort().toString().replace(": ", ","));
         return "admin/tag/manage";
     }
 
