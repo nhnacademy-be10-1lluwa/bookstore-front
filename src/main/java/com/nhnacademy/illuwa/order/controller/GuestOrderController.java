@@ -2,34 +2,27 @@ package com.nhnacademy.illuwa.order.controller;
 
 import com.nhnacademy.illuwa.guest.dto.GuestResponse;
 import com.nhnacademy.illuwa.guest.service.GuestClientService;
-import com.nhnacademy.illuwa.order.client.OrderServiceClient;
 import com.nhnacademy.illuwa.order.dto.GuestLoginRequest;
 import com.nhnacademy.illuwa.order.dto.OrderCreateResponse;
 import com.nhnacademy.illuwa.order.dto.OrderResponse;
 import com.nhnacademy.illuwa.order.dto.guest.GuestOrderDirectRequest;
 import com.nhnacademy.illuwa.order.dto.guest.GuestOrderInitDirectResponse;
-import com.nhnacademy.illuwa.order.dto.guest.OrderGuestCreateResponse;
 import com.nhnacademy.illuwa.order.dto.orderRequest.OrderItemDto;
-import com.nhnacademy.illuwa.order.service.OrderService;
+import com.nhnacademy.illuwa.order.service.GuestOrderService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 @Controller
+@RequiredArgsConstructor
 public class GuestOrderController {
-    private final OrderServiceClient orderServiceClient;
-    private final OrderService orderService;
+    private final GuestOrderService guestOrderService;
     private final GuestClientService guestClientService;
 
     @Value("${toss.client-key}")
     private String tossClientKey;
-
-    public GuestOrderController(OrderServiceClient orderServiceClient, OrderService orderService, GuestClientService guestClientService) {
-        this.orderServiceClient = orderServiceClient;
-        this.orderService = orderService;
-        this.guestClientService = guestClientService;
-    }
 
     @GetMapping("/guest-login")
     public String showGuestLogin() {
@@ -39,7 +32,7 @@ public class GuestOrderController {
     @PostMapping("/order-history")
     public String guestLogin(@ModelAttribute GuestLoginRequest request, Model model) {
         GuestResponse guest = guestClientService.getGuest(request);
-        OrderResponse order = orderServiceClient.getGuestOrderHistory(guest.getOrderId());
+        OrderResponse order = guestOrderService.getOrderHistory(guest.getOrderId());
         model.addAttribute("guest", guest);
         model.addAttribute("order", order);
         return "order/order_history";
@@ -49,7 +42,7 @@ public class GuestOrderController {
     public String showOrderForm(@PathVariable("bookId") Long bookId,
                                 @RequestParam(name = "quantity", defaultValue = "1") int quantity,
                                 Model model) {
-        GuestOrderInitDirectResponse guestInfo = orderService.getGuestInitDateDirect(bookId);
+        GuestOrderInitDirectResponse guestInfo = guestOrderService.initDirect(bookId);
 
         GuestOrderDirectRequest req = new GuestOrderDirectRequest();
         OrderItemDto item = new OrderItemDto();
@@ -65,7 +58,7 @@ public class GuestOrderController {
 
     @PostMapping("/guest/order/order-form/submit-direct")
     public String sendOrder(@ModelAttribute("orderRequest")GuestOrderDirectRequest request, Model model) {
-        OrderCreateResponse response = orderService.sendDirectOrderGuest(request);
+        OrderCreateResponse response = guestOrderService.createDirectOrder(request);
 
         GuestInfo guestInfo = new GuestInfo(request.getName(), request.getEmail());
 

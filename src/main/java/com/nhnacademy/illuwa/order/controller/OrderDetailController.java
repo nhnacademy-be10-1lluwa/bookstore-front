@@ -2,7 +2,7 @@ package com.nhnacademy.illuwa.order.controller;
 
 import com.nhnacademy.illuwa.order.dto.OrderItemResponseDto;
 import com.nhnacademy.illuwa.order.dto.OrderResponse;
-import com.nhnacademy.illuwa.order.service.OrderService;
+import com.nhnacademy.illuwa.order.service.MemberOrderService;
 import com.nhnacademy.illuwa.review.service.ReviewService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -18,12 +18,12 @@ import java.util.stream.Collectors;
 @Controller
 @RequiredArgsConstructor
 public class OrderDetailController {
-    private final OrderService orderService;
+    private final MemberOrderService memberOrderService;
     private final ReviewService reviewService;
 
     @GetMapping("/order-detail/{orderId}")
     public String orderOption(@PathVariable("orderId") Long orderId, Model model) {
-        OrderResponse orderResponse = orderService.getOrderDetail(orderId);
+        OrderResponse orderResponse = memberOrderService.getOrderDetail(orderId);
         List<OrderItemResponseDto> items = orderResponse.getItems();
 
         List<Long> bookIds = items.stream()

@@ -12,7 +12,8 @@
         <a th:href="@{/admin/coupon/coupon}" class="button button-primary">쿠폰 관리</a>
         <a th:href="@{/admin/book/books}" class="button button-primary">도서 관리</a>
         <a th:href="@{/admin/policy/policy}" class="button button-primary">정책 관리</a>
-        <a th:href="@{/admin/order/orders}" class="button button-primary">주문 관리</a>
+        <a th:href="@{/admin/order/orders(order-status=${T(com.nhnacademy.illuwa.order.dto.types.OrderStatus).Pending})}"
+           class="button button-primary">주문 관리</a>
         <a th:href="@{/admin/packaging/packaging}" class="button button-primary">포장 옵션 관리</a>
     </section>
 </main>

@@ -1,10 +1,8 @@
 package com.nhnacademy.illuwa.payment.controller;
 
-import com.nhnacademy.illuwa.order.client.OrderServiceClient;
 import com.nhnacademy.illuwa.payment.client.PaymentServiceClient;
 import com.nhnacademy.illuwa.payment.dto.PaymentConfirmRequest;
 import com.nhnacademy.illuwa.payment.dto.PaymentResponse;
-import com.nhnacademy.illuwa.payment.dto.PaymentRefundRequest;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.*;
 public class PaymentController {
 
     private final PaymentServiceClient paymentServiceClient;
-    private final OrderServiceClient orderServiceClient;
 
     @GetMapping("/success")
     public String handlePaymentSuccess(@RequestParam(name = "orderId") String orderNumber,
