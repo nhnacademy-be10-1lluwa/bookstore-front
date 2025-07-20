@@ -7,8 +7,8 @@ import com.nhnacademy.illuwa.order.dto.OrderCreateResponse;
 import com.nhnacademy.illuwa.order.dto.member.*;
 import com.nhnacademy.illuwa.order.dto.orderRequest.MemberOrderInfo;
 import com.nhnacademy.illuwa.order.dto.orderRequest.OrderItemDto;
-import com.nhnacademy.illuwa.order.service.OrderService;
-import com.nhnacademy.illuwa.order.service.OrderStatusMemberService;
+import com.nhnacademy.illuwa.order.service.CommonOrderService;
+import com.nhnacademy.illuwa.order.service.MemberOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -24,10 +24,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MemberOrderController {
 
-    private final OrderService orderService;
+    private final MemberOrderService memberOrderService;
     private final MemberService memberService;
     private final CartServiceClient cartServiceClient;
-    private final OrderStatusMemberService orderStatusMemberService;
+    private final CommonOrderService commonOrderService;
 
     @Value("${toss.client-key}")
     private String tossClientKey;
@@ -36,7 +36,7 @@ public class MemberOrderController {
     public String showOrderForm(@PathVariable("bookId") Long bookId,
                                 @RequestParam(name = "quantity", defaultValue = "1") int quantity,
                                 Model model) {
-        MemberOrderInitDirectResponse memberInfo = orderService.getMemberInitDataDirect(bookId);
+        MemberOrderInitDirectResponse memberInfo = memberOrderService.initDirect(bookId);
         MemberOrderDirectRequest req = new MemberOrderDirectRequest();
 
         OrderItemDto item = new OrderItemDto();
@@ -52,7 +52,7 @@ public class MemberOrderController {
 
     @GetMapping("/order/cart-order-form")
     public String showOrderFromCartForm(Model model) {
-        MemberOrderInitFromCartResponse memberInfo = orderService.getMemberInitDataCart();
+        MemberOrderInitFromCartResponse memberInfo = memberOrderService.initFromCart();
         MemberOrderCartRequest req = new MemberOrderCartRequest();
 
         List<OrderItemDto> items = memberInfo.getCartResponse().getBookCarts()
@@ -78,7 +78,7 @@ public class MemberOrderController {
     @PostMapping("/order/order-form/submit-direct")
     public String sendOrder(@ModelAttribute("orderRequest") MemberOrderDirectRequest request, Model model) {
 
-        OrderCreateResponse response = orderService.sendDirectOrderMember(request);
+        OrderCreateResponse response = memberOrderService.createDirectOrder(request);
         model.addAttribute("order", response);
         model.addAttribute("member", getMemberInfo());
         model.addAttribute("tossClientKey", tossClientKey);
@@ -89,7 +89,7 @@ public class MemberOrderController {
     @PostMapping("/order/order-form/submit")
     public String sendOrderByCart(@ModelAttribute("orderRequest") MemberOrderCartRequest request, Model model) {
 
-        OrderCreateResponse response = orderService.sendCartOrderMember(request);
+        OrderCreateResponse response = memberOrderService.createCartOrder(request);
         cartServiceClient.clearCart();
 
         model.addAttribute("order", response);
@@ -101,25 +101,25 @@ public class MemberOrderController {
 
     @PostMapping("/orders/{order-id}/confirm-order")
     public String requestConfirmOrder(@PathVariable("order-id") Long orderId) {
-        orderStatusMemberService.confirmOrder(orderId);
+        commonOrderService.confirmOrder(orderId);
         return "redirect:/order-detail/" + orderId;
     }
 
     @PostMapping("/orders/{order-id}/cancel-order")
     public String requestCancelOrder(@PathVariable("order-id") long orderId) {
-        orderStatusMemberService.cancelOrder(orderId);
+        commonOrderService.cancelOrder(orderId);
         return "redirect:/order-list";
     }
 
     @PostMapping("/orders/{order-number}/cancel-payment")
     public String requestCancelPayment(@PathVariable("order-number") String orderNumber) {
-        orderStatusMemberService.cancelPayment(orderNumber);
+        commonOrderService.cancelPayment(orderNumber);
         return "redirect:/order-list";
     }
 
     @PostMapping("/orders/{order-id}/refund-order")
     public String requestRefundOrder(@PathVariable("order-id") Long orderId) {
-        orderStatusMemberService.refundOrder(orderId);
+        commonOrderService.refundOrder(orderId);
         return "redirect:/order-detail/" + orderId;
     }
 
