@@ -166,10 +166,11 @@
                         <span th:each="i : ${#numbers.sequence(1, review.reviewRating)}">⭐</span>
                     </div>
 
-                    <h3 th:text="${review.reviewTitle}">제목</h3>
                     <div>
-                        <img th:each="img : ${review.reviewImageUrls}" th:src="@{${img}}" alt="리뷰 이미지" style="max-width: 200px;" />
+                        <img th:each="img : ${review.reviewImageUrls}" th:src="@{${img}}" alt="리뷰 이미지" style="max-width: 500px;" />
                     </div>
+
+                    <h3 th:text="${review.reviewTitle}">제목</h3>
                     <p th:text="${review.reviewContent}">내용</p>
 
                     <!-- 좋아요 영역 -->
