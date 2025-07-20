@@ -8,7 +8,6 @@
     <title>내 리뷰 목록</title>
     <link rel="stylesheet" th:href="@{/css/main.css}" />
     <link rel="stylesheet" th:href="@{/css/page/member/_mypage.css}" />
-<!--    <link rel="stylesheet" th:href="@{/page/review/_review_history.css}" />-->
 </head>
 
 <main layout:fragment="content">
@@ -27,33 +26,34 @@
                 </thead>
                 <tbody>
                 <tr th:each="review : ${reviewList}">
-                    <td th:text="${review.bookTitle}">책 제목</td>
+                    <td th:text="${titleList[review.reviewId]}">책 제목</td>
                     <td>
-                        <a th:href="@{'/books/' + ${review.bookId} + '/reviews/' + ${review.reviewId} + '?mode=view'}"
+                        <a th:href="@{'/reviews/' + ${review.reviewId} + '?book-id=' + ${review.bookId}}"
                            th:text="${review.reviewTitle}">리뷰 제목</a>
                     </td>
                     <td>
                         <div class="star-rating small">
-                                <span th:each="i : ${#numbers.sequence(1,5)}"
-                                      th:class="${i <= review.reviewRating} ? 'star filled' : 'star'">★</span>
+            <span th:each="i : ${#numbers.sequence(1,5)}"
+                  th:class="${i <= review.reviewRating} ? 'star filled' : 'star'">★</span>
                         </div>
                     </td>
                 </tr>
                 </tbody>
+
             </table>
 
             <!-- 페이지네이션 -->
             <div class="pagination" th:if="${totalPages > 1}">
                 <a th:if="${currentPage > 0}"
-                   th:href="@{'/review-history?book-id=' + ${bookId} + '&page=' + ${currentPage - 1}}">&laquo; 이전</a>
+                   th:href="@{'/review-history?' + '&page=' + ${currentPage - 1}}">&laquo; 이전</a>
 
                 <a th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
                    th:classappend="${pageNum == currentPage} ? ' active' : ''"
-                   th:href="@{'/review-history?book-id=' + ${bookId} + '&page=' + ${pageNum}}"
+                   th:href="@{'/review-history?' + '&page=' + ${pageNum}}"
                    th:text="${pageNum + 1}">1</a>
 
                 <a th:if="${currentPage < totalPages - 1}"
-                   th:href="@{'/review-history?book-id=' + ${bookId} + '&page=' + ${currentPage + 1}}">다음 &raquo;</a>
+                   th:href="@{'/review-history?' + '&page=' + ${currentPage + 1}}">다음 &raquo;</a>
             </div>
         </section>
     </div>
