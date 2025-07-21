@@ -1,6 +1,6 @@
 package com.nhnacademy.illuwa.member.controller;
 
-import com.nhnacademy.illuwa.common.ca.CategoryControllerAdvice;
+import com.nhnacademy.illuwa.common.controller_advice.CategoryControllerAdvice;
 import com.nhnacademy.illuwa.common.exception.BackendApiException;
 import com.nhnacademy.illuwa.member.dto.MemberResponse;
 import com.nhnacademy.illuwa.member.dto.MemberUpdateRequest;
