@@ -33,6 +33,7 @@ public class CouponForm {
 
     private Long categoryId; // 카테고리 ID
 
+    @NotNull
     private BigDecimal issueCount; // 발급 수량
 
 }

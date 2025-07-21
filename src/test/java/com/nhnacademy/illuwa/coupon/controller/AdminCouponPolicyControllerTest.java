@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {CategoryControllerAdvice.class})})
 
 @AutoConfigureMockMvc(addFilters = false)
-public class AdminCouponPolicyControllerTest {
+class AdminCouponPolicyControllerTest {
 
     @MockBean
     private CouponPolicyService couponPolicyService;
