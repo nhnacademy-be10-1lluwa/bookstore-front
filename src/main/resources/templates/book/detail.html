@@ -15,7 +15,6 @@
     <section class="main-content">
         <div class="container" th:if="${book != null}">
             <div class="book-detail">
-                <div class="book-images">
                     <div class="book-images">
                         <img th:if="${!#lists.isEmpty(book.imageUrls)}"
                              th:src="${book.imageUrls[0]}"
@@ -23,7 +22,6 @@
                              style="width: 200px; height: 300px; object-fit: cover;" />
                         <div class="image-thumbnails" id="thumbnails">
                         </div>
-                    </div>
                     </div>
                 </div>
             </div>
