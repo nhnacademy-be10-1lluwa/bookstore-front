@@ -20,7 +20,12 @@ public class BookSearchService {
                 .findFirst()
                 .orElse("id,asc"); // 기본정렬
 
-        return bookSearchClient.searchBooks(keyword, pageable.getPageNumber(), pageable.getPageSize(), sortParam);
+        Page<BookDocument> resultPage = bookSearchClient.searchBooks(keyword, pageable.getPageNumber(), pageable.getPageSize(), sortParam);
+        resultPage.getContent().forEach(book -> {
+            book.setThumbnailUrl(convertMinioUrl(book.getThumbnailUrl()));
+        });
+
+        return resultPage;
     }
 
     public Page<BookDocument> searchBooksByCategory(String category, Pageable pageable) {
@@ -30,7 +35,24 @@ public class BookSearchService {
                 .findFirst()
                 .orElse("id,asc");
 
-        return bookSearchClient.searchBooksByCategory(category, pageable.getPageNumber(), pageable.getPageSize(), sortParam);
+        Page<BookDocument> resultPage = bookSearchClient.searchBooks(category, pageable.getPageNumber(), pageable.getPageSize(), sortParam);
+
+        resultPage.getContent().forEach(book -> {
+            book.setThumbnailUrl(convertMinioUrl(book.getThumbnailUrl()));
+        });
+
+        return resultPage;
+    }
+
+    // Nginx 경로 우회 메서드(http -> https)
+    private String convertMinioUrl(String originalUrl) {
+        if (originalUrl == null) {
+            return null;
+        }
+        return originalUrl.replace(
+                "http://storage.java21.net:8000/",
+                "https://book1lluwa.store/minio/"
+        );
     }
 
 }

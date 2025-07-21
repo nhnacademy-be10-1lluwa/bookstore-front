@@ -1,6 +1,6 @@
 package com.nhnacademy.illuwa.memberaddress.controller;
 
-import com.nhnacademy.illuwa.common.ca.CategoryControllerAdvice;
+import com.nhnacademy.illuwa.common.controller_advice.CategoryControllerAdvice;
 import com.nhnacademy.illuwa.common.dto.PageResponse;
 import com.nhnacademy.illuwa.memberaddress.client.MemberAddressServiceClient;
 import com.nhnacademy.illuwa.memberaddress.dto.MemberAddressRequest;

@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.common.ca;
+package com.nhnacademy.illuwa.common.controller_advice;
 
 import com.nhnacademy.illuwa.category.dto.CategoryResponse;
 import com.nhnacademy.illuwa.category.service.CategoryService;

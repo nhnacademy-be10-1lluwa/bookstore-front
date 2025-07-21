@@ -10,12 +10,6 @@
     <section class="main-content">
         <h2>도서 목록</h2>
 
-
-        <form th:action="@{/api/books/search-es}" method="get" class="search">
-            <input type="text" name="keyword" placeholder="도서 제목 또는 저자를 입력하세요" required />
-            <button type="submit">검색</button>
-        </form>
-
         <div th:if="${#lists.isEmpty(bookPage.content)}" class="empty-message">
             등록된 도서가 없습니다.
         </div>

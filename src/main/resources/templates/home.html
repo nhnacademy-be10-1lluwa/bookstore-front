@@ -7,8 +7,16 @@
   <link rel="stylesheet" th:href="@{/css/main.css}" />
 </head>
 
+
+
 <main layout:fragment="content">
   <section class="main-content">
+
+    <form th:action="@{/api/books/search-es}" method="get" class="search">
+      <input type="text" name="keyword" placeholder="통합 검색" required />
+      <button type="submit">검색</button>
+    </form>
+
     <div class="welcome-section">
       <h1 class="welcome-message">어서오세요!</h1>
       <div class="welcome-links">
@@ -25,6 +33,7 @@
         <a th:href="@{/books/list}" class="button button-secondary">책 찾아보기</a>
       </div>
     </div>
+
     <h2>베스트셀러</h2>
     <div class="book-list">
       <div class="book-item" th:each="book : ${bestSeller}" th:data-id="${book.isbn}" style="cursor: pointer;">

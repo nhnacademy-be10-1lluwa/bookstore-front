@@ -4,7 +4,7 @@ import com.nhnacademy.illuwa.admin.controller.AdminCouponController;
 import com.nhnacademy.illuwa.admin.controller.AdminPolicyController;
 import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
 import com.nhnacademy.illuwa.book.service.BookService;
-import com.nhnacademy.illuwa.common.ca.CategoryControllerAdvice;
+import com.nhnacademy.illuwa.common.controller_advice.CategoryControllerAdvice;
 import com.nhnacademy.illuwa.coupon.dto.coupon.CouponForm;
 import com.nhnacademy.illuwa.coupon.dto.coupon.CouponResponse;
 import com.nhnacademy.illuwa.coupon.dto.coupon.CouponUpdateRequest;
