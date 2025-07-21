@@ -53,16 +53,16 @@
       <td>
         <span th:each="bookTag : ${book.bookTags}" class="badge bg-info me-1">
           <span th:text="${bookTag.name}"></span>
-          <form th:action="@{/admin/book/{bookId}/tags/remove/{tagId}(bookId=${book.id}, tagId=${bookTag.id})}" method="post" style="display : inline;">
+          <form th:action="@{/admin/books/{bookId}/tags/{tagId}/delete(bookId=${book.id}, tagId=${bookTag.id})}" method="post" style="display : inline;">
             <button type="submit" class="btn-close btn-close-white" aria-label="Close" style="font-size: 0.5rem;"></button>
           </form>
         </span>
       </td>
       <td class="action-buttons">
-        <a th:href="@{'/admin/book/edit/' + ${book.id}}">
+        <a th:href="@{'/admin/books/' + ${book.id} + '/form'}">
           <button class="edit-btn">수정</button>
         </a>
-        <form th:action="@{'/admin/book/delete/' + ${book.id}}" method="post" style="display:inline;">
+        <form th:action="@{'/admin/books/' + ${book.id} + '/delete'}" method="post" style="display:inline;">
           <button class="delete-btn" type="submit">삭제</button>
         </form>
         <button type="button"
@@ -112,21 +112,21 @@
 
 
   <div class="sort-options">
-    <a th:href="@{|/admin/book/manage?page=0&size=${bookPage.size}&sort=title,asc|}">제목순</a> |
-    <a th:href="@{|/admin/book/manage?page=0&size=${bookPage.size}&sort=author,asc|}">저자순</a> |
-    <a th:href="@{|/admin/book/manage?page=0&size=${bookPage.size}&sort=regularPrice,asc|}">정가순</a>
+    <a th:href="@{|/admin/books?page=0&size=${bookPage.size}&sort=title,asc|}">제목순</a> |
+    <a th:href="@{|/admin/books?page=0&size=${bookPage.size}&sort=author,asc|}">저자순</a> |
+    <a th:href="@{|/admin/books?page=0&size=${bookPage.size}&sort=regularPrice,asc|}">정가순</a>
   </div>
 
   <div class="pagination">
     <a th:if="${bookPage.hasPrevious()}"
-       th:href="@{|/admin/book/manage?page=${bookPage.number - 1}&size=${bookPage.size}&sort=${currentSort}|}">이전</a>
+       th:href="@{|/admin/books?page=${bookPage.number - 1}&size=${bookPage.size}&sort=${currentSort}|}">이전</a>
 
     <span th:text="${bookPage.number + 1}">1</span>
 
     <span th:text="${bookPage.totalPages}">1</span>
 
     <a th:if="${bookPage.hasNext()}"
-       th:href="@{|/admin/book/manage?page=${bookPage.number + 1}&size=${bookPage.size}&sort=${currentSort}|}">다음</a>
+       th:href="@{|/admin/books?page=${bookPage.number + 1}&size=${bookPage.size}&sort=${currentSort}|}">다음</a>
   </div>
 </main>
 
@@ -140,7 +140,7 @@
       const bookTitle = btn.getAttribute('data-book-title');
 
       document.getElementById('modalBookTitle').textContent = bookTitle;
-      document.getElementById('addTagForm').action = `/admin/book/${bookId}/tags/add`;
+      document.getElementById('addTagForm').action = `/admin/books/${bookId}/tags`;
     });
   });
 </script>

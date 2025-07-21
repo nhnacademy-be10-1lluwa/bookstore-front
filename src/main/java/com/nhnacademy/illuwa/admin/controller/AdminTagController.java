@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/tag")
+@RequestMapping("/admin/tags")
 public class AdminTagController {
 
     private final TagServiceClient tagServiceClient;
 
-    @GetMapping("/manage")
+    @GetMapping
     public String tagManagePage(
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
             Model model
@@ -31,16 +31,16 @@ public class AdminTagController {
         return "admin/tag/manage";
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public String createTag(@ModelAttribute TagCreateRequest request) {
         tagServiceClient.createTag(request);
         return "redirect:/admin/tag/manage";
     }
 
-    @PostMapping("/delete/{id}")
+    @PostMapping("/{id}/delete")
     public String deleteTag(@PathVariable Long id) {
         tagServiceClient.deleteTag(id);
-        return "redirect:/admin/tag/manage";
+        return "redirect:/admin/tags";
     }
 }
 
