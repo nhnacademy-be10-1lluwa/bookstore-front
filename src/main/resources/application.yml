@@ -3,3 +3,9 @@ spring:
     name: front
   config:
     import: optional:configserver:https://book1lluwa.store/config/
+  data:
+    redis:
+      host: s4.java21.net
+      port: 6379
+      password: "*N2vya7H@muDTwdNMR!"
+      database: 300
