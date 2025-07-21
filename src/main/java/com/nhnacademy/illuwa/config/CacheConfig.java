@@ -16,6 +16,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 
+
 @Configuration
 public class CacheConfig {
     @Bean
@@ -32,6 +33,7 @@ public class CacheConfig {
                 .withInitialCacheConfigurations(cacheConfigurations)
                 .build();
     }
+  
     private RedisCacheConfiguration createCacheConfiguration(Duration ttl) {
         return RedisCacheConfiguration.defaultCacheConfig()
                 .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
