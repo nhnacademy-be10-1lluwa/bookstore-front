@@ -1,8 +1,8 @@
 package com.nhnacademy.illuwa.order.client;
 
 
-import com.nhnacademy.illuwa.order.dto.PackagingRequestDto;
-import com.nhnacademy.illuwa.order.dto.PackagingResponseDto;
+import com.nhnacademy.illuwa.order.dto.command.create.PackagingRequest;
+import com.nhnacademy.illuwa.order.dto.query.info.PackagingResponse;
 import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,9 +16,9 @@ public interface PackagingClient {
 
     // 포장 옵션 조회
     @GetMapping("/api/packaging")
-    List<PackagingResponseDto> getAll();
+    List<PackagingResponse> getAll();
 
     // 새로운 포장 옵션 생성
     @PostMapping("/api/packaging")
-    PackagingResponseDto create(@RequestBody @Valid PackagingRequestDto request);
+    PackagingResponse create(@RequestBody @Valid PackagingRequest request);
 }

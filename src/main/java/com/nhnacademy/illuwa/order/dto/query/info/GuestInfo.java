@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.order.controller;
+package com.nhnacademy.illuwa.order.dto.query.info;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

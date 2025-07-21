@@ -1,9 +1,9 @@
 package com.nhnacademy.illuwa.order.client;
 
 import com.nhnacademy.illuwa.common.dto.PageResponse;
-import com.nhnacademy.illuwa.order.dto.OrderListResponse;
-import com.nhnacademy.illuwa.order.dto.OrderResponse;
-import com.nhnacademy.illuwa.order.dto.admin.OrderUpdateStatusDto;
+import com.nhnacademy.illuwa.order.dto.query.list.OrderListResponse;
+import com.nhnacademy.illuwa.order.dto.query.detail.OrderResponse;
+import com.nhnacademy.illuwa.order.dto.command.status.OrderUpdateStatusDto;
 import com.nhnacademy.illuwa.order.dto.types.OrderStatus;
 import jakarta.validation.Valid;
 import org.springframework.cloud.openfeign.FeignClient;

@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.order.dto;
+package com.nhnacademy.illuwa.order.dto.query.info;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class BookItemOrderDto {
+public class BookPriceResponse {
     @JsonProperty("id")
     private Long bookId;
     private String title;

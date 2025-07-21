@@ -1,8 +1,6 @@
-package com.nhnacademy.illuwa.order.dto.member;
+package com.nhnacademy.illuwa.order.dto.query.info;
 
 import com.nhnacademy.illuwa.cart.dto.CartResponse;
-import com.nhnacademy.illuwa.coupon.dto.MemberCouponResponse;
-import com.nhnacademy.illuwa.order.dto.PackagingResponseDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,9 +16,9 @@ public class MemberOrderInitFromCartResponse {
 
     private CartResponse cartResponse;
 
-    private List<MemberAddressDto> recipients;
-    private Map<Long, List<MemberCouponDto>> couponMap;
-    private List<PackagingResponseDto> packaging;
+    private List<MemberAddressResponse> recipients;
+    private Map<Long, List<MemberCouponResponse>> couponMap;
+    private List<PackagingResponse> packaging;
     private BigDecimal pointBalance;
 
 }

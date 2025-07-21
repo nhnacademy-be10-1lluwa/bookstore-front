@@ -2,7 +2,7 @@ package com.nhnacademy.illuwa.guest.service;
 
 import com.nhnacademy.illuwa.guest.client.GuestServiceClient;
 import com.nhnacademy.illuwa.guest.dto.GuestResponse;
-import com.nhnacademy.illuwa.order.dto.GuestLoginRequest;
+import com.nhnacademy.illuwa.auth.dto.GuestLoginRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

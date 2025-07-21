@@ -1,6 +1,6 @@
-package com.nhnacademy.illuwa.order.dto.member;
+package com.nhnacademy.illuwa.order.dto.command.create;
 
-import com.nhnacademy.illuwa.order.dto.orderRequest.OrderItemDto;
+import com.nhnacademy.illuwa.order.dto.query.detail.OrderItemResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -39,7 +39,7 @@ public class MemberOrderCartRequest {
 
     @NotEmpty
     @Valid
-    private List<OrderItemDto> cartItems;
+    private List<OrderItemResponse> cartItems;
 
     @NotNull
     @PositiveOrZero

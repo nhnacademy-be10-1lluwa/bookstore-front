@@ -1,7 +1,7 @@
 package com.nhnacademy.illuwa.admin.controller;
 
-import com.nhnacademy.illuwa.order.dto.PackagingRequestDto;
-import com.nhnacademy.illuwa.order.dto.PackagingResponseDto;
+import com.nhnacademy.illuwa.order.dto.command.create.PackagingRequest;
+import com.nhnacademy.illuwa.order.dto.query.info.PackagingResponse;
 import com.nhnacademy.illuwa.order.service.PackagingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -22,16 +22,16 @@ public class AdminPackagingController {
     @GetMapping
     public String packaging(Model model) {
 
-        List<PackagingResponseDto> packaging = packagingService.getAllPackagingOptions();
+        List<PackagingResponse> packaging = packagingService.getAllPackagingOptions();
 
         model.addAttribute("packaging", packaging);
-        model.addAttribute("packagingRequestDto", new PackagingRequestDto());
+        model.addAttribute("packagingRequestDto", new PackagingRequest());
         return "order/packaging_list";
     }
 
     @PostMapping
-    public String registerPackagingSubmit(PackagingRequestDto packagingRequestDto) {
-        packagingService.createPackaging(packagingRequestDto);
+    public String registerPackagingSubmit(PackagingRequest packagingRequest) {
+        packagingService.createPackaging(packagingRequest);
         return "redirect:/admin/packaging";
     }
 }

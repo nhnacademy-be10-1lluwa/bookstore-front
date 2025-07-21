@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.order.dto.member;
+package com.nhnacademy.illuwa.order.dto.query.info;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class MemberCouponDto {
+public class MemberCouponResponse {
     private Long memberCouponId;
     private Long couponId;
     private String couponName;
