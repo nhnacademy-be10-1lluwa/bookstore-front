@@ -43,6 +43,6 @@ public class PaymentController {
         paymentServiceClient.requestRefund(request);
         commonOrderClient.cancelPayment(orderNumber);
 
-        return "redirect:/order-list/";
+        return "redirect:/orders";
     }
 }
