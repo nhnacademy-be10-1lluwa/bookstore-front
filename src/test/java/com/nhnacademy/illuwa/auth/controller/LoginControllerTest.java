@@ -1,8 +1,6 @@
 package com.nhnacademy.illuwa.auth.controller;
 
-import com.nhnacademy.illuwa.common.ca.CategoryControllerAdvice;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import com.nhnacademy.illuwa.common.controller_advice.CategoryControllerAdvice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -15,8 +13,6 @@ import wiremock.org.eclipse.jetty.security.LoginService;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @WebMvcTest(controllers = LoginController.class,
         excludeFilters = {
