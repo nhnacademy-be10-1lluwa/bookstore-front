@@ -1,6 +1,6 @@
 package com.nhnacademy.illuwa.member.controller;
 
-import com.nhnacademy.illuwa.common.ca.CategoryControllerAdvice;
+import com.nhnacademy.illuwa.common.controller_advice.CategoryControllerAdvice;
 import com.nhnacademy.illuwa.grade.enums.GradeName;
 import com.nhnacademy.illuwa.member.service.AdminMemberService;
 import com.nhnacademy.illuwa.common.dto.PageResponse;
