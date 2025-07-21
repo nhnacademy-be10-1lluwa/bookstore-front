@@ -6,6 +6,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 
+import java.util.Objects;
+
 public class JwtCookieUtil {
     public static void addAccessToken(HttpServletResponse response, String value, int maxAge) {
         ResponseCookie c = ResponseCookie.from("ACCESS_TOKEN", value)
@@ -33,8 +35,12 @@ public class JwtCookieUtil {
 
     public static boolean checkAccessToken(HttpServletRequest request) {
         Cookie[] cookies = request.getCookies();
+        if(Objects.isNull(cookies)) {
+            return false;
+        }
+
         for(Cookie cookie : cookies) {
-            if("ACCESS_TOKEN".equals(cookie.getValue())) {
+            if("ACCESS_TOKEN".equals(cookie.getName())) {
                 return true;
             }
         }

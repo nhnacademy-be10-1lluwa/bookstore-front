@@ -11,7 +11,7 @@
         <h2>도서 목록</h2>
 
 
-        <form th:action="@{/book_search}" method="post" class="search">
+        <form th:action="@{/api/books/search-es}" method="get" class="search">
             <input type="text" name="keyword" placeholder="도서 제목 또는 저자를 입력하세요" required />
             <button type="submit">검색</button>
         </form>
@@ -25,7 +25,7 @@
                 <div class="book-card"
                      th:each="book : ${bookPage.content}"
                      th:data-id="${book.isbn}">
-                    <img th:src="@{${book.imgUrl}}"
+                    <img th:src="@{${book.imageUrls[0]}}"
                          th:alt="${book.title} + ' 표지'"
                          onerror="this.onerror=null;this.src='https://via.placeholder.com/240x336?text=No+Image';" />
                     <div class="book-info">
@@ -38,7 +38,7 @@
                     <div class="action">
                         <form th:action="@{/cart/add}" method="post" onclick="event.stopPropagation()">
                             <input type="hidden" name="bookId" th:value="${book.id}"/>
-                            <input type="number" name="amount"  value="1" min="1" />
+                            <input type="number" name="quantity"  value="1" min="1" />
                             <button type="submit"> 장바구니 담기
                             </button>
                         </form>

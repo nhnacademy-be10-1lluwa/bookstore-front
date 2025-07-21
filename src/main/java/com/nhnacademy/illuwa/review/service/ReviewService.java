@@ -16,8 +16,8 @@ import java.util.Map;
 public class ReviewService{
     private final ReviewServiceClient reviewServiceClient;
 
-    public ReviewResponse createReview(Long bookId, ReviewRequest request) throws Exception {
-        return reviewServiceClient.createReview(bookId, request);
+    public void createReview(Long bookId, ReviewRequest request) throws Exception {
+        reviewServiceClient.createReview(bookId, request);
     }
 
     public ReviewResponse updateReview(Long bookId, Long reviewId, ReviewRequest request) throws Exception {
@@ -33,11 +33,16 @@ public class ReviewService{
         return PageResponse.from(pagingData);
     }
 
-    public Map<Long, Boolean> areReviewsWritten(List<Long> bookIds){
-        return reviewServiceClient.areReviewsWritten(bookIds);
+    public PageResponse<ReviewResponse> getMemberReviewPages(int page, int size) {
+        return reviewServiceClient.getMemberReviewPages(page, size);
     }
 
     public Map<Long, Long> getExistingReviewIdMap(List<Long> bookIds){
         return reviewServiceClient.getExistingReviewIdMap(bookIds);
     }
+
+    public Map<Long, String> getBookTitlesFromReviewIds(List<Long> reviewIds){
+        return reviewServiceClient.getBookTitleMapFromReviewIds(reviewIds);
+    }
+
 }

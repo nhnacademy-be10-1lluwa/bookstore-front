@@ -22,6 +22,10 @@ public class BookService {
         return productServiceClient.findBookByIsbn(isbn);
     }
 
+    public BookDetailResponse findBookById(Long id){
+        return productServiceClient.findBookById(id);
+    }
+
 //    public List<SearchBookResponse> bookList() {
 //        return productServiceClient.findBooks();
 //    }

@@ -13,7 +13,7 @@
     <td th:text="${tag.id}">1</td>
     <td th:text="${tag.name}">태그명</td>
     <td>
-      <form th:action="@{/admin/tag/delete/{id}(id=${tag.id})}" method="post"
+      <form th:action="@{/admin/tags/{id}/delete(id=${tag.id})}" method="post"
             onsubmit="return confirm('삭제하시겠습니까?');">
         <button type="submit">삭제</button>
       </form>
@@ -24,11 +24,11 @@
 
 <div>
   <a th:if="${!tagPage.last}"
-     th:href="@{|/admin/tag/manage?page=${tagPage.number + 1}&size=${tagPage.size}|}">다음</a>
+     th:href="@{|/admin/tags?page=${tagPage.number + 1}&size=${tagPage.size}|}">다음</a>
 </div>
 
 <h2>태그 등록</h2>
-<form th:action="@{/admin/tag/create}" method="post">
+<form th:action="@{/admin/tags}" method="post">
   <input type="text" name="name" placeholder="태그명" required/>
   <button type="submit">등록</button>
 </form>

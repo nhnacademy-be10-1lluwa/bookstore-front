@@ -12,7 +12,7 @@
         <section class="login-container">
             <h2>로그인</h2>
             <div th:if="${error}" class="error-message" th:text="${error}"></div>
-            <form th:action="@{/login}" method="post" class="login-form">
+            <form th:action="@{/auth/login}" method="post" class="login-form">
                 <div class="form-group">
                     <label for="email">이메일</label>
                     <input type="text"
@@ -36,7 +36,7 @@
             <a th:href="@{/oauth2/authorization/payco}" class="oauth-button full-width">
                 <img th:src="@{/images/PAYCO_loginButton.png}" alt="PAYCO 로그인">
             </a>
-            <a th:href="@{/guest-login}" class="button button-primary full-width">비회원 주문조회</a>
+            <a th:href="@{/guest-check-order}" class="button button-primary full-width">비회원 주문조회</a>
         </section>
     </div>
 </main>

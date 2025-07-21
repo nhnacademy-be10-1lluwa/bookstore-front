@@ -5,7 +5,7 @@
       layout:decorate="~{layout/layout}">
 
 <head layout:fragment="head">
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" />
     <link rel="stylesheet" th:href="@{/css/page/book/detail.css}" />
     <title>도서 상세</title>
 </head>
@@ -16,22 +16,29 @@
         <div class="container" th:if="${book != null}">
             <div class="book-detail">
                 <div class="book-images">
-                    <img id="main-image" class="main-image"
-                         th:src="${book.imgUrl != null and !book.imgUrl.isEmpty() ? book.imgUrl : '/images/default-book.jpg'}"
-                         th:alt="${book.title}">
-                    <div class="image-thumbnails" id="thumbnails">
+                    <div class="book-images">
+                        <img th:if="${!#lists.isEmpty(book.imageUrls)}"
+                             th:src="${book.imageUrls[0]}"
+                             alt="도서 이미지"
+                             style="width: 200px; height: 300px; object-fit: cover;" />
+                        <div class="image-thumbnails" id="thumbnails">
+                        </div>
+                    </div>
                     </div>
                 </div>
             </div>
 
             <div class="book-info">
-                <h1 class="book-title" th:text="${book.title}">도서 제목</h1>
-                <p class="book-author" th:text="${book.author}">저자</p>
+                <div class="book-header">
+                    <!-- 제목 + 지은이 -->
+                    <h1 class="book-title" th:text="${book.title}">도서 제목</h1>
+                    <span class="book-author" th:text="${book.author}">저자</span>
+                </div>
 
                 <div class="price-section">
-                        <span class="original-price"
-                              th:if="${book.regularPrice != null and book.salePrice != null and book.regularPrice.compareTo(book.salePrice) > 0}"
-                              th:text="${#numbers.formatDecimal(book.regularPrice, 0, 'COMMA', 0, 'POINT') + '원'}">정가</span>
+                    <span class="original-price"
+                          th:if="${book.regularPrice != null and book.salePrice != null and book.regularPrice.compareTo(book.salePrice) > 0}"
+                          th:text="${#numbers.formatDecimal(book.regularPrice, 0, 'COMMA', 0, 'POINT') + '원'}">정가</span>
 
                     <span class="discount-price"
                           th:if="${book.salePrice != null}"
@@ -57,48 +64,64 @@
                         <span class="detail-value" th:text="${book.isbn}">ISBN</span>
                     </div>
                     <div class="detail-item">
-                        <span class="detail-label">선물포장:</span>
-                        <span class="detail-value"
-                              th:text="${book.isGiftWrap() ? '가능' : '불가능'}">포장 여부</span>
+                        <span class="detail-label">재고</span>
+                        <span class="detail-value" th:text="${book.count != null and book.count > 0 ? book.count + '권' : '품절'}">수량</span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">판매상태</span>
+                        <span class="detail-value">
+                                <span th:switch="${book.status}">
+                                    <span th:case="'NORMAL'">정상 판매</span>
+                                    <span th:case="'OUT_OF_STOCK'">품절</span>
+                                    <span th:case="'DISCONTINUED'">절판</span>
+                                    <span th:case="'DELETED'">삭제됨</span>
+                                    <span th:case="*">정보 없음</span>
+                                </span>
+                            </span>
+                    </div>
+                    <div class="detail-item">
+                        <span class="detail-label">선물포장</span>
+                        <span class="detail-value" th:text="${book.isGiftWrap() ? '가능' : '불가능'}">포장 여부</span>
                     </div>
                 </div>
-                <div class="action-buttons">
-                    <!-- 주문하기: 수량을 선택해서 GET 파라미터로 전달 -->
-                    <form th:if="${isLoggedIn}" th:action="@{/order/order-form/{bookId}(bookId=${book.id})}"
-                          method="get"
-                          class="cart-form">
-                        <label>
-                            <input type="number"
-                                   name="amount"
-                                   min="1"
-                                   value="1"
-                                   class="cart-amount"/>
-                        </label>
+
+
+                <!-- 장바구니 + 주문 버튼 -->
+                <div class="book-actions">
+                    <label>
+                        <input type="number" name="quantity" value="1" min="1" class="cart-quantity" />
+                    </label>
+
+                    <!-- 장바구니 담기 -->
+                    <form th:action="@{/cart/add}" method="post" class="cart-form">
+                        <input type="hidden" name="bookId" th:value="${book.id}" />
+                        <input type="hidden" name="quantity" th:value="1" class="hidden-quantity" />
+                        <button type="submit" class="cart-btn">장바구니 담기</button>
+                    </form>
+
+                    <!-- 로그인한 사용자의 주문 -->
+                    <form th:if="${isLoggedIn}" th:action="@{/order/order-form/{bookId}(bookId=${book.id})}" method="get" class="cart-form">
+                        <input type="hidden" name="quantity" th:value="1" class="hidden-quantity" />
                         <button type="submit" class="cart-btn">주문하기</button>
                     </form>
-                    <form th:unless="${isLoggedIn}" th:action="@{/guest/order/order-form/{bookId}(bookId=${book.id})}"
-                          method="get" class="cart-form">
-                        <label>
-                            <input type="number"
-                                   name="amount"
-                                   min="1"
-                                   value="1"
-                                   class="cart-amount"/>
-                        </label>
+
+                    <!-- 비회원 주문 -->
+                    <form th:unless="${isLoggedIn}" th:action="@{/guest/order/order-form/{bookId}(bookId=${book.id})}" method="get" class="cart-form">
+                        <input type="hidden" name="quantity" th:value="1" class="hidden-quantity" />
                         <button type="submit" class="cart-btn">주문하기</button>
+                    </form>
+
+                    <!-- 도서 좋아요 버튼 -->
+                    <form th:if="${isLoggedIn}" th:action="@{/book-likes}" method="post">
+                        <input type="hidden" name="book-id" th:value="${book.id}" />
+                        <button type="submit" class="like-btn" th:classappend="${isMyLikedBook} ? ' liked' : ''">
+                            <span class="like-icon" th:text="${isMyLikedBook} ? '❤️' : '🤍'"></span>
+                            <span th:text="${isMyLikedBook} ? ' 이 책 좋아요' : ' 이 책 좋아요'"></span>
+                        </button>
                     </form>
                 </div>
-
-                <form th:action="@{/cart/add}" method="post" class="cart-form">
-                    <input type="hidden" name="bookId" th:value="${book.id}" />
-                    <label>
-                        <input type="number" name="amount"  value="1" min="1" class="cart-amount"/>
-                    </label>
-                    <button type="submit" class="cart-btn"> 장바구니 담기
-                    </button>
-                </form>
             </div>
-        </div>
+
         <div>
             <div class="tabs">
                 <div class="tab-nav">
@@ -126,89 +149,71 @@
             <p>요청하신 도서가 존재하지 않거나, 정보를 불러오는 데 실패했습니다.</p>
             <a th:href="@{/}" class="btn btn-primary">메인으로 돌아가기</a>
         </div>
-    </section>
 
-    <!-- 리뷰 섹션 -->
-    <section class="review">
-        <h2>리뷰</h2>
-        <div id="review-list">
-            <div th:each="review : ${reviewContent}" class="review-box">
-                <div>
-                    <strong th:text="'작성자: ' + ${nameMap.get(review.memberId)}">작성자</strong>
-                    <strong th:text="'게시일: ' + ${#temporals.format(review.reviewDate, 'yyyy-MM-dd')}">게시일</strong>
+        <!-- 리뷰 섹션 -->
+        <section class="review">
+            <hr><hr><h2>리뷰</h2><hr><hr>
+            <div id="review-list">
+                <div th:each="review : ${reviewContent}" class="review-box">
+                    <div>
+                        <br>
+                        <strong th:text="'작성자: ' + ${reviewerNameMap[review.memberId]}">작성자</strong>
+                        <strong th:text="'게시일: ' + ${#temporals.format(review.reviewDate, 'yyyy-MM-dd')}">게시일</strong>
+                        <span th:each="i : ${#numbers.sequence(1, review.reviewRating)}">⭐</span>
+                    </div>
+
+                    <div>
+                        <img th:each="img : ${review.reviewImageUrls}" th:src="@{${img}}" alt="리뷰 이미지" style="max-width: 500px;" />
+                    </div>
+
+                    <h3 th:text="${review.reviewTitle}">제목</h3>
+                    <p th:text="${review.reviewContent}">내용</p>
+
+                    <!-- 좋아요 영역 -->
+                    <div>
+                        <button class="like-btn"
+                                th:if="${isLoggedIn}"
+                                th:classappend="${myLikedReviewIds.contains(review.reviewId)} ? ' liked' : ''"
+                                th:attr="data-book-id=${review.bookId}, data-review-id=${review.reviewId}">
+                            <span class="like-icon" th:if="${isLoggedIn}" th:text="${myLikedReviewIds.contains(review.reviewId)} ? '❤️' : '🤍'"></span>
+                            좋아요 <span class="like-count" th:id="'like-count-' + ${review.reviewId}" th:text="${likeCountMap[review.reviewId]}">0</span>
+                        </button>
+                    </div>
+                    <br><hr><hr>
                 </div>
-                <div>
-                    <span th:each="i : ${#numbers.sequence(1, review.reviewRating)}">⭐</span>
-                </div>
-                <h3 th:text="'제목: ' + ${review.reviewTitle}">제목</h3>
-                <div>
-                    <img th:each="img : ${review.reviewImageUrls}" th:src="@{${img}}" alt="리뷰 이미지" style="max-width: 200px;" />
-                </div>
-                <p th:text="${review.reviewContent}">내용</p>
-
-                <!-- 좋아요 영역 -->
-                <div>
-                    <button class="like-btn"
-                            th:attr="data-book-id=${review.bookId}, data-review-id=${review.reviewId}">
-                        <span class="like-icon" th:text="${review.likedByMe} ? '❤️' : '🤍'"></span>
-                        좋아요 <span class="like-count" th:id="'like-count-' + ${review.reviewId}" th:text="${review.likeCount}">0</span>
-                    </button>
-                </div>
-
-                <!-- 댓글 목록 -->
-                <div id="comment-box-[[${review.reviewId}]]" class="comment-box" style="display: none;"></div>
-
-                <!-- 댓글 입력 폼 -->
-                <div id="comment-form-[[${review.reviewId}]]" style="display: none; margin-top: 10px;">
-                    <label>
-                        <textarea id="comment-input-[[${review.reviewId}]]"
-                                  placeholder="댓글을 입력하세요..."
-                                  rows="3"
-                                  style="width: 100%;"></textarea>
-                    </label>
-
-                    <button type="button" th:onclick="|submitComment(${review.reviewId}, ${review.bookId})|">
-                        등록
-                    </button>
-                </div>
-
-                <span style="cursor: pointer;"
-                      th:data-review-id="${review.reviewId}"
-                      th:onclick="|toggleComments(this, ${review.bookId})|"> 댓글 보이기
-                </span>
             </div>
-        </div>
-        <!-- 페이징 UI -->
-        <div class="review-pagination" id="review-pagination">
-            <div class="pagination">
-                <!-- 이전 페이지 -->
-                <a th:if="${!reviewPage.first}"
-                   href="#"
-                   th:data-page="${reviewPage.page - 1}"
-                   class="page-link">« Prev</a>
 
-                <!-- 페이지 번호 목록 -->
-                <span th:each="i : ${#numbers.sequence(0, reviewPage.totalPages - 1)}"
-                      th:classappend="${i == reviewPage.page} ? 'current'">
-                    <a href="#"
-                       th:data-page="${i}"
+            <!-- 페이징 처리 -->
+            <div class="review-pagination" th:if="${reviewPage.totalPages > 1}">
+                <div class="pagination">
+
+                    <!-- 이전 페이지 -->
+                    <a th:if="${!reviewPage.first}"
+                       th:href="@{/books/{id}(id=${book.id}, page=${reviewPage.page - 1})}"
+                       class="page-link">« Prev</a>
+
+                    <!-- 페이지 번호 -->
+                    <a th:each="i : ${#numbers.sequence(0, reviewPage.totalPages - 1)}"
+                       th:classappend="${i == reviewPage.page} ? ' current'"
+                       th:href="@{/books/{id}(id=${book.id}, page=${i})}"
                        th:text="${i + 1}"
-                       class="page-link">1</a>
-                </span>
+                       class="page-link"></a>
 
-                <!-- 다음 페이지 -->
-                <a th:if="${!reviewPage.last}"
-                   href="#"
-                   th:data-page="${reviewPage.page + 1}"
-                   class="page-link">Next »</a>
+                    <!-- 다음 페이지 -->
+                    <a th:if="${!reviewPage.last}"
+                       th:href="@{/books/{id}(id=${book.id}, page=${reviewPage.page + 1})}"
+                       class="page-link">Next »</a>
+                </div>
             </div>
-        </div>
+        </section>
+
     </section>
 </main>
+
 <th:block layout:fragment="scripts">
     <script th:src="@{/js/book/detail.js}"></script>
     <script th:src="@{/js/review/review_like.js}"></script>
-    <script th:src="@{/js/review/review_comment.js}"></script>
 </th:block>
+
 </body>
 </html>

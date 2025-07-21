@@ -12,7 +12,7 @@ document.querySelectorAll('.book-item').forEach(item => {
     item.addEventListener('click', () => {
         const bookIsbn = item.getAttribute('data-id');
         if (bookIsbn) {
-            window.location.href = `/user/books/${bookIsbn}`;
+            window.location.href = `/books/isbn/${bookIsbn}`;
         }
     });
 });

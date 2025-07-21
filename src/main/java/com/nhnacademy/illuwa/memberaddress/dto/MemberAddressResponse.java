@@ -3,8 +3,7 @@ package com.nhnacademy.illuwa.memberaddress.dto;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
 
-@Getter
-@Setter
+@Data
 @Builder
 public class MemberAddressResponse {
     private long memberAddressId;

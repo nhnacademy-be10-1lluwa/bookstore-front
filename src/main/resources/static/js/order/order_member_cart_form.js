@@ -132,12 +132,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const afterDiscount = Math.max(0, subtotal - totalDiscount);
         const afterPoint = Math.max(0, afterDiscount - usedPoint);
-        const shippingFee = afterPoint >= 50000 ? 0 : 3000;
-        const total = afterPoint + shippingFee;
+        /*const shippingFee = afterPoint >= 50000 ? 0 : 3000;
+        const total = afterPoint + shippingFee;*/
 
         const estEl = document.getElementById('estimatedTotal');
         if (estEl) {
-            estEl.textContent = new Intl.NumberFormat('ko-KR').format(Math.round(total)) + '원';
+            estEl.textContent = new Intl.NumberFormat('ko-KR').format(Math.round(afterPoint)) + '원';
         }
     }
 

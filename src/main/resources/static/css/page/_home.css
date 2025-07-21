@@ -15,7 +15,7 @@
 
 .welcome-message {
     font-size: var(--font-size-h1);
-    color: var(--color-text-dark);
+    color: var(--color-primary);
     margin-bottom: var(--spacing-md);
     font-weight: var(--font-weight-bold);
     font-family: var(--font-family-heading);

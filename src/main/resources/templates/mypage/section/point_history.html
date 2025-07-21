@@ -28,7 +28,7 @@
     <div class="point-tabs">
       <a th:href="@{/point-history(type='ALL')}" class="point-tab" th:classappend="${currentType == 'ALL'} ? 'active'">전체</a>
       <a th:href="@{/point-history(type='EARN')}" class="point-tab" th:classappend="${currentType == 'EARN'} ? 'active'">적립</a>
-      <a th:href="@{/point-history(type='USE')}" class="point-tab" th:classappend="${currentType == 'USE'} ? 'active'">차감</a>
+      <a th:href="@{/point-history(type='DEDUCT')}" class="point-tab" th:classappend="${currentType == 'DEDUCT'} ? 'active'">차감</a>
     </div>
 
     <!-- 포인트 히스토리 테이블 -->

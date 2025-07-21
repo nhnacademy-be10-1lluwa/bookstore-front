@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ko"
+      layout:decorate="~{layout/mypage-layout}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head layout:fragment="head">
+  <title>내가 좋아요한 도서</title>
+  <link rel="stylesheet" th:href="@{/css/page/member/book-likes.css}" />
+</head>
+
+<body>
+<main layout:fragment="content">
+  <h2>📚 내가 좋아요한 도서</h2>
+
+  <div th:if="${#lists.isEmpty(likedBooks.content)}">
+    <p>좋아요한 도서가 아직 없어요</p>
+  </div>
+
+  <div class="book-list" th:if="${!#lists.isEmpty(likedBooks.content)}">
+    <a th:each="book : ${likedBooks.content}"
+       th:href="@{'/books/' + ${book.id}}"
+       class="book-card-link"
+       style="text-decoration: none; color: inherit;">
+      <div class="book-card">
+        <img th:src="${book.cover}" alt="도서 이미지" style="width: 150px; height: 220px; object-fit: cover; margin-bottom: 10px;" />
+        <div class="book-info">
+          <div class="book-title" th:text="${book.title}">도서 제목</div>
+          <div class="book-meta">
+            <span th:text="|지은이: ${book.author}|"></span><br/>
+            <span th:text="|출판사: ${book.publisher}|"></span><br/>
+            <span th:text="|ISBN: ${book.isbn}|"></span>
+          </div>
+          <div class="book-price"
+               th:text="${#numbers.formatInteger(book.salePrice, 3, 'COMMA')} + '원'">
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+
+  <!-- 페이지네이션 -->
+  <div class="pagination" th:if="${likedBooks.totalPages > 1}">
+    <a th:if="${!likedBooks.first}"
+       th:href="@{'/book-likes?page=' + ${likedBooks.page - 1} + '&size=' + ${likedBooks.size}}">« 이전</a>
+
+    <a th:each="pageNum : ${#numbers.sequence(0, likedBooks.totalPages - 1)}"
+       th:classappend="${pageNum == likedBooks.page} ? 'active'"
+       th:href="@{'/book-likes?page=' + ${pageNum} + '&size=' + ${likedBooks.size}}"
+       th:text="${pageNum + 1}">1</a>
+
+    <a th:if="${!likedBooks.last}"
+       th:href="@{'/book-likes?page=' + ${likedBooks.page + 1} + '&size=' + ${likedBooks.size}}">다음 »</a>
+  </div>
+
+</main>
+
+<th:block layout:fragment="scripts">
+</th:block>
+</body>
+</html>

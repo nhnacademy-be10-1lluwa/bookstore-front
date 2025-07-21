@@ -140,6 +140,7 @@
                 예상 결제 금액 :
                 <span id="estimatedTotal"> </span>
             </p>
+            <p class="text-muted" style="font-size:0.85rem;">20,000원 이상 주문 시, 배송비 무료</p>
             <button type="submit">주문 하기</button>
         </section>
     </form>
@@ -192,14 +193,6 @@
             </div>
         </div>
     </div>
-
-    <script th:inline="javascript">
-        /*<![CDATA[*/
-        window.orderMemberInit = {
-            addressCount: /*[[${addressCount}]]*/ 0
-        };
-        /*]]>*/
-    </script>
     <script th:src="@{/js/order/order_member_form.js}" defer></script>
 </main>
 </html>

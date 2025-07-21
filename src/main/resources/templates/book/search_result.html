@@ -4,11 +4,16 @@
       layout:decorate="~{layout/layout}">
 <head>
     <title>도서 검색 결과</title>
-    <link rel="stylesheet" th:href="@{/css/page/book/detail.css}" />
 </head>
 <body>
 <section layout:fragment="content">
     <h1 th:text="'검색 결과 (' + ${page.totalElements} + '건)'"></h1>
+
+    <form th:action="@{/api/books/search-es}" method="get" class="search">
+        <input type="text" name="keyword" placeholder="도서 제목 또는 저자를 입력하세요" required />
+        <button type="submit">검색</button>
+    </form>
+
     <p>검색어: <span th:text="${keyword}"></span></p>
 
         <div class="search-options">
@@ -20,7 +25,9 @@
 
 
     <div class="book-list">
-        <div class="book-card" th:each="book : ${books}">
+        <div class="book-card" th:each="book : ${books}"
+             th:data-id="${book.id}"
+             th:onclick="|window.location.href='/books/${book.id}'|">
             <img th:src="${book.thumbnailUrl}" alt="도서 이미지" width="150"/>
             <h3 th:text="${book.title}"></h3>
             <p th:text="'저자: ' + ${book.author}"></p>

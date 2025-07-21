@@ -4,11 +4,11 @@
         </h2>
         <ul>
             <li><a th:href="@{/my-info}" th:classappend="${activeMenu == 'my-info'} ? 'active' : ''">👤 내 정보</a></li>
-            <li><a th:href="@{/bookmark}" th:classappend="${activeMenu == 'bookmark'} ? 'active' : ''">🔖 북마크</a></li>
             <li><a th:href="@{/order-list}" th:classappend="${activeMenu == 'order-list'} ? 'active' : ''">🧾 주문 내역</a></li>
-            <li><a th:href="@{/review-history}" th:classappend="${activeMenu == 'review-history'} ? 'active' : ''">📝 작성한 리뷰</a></li>
             <li><a th:href="@{/mycoupon}" th:classappend="${activeMenu == 'mycoupon'} ? 'active' : ''">🎟️ 쿠폰 내역</a></li>
             <li><a th:href="@{/point-history}" th:classappend="${activeMenu == 'point-history'} ? 'active' : ''">💰 포인트 내역</a></li>
+            <li><a th:href="@{/book-likes}" th:classappend="${activeMenu == 'book-likes'} ? 'active' : ''">🔖 좋아요한 도서</a></li>
+            <li><a th:href="@{/review-history}" th:classappend="${activeMenu == 'review-history'} ? 'active' : ''">📝 작성한 리뷰</a></li>
             <li><a th:href="@{/address-list}" th:classappend="${activeMenu == 'address-list'} ? 'active' : ''">🏠 배송지 관리</a></li>
         </ul>
 </div>

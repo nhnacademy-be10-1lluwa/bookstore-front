@@ -1,5 +1,6 @@
 package com.nhnacademy.illuwa.coupon.dto.couponPolicy;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -7,6 +8,7 @@ import java.math.BigDecimal;
 
 @Getter
 @Setter
+@Builder
 public class CouponPolicyUpdateRequest {
     private BigDecimal minOrderAmount; // 최소 주문 금액
 

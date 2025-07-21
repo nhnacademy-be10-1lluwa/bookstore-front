@@ -19,6 +19,9 @@ public interface ProductServiceClient {
     @GetMapping("/api/books/{id}")
     BookDetailResponse getBookDetail(@PathVariable String id);
 
+    @GetMapping("/api/books/{id}")
+    BookDetailResponse findBookById(@PathVariable Long id);
+
     // 도서 검색 - ISBN
     @GetMapping("/api/books/isbn/{isbn}")
     BookDetailResponse findBookByIsbn(@PathVariable String isbn);
@@ -91,5 +94,14 @@ public interface ProductServiceClient {
     Page<BookDetailWithExtraInfoResponse> getAllBooksWithExtraInfo(@RequestParam int page,
                                                                    @RequestParam int size,
                                                                    @RequestParam(defaultValue = "id") String sort);
+
+    // 도서에 태그 등록
+    @PostMapping("/api/admin/books/{bookId}/tags/{tagId}")
+    void addTagToBook(@PathVariable("bookId") Long bookId, @PathVariable("tagId") Long tagId);
+
+    // 도서에서 태그 삭제
+    @DeleteMapping("/api/admin/books/{bookId}/tags/{tagId}")
+    void removeTagFromBook(@PathVariable("bookId") Long bookId, @PathVariable("tagId") Long tagId);
+
 
 }

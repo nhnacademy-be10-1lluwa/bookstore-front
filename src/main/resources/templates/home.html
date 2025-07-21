@@ -16,13 +16,13 @@
 
         <a th:if="${isLoggedIn}" th:href="@{/coupons}" class="button button-primary">쿠폰발급</a>
 
-        <a th:unless="${isLoggedIn}" th:href="@{/login}" class="button button-primary">로그인하기</a>
+        <a th:unless="${isLoggedIn}" th:href="@{/auth/login}" class="button button-primary">로그인하기</a>
 
         <a th:if="${isLoggedIn}" th:href="@{/mypage}" class="button button-primary">마이페이지</a>
 
-        <a th:if="${isAdmin}" th:href="@{/admin_home}" class="button button-primary">관리자페이지</a>
+        <a th:if="${isAdmin}" th:href="@{/admin/home}" class="button button-primary">관리자페이지</a>
 
-        <a th:href="@{/book_search}" class="button button-secondary">책 찾아보기</a>
+        <a th:href="@{/books/list}" class="button button-secondary">책 찾아보기</a>
       </div>
     </div>
     <h2>베스트셀러</h2>
