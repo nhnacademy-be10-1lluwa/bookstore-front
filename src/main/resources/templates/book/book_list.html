@@ -42,19 +42,19 @@
 
             <div class="pagination">
                 <a th:if="${bookPage.hasPrevious()}"
-                   th:href="@{/books/list(page=${bookPage.number - 1}, size=${bookPage.size}, sort=${sort})}">&laquo; 이전</a>
+                   th:href="@{/books(page=${bookPage.number - 1}, size=${bookPage.size}, sort=${sort})}">&laquo; 이전</a>
                 <span th:unless="${bookPage.hasPrevious()}" class="disabled">&laquo; 이전</span>
 
                 <th:block th:if="${bookPage.totalPages > 0}" th:each="pageNumber : ${#numbers.sequence(0, bookPage.totalPages - 1)}">
                     <a th:if="${pageNumber != bookPage.number}"
-                       th:href="@{/books/list(page=${pageNumber}, size=${bookPage.size}, sort=${sort})}"
+                       th:href="@{/books(page=${pageNumber}, size=${bookPage.size}, sort=${sort})}"
                        th:text="${pageNumber + 1}">1</a>
                     <span th:if="${pageNumber == bookPage.number}"
                           class="current-page" th:text="${pageNumber + 1}">1</span>
                 </th:block>
 
                 <a th:if="${bookPage.hasNext()}"
-                   th:href="@{/books/list(page=${bookPage.number + 1}, size=${bookPage.size}, sort=${sort})}">다음 &raquo;</a>
+                   th:href="@{/books(page=${bookPage.number + 1}, size=${bookPage.size}, sort=${sort})}">다음 &raquo;</a>
                 <span th:unless="${bookPage.hasNext()}" class="disabled">다음 &raquo;</span>
             </div>
         </div>
