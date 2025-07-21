@@ -53,7 +53,7 @@ public class AdminMemberControllerTest {
     @Test
     @DisplayName("회원 관리 페이지 뷰 반환")
     public void adminMemberManagementTest() throws Exception {
-        mockMvc.perform(get("/admin/member-management"))
+        mockMvc.perform(get("/admin/members/management"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/member/member_management"));
     }
@@ -96,7 +96,7 @@ public class AdminMemberControllerTest {
         );
         when(adminMemberService.getPagedMemberList(any(), eq(0), eq(5))).thenReturn(pageResponse);
 
-        mockMvc.perform(get("/admin/member-list")
+        mockMvc.perform(get("/admin/members")
                         .param("page", "0")
                         .param("size", "5"))
                 .andExpect(status().isOk())
@@ -125,11 +125,11 @@ public class AdminMemberControllerTest {
 
         when(adminMemberService.givePointToGrade(eq(grade), eq(point))).thenReturn(mockResponse);
 
-        mockMvc.perform(post("/admin/point-bonus")
+        mockMvc.perform(post("/admin/members/grade/bonus")
                         .param("grade", grade.name())
                         .param("point", point.toPlainString()))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/admin/member-list?grade=" + grade.name()));
+                .andExpect(redirectedUrl("/admin/members?grade=" + grade.name()));
 
         verify(adminMemberService, times(1)).givePointToGrade(grade, point);
     }
@@ -137,7 +137,7 @@ public class AdminMemberControllerTest {
     @Test
     @DisplayName("회원 주문 리스트 페이지 뷰 반환")
     public void memberOrderListTest() throws Exception {
-        mockMvc.perform(get("/admin/member-orderlist"))
+        mockMvc.perform(get("/admin/members/orders"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/member/member_orderlist"));
     }
@@ -145,7 +145,7 @@ public class AdminMemberControllerTest {
     @Test
     @DisplayName("비회원 주문 리스트 페이지 뷰 반환")
     public void guestOrderListTest() throws Exception {
-        mockMvc.perform(get("/admin/guest-orderlist"))
+        mockMvc.perform(get("/admin/guests/orders"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/member/guest_orderlist"));
     }

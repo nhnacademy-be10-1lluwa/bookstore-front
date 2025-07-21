@@ -17,19 +17,19 @@ import java.math.BigDecimal;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/members")
+@RequestMapping("/admin")
 public class AdminMemberController {
 
     private final AdminMemberService adminMemberService;
 
     // 회원 관리 페이지
-    @GetMapping("/management")
+    @GetMapping("/members/management")
     public String adminMemberManagement() {
         return "admin/member/member_management";
     }
 
     // 회원 리스트
-    @GetMapping
+    @GetMapping("/members")
     public String memberList(
             @RequestParam(value = "grade", required = false) GradeName gradeName,
             @RequestParam(defaultValue = "0") int page,
@@ -49,7 +49,7 @@ public class AdminMemberController {
     }
 
     // 등급별 포인트 적립
-    @PostMapping("/grade/bonus")
+    @PostMapping("/members/grade/bonus")
     public String giveBonus(@RequestParam("grade") GradeName gradeName,
                             @RequestParam("point") BigDecimal point,
                             RedirectAttributes redirectAttributes) {
@@ -59,7 +59,7 @@ public class AdminMemberController {
     }
 
     // 회원 주문 내역
-    @GetMapping("/orders")
+    @GetMapping("/members/orders")
     public String memberOrderList() {
         return "admin/member/member_orderlist";
     }

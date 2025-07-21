@@ -75,7 +75,7 @@ class AdminCouponControllerTest {
 
         when(couponService.getAllCoupons()).thenReturn(coupons);
 
-        mockMvc.perform(get("/admin/coupon/coupon"))
+        mockMvc.perform(get("/admin/coupons"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/coupon/coupon_view_list"))
                 .andExpect(model().attribute("coupons", hasSize(2)))
@@ -85,7 +85,7 @@ class AdminCouponControllerTest {
     @Test
     @DisplayName("쿠폰 등록 폼 반환")
     void couponPolicyCreateFromTest() throws Exception {
-        mockMvc.perform(get("/admin/coupon/coupon/create"))
+        mockMvc.perform(get("/admin/coupons/form"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/coupon/coupon_create"))
                 .andExpect(model().attributeExists("policyList"))
@@ -97,7 +97,7 @@ class AdminCouponControllerTest {
     @Test
     @DisplayName("쿠폰 등록 폼 전송")
     void registerCouponTest() throws Exception {
-        mockMvc.perform(post("/admin/coupon/coupon/create")
+        mockMvc.perform(post("/admin/coupons")
                         .param("couponName", "테스트쿠폰이름")
                         .param("policyCode", "TEST_CODE")
                         .param("validFrom", "2025-07-21")
@@ -105,7 +105,7 @@ class AdminCouponControllerTest {
                         .param("couponType", "WELCOME")
                         .param("issueCount", "100"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/admin/coupon/coupon"));
+                .andExpect(redirectedUrl("/admin/coupons"));
 
         verify(couponService, times(1)).createCoupon(any(CouponForm.class));
     }
@@ -125,7 +125,7 @@ class AdminCouponControllerTest {
 
         when(couponService.getCouponById(1L)).thenReturn(response);
 
-        mockMvc.perform(get("/admin/coupon/coupon/1/update"))
+        mockMvc.perform(get("/admin/coupons/1/form"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/coupon/coupon_update"))
                 .andExpect(model().attribute("coupon", response));
@@ -134,11 +134,11 @@ class AdminCouponControllerTest {
     @Test
     @DisplayName("쿠폰 수정 데이터 전송")
     void updateCouponTest() throws Exception {
-        mockMvc.perform(post("/admin/coupon/coupon/1/update")
+        mockMvc.perform(post("/admin/coupons/1/update")
                         .param("comment", "쿠폰 수량 추가 +50")
                         .param("issueCount", "50"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/admin/coupon/coupon"));
+                .andExpect(redirectedUrl("/admin/coupons"));
 
         verify(couponService, times(1)).updateCoupon(eq(1L), any(CouponUpdateRequest.class));
     }
@@ -146,9 +146,9 @@ class AdminCouponControllerTest {
     @Test
     @DisplayName("쿠폰 삭제")
     void deleteCouponTest() throws Exception {
-        mockMvc.perform(post("/admin/coupon/coupon/1/delete"))
+        mockMvc.perform(post("/admin/coupons/1/delete"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/admin/coupon/coupon"));
+                .andExpect(redirectedUrl("/admin/coupons"));
 
         verify(couponService, times(1)).deleteCoupon(1L);
     }
