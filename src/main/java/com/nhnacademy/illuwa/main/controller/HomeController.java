@@ -21,7 +21,7 @@ public class HomeController {
     @GetMapping("/")
     public String home(Model model) {
 
-        List<BestSellerResponse> bestSeller =bookService.getBestSellers();
+        List<BestSellerResponse> bestSeller = bookService.getBestSellers();
         model.addAttribute("bestSeller",bestSeller);
         return "home";
     }
