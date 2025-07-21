@@ -13,19 +13,30 @@ import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 
 @Configuration
 public class CacheConfig {
     @Bean
     public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
-        RedisCacheConfiguration defaultConfig = RedisCacheConfiguration.defaultCacheConfig()
-                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
-                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(createJsonSerializer()))
-                .entryTtl(Duration.ofHours(1));
+        RedisCacheConfiguration defaultConfig = createCacheConfiguration(Duration.ofHours(1));
+
+        Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
+        //1시간
+        cacheConfigurations.put("categories", defaultConfig);
+        //30분
+        cacheConfigurations.put("bestSellers", createCacheConfiguration(Duration.ofMinutes(30)));
 
         return RedisCacheManager.builder(connectionFactory)
-                .cacheDefaults(defaultConfig)
+                .withInitialCacheConfigurations(cacheConfigurations)
                 .build();
+    }
+    private RedisCacheConfiguration createCacheConfiguration(Duration ttl) {
+        return RedisCacheConfiguration.defaultCacheConfig()
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(createJsonSerializer()))
+                .entryTtl(ttl);
     }
 
 
