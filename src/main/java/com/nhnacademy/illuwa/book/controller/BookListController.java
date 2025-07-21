@@ -9,27 +9,18 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
-@RequiredArgsConstructor
 @Controller
+@RequiredArgsConstructor
+@RequestMapping("/books")
 public class BookListController {
     private final BookService bookService;
 
-//    @GetMapping("/books/list")
-//    public String listBooks(Model model) {
-//        List<BookDetailResponse> books = bookService.getAllBooks();
-//        model.addAttribute("books", books);
-//        return "book/book_list";
-//    }
-
-    @GetMapping("/books/list")
+    @GetMapping
     public String listBooks(Model model,
                             @RequestParam(defaultValue = "0") int page,
                             @RequestParam(defaultValue = "15") int size,
@@ -43,7 +34,7 @@ public class BookListController {
         return "book/book_list";
     }
 
-    @PostMapping("/book-search")
+    @PostMapping("/search")
     public String searchBook(@RequestParam("keyword") String keyword, Model model) {
         BookDetailResponse book = bookService.bookDetail(keyword);
         List<BookDetailResponse> books = new ArrayList<>();
