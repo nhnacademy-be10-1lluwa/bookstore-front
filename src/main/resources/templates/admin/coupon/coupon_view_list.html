@@ -13,7 +13,7 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
             <h1 style="margin:0;">쿠폰 목록</h1>
             <button type="button"
-                    onclick="location.href='/admin/coupon/coupon/create'"
+                    onclick="location.href='/admin/coupons/form'"
                     class="btn-register">
                 + 새 쿠폰 등록
             </button>
@@ -39,7 +39,7 @@
                 <tr th:each="coupon : ${coupons}">
                     <td th:text="${coupon.id}">ID</td>
                     <td>
-                        <a th:href="@{/admin/coupon/coupon/{id}/update(id=${coupon.id})}"
+                        <a th:href="@{/admin/coupons/{id}/update(id=${coupon.id})}"
                            style="color:#3056d3; font-weight:bold; text-decoration:underline; cursor:pointer;">
                             <span th:text="${coupon.couponName}">쿠폰 이름</span>
                         </a>
@@ -66,7 +66,7 @@
                     <td th:text="${coupon.categoryId != null ? coupon.categoryId : '-'}">카테고리ID</td>
                     <td th:text="${coupon.issueCount}">발급수량</td>
                     <td>
-                        <form th:action="@{/admin/coupon/coupon/{id}/delete(id=${coupon.id})}" method="post" style="margin:0;">
+                        <form th:action="@{/admin/coupons/{id}/delete(id=${coupon.id})}" method="post" style="margin:0;">
                             <button type="submit" class="btn-delete"
                                     onclick="return confirm('정말 이 쿠폰을 삭제하시겠습니까?');">
                                 삭제

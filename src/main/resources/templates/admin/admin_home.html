@@ -9,7 +9,7 @@
 <main layout:fragment="content">
     <section class="main-content">
         <a th:href="@{/admin/member-management}" class="button button-primary">회원 관리</a>
-        <a th:href="@{/admin/coupon/coupon}" class="button button-primary">쿠폰 관리</a>
+        <a th:href="@{/admin/coupons}" class="button button-primary">쿠폰 관리</a>
         <a th:href="@{/admin/books/management}" class="button button-primary">도서 관리</a>
         <a th:href="@{/admin/policy/policy}" class="button button-primary">정책 관리</a>
         <a th:href="@{/admin/order/orders(order-status=${T(com.nhnacademy.illuwa.order.dto.types.OrderStatus).Pending})}"
