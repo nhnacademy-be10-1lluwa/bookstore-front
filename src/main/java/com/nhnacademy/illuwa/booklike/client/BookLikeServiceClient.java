@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 @FeignClient(name = "product-service", url = "${api.base-url}", contextId = "ProductClientForBookLikes", configuration = FeignClientConfig.class)
 public interface BookLikeServiceClient {
 
+    @GetMapping("/api/book-likes")
+    Boolean isLikedByMe(@RequestParam("book-id") long bookId);
+
     @PostMapping("/api/book-likes")
     void toggleBookLikes(@RequestParam("book-id") long bookId);
-
-    @GetMapping("/api/book-likes/check")
-    Boolean isLikedByMe(@RequestParam("book-id") long bookId);
 
     @GetMapping("/api/book-likes/list")
     PageResponse<SimpleBookResponse> getLikedBooksByMember(@RequestParam("page") int page,
