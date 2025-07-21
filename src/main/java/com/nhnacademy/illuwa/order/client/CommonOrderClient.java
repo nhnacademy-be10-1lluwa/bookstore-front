@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 @FeignClient(name = "order-service", url = "${api.base-url}", contextId = "commonOrderClient")
 public interface CommonOrderClient {
+
     @PostMapping("/api/order/common/orders/{orderId}/Confirmed")
     void confirm(@PathVariable("orderId") Long orderId);
 
