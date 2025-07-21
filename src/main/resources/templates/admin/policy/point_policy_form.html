@@ -14,8 +14,8 @@
     <h1 th:text="${mode == 'new' ? '📝 포인트 정책 등록' :
                       (mode == 'edit' ? '🔧 포인트 정책 수정' : '🔍 포인트 정책 상세')}"></h1>
 
-    <form th:action="${mode == 'new' ? '/admin/policy/point/create' :
-                         '/admin/policy/point/' + policyKey + '/update'}"
+    <form th:action="${mode == 'new' ? '/admin/policies/points' :
+                         '/admin/policies/points/' + policyKey + '/update'}"
           th:method="post" th:object="${request}">
 
       <!-- 등록 모드일 때만 policyKey 입력 -->
@@ -86,7 +86,7 @@
         <button type="submit" th:if="${mode != 'view'}" class="btn-register">
           <span th:text="${mode == 'new' ? '등록하기' : '수정하기'}">저장</span>
         </button>
-        <a href="/admin/policy/point" class="btn-delete" style="text-decoration: none; padding: 10px 20px;">
+        <a href="/admin/policies/points" class="btn-delete" style="text-decoration: none; padding: 10px 20px;">
           목록으로
         </a>
       </div>

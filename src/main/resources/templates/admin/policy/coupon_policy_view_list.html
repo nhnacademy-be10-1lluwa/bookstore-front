@@ -14,7 +14,7 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
             <h1 style="margin:0;">쿠폰 정책 목록</h1>
             <button type="button"
-                    onclick="location.href='/admin/policy/coupon/create'"
+                    onclick="location.href='/admin/policies/coupons/form'"
                     class="btn-register">
                 + 새 정책 등록
             </button>
@@ -40,7 +40,7 @@
                             <tr th:each="policy : ${couponPolicies}">
                                 <td th:text="${policy.id}">ID</td>
                                 <td>
-                                    <a th:href="@{/admin/policy/coupon/{code}/update(code=${policy.code})}"
+                                    <a th:href="@{/admin/policies/coupons/{code}/update(code=${policy.code})}"
                                        style="color:#3056d3; font-weight:bold; text-decoration:underline; cursor:pointer;">
                                         <span th:text="${policy.code}">정책코드</span>
                                     </a>
@@ -59,7 +59,7 @@
                                 <td>
                                     <!-- ACTIVE 상태만 삭제 버튼 보임 -->
                                     <form th:if="${#strings.equalsIgnoreCase(policy.status, 'ACTIVE')}"
-                                          th:action="@{/admin/policy/coupon/{code}/delete(code=${policy.code})}"
+                                          th:action="@{/admin/policies/coupons/{code}/delete(code=${policy.code})}"
                                           method="post" style="margin:0;">
                                         <button type="submit" class="btn-delete"
                                                 onclick="return confirm('정말 이 정책을 비활성화(삭제)하시겠습니까?');">
