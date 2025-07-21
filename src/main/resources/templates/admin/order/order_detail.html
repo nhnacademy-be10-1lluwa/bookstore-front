@@ -51,7 +51,7 @@
   <section>
     <form id="statusForm"
           th:object="${order}"
-          th:action="@{'/admin/order/' + ${order.orderId} + '/status'}"
+          th:action="@{'/admin/orders/' + ${order.orderId} + '/status'}"
           method = "post">
       <input type="hidden" name="_method" value="put"/>
 
