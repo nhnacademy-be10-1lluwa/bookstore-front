@@ -1,9 +1,14 @@
 package com.nhnacademy.illuwa.order.service.impl;
 
 import com.nhnacademy.illuwa.order.client.CommonOrderClient;
+import com.nhnacademy.illuwa.order.dto.command.status.ReturnRequestCreateRequest;
+import com.nhnacademy.illuwa.order.dto.types.ReturnReason;
 import com.nhnacademy.illuwa.order.service.CommonOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Service
 @RequiredArgsConstructor
@@ -27,7 +32,8 @@ public class CommonOrderServiceImpl implements CommonOrderService {
     }
 
     @Override
-    public void refundOrder(Long orderId) {
-        commonOrderClient.refund(orderId);
+    public void refundOrder(Long orderId, ReturnReason returnReason) {
+        ReturnRequestCreateRequest request = new ReturnRequestCreateRequest(LocalDateTime.now(), returnReason);
+        commonOrderClient.refund(orderId, request);
     }
 }

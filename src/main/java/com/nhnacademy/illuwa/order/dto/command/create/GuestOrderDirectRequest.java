@@ -41,6 +41,9 @@ public class GuestOrderDirectRequest {
     private String name;
 
     @NotBlank
+    private String orderPassword;
+
+    @NotBlank
     @Email
     private String email;
 
