@@ -34,9 +34,6 @@ public interface CategoryServiceClient {
             @RequestParam("sort") String sort
     );
 
-    @GetMapping("/api/categories/flat")
-    List<CategoryFlatResponse> getFlatCategories();
-
     @GetMapping("/api/categories/flat_paged")
     Page<CategoryFlatResponse> getFlatCategoriesPaged(@RequestParam("page") int page,
                                                       @RequestParam("size") int size,
