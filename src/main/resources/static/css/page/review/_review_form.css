@@ -1,7 +1,17 @@
-/* 전체 섹션 기본 스타일 */
+.main-content {
+    max-width: 960px;
+    margin: 3rem auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 1.5rem;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+    font-family: 'Nunito', sans-serif;
+}
+
 .review {
-    max-width: 600px;
-    margin: 40px auto;
+    max-width: 1000px;
+    width: 100%;
+    margin: 40px auto 20px; /* 위 40px, 좌우 auto, 아래 20px로 줄임 */
     padding: 30px;
     background-color: #fffdf9;
     border-radius: 16px;
@@ -9,11 +19,17 @@
     font-family: 'Pretendard', sans-serif;
 }
 
-/* 폼 카드 */
+
 .form-card {
     display: flex;
     flex-direction: column;
     gap: 20px;
+
+    max-width: 960px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 1rem;
+    box-sizing: border-box;
 }
 
 /* 제목 */

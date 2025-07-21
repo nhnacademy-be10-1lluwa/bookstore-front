@@ -14,22 +14,29 @@
   <h2>📚 내가 좋아요한 도서</h2>
 
   <div th:if="${#lists.isEmpty(likedBooks.content)}">
-    <p>좋아요한 도서가 아직 없어요 🥺</p>
+    <p>좋아요한 도서가 아직 없어요</p>
   </div>
 
-  <div th:each="book : ${likedBooks.content}" class="book-card">
-    <img th:src="${book.cover}" alt="도서 이미지" style="width: 150px; height: 220px; object-fit: cover; margin-bottom: 10px;" />
-    <div class="book-info">
-      <div class="book-title" th:text="${book.title}">도서 제목</div>
-      <div class="book-meta">
-        <span th:text="|지은이: ${book.author}|"></span><br/>
-        <span th:text="|출판사: ${book.publisher}|"></span><br/>
-        <span th:text="|ISBN: ${book.isbn}|"></span>
+  <div class="book-list" th:if="${!#lists.isEmpty(likedBooks.content)}">
+    <a th:each="book : ${likedBooks.content}"
+       th:href="@{'/books/' + ${book.id}}"
+       class="book-card-link"
+       style="text-decoration: none; color: inherit;">
+      <div class="book-card">
+        <img th:src="${book.cover}" alt="도서 이미지" style="width: 150px; height: 220px; object-fit: cover; margin-bottom: 10px;" />
+        <div class="book-info">
+          <div class="book-title" th:text="${book.title}">도서 제목</div>
+          <div class="book-meta">
+            <span th:text="|지은이: ${book.author}|"></span><br/>
+            <span th:text="|출판사: ${book.publisher}|"></span><br/>
+            <span th:text="|ISBN: ${book.isbn}|"></span>
+          </div>
+          <div class="book-price"
+               th:text="${#numbers.formatInteger(book.salePrice, 3, 'COMMA')} + '원'">
+          </div>
+        </div>
       </div>
-      <div class="book-price"
-           th:text="${#numbers.formatInteger(book.priceSales, 3, 'COMMA')} + '원'">
-      </div>
-    </div>
+    </a>
   </div>
 
   <!-- 페이지네이션 -->

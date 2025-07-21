@@ -246,14 +246,14 @@ body {
 }
 
 .like-btn {
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    background: none;
-    border: none;
+    border: 2px solid #ff5a5f;
+    border-radius: 8px;
+    padding: 8px 12px;
+    background-color: #fff;
+    color: #ff5a5f;
+    font-weight: bold;
     cursor: pointer;
-    padding: 0;
+    transition: all 0.3s ease;
 }
 
 .like-icon {
@@ -261,8 +261,9 @@ body {
     transition: transform 0.2s ease;
 }
 
-.like-btn:hover .like-icon {
-    transform: scale(1.2);
+.like-btn:hover {
+    background-color: #ff5a5f;
+    color: white;
 }
 
 .book-actions {
