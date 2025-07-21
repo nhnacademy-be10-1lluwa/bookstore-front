@@ -20,11 +20,10 @@
                     <th>상태</th>
                 </tr>
                 </thead>
-                <!--/admin/order/orders/{orderId}-->
                 <tbody>
                 <tr th:each="order : ${orderPage.content}">
                     <td>
-                        <a th:href="@{/admin/order/orders/{orderId}(orderId=${order.orderId})}"
+                        <a th:href="@{/admin/orders/{orderId}(orderId=${order.orderId})}"
                            th:text="${order.orderNumber}">
                             empty-order-number
                         </a>
@@ -41,16 +40,16 @@
             <!-- 페이지네이션 네비게이터 -->
             <div class="pagination">
                 <a th:if="${!orderPage.first}"
-                   th:href="@{/admin/order/orders(page=${currentPage - 1},size=${orderPage.size})}">« Prev</a>
+                   th:href="@{/admin/orders(page=${currentPage - 1},size=${orderPage.size})}">« Prev</a>
 
                 <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}"
                       th:classappend="${i==currentPage}? 'current'">
-      <a th:href="@{/admin/order/orders(page=${i},size=${orderPage.size})}"
+      <a th:href="@{/admin/orders(page=${i},size=${orderPage.size})}"
          th:text="${i+1}">1</a>
     </span>
 
                 <a th:if="${!orderPage.last}"
-                   th:href="@{/admin/order/orders(page=${currentPage+1},size=${orderPage.size})}">Next »</a>
+                   th:href="@{/admin/orders(page=${currentPage+1},size=${orderPage.size})}">Next »</a>
             </div>
         </section>
     </section>

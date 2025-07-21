@@ -13,26 +13,26 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/category")
+@RequestMapping("/admin/categories")
 public class AdminCategoryController {
 
     private final CategoryServiceClient categoryServiceClient;
 
-
-    @PostMapping("/create")
+    // 카테고리 등록
+    @PostMapping
     public String createCategory(@ModelAttribute CategoryCreateRequest request) {
             categoryServiceClient.createCategory(request);
-        return "redirect:/admin/category/manage";
+        return "redirect:/admin/categories";
     }
 
-    @PostMapping("/delete/{id}")
+    @PostMapping("/{id}/delete")
     public String deleteCategory(@PathVariable Long id) {
             categoryServiceClient.deleteCategory(id);
-        return "redirect:/admin/category/manage";
+        return "redirect:/admin/categories";
     }
 
-
-    @GetMapping("/manage")
+    // 카테고리 관리 페이지
+    @GetMapping
     public String categoryManagePage(@RequestParam(defaultValue = "0") int page,
                                      @RequestParam(defaultValue = "10") int size,
                                      @RequestParam(defaultValue = "id,asc") String sort,
@@ -50,7 +50,4 @@ public class AdminCategoryController {
 
         return "admin/category/manage";
     }
-
-
-
 }

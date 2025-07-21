@@ -14,7 +14,7 @@
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
             <h1 style="margin:0;">포인트 정책 목록</h1>
             <button type="button"
-                    onclick="location.href='/admin/policy/point/create'"
+                    onclick="location.href='/admin/policies/points/form'"
                     class="btn-register">
                 + 새 정책 등록
             </button>
@@ -48,12 +48,12 @@
                     <td th:text="${policy.description}"></td>
                     <td>
                         <div class="btn-group">
-                            <a th:href="@{/admin/policy/point/{key}/update(key=${policy.policyKey})}"
+                            <a th:href="@{/admin/policies/points/{key}/form(key=${policy.policyKey})}"
                                class="btn-edit">
                                 수정
                             </a>
                             <form th:if="${policy.status.name() != 'INACTIVE'}"
-                                  th:action="@{/admin/policy/point/{key}/delete(key=${policy.policyKey})}"
+                                  th:action="@{/admin/policies/points/{key}/delete(key=${policy.policyKey})}"
                                   method="post"
                                   onsubmit="return confirm('정말 이 정책을 삭제하시겠습니까?');"
                                   style="margin: 0;">

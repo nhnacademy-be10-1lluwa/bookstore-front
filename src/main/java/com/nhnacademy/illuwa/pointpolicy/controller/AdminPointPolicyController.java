@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/admin/policy/point")
+@RequestMapping("/admin/policies/points")
 public class AdminPointPolicyController {
 
     private final AdminPointPolicyService adminPointPolicyService;
@@ -23,20 +23,20 @@ public class AdminPointPolicyController {
         return "admin/policy/point_policy_view_list";
     }
 
-    @GetMapping("/create")
+    @GetMapping("/form")
     public String showCreateForm(Model model) {
         model.addAttribute("request", adminPointPolicyService.prepareCreateForm());
         model.addAttribute("mode", "new");
         return "admin/policy/point_policy_form";
     }
 
-    @PostMapping("/create")
+    @PostMapping
     public String createPolicy(@Valid PointPolicyCreateRequest request) {
         adminPointPolicyService.createPolicy(request);
-        return "redirect:/admin/policy/point";
+        return "redirect:/admin/policies/points";
     }
 
-    @GetMapping("/{policyKey}/update")
+    @GetMapping("/{policyKey}/form")
     public String showUpdateForm(@PathVariable String policyKey, Model model) {
         PointPolicyUpdateRequest request = adminPointPolicyService.prepareUpdateForm(policyKey);
         String displayView = adminPointPolicyService.getDisplayView(policyKey);
@@ -52,10 +52,10 @@ public class AdminPointPolicyController {
     public String updatePolicy(@PathVariable String policyKey,
                                @Valid PointPolicyUpdateRequest request) {
         adminPointPolicyService.updatePolicy(policyKey, request);
-        return "redirect:/admin/policy/point";
+        return "redirect:/admin/policies/points";
     }
 
-    @GetMapping("/{policyKey}/view")
+    @GetMapping("/{policyKey}")
     public String showDetail(@PathVariable String policyKey, Model model) {
         model.addAttribute("request", adminPointPolicyService.prepareViewForm(policyKey));
         model.addAttribute("policyKey", policyKey);
@@ -66,6 +66,6 @@ public class AdminPointPolicyController {
     @PostMapping("/{policyKey}/delete")
     public String deletePolicy(@PathVariable String policyKey) {
         adminPointPolicyService.deletePolicy(policyKey);
-        return "redirect:/admin/policy/point";
+        return "redirect:/admin/policies/points";
     }
 }

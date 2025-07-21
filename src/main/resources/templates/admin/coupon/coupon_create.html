@@ -14,7 +14,7 @@
     <section class="coupon-form-container">
 
         <h2>쿠폰 등록</h2>
-        <form th:action="@{/admin/coupon/coupon/create}" th:object="${couponForm}" method="post">
+        <form th:action="@{/admin/coupons}" th:object="${couponForm}" method="post">
             <div class="form-group">
                 <label for="couponName">쿠폰 이름</label>
                 <input type="text" id="couponName" th:field="*{couponName}" required>
