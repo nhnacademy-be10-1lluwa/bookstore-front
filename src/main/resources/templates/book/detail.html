@@ -172,9 +172,10 @@
                     <!-- 좋아요 영역 -->
                     <div>
                         <button class="like-btn"
+                                th:if="${isLoggedIn}"
                                 th:classappend="${myLikedReviewIds.contains(review.reviewId)} ? ' liked' : ''"
                                 th:attr="data-book-id=${review.bookId}, data-review-id=${review.reviewId}">
-                            <span class="like-icon" th:text="${myLikedReviewIds.contains(review.reviewId)} ? '❤️' : '🤍'"></span>
+                            <span class="like-icon" th:if="${isLoggedIn}" th:text="${myLikedReviewIds.contains(review.reviewId)} ? '❤️' : '🤍'"></span>
                             좋아요 <span class="like-count" th:id="'like-count-' + ${review.reviewId}" th:text="${likeCountMap[review.reviewId]}">0</span>
                         </button>
                     </div>
