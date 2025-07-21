@@ -41,14 +41,14 @@ public class AdminOrderController {
     @PostMapping("/admin/order/{orderId}/status")
     public String updateStatus(@PathVariable Long orderId, @RequestParam OrderStatus orderStatus) {
         adminOrderService.updateOrderStatus(orderId, orderStatus);
-        return "redirect:/admin/order/orders";
+        return "redirect:/admin/order/orders?order-status=Pending";
     }
 
     // 배송일로부터 10일 지난 구매건에 대해 구매 확정 적용하기
     @PostMapping("/admin/order/order-confirmed-update")
     public String orderConfirmedUpdate() {
         adminOrderService.runOrderConfirmedBatch();
-        return "redirect:/admin/";
+        return "redirect:/admin";
     }
 
     // 멤버 등급 업데이트 하기

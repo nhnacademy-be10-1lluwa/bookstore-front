@@ -1,5 +1,7 @@
 package com.nhnacademy.illuwa.order.controller.member.command;
 
+import com.nhnacademy.illuwa.member.enums.Status;
+import com.nhnacademy.illuwa.order.dto.types.ReturnReason;
 import com.nhnacademy.illuwa.order.service.CommonOrderService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -31,8 +33,8 @@ public class MemberOrderStatusController {
     }
 
     @PostMapping("/orders/{order-id}/refund-order")
-    public String requestRefundOrder(@PathVariable("order-id") Long orderId) {
-        commonOrderService.refundOrder(orderId);
+    public String requestRefundOrder(@PathVariable("order-id") Long orderId, ReturnReason returnReason) {
+        commonOrderService.refundOrder(orderId, returnReason);
         return "redirect:/order-detail/" + orderId;
     }
 }

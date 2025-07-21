@@ -1,5 +1,7 @@
 package com.nhnacademy.illuwa.order.service;
 
+import com.nhnacademy.illuwa.order.dto.types.ReturnReason;
+
 public interface CommonOrderService {
 
     // 주문 확정하기 ( 결제 완료 후 가능)
@@ -12,5 +14,5 @@ public interface CommonOrderService {
     void cancelPayment(String orderNumber);
 
     // 반품하기 (배송 중 이후로 가능)
-    void refundOrder(Long orderId);
+    void refundOrder(Long orderId, ReturnReason returnReason);
 }

@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "order-service", url = "${api.base-url}", contextId = "guestOrderClient")
 public interface GuestOrderClient {
-    @GetMapping("/api/order/guest/init-guest-info/books/{bookId}")
-    GuestOrderInitDirectResponse initDirect(@PathVariable Long bookId);
+    @GetMapping("/api/order/guest/init-guest-info/books/{book-id}")
+    GuestOrderInitDirectResponse initDirect(@PathVariable("book-id") Long bookId);
 
     @PostMapping("/api/order/guest/submit-direct")
     OrderCreateResponse createDirect(@RequestBody @Valid GuestOrderDirectRequest request);
