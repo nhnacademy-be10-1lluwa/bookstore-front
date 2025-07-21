@@ -85,15 +85,6 @@
                     </div>
                 </div>
 
-                <!-- 도서 좋아요 버튼 -->
-                <div class="book-like-section" th:if="${isLoggedIn}">
-                    <form th:action="@{/book-likes/toggle}" method="post">
-                        <input type="hidden" name="book-id" th:value="${book.id}" />
-                        <button type="submit" class="like-btn" style="background: none; border: none; cursor: pointer;">
-                            <span class="like-icon" th:text="${isMyLikedBook} ? '❤️ 이 책 좋아요' : '🤍 이 책 좋아요' " style="font-size: 20px;"></span>
-                        </button>
-                    </form>
-                </div>
 
                 <!-- 장바구니 + 주문 버튼 -->
                 <div class="book-actions">
@@ -118,6 +109,15 @@
                     <form th:unless="${isLoggedIn}" th:action="@{/guest/order/order-form/{bookId}(bookId=${book.id})}" method="get" class="cart-form">
                         <input type="hidden" name="quantity" th:value="1" class="hidden-quantity" />
                         <button type="submit" class="cart-btn">주문하기</button>
+                    </form>
+
+                    <!-- 도서 좋아요 버튼 -->
+                    <form th:if="${isLoggedIn}" th:action="@{/book-likes}" method="post">
+                        <input type="hidden" name="book-id" th:value="${book.id}" />
+                        <button type="submit" class="like-btn" th:classappend="${isMyLikedBook} ? ' liked' : ''">
+                            <span class="like-icon" th:text="${isMyLikedBook} ? '❤️' : '🤍'"></span>
+                            <span th:text="${isMyLikedBook} ? ' 이 책 좋아요' : ' 이 책 좋아요'"></span>
+                        </button>
                     </form>
                 </div>
             </div>
@@ -172,10 +172,9 @@
                     <!-- 좋아요 영역 -->
                     <div>
                         <button class="like-btn"
+                                th:classappend="${myLikedReviewIds.contains(review.reviewId)} ? ' liked' : ''"
                                 th:attr="data-book-id=${review.bookId}, data-review-id=${review.reviewId}">
-                            <span th:if="${isLoggedIn}" class="review-like">
-                                <span class="like-icon" th:text="${myLikedReviewIds.contains(review.reviewId)} ? '❤️' : '🤍'"></span>
-                            </span>
+                            <span class="like-icon" th:text="${myLikedReviewIds.contains(review.reviewId)} ? '❤️' : '🤍'"></span>
                             좋아요 <span class="like-count" th:id="'like-count-' + ${review.reviewId}" th:text="${likeCountMap[review.reviewId]}">0</span>
                         </button>
                     </div>

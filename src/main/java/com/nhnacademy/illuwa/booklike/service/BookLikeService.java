@@ -12,6 +12,10 @@ import org.springframework.stereotype.Service;
 public class BookLikeService {
     private final BookLikeServiceClient bookLikeServiceClient;
 
+    public Boolean isLikedByMe(Long bookId){
+        return bookLikeServiceClient.isLikedByMe(bookId);
+    }
+
     public void toggleBookLikes(Long bookId){
         bookLikeServiceClient.toggleBookLikes(bookId);
     }
@@ -20,7 +24,4 @@ public class BookLikeService {
         return bookLikeServiceClient.getLikedBooksByMember(page, size);
     }
 
-    public Boolean isLikedByMe(Long bookId){
-        return bookLikeServiceClient.isLikedByMe(bookId);
-    }
 }
