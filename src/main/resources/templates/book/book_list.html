@@ -25,7 +25,7 @@
                 <div class="book-card"
                      th:each="book : ${bookPage.content}"
                      th:data-id="${book.isbn}">
-                    <img th:src="@{${book.imgUrl}}"
+                    <img th:src="@{${book.imageUrls[0]}}"
                          th:alt="${book.title} + ' 표지'"
                          onerror="this.onerror=null;this.src='https://via.placeholder.com/240x336?text=No+Image';" />
                     <div class="book-info">

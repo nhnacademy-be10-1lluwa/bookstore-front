@@ -20,6 +20,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.awt.print.Book;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
@@ -71,6 +72,21 @@ public class CartControllerTest {
         verify(cartService, times(1)).getCart();
     }
 
+    @Test
+    @DisplayName("장바구니 도서 등록")
+    void addCartTest() throws Exception {
+
+        BookCartRequest testRequest = new BookCartRequest(null, 1L, 5);
+        doNothing().when(cartService).addBookCart(any(BookCartRequest.class));
+
+        mockMvc.perform(post("/cart/add")
+                .param("bookId", String.valueOf(testRequest.getBookId()))
+                .param("quantity", String.valueOf(testRequest.getAmount())))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/cart"));
+
+        verify(cartService, times(1)).addBookCart(any(BookCartRequest.class));
+    }
 
     @Test
     @DisplayName("장바구니 전체 삭제")
