@@ -34,7 +34,7 @@ public class AdminTagController {
     @PostMapping
     public String createTag(@ModelAttribute TagCreateRequest request) {
         tagServiceClient.createTag(request);
-        return "redirect:/admin/tag/manage";
+        return "redirect:/admin/tags";
     }
 
     @PostMapping("/{id}/delete")
