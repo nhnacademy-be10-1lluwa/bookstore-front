@@ -1,7 +1,7 @@
 package com.nhnacademy.illuwa.guest.client;
 
 import com.nhnacademy.illuwa.guest.dto.GuestResponse;
-import com.nhnacademy.illuwa.order.dto.GuestLoginRequest;
+import com.nhnacademy.illuwa.auth.dto.GuestLoginRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 

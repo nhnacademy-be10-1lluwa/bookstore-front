@@ -6,10 +6,7 @@ import com.nhnacademy.illuwa.review.dto.ReviewRequest;
 import com.nhnacademy.illuwa.review.dto.ReviewResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 import java.util.Map;
@@ -23,8 +20,8 @@ public class ReviewService{
         reviewServiceClient.createReview(bookId, request);
     }
 
-    public void updateReview(Long bookId, Long reviewId, ReviewRequest request) throws Exception {
-        reviewServiceClient.updateReview(bookId, reviewId, request);
+    public ReviewResponse updateReview(Long bookId, Long reviewId, ReviewRequest request) throws Exception {
+        return reviewServiceClient.updateReview(bookId, reviewId, request);
     }
 
     public ReviewResponse getReview(Long bookId, Long reviewId) {

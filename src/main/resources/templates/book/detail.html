@@ -85,16 +85,6 @@
                     </div>
                 </div>
 
-                <!-- 도서 좋아요 버튼 -->
-                <div class="book-like-section" th:if="${isLoggedIn}">
-                    <form th:action="@{/book-likes/toggle}" method="post">
-                        <input type="hidden" name="bookId" th:value="${book.id}" />
-                        <input type="hidden" name="bookIsbn" th:value="${book.isbn}" />
-                        <button type="submit" class="like-btn" style="background: none; border: none; cursor: pointer;">
-                            <span class="like-icon" th:text="${isMyLikedBook} ? '❤️ 이 책 좋아요' : '🤍 이 책 좋아요' " style="font-size: 20px;"></span>
-                        </button>
-                    </form>
-                </div>
 
                 <!-- 장바구니 + 주문 버튼 -->
                 <div class="book-actions">
@@ -120,11 +110,17 @@
                         <input type="hidden" name="quantity" th:value="1" class="hidden-quantity" />
                         <button type="submit" class="cart-btn">주문하기</button>
                     </form>
+
+                    <!-- 도서 좋아요 버튼 -->
+                    <form th:if="${isLoggedIn}" th:action="@{/book-likes}" method="post">
+                        <input type="hidden" name="book-id" th:value="${book.id}" />
+                        <button type="submit" class="like-btn" th:classappend="${isMyLikedBook} ? ' liked' : ''">
+                            <span class="like-icon" th:text="${isMyLikedBook} ? '❤️' : '🤍'"></span>
+                            <span th:text="${isMyLikedBook} ? ' 이 책 좋아요' : ' 이 책 좋아요'"></span>
+                        </button>
+                    </form>
                 </div>
-
-
             </div>
-        </div>
 
         <div>
             <div class="tabs">
@@ -156,82 +152,56 @@
 
         <!-- 리뷰 섹션 -->
         <section class="review">
-            <h2>리뷰</h2>
+            <hr><hr><h2>리뷰</h2><hr><hr>
             <div id="review-list">
                 <div th:each="review : ${reviewContent}" class="review-box">
                     <div>
-                        <strong th:text="'작성자: ' + ${nameMap[review.memberId]}">작성자</strong>
+                        <br>
+                        <strong th:text="'작성자: ' + ${reviewerNameMap[review.memberId]}">작성자</strong>
                         <strong th:text="'게시일: ' + ${#temporals.format(review.reviewDate, 'yyyy-MM-dd')}">게시일</strong>
-                    </div>
-                    <div>
                         <span th:each="i : ${#numbers.sequence(1, review.reviewRating)}">⭐</span>
                     </div>
-                    <h3 th:text="'제목: ' + ${review.reviewTitle}">제목</h3>
+
                     <div>
-                        <img th:each="img : ${review.reviewImageUrls}" th:src="@{${img}}" alt="리뷰 이미지" style="max-width: 200px;" />
+                        <img th:each="img : ${review.reviewImageUrls}" th:src="@{${img}}" alt="리뷰 이미지" style="max-width: 500px;" />
                     </div>
+
+                    <h3 th:text="${review.reviewTitle}">제목</h3>
                     <p th:text="${review.reviewContent}">내용</p>
 
                     <!-- 좋아요 영역 -->
                     <div>
                         <button class="like-btn"
+                                th:classappend="${myLikedReviewIds.contains(review.reviewId)} ? ' liked' : ''"
                                 th:attr="data-book-id=${review.bookId}, data-review-id=${review.reviewId}">
-                            <span th:if="${isLoggedIn}" class="review-like">
-                                <span class="like-icon" th:text="${myLikedReviewIds.contains(review.reviewId)} ? '❤️' : '🤍'"></span>
-                            </span>
+                            <span class="like-icon" th:text="${myLikedReviewIds.contains(review.reviewId)} ? '❤️' : '🤍'"></span>
                             좋아요 <span class="like-count" th:id="'like-count-' + ${review.reviewId}" th:text="${likeCountMap[review.reviewId]}">0</span>
                         </button>
                     </div>
+                    <br><hr><hr>
+                </div>
+            </div>
 
-                    <span style="cursor: pointer;"
-                          th:data-review-id="${review.reviewId}"
-                          th:onclick="|toggleComments(this, ${review.bookId})|"> 댓글 보이기
-                    </span>
+            <!-- 페이징 처리 -->
+            <div class="review-pagination" th:if="${reviewPage.totalPages > 1}">
+                <div class="pagination">
 
-                    <!-- 댓글 목록 -->
-                    <div id=comment-section>
-                        <div id="comment-box-[[${review.reviewId}]]" class="comment-box" style="display: none;"></div>
-                        <!-- 페이징 UI -->
-                        <div class="review-pagination" id="review-pagination">
-                            <div class="pagination">
-                                <!-- 이전 페이지 -->
-                                <a th:if="${!reviewPage.first}"
-                                   href="#"
-                                   th:data-page="${reviewPage.page - 1}"
-                                   class="page-link">« Prev</a>
+                    <!-- 이전 페이지 -->
+                    <a th:if="${!reviewPage.first}"
+                       th:href="@{/books/{id}(id=${book.id}, page=${reviewPage.page - 1})}"
+                       class="page-link">« Prev</a>
 
-                                <!-- 페이지 번호 목록 -->
-                                <span th:each="i : ${#numbers.sequence(0, reviewPage.totalPages - 1)}"
-                                      th:classappend="${i == reviewPage.page} ? 'current'">
-                            <a href="#"
-                               th:data-page="${i}"
-                               th:text="${i + 1}"
-                               class="page-link">1</a>
-                            </span>
-                                <!-- 다음 페이지 -->
-                                <a th:if="${!reviewPage.last}"
-                                   href="#"
-                                   th:data-page="${reviewPage.page + 1}"
-                                   class="page-link">Next »</a>
-                            </div>
-                        </div>
+                    <!-- 페이지 번호 -->
+                    <a th:each="i : ${#numbers.sequence(0, reviewPage.totalPages - 1)}"
+                       th:classappend="${i == reviewPage.page} ? ' current'"
+                       th:href="@{/books/{id}(id=${book.id}, page=${i})}"
+                       th:text="${i + 1}"
+                       class="page-link"></a>
 
-                        <!-- 댓글 입력 폼 (로그인한 경우만) -->
-                        <div th:if="${isLoggedIn}">
-                            <div th:id="'comment-form-' + ${review.reviewId}" style="display: none; margin-top: 10px;">
-                                <label>
-                                <textarea th:id="'comment-input-' + ${review.reviewId}"
-                                          placeholder="댓글을 입력하세요..."
-                                          rows="3"
-                                          style="width: 100%;"></textarea>
-                                </label>
-
-                                <button type="button" th:onclick="|submitComment(${review.reviewId}, ${review.bookId})|">
-                                    등록
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- 다음 페이지 -->
+                    <a th:if="${!reviewPage.last}"
+                       th:href="@{/books/{id}(id=${book.id}, page=${reviewPage.page + 1})}"
+                       class="page-link">Next »</a>
                 </div>
             </div>
         </section>
@@ -242,7 +212,6 @@
 <th:block layout:fragment="scripts">
     <script th:src="@{/js/book/detail.js}"></script>
     <script th:src="@{/js/review/review_like.js}"></script>
-    <script th:src="@{/js/review/review_comment.js}"></script>
 </th:block>
 
 </body>
