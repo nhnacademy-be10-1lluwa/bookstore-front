@@ -9,6 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/main.css}" />
     <link rel="stylesheet" th:href="@{/css/page/book/book_register.css}" />
+    <link rel="stylesheet" href="https://uicdn.toast.com/editor/latest/toastui-editor.min.css" />
 </head>
 
 <main layout:fragment="content">
@@ -60,7 +61,8 @@
                             </div>
                             <div class="mb-3">
                                 <label for="description" class="form-label">책 소개</label>
-                                <textarea class="form-control" id="description" name="description" rows="4"></textarea>
+                                <div id="descriptionEditor"></div>
+                                <input type="hidden" id="description" name="description" />
                             </div>
                             <div class="mb-3">
                                 <label for="contents" class="form-label">목차</label>
@@ -134,6 +136,25 @@
 
     <th:block layout:fragment="script">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://uicdn.toast.com/editor/latest/toastui-editor-all.min.js"></script>
+
+        <script>
+            const descriptionEditor = new toastui.Editor({
+                el: document.querySelector('#descriptionEditor'),
+                height: '400px',
+                initialEditType: 'wysiwyg',
+                previewStyle: 'vertical',
+                initialValue: ''  // 초기값이 있다면 여기에 넣어줍니다
+            });
+
+            document.querySelector('form').addEventListener('submit', function(e) {
+                const descHtml = descriptionEditor.getHTML();
+                const contHtml = contentsEditor.getHTML();
+                document.getElementById('description').value = descHtml;
+                document.getElementById('contents').value = contHtml;
+            });
+        </script>
+
     </th:block>
 </main>
 </html>
