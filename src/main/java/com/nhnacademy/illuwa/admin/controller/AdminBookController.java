@@ -30,8 +30,8 @@ public class AdminBookController {
     private final MinioStorageService minioStorageService;
     private final TagServiceClient tagServiceClient;
 
-    // 도서 목록 페이지
-    @GetMapping("/page")
+    // 도서 관리 페이지
+    @GetMapping("/management")
     public String adminBookPage() {
         return "admin/book/books";
     }
