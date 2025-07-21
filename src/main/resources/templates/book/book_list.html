@@ -38,7 +38,7 @@
                     <div class="action">
                         <form th:action="@{/cart/add}" method="post" onclick="event.stopPropagation()">
                             <input type="hidden" name="bookId" th:value="${book.id}"/>
-                            <input type="number" name="amount"  value="1" min="1" />
+                            <input type="number" name="quantity"  value="1" min="1" />
                             <button type="submit"> 장바구니 담기
                             </button>
                         </form>
