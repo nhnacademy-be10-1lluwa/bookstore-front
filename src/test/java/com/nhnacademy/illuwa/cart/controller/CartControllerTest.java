@@ -5,8 +5,7 @@ import com.nhnacademy.illuwa.cart.dto.BookCartRequest;
 import com.nhnacademy.illuwa.cart.dto.BookCartResponse;
 import com.nhnacademy.illuwa.cart.dto.CartResponse;
 import com.nhnacademy.illuwa.cart.service.CartService;
-import com.nhnacademy.illuwa.common.ca.CategoryControllerAdvice;
-import com.nhnacademy.illuwa.member.controller.AdminMemberController;
+import com.nhnacademy.illuwa.common.controller_advice.CategoryControllerAdvice;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.test.web.servlet.MockMvc;
 
