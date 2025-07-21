@@ -17,12 +17,11 @@ public class CartController {
 
     private final CartService cartService;
 
-    // SSR 방식의 장바구니 페이지 렌더링
     @GetMapping("/cart")
     public String viewCartPage(Model model) {
         CartResponse cartResponse = cartService.getCart();
-        model.addAttribute("cartResponse", cartResponse); // 모델에 데이터 추가
-        return "user/cart"; // user/cart.html 템플릿 반환 (이 HTML에 데이터를 채워줌)
+        model.addAttribute("cartResponse", cartResponse);
+        return "user/cart";
     }
 
     @DeleteMapping("/cart")
@@ -34,33 +33,24 @@ public class CartController {
 
     @PostMapping("/cart/add")
     public String addBookToCart(@RequestParam("bookId") Long bookId,
-                                @RequestParam("quantity") int quantity) { // 리다이렉트 시 메시지 전달용
+                                @RequestParam("quantity") int quantity) {
 
         log.info("Received SSR cart add request - BookId: {}, Quantity: {}", bookId,quantity);
 
-        // BookCartRequest DTO 생성
-        BookCartRequest request = new BookCartRequest(null, bookId,quantity); // memberId는 게이트웨이에서 주입될 것이므로 여기서는 null
+        BookCartRequest request = new BookCartRequest(null, bookId,quantity);
         cartService.addBookCart(request);
 
-        return "redirect:/cart"; // 장바구니 페이지로 리다이렉트
+        return "redirect:/cart";
     }
 
-    // bookstore-front/cart/controller/CartController.java
-    @DeleteMapping("/cart/book") // 이 경로를 /cart/book으로 유지
+    @DeleteMapping("/cart/book")
     @ResponseBody
-    public ResponseEntity<Void> removeCartBookAjax(@RequestBody BookCartRequest request) { // ★ @RequestBody 사용
+    public ResponseEntity<Void> removeCartBookAjax(@RequestBody BookCartRequest request) {
         log.info("Received AJAX cart remove request - BookId: {}", request.getBookId());
 
-        // request 객체에 memberId가 설정되지 않을 수 있으므로, 여기서 게이트웨이에서 받은 X-USER-ID 헤더를 사용해야 합니다.
-        // 현재 CartService에 memberId를 넘기는 메소드가 없으므로 CartService를 수정하거나
-        // CartServiceClient를 통해 product-service의 deleteBook API를 직접 호출해야 합니다.
+        cartService.removeBookCart(request);
 
-        // (가정) CartService가 memberId를 받아서 product-service에 전달한다고 가정
-        // CartService의 removeBookCart 메소드 시그니처가 변경되어야 할 수도 있습니다.
-
-        cartService.removeBookCart(request); // Feign Client를 통해 product-service로 요청 위임
-
-        return ResponseEntity.noContent().build(); // 성공 시 204 No Content 응답 (AJAX에 적합)
+        return ResponseEntity.noContent().build();
 
     }
 }
