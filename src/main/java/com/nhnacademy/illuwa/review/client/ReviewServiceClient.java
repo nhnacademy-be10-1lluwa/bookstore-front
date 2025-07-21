@@ -43,10 +43,10 @@ public interface ReviewServiceClient {
     ReviewLikeResponse toggleLike(@PathVariable(name = "review-id") long reviewId);
 
     @GetMapping("/api/public/reviews/likes")
-    Map<Long, Long> getLikeCountsFromReviews(@RequestParam List<Long> reviewIds);
+    Map<Long, Long> getLikeCountsFromReviews(@RequestParam(name = "reviewIds") List<Long> reviewIds);
 
     @GetMapping("/api/reviews/likes/status")
-    List<Long> getMyLikedReviews(@RequestParam List<Long> reviewIds);
+    List<Long> getMyLikedReviews(@RequestParam(name = "reviewIds") List<Long> reviewIds);
 
     @PostMapping("/api/reviews/check")
     Map<Long, Long> getExistingReviewIdMap(@RequestBody List<Long> bookIds);
