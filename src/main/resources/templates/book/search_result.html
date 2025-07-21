@@ -8,6 +8,12 @@
 <body>
 <section layout:fragment="content">
     <h1 th:text="'검색 결과 (' + ${page.totalElements} + '건)'"></h1>
+
+    <form th:action="@{/api/books/search-es}" method="get" class="search">
+        <input type="text" name="keyword" placeholder="도서 제목 또는 저자를 입력하세요" required />
+        <button type="submit">검색</button>
+    </form>
+
     <p>검색어: <span th:text="${keyword}"></span></p>
 
         <div class="search-options">
