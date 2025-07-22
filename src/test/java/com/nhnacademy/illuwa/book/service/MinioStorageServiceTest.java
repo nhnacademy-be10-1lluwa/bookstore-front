@@ -45,7 +45,7 @@ public class MinioStorageServiceTest {
 
     @Test
     @DisplayName("책 이미지 업로드 지원하지 않는 확장자")
-    void uploadBookImage_notAllowedExtension() throws Exception {
+    void uploadBookImage_notAllowedExtension(){
         MockMultipartFile file = new MockMultipartFile("file", "cover.exe", "image/jpeg", "dummy".getBytes());
 
         assertThatThrownBy(() -> storageService.uploadBookImage(file))
