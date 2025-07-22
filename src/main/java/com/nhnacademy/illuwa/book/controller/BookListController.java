@@ -1,12 +1,11 @@
 package com.nhnacademy.illuwa.book.controller;
 
 import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
-import com.nhnacademy.illuwa.book.dto.SearchBookResponse;
 import com.nhnacademy.illuwa.book.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +39,7 @@ public class BookListController {
         List<BookDetailResponse> books = new ArrayList<>();
         books.add(book);
 
+        model.addAttribute("bookPage", new PageImpl<>(books, PageRequest.of(0, books.size()), books.size()));
         model.addAttribute("books", books);
         return "book/book_list";
     }

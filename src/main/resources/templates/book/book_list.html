@@ -19,9 +19,15 @@
                 <div class="book-card"
                      th:each="book : ${bookPage.content}"
                      th:data-id="${book.isbn}">
-                    <img th:src="@{${book.imageUrls[0]}}"
-                         th:alt="${book.title} + ' 표지'"
-                         onerror="this.onerror=null;this.src='https://via.placeholder.com/240x336?text=No+Image';" />
+                    <!-- 이미지 있음 -->
+                    <img th:if="${book.imageUrls != null and #lists.size(book.imageUrls) > 0}"
+                         th:src="@{${book.imageUrls[0]}}"
+                         th:alt="${book.title + ' 표지'}" />
+
+                    <!-- 이미지 없음 -->
+                    <img th:if="${book.imageUrls == null or #lists.isEmpty(book.imageUrls)}"
+                         src="https://via.placeholder.com/240x336?text=No+Image"
+                         th:alt="${book.title + ' 표지'}" />
                     <div class="book-info">
                         <h2 th:text="${book.title}">도서 제목</h2>
                         <p><strong>저자:</strong> <span th:text="${book.author}">저자명</span></p>
