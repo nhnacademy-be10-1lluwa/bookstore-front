@@ -38,9 +38,9 @@ public class MinioStorageService {
     }
 
     public String uploadBookImage(MultipartFile file) {
-        try {
-            validate(file);
+        validate(file);
 
+        try {
             String objectName = "Book/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
 
             minioClient.putObject(
