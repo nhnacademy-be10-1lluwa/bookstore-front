@@ -10,7 +10,7 @@
 <main layout:fragment="content">
     <section class="coupon-form-container">
         <h2>쿠폰 수정</h2>
-        <form th:action="@{/admin/coupon/coupon/{id}/update(id=${coupon.id})}" th:object="${coupon}" method="post">
+        <form th:action="@{/admin/coupons/{id}/update(id=${coupon.id})}" th:object="${coupon}" method="post">
             <div class="form-group">
                 <label for="code">정책 코드</label>
                 <input type="text" id="code" th:value="${coupon.code}" disabled>
@@ -52,7 +52,7 @@
             </div>
             <div class="btns">
                 <button type="submit" class="btn-primary">수정 완료</button>
-                <button type="button" class="btn-cancel" onclick="location.href='/admin/coupon/coupon'">취소</button>
+                <button type="button" class="btn-cancel" onclick="location.href='/admin/coupons'">취소</button>
             </div>
         </form>
     </section>

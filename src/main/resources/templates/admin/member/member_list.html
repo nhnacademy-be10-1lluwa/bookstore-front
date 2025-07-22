@@ -23,7 +23,7 @@
         <!-- 등급 필터 및 포인트 지급 폼 -->
         <div class="filter-section">
             <!-- 필터 -->
-            <form method="get" action="/admin/member-list">
+            <form method="get" action="/admin/members">
                 <label>
                     <select name="grade" onchange="this.form.submit()">
                         <option value="">전체 등급</option>
@@ -36,12 +36,12 @@
             </form>
 
             <!-- 포인트 지급 -->
-            <form id="pointForm" method="post" th:action="@{/admin/point-bonus}" onsubmit="return confirmPointBonus();">
+            <form id="pointForm" method="post" th:action="@{/admin/members/grade/bonus}" onsubmit="return confirmPointBonus();">
                 <input type="hidden" name="grade" th:value="${selectedGrade}" />
                 <input type="number" name="point" placeholder="포인트 입력" required min="1"/>
                 <button type="submit" th:disabled="${selectedGrade == null || selectedGrade.isEmpty()}">등급 회원 포인트 지급</button>
             </form>
-            <form action="/admin/order/member-grade-update" method="post">
+            <form action="/admin/orders/member-grade-update" method="post">
                 <button type="submit">회원 등급 최신화</button>
             </form>
         </div>
@@ -85,18 +85,18 @@
         <!-- ✅ 페이징 -->
         <div class="pagination">
             <button th:if="${currentPage > 0}"
-                    th:onclick="'location.href=\'/admin/member-list?page=' + (${currentPage} - 1) + '\''">
+                    th:onclick="'location.href=\'/admin/members?page=' + (${currentPage} - 1) + '\''">
                 ◀ 이전
             </button>
 
             <span th:each="i : ${#numbers.sequence(0, lastPageIndex)}">
-                <a th:href="@{'/admin/member-list?page=' + ${i}}"
+                <a th:href="@{'/admin/members?page=' + ${i}}"
                    th:text="${i + 1}"
                    th:class="${i == currentPage} ? 'active-page' : ''">1</a>
             </span>
 
             <button th:if="${currentPage < (totalPages > 0 ? totalPages - 1 : 0)}"
-                    th:onclick="'location.href=\'/admin/member-list?page=' + (${currentPage} + 1) + '\''">
+                    th:onclick="'location.href=\'/admin/members?page=' + (${currentPage} + 1) + '\''">
                 다음 ▶
             </button>
         </div>

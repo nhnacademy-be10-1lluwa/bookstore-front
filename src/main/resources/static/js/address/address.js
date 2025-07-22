@@ -81,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
 
             // 조건에 맞으면 페이지 이동
-            window.location.href = "/addresses/new";
+            window.location.href = "/addresses/form";
         });
     } else {
         // 이 메시지는 '나의 주소록' 페이지가 아닐 때 뜰 수 있습니다.

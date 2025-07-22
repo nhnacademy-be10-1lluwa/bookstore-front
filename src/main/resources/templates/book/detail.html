@@ -98,13 +98,13 @@
                     </form>
 
                     <!-- 로그인한 사용자의 주문 -->
-                    <form th:if="${isLoggedIn}" th:action="@{/order/order-form/{bookId}(bookId=${book.id})}" method="get" class="cart-form">
+                    <form th:if="${isLoggedIn}" th:action="@{/orders/member/form/{bookId}(bookId=${book.id})}" method="get" class="cart-form">
                         <input type="hidden" name="quantity" th:value="1" class="hidden-quantity" />
                         <button type="submit" class="cart-btn">주문하기</button>
                     </form>
 
                     <!-- 비회원 주문 -->
-                    <form th:unless="${isLoggedIn}" th:action="@{/guest/order/order-form/{bookId}(bookId=${book.id})}" method="get" class="cart-form">
+                    <form th:unless="${isLoggedIn}" th:action="@{/orders/guest/form/{bookId}(bookId=${book.id})}" method="get" class="cart-form">
                         <input type="hidden" name="quantity" th:value="1" class="hidden-quantity" />
                         <button type="submit" class="cart-btn">주문하기</button>
                     </form>

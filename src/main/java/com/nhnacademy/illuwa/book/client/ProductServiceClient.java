@@ -15,10 +15,6 @@ import java.util.List;
 @FeignClient(name = "product-service", url = "${api.base-url}", contextId = "bookClient", configuration = FeignClientConfig.class)
 public interface ProductServiceClient {
 
-    // 도서 검색 - ID
-    @GetMapping("/api/books/{id}")
-    BookDetailResponse getBookDetail(@PathVariable String id);
-
     @GetMapping("/api/books/{id}")
     BookDetailResponse findBookById(@PathVariable Long id);
 

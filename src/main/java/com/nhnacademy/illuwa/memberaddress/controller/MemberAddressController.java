@@ -14,12 +14,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/addresses")
 public class MemberAddressController {
 
     private final MemberAddressServiceClient memberAddressServiceClient;
 
     //주소 등록 폼
-    @GetMapping("/addresses/new")
+    @GetMapping("/form")
     public String showCreateForm(Model model) {
         int addressCount = memberAddressServiceClient.getAddressCount();
         model.addAttribute("addressCount", addressCount);
@@ -29,7 +30,7 @@ public class MemberAddressController {
     }
 
     //주소 상세 조회 (뷰 모드)
-    @GetMapping("/addresses/{addressId}")
+    @GetMapping("/{addressId}")
     public String showDetail(@PathVariable long addressId, Model model) {
         MemberAddressResponse address = memberAddressServiceClient.getAddress(addressId);
         model.addAttribute("mode", "view");
@@ -38,7 +39,7 @@ public class MemberAddressController {
     }
 
     //주소 수정 폼 (수정 모드)
-    @GetMapping("/addresses/edit/{addressId}")
+    @GetMapping("/{addressId}/form")
     public String showEditForm(@PathVariable long addressId, Model model) {
         MemberAddressResponse address = memberAddressServiceClient.getAddress(addressId);
         model.addAttribute("mode", "edit");
@@ -47,7 +48,7 @@ public class MemberAddressController {
     }
 
     // 주소 저장 (신규/수정)
-    @PostMapping("/addresses/save")
+    @PostMapping("/save")
     public String saveAddress(
             @RequestParam("mode") String mode,
             @Valid MemberAddressRequest request,
@@ -76,11 +77,11 @@ public class MemberAddressController {
         }
 
         redirectAttributes.addFlashAttribute("message", message);
-        return "redirect:/address-list";
+        return "redirect:/addresses";
     }
 
     //주소 목록 조회
-    @GetMapping("/address-list")
+    @GetMapping
     public String listAddresses(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "5") int size,
@@ -100,21 +101,21 @@ public class MemberAddressController {
     }
 
     // 주소 삭제
-    @PostMapping("/addresses/delete/{addressId}")
+    @PostMapping("/{addressId}/delete")
     public String deleteAddress(@PathVariable long addressId, Model model,
                                 RedirectAttributes redirectAttributes) {
         memberAddressServiceClient.deleteAddress(addressId);
         model.addAttribute("addressList", memberAddressServiceClient.getAddressList());
         redirectAttributes.addFlashAttribute("message", "주소가 성공적으로 삭제되었습니다! ");
-        return "redirect:/address-list";
+        return "redirect:/addresses";
     }
 
     //기본 주소지로 설정
-    @PostMapping("/addresses/set-default/{addressId}")
+    @PostMapping("/{addressId}/default")
     public String setDefaultAddress(@PathVariable long addressId,
                                     RedirectAttributes redirectAttributes){
         memberAddressServiceClient.setDefaultAddress(addressId);
         redirectAttributes.addFlashAttribute("message", "기본주소지로 설정되었습니다! ");
-        return "redirect:/address-list";
+        return "redirect:/addresses";
     }
 }

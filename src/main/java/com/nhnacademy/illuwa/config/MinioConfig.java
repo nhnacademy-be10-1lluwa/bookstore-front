@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.config.handler;
+package com.nhnacademy.illuwa.config;
 
 import io.minio.MinioClient;
 import org.springframework.beans.factory.annotation.Value;

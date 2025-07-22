@@ -100,7 +100,7 @@ public class ReviewController {
             } else {
                 reviewService.createReview(bookId, request);
                 redirectAttributes.addFlashAttribute("message", "리뷰가 성공적으로 등록되었어요! 🎉");
-                return "redirect:/order-detail/" + orderId;
+                return "redirect:/orders/" + orderId;
             }
         } catch (Exception e) {
             return "review/review_form";

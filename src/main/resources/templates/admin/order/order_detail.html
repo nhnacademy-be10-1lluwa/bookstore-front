@@ -35,7 +35,7 @@
       </tr>
       <tr>
         <th scope="row">주문 상태</th>
-        <td th:text="${order.orderStatus}">PENDING</td>
+        <td th:text="${order.orderStatus.getValue()}">PENDING</td>
       </tr>
       <tr>
         <th scope="row">배송비</th>
@@ -51,7 +51,7 @@
   <section>
     <form id="statusForm"
           th:object="${order}"
-          th:action="@{'/admin/order/' + ${order.orderId} + '/status'}"
+          th:action="@{'/admin/orders/' + ${order.orderId} + '/status'}"
           method = "post">
       <input type="hidden" name="_method" value="put"/>
 

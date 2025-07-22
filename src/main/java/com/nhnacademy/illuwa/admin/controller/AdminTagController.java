@@ -19,7 +19,8 @@ public class AdminTagController {
 
     private final TagServiceClient tagServiceClient;
 
-    @GetMapping
+    //태그 관리 페이지
+    @GetMapping()
     public String tagManagePage(
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
             Model model
@@ -34,7 +35,7 @@ public class AdminTagController {
     @PostMapping
     public String createTag(@ModelAttribute TagCreateRequest request) {
         tagServiceClient.createTag(request);
-        return "redirect:/admin/tag/manage";
+        return "redirect:/admin/tags";
     }
 
     @PostMapping("/{id}/delete")

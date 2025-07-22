@@ -1,7 +1,6 @@
 package com.nhnacademy.illuwa.order.controller.member.command;
 
 
-import com.nhnacademy.illuwa.cart.client.CartServiceClient;
 import com.nhnacademy.illuwa.cart.service.CartService;
 import com.nhnacademy.illuwa.member.service.MemberService;
 import com.nhnacademy.illuwa.order.dto.command.create.MemberOrderCartRequest;
@@ -15,9 +14,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/orders/member")
 public class MemberOrderCommandController {
 
     private final MemberOrderService memberOrderService;
@@ -27,7 +28,8 @@ public class MemberOrderCommandController {
     @Value("${toss.client-key}")
     private String tossClientKey;
 
-    @PostMapping("/order/order-form/submit-direct")
+    // 단일 도서 주문 생성
+    @PostMapping
     public String sendOrder(@ModelAttribute("orderRequest") MemberOrderDirectRequest request, Model model) {
 
         OrderCreateResponse response = memberOrderService.createDirectOrder(request);
@@ -38,7 +40,8 @@ public class MemberOrderCommandController {
         return "order/order_view";
     }
 
-    @PostMapping("/order/order-form/submit")
+    // 장바구니 주문 생성
+    @PostMapping("/cart")
     public String sendOrderByCart(@ModelAttribute("orderRequest") MemberOrderCartRequest request, Model model) {
 
         OrderCreateResponse response = memberOrderService.createCartOrder(request);

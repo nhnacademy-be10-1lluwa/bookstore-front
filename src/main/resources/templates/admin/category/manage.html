@@ -32,7 +32,7 @@
       <td th:text="${category.parentName != null ? category.parentName : '없음'}">상위</td>
       <td th:text="${category.depth}">0</td>
       <td>
-        <form th:action="@{/admin/category/delete/{id}(id=${category.id})}" method="post"
+        <form th:action="@{/admin/categories/{id}/delete(id=${category.id})}" method="post"
               onsubmit="return confirm('삭제하시겠습니까?');">
           <button type="submit">삭제</button>
         </form>
@@ -43,15 +43,15 @@
 
   <div class="pagination">
     <a th:if="${categoryPage.hasPrevious()}"
-       th:href="@{|/admin/category/manage?page=${categoryPage.number - 1}&size=${categoryPage.size}&sort=id,asc|}">이전</a>
+       th:href="@{|/admin/categories?page=${categoryPage.number - 1}&size=${categoryPage.size}&sort=id,asc|}">이전</a>
     <span th:text="${categoryPage.number + 1}">1</span> /
     <span th:text="${categoryPage.totalPages}">1</span>
     <a th:if="${categoryPage.hasNext()}"
-       th:href="@{|/admin/category/manage?page=${categoryPage.number + 1}&size=${categoryPage.size}&sort=id,asc|}">다음</a>
+       th:href="@{|/admin/categories?page=${categoryPage.number + 1}&size=${categoryPage.size}&sort=id,asc|}">다음</a>
   </div>
 
   <h2>카테고리 등록</h2>
-  <form th:action="@{/admin/category/create}" th:object="${newCategory}" method="post">
+  <form th:action="@{/admin/categories}" th:object="${newCategory}" method="post">
     <div>
       <label for="categoryName">카테고리명</label>
       <input type="text" id="categoryName" th:field="*{categoryName}" placeholder="카테고리명" required/>

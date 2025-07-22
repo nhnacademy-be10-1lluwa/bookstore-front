@@ -7,7 +7,6 @@ import com.github.tomakehurst.wiremock.WireMockServer;
 import com.nhnacademy.illuwa.cart.dto.BookCartRequest;
 import com.nhnacademy.illuwa.cart.dto.BookCartResponse;
 import com.nhnacademy.illuwa.cart.dto.CartResponse;
-import com.nhnacademy.illuwa.cart.service.CartService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,8 +37,6 @@ public class CartServiceClientTest {
 
     @MockBean
     ClientRegistrationRepository clientRegistrationRepository;
-    @Autowired
-    private CartService cartService;
 
     @BeforeAll
     static void startWireMock() {

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,6 +24,7 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/books")
 public class BookController {
     private final BookService bookService;
     private final ReviewService reviewService;
@@ -31,7 +33,7 @@ public class BookController {
     private final BookLikeService bookLikeService;
 
     //도서 상세페이지
-    @GetMapping("/books/{id}")
+    @GetMapping("/{id}")
     public String bookDetailBySearch(@PathVariable("id") Long bookId, Model model, HttpServletRequest request){
         boolean isLoginUser = JwtCookieUtil.checkAccessToken(request);
 
@@ -62,7 +64,7 @@ public class BookController {
     }
 
     // isbn 기준으로 도서상세 가져오기
-    @GetMapping("/books/isbn/{isbn}")
+    @GetMapping("/isbn/{isbn}")
     public String bookDetail(@PathVariable("isbn") String isbn, Model model, HttpServletRequest request) {
         boolean isLoginUser = JwtCookieUtil.checkAccessToken(request);
 

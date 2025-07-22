@@ -1,7 +1,7 @@
 package com.nhnacademy.illuwa.coupon.controller;
 
 import com.nhnacademy.illuwa.admin.controller.AdminPolicyController;
-import com.nhnacademy.illuwa.common.controller_advice.CategoryControllerAdvice;
+import com.nhnacademy.illuwa.config.handler.CategoryControllerAdvice;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyFrom;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyResponse;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyUpdateRequest;
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = AdminPolicyController.class,
-        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {com.nhnacademy.illuwa.common.controller_advice.CategoryControllerAdvice.class})})
+        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {CategoryControllerAdvice.class})})
 
 @AutoConfigureMockMvc(addFilters = false)
 class AdminCouponPolicyControllerTest {
@@ -53,7 +53,7 @@ class AdminCouponPolicyControllerTest {
 
         when(couponPolicyService.getAllPolices()).thenReturn(couponPolicy);
 
-        mockMvc.perform(get("/admin/policy/coupon"))
+        mockMvc.perform(get("/admin/policies/coupons"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/policy/coupon_policy_view_list"))
                 .andExpect(model().attribute("couponPolicies", hasSize(1)))
@@ -63,7 +63,7 @@ class AdminCouponPolicyControllerTest {
     @Test
     @DisplayName("쿠폰 정책 등록 폼 반환")
     void couponPolicyCreateFromTest() throws Exception {
-        mockMvc.perform(get("/admin/policy/coupon/create"))
+        mockMvc.perform(get("/admin/policies/coupons/form"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/policy/coupon_policy_create"))
                 .andExpect(model().attributeExists("policyFrom"));
@@ -72,14 +72,14 @@ class AdminCouponPolicyControllerTest {
     @Test
     @DisplayName("쿠폰 정책 폼 데이터 전송 -> 성공")
     void registerCouponPolicyTest() throws Exception {
-        mockMvc.perform(post("/admin/policy/coupon/create")
+        mockMvc.perform(post("/admin/policies/coupons")
                         .param("code", "TEST_CODE")
                         .param("discountType", "PERCENT")
                         .param("minOrderAmount", "20000")
                         .param("discountPercent", "30")
                         .param("maxDiscountAmount", "10000"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/admin/policy/coupon"));
+                .andExpect(redirectedUrl("/admin/policies/coupons"));
 
         // 서비스 등록 메서드가 호출 됐는지 검증
         verify(couponPolicyService, times(1)).createCouponPolicy(any(CouponPolicyFrom.class));
@@ -99,7 +99,7 @@ class AdminCouponPolicyControllerTest {
 
         when(couponPolicyService.getPolicyByCode("TEST_CODE")).thenReturn(response);
 
-        mockMvc.perform(get("/admin/policy/coupon/TEST_CODE/update"))
+        mockMvc.perform(get("/admin/policies/coupons/TEST_CODE/form"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/policy/coupon_policy_update"))
                 .andExpect(model().attribute("policy", response));
@@ -108,11 +108,11 @@ class AdminCouponPolicyControllerTest {
     @Test
     @DisplayName("쿠폰 정책 수정 데이터 전송")
     void updatePolicyTest() throws Exception {
-        mockMvc.perform(post("/admin/policy/coupon/TEST_CODE/update")
+        mockMvc.perform(post("/admin/policies/coupons/TEST_CODE/update")
                         .param("minOrderAmount", "10000")
                         .param("discountAmount", "3000"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/admin/policy/coupon"));
+                .andExpect(redirectedUrl("/admin/policies/coupons"));
 
         verify(couponPolicyService, times(1)).updateCouponPolicy(eq("TEST_CODE"), any(CouponPolicyUpdateRequest.class));
     }
@@ -121,9 +121,9 @@ class AdminCouponPolicyControllerTest {
     @DisplayName("쿠폰 정책 삭제 (= 비활성화)")
     void deletePolicyTest() throws Exception {
 
-        mockMvc.perform(post("/admin/policy/coupon/TEST_CODE/delete"))
+        mockMvc.perform(post("/admin/policies/coupons/TEST_CODE/delete"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/admin/policy/coupon"));
+                .andExpect(redirectedUrl("/admin/policies/coupons"));
 
         // 서비스 삭제 호출 검증
         verify(couponPolicyService, times(1)).deleteCouponPolicy("TEST_CODE");
@@ -132,7 +132,7 @@ class AdminCouponPolicyControllerTest {
     @Test
     @DisplayName("정책 페이지 반환")
     void policyTest() throws Exception {
-        mockMvc.perform(get("/admin/policy/policy"))
+        mockMvc.perform(get("/admin/policies"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/policy/policy"));
     }

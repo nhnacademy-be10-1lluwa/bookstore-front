@@ -16,11 +16,13 @@ import java.util.Map;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/orders/member")
 public class MemberOrderInitController {
 
     private final MemberOrderService memberOrderService;
 
-    @GetMapping("/order/order-form/{bookId}")
+    // 단일 도서 주문 페이지
+    @GetMapping("/form/{bookId}")
     public String showOrderForm(@PathVariable("bookId") Long bookId,
                                 @RequestParam(name = "quantity", defaultValue = "1") int quantity,
                                 Model model) {
@@ -38,7 +40,8 @@ public class MemberOrderInitController {
         return "order/order_member_form";
     }
 
-    @GetMapping("/order/cart-order-form")
+    // 장바구니 주문 페이지
+    @GetMapping("/cart-form")
     public String showOrderFromCartForm(Model model) {
         MemberOrderInitFromCartResponse memberInfo = memberOrderService.initFromCart();
         MemberOrderCartRequest req = new MemberOrderCartRequest();
@@ -62,7 +65,4 @@ public class MemberOrderInitController {
 
         return "order/order_member_cart_form";
     }
-
-
-
 }

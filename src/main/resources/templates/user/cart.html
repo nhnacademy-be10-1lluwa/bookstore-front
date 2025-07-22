@@ -52,7 +52,7 @@
         <div style="text-align:right; margin-top:12px;">
             <button onclick="clearCart()">장바구니 비우기</button>
         </div>
-        <form th:action="@{/order/cart-order-form}"
+        <form th:action="@{/orders/member/cart-form}"
               method="get"
               th:if="${!#lists.isEmpty(cartResponse.bookCarts)}"
               style="text-align:right; margin-top:12px;">

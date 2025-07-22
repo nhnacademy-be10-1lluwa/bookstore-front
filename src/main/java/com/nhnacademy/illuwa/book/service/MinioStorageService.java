@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 import java.util.concurrent.TimeUnit;
@@ -38,9 +39,9 @@ public class MinioStorageService {
     }
 
     public String uploadBookImage(MultipartFile file) {
-        try {
-            validate(file);
+        validate(file);
 
+        try {
             String objectName = "Book/" + UUID.randomUUID() + "_" + file.getOriginalFilename();
 
             minioClient.putObject(
@@ -52,7 +53,7 @@ public class MinioStorageService {
                             .build()
             );
 
-            String url = minioClient.getPresignedObjectUrl(
+            return minioClient.getPresignedObjectUrl(
                     GetPresignedObjectUrlArgs.builder()
                             .method(Method.GET)
                             .bucket(bucket)
@@ -60,15 +61,13 @@ public class MinioStorageService {
                             .expiry(7, TimeUnit.DAYS)
                             .build()
             );
-
-            return url;
         } catch (Exception e) {
             throw new RuntimeException("이미지 업로드 실패", e);
         }
     }
 
     private void validate(MultipartFile file) {
-        String ext = getExtension(file.getOriginalFilename());
+        String ext = getExtension(Objects.requireNonNull(file.getOriginalFilename()));
         if (!ALLOWED_EXTENSIONS.contains(ext)) {
             throw new IllegalArgumentException("지원하지 않는 확장자: " + ext);
         }

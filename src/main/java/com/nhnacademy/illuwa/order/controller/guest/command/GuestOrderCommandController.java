@@ -10,9 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/orders/guest")
 public class GuestOrderCommandController {
 
     private final GuestOrderService guestOrderService;
@@ -20,7 +22,8 @@ public class GuestOrderCommandController {
     @Value("${toss.client-key}")
     private String tossClientKey;
 
-    @PostMapping("/guest/order/order-form/submit-direct")
+    // 비회원 주문 생성
+    @PostMapping
     public String sendOrder(@ModelAttribute("orderRequest") GuestOrderDirectRequest request, Model model) {
         OrderCreateResponse response = guestOrderService.createDirectOrder(request);
 
