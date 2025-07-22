@@ -1,6 +1,5 @@
-package com.nhnacademy.illuwa.main.controller;
+package com.nhnacademy.illuwa.common.controller;
 
-import com.nhnacademy.illuwa.book.client.ProductServiceClient;
 import com.nhnacademy.illuwa.book.dto.BestSellerResponse;
 import com.nhnacademy.illuwa.book.service.BookService;
 import lombok.RequiredArgsConstructor;

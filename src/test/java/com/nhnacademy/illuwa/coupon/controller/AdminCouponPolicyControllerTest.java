@@ -1,7 +1,7 @@
 package com.nhnacademy.illuwa.coupon.controller;
 
 import com.nhnacademy.illuwa.admin.controller.AdminPolicyController;
-import com.nhnacademy.illuwa.common.controller_advice.CategoryControllerAdvice;
+import com.nhnacademy.illuwa.config.handler.CategoryControllerAdvice;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyFrom;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyResponse;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyUpdateRequest;
@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = AdminPolicyController.class,
-        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {com.nhnacademy.illuwa.common.controller_advice.CategoryControllerAdvice.class})})
+        excludeFilters = {@ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = {CategoryControllerAdvice.class})})
 
 @AutoConfigureMockMvc(addFilters = false)
 class AdminCouponPolicyControllerTest {

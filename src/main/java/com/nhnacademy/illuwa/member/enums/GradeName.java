@@ -1,4 +1,4 @@
-package com.nhnacademy.illuwa.grade.enums;
+package com.nhnacademy.illuwa.member.enums;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

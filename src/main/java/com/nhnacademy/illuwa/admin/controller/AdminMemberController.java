@@ -1,7 +1,7 @@
 package com.nhnacademy.illuwa.admin.controller;
 
 import com.nhnacademy.illuwa.common.dto.PageResponse;
-import com.nhnacademy.illuwa.grade.enums.GradeName;
+import com.nhnacademy.illuwa.member.enums.GradeName;
 import com.nhnacademy.illuwa.member.dto.MemberResponse;
 import com.nhnacademy.illuwa.member.service.AdminMemberService;
 import lombok.RequiredArgsConstructor;
