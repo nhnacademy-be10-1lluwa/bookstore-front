@@ -1,9 +1,9 @@
+const contactInput = document.getElementById('contact');
 const sendBtn = document.getElementById('sendCodeBtn');
 const timer = document.getElementById('timer');
 const countdown = document.getElementById('countdown');
 const codeGroup = document.getElementById('codeGroup');
 const errorMessage = document.getElementById('errorMessage');
-const serverEmailInput = document.getElementById('serverEmail');
 
 const baseUrl = "";
 const SEND_API   = "/verifications/inactive/code";
@@ -24,8 +24,10 @@ function startTimer() {
         if (timeLeft <= 0) {
             clearInterval(timerInterval);
             countdown.textContent = "시간 초과";
-            // 버튼 재활성화 등 안내 추가
+            errorMessage.textContent = "인증 시간이 만료되었어요. 다시 시도해주세요.";
+            errorMessage.classList.remove('hidden');
             sendBtn.disabled = false;
+            contactInput.readOnly = false;
         }
     }, 1000);
 }
@@ -37,21 +39,20 @@ function updateTimer() {
 }
 
 sendBtn.addEventListener('click', async () => {
-    const emailInput = document.getElementById('email');
-    const email = emailInput.value.trim();
-    const serverEmail = serverEmailInput.value;
+    const contactInput = document.getElementById('contact');
+    const contact = contactInput.value.trim();
 
-    if (!email) {
-        alert("이메일을 입력해주세요!");
+    if (!contact) {
+        alert("전화번호를 입력해주세요!");
         return;
     }
 
-    // 서버에서 전달받은 이메일과 입력한 이메일 비교
-    if (serverEmail && email !== serverEmail) {
-        errorMessage.textContent = "회원님의 이메일과 일치하지 않습니다.";
-        errorMessage.classList.remove('hidden');
+    if (!/^01[0|1|6|7|8|9]-?\d{3,4}-?\d{4}$/.test(contact)) {
+        alert("'-'을 포함한 올바른 전화번호 형식을 입력해주세요!");
         return;
     }
+
+    sendBtn.disabled = true;
 
     try {
         const response = await fetch(baseUrl + SEND_API, {
@@ -59,27 +60,30 @@ sendBtn.addEventListener('click', async () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email })
+            body: JSON.stringify({ contact })
         });
-        const result = await response.json();
+        const isSuccess = await response.json();
 
-        if (response.ok && result.success) {
+        if (response.ok && isSuccess === true) {
+            contactInput.readOnly = true;
             startTimer();
             codeGroup.classList.remove('hidden');
             errorMessage.classList.add('hidden');
         } else {
-            errorMessage.textContent = result.message || "인증번호 발송에 실패했습니다.";
+            errorMessage.textContent = "인증번호 발송에 실패했습니다.";
             errorMessage.classList.remove('hidden');
+
         }
     } catch (error) {
         console.error("fetch error:", error);
-        errorMessage.textContent = "서버와의 통신에 실패했어요 😢";
+        errorMessage.textContent = " 전화번호가 일치하지 않습니다 😢";
         errorMessage.classList.remove('hidden');
+        sendBtn.disabled = false;
     }
 });
 
 document.getElementById('verifyBtn').addEventListener('click', async () => {
-    const email = document.getElementById('email').value.trim();
+    const contact = document.getElementById('contact').value.trim();
     const code = document.getElementById('code').value.trim();
 
     if (!code) {
@@ -93,17 +97,17 @@ document.getElementById('verifyBtn').addEventListener('click', async () => {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ email, code })
+            body: JSON.stringify({ contact, code })
         });
 
-        const result = await response.json();
+        const isVerified = await response.json();
 
-        if (response.ok && result.success) {
+        if (response.ok && isVerified === true) {
             errorMessage.classList.add('hidden');
             alert("인증 성공!🎉 로그인 페이지로 이동합니다");
-            location.href = '/login';
+            location.href = '/auth/login';
         } else {
-            errorMessage.textContent = result.message || "인증번호가 올바르지 않습니다.";
+            errorMessage.textContent = "인증번호를 다시 확인해주세요.";
             errorMessage.classList.remove('hidden');
         }
     } catch (error) {
