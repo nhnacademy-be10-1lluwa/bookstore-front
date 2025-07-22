@@ -177,7 +177,6 @@ public class AdminBookController {
         return url;
     }
 
-    // Nginx 경로 우회 메서드(http -> https)
     private String convertMinioUrl(String originalUrl) {
         if (originalUrl == null) {
             return null;
