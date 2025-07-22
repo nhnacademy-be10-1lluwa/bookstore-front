@@ -27,12 +27,12 @@ public class BookService {
     }
 
     public BookDetailResponse findBookById(Long id){
-        return productServiceClient.findBookById(id);
-    }
 
-//    public List<SearchBookResponse> bookList() {
-//        return productServiceClient.findBooks();
-//    }
+        BookDetailResponse response = productServiceClient.findBookById(id);
+        response.setImageUrls(response.getImageUrls().stream().map(this::convertMinioUrl).toList());
+
+        return response;
+    }
 
     public BookDetailResponse bookDetail(@RequestParam String keyword) {
         return productServiceClient.getBookDetail(keyword);
@@ -54,6 +54,16 @@ public class BookService {
     public List<BestSellerResponse> getBestSellers() {
         log.info("cache에 인기도서 목록 존재X");
         return productServiceClient.getBestSeller();
+    }
+
+    private String convertMinioUrl(String originalUrl) {
+        if (originalUrl == null) {
+            return null;
+        }
+        return originalUrl.replace(
+                "http://storage.java21.net:8000/",
+                "https://book1lluwa.store/minio/"
+        );
     }
 
 
