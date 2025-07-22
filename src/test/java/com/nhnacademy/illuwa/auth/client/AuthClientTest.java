@@ -6,6 +6,7 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.nhnacademy.illuwa.auth.dto.MemberLoginRequest;
+import com.nhnacademy.illuwa.auth.dto.MemberLoginResponse;
 import com.nhnacademy.illuwa.auth.dto.MemberRegisterRequest;
 import com.nhnacademy.illuwa.auth.dto.TokenResponse;
 import com.nhnacademy.illuwa.auth.dto.payco.SocialLoginRequest;
@@ -21,6 +22,7 @@ import java.util.Map;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.equalToJson;
+import static com.nhnacademy.illuwa.member.enums.Status.ACTIVE;
 
 @SpringBootTest(
         properties = {
@@ -71,18 +73,18 @@ public class AuthClientTest {
     @DisplayName("로그인 동작 확인")
     void testLogin() throws Exception {
         MemberLoginRequest memberLoginRequest = new MemberLoginRequest("riveroad@kakao.com", "testPassword1234!");
-        TokenResponse tokenResponse = new TokenResponse("access_token", "refresh_token", 10000);
+        MemberLoginResponse loginResponse = new MemberLoginResponse("access_token", "refresh_token", 10000, ACTIVE);
 
         wireMockServer.stubFor(WireMock.post(WireMock.urlPathEqualTo("/api/auth/login"))
                 .withRequestBody(equalToJson(objectMapper.writeValueAsString(memberLoginRequest)))
                 .willReturn(aResponse()
                         .withHeader("Content-Type", "application/json")
-                        .withBody(objectMapper.writeValueAsString(tokenResponse))
+                        .withBody(objectMapper.writeValueAsString(loginResponse))
                         .withStatus(200))
         );
 
-        TokenResponse result = client.login(memberLoginRequest);
-        Assertions.assertEquals(tokenResponse, result);
+        MemberLoginResponse result = client.login(memberLoginRequest);
+        Assertions.assertEquals(loginResponse, result);
     }
 
     @Test

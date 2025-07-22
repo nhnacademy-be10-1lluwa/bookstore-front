@@ -16,11 +16,10 @@
     <section class="main-content">
         <h2>휴면회원 인증</h2>
 
-        <input type="hidden" id="serverEmail" th:value="${email}" />
         <div class="form-group">
-            <label for="email">이메일</label>
-            <input type="email" id="email" placeholder="your.email@1lluwa.com" required />
-            <button id="sendCodeBtn" type="button">인증번호 발송</button>
+            <label for="contact">전화번호</label>
+            <input type="tel" id="contact" placeholder="010-0000-0000" required />
+            <button id="sendCodeBtn" type="button">두레이 인증번호 발송</button>
             <div id="timer" class="timer hidden">남은 시간: <span id="countdown">03:00</span></div>
         </div>
 

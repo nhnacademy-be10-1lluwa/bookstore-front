@@ -93,10 +93,14 @@
             </select>
         </div>
 
-        <input type="hidden" name="giftwrap" value="false"/>
-        <input type="checkbox" class="form-check-input" id="giftwrap" name="giftwrap" value="true"
-               th:checked="${book.giftwrap}" />
-        <label class="form-check-label" for="giftwrap">선물 포장 가능</label>
+        <div class="mb-3">
+            <label class="form-label">선물 포장 가능 여부</label><br />
+
+            <input type="hidden" name="_giftwrap" value="false"/>
+            <input type="checkbox" class="form-check-input" id="giftwrap" name="giftwrap" value="true"
+                   th:checked="${book.giftwrap}" />
+            <label class="form-check-label ms-1" for="giftwrap">선물 포장 가능</label>
+        </div>
 
         <div class="mb-3">
             <label for="level1" class="form-label">1차 카테고리</label>
