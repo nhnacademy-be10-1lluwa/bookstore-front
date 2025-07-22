@@ -19,7 +19,7 @@
     <h2>장바구니 주문 정보 입력</h2>
 
     <!-- cart 전용: orderRequest.items 를 전송 -->
-    <form th:action="@{/order/order-form/submit}"
+    <form th:action="@{/orders/member/cart}"
           method="post"
           th:object="${orderRequest}"
           class="order-form">

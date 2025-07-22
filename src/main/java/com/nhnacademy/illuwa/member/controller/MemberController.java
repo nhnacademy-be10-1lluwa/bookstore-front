@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class MemberController {
     private final MemberService memberService;
 
+    // 내 정보 보기
     @GetMapping("/my-info")
     public String memberInfo(Model model,
                              @ModelAttribute("form") MemberUpdateRequest form,
@@ -42,8 +43,7 @@ public class MemberController {
         return "mypage/section/myinfo";
     }
 
-
-
+    // 내 정보 수정
     @PostMapping("/my-info/update")
     public String updateMember(@Valid MemberUpdateRequest request,
                                RedirectAttributes redirectAttributes){
@@ -60,11 +60,11 @@ public class MemberController {
         return "redirect:/my-info";
     }
 
+    // 내 계정 삭제
     @PostMapping("/my-info/delete")
     @ResponseBody
     public ResponseEntity<Void> deleteMember() {
         memberService.deleteMember();
         return ResponseEntity.ok().build();
     }
-
 }

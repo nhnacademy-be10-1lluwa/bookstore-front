@@ -12,7 +12,7 @@
     <section class="login-container">
       <h2>비회원 주문 조회</h2>
       <p class="description">주문 시 등록했던 정보로 주문 내역을 조회합니다.</p>
-      <form th:action="@{/order-history}" method="post">
+      <form th:action="@{/orders/guest/history}" method="post">
         <div class="form-group">
           <label for="orderNumber">주문 번호</label>
           <input type="text"

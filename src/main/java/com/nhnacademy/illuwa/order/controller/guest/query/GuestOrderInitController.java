@@ -9,15 +9,18 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/orders/guest")
 public class GuestOrderInitController {
 
     private final GuestOrderService guestOrderService;
 
-    @GetMapping("/guest/order/order-form/{bookId}")
+    // 비회원 주문서 페이지
+    @GetMapping("/form/{bookId}")
     public String showOrderForm(@PathVariable("bookId") Long bookId,
                                 @RequestParam(name = "quantity", defaultValue = "1") int quantity,
                                 Model model) {

@@ -53,7 +53,7 @@ public class AdminOrderController {
     @PostMapping("/member-grade-update")
     public String memberGradeUpdate() {
         adminOrderService.runMemberGradeBatch();
-        return "redirect:/admin/member-list";
+        return "redirect:/admin/members";
     }
 
     // 주문일로 부터 3일 동안 AwaitingPayment 상태에 머물어 있는 주문건 삭제하기

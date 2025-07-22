@@ -66,7 +66,7 @@
 
                 <div class="address-actions" onclick="stopPropagation()">
                     <a th:href="@{'/addresses/edit/' + ${address.memberAddressId}}" class="btn edit">수정</a>
-                    <form th:action="@{'/addresses/delete/' + ${address.memberAddressId}}" method="post"
+                    <form th:action="@{'/addresses/' + ${address.memberAddressId} + '/delete'}" method="post"
                           onsubmit="return confirm('정말 삭제하시겠습니까?');"
                           style="display: inline;">
                         <button type="submit" class="btn delete">삭제</button>

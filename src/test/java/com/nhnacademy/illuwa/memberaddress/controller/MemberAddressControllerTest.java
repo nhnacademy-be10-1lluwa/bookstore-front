@@ -47,7 +47,7 @@ public class MemberAddressControllerTest {
     void testShowCreateForm() throws Exception {
         given(memberAddressServiceClient.getAddressCount()).willReturn(1);
 
-        mockMvc.perform(get("/addresses/new"))
+        mockMvc.perform(get("/addresses/form"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("memberaddress/address_detail"))
                 .andExpect(model().attributeExists("addressCount"))
@@ -104,7 +104,7 @@ public class MemberAddressControllerTest {
 
         given(memberAddressServiceClient.getAddress(11L)).willReturn(address);
 
-        mockMvc.perform(get("/addresses/edit/11"))
+        mockMvc.perform(get("/addresses/11/form"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("memberaddress/address_detail"))
                 .andExpect(model().attribute("mode", "edit"))
@@ -137,7 +137,7 @@ public class MemberAddressControllerTest {
                         .param("recipientContact", req.getRecipientContact())
                         .param("defaultAddress", String.valueOf(req.isDefaultAddress())))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/address-list"));
+                .andExpect(redirectedUrl("/addresses"));
 
         verify(memberAddressServiceClient, times(1)).createAddress(any(MemberAddressRequest.class));
         verifyNoMoreInteractions(memberAddressServiceClient);
@@ -182,7 +182,7 @@ public class MemberAddressControllerTest {
                         .param("recipientContact", req.getRecipientContact())
                         .param("defaultAddress", String.valueOf(req.isDefaultAddress())))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/address-list"));
+                .andExpect(redirectedUrl("/addresses"));
 
         verify(memberAddressServiceClient, times(1)).updateAddress(any(MemberAddressRequest.class), eq(22L));
         verifyNoMoreInteractions(memberAddressServiceClient);
@@ -214,7 +214,7 @@ public class MemberAddressControllerTest {
 
         given(memberAddressServiceClient.getPagedAddressList(0, 5)).willReturn(page);
 
-        mockMvc.perform(get("/address-list")
+        mockMvc.perform(get("/addresses")
                         .param("page", "0")
                         .param("size", "5"))
                 .andExpect(status().isOk())
@@ -236,9 +236,9 @@ public class MemberAddressControllerTest {
 
         given(memberAddressServiceClient.getAddressList()).willReturn(addressList);
 
-        mockMvc.perform(post("/addresses/delete/3"))
+        mockMvc.perform(post("/addresses/3/delete"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/address-list"));
+                .andExpect(redirectedUrl("/addresses"));
 
         verify(memberAddressServiceClient, times(1)).deleteAddress(3L);
         verify(memberAddressServiceClient, times(1)).getAddressList();
@@ -248,9 +248,9 @@ public class MemberAddressControllerTest {
     @Test
     @DisplayName("기본주소지로 설정 성공")
     void testSetDefaultAddress() throws Exception {
-        mockMvc.perform(post("/addresses/set-default/4"))
+        mockMvc.perform(post("/addresses/4/default"))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/address-list"));
+                .andExpect(redirectedUrl("/addresses"));
 
         verify(memberAddressServiceClient, times(1)).setDefaultAddress(4L);
         verifyNoMoreInteractions(memberAddressServiceClient);
