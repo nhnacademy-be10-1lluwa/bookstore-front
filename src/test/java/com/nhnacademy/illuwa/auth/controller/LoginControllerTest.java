@@ -1,6 +1,6 @@
 package com.nhnacademy.illuwa.auth.controller;
 
-import com.nhnacademy.illuwa.common.controller_advice.CategoryControllerAdvice;
+import com.nhnacademy.illuwa.config.handler.CategoryControllerAdvice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;

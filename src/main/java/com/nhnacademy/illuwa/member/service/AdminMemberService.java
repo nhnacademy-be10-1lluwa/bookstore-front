@@ -1,7 +1,7 @@
 package com.nhnacademy.illuwa.member.service;
 
 import com.nhnacademy.illuwa.common.dto.PageResponse;
-import com.nhnacademy.illuwa.grade.enums.GradeName;
+import com.nhnacademy.illuwa.member.enums.GradeName;
 import com.nhnacademy.illuwa.member.client.AdminMemberServiceClient;
 import com.nhnacademy.illuwa.member.dto.MemberResponse;
 import com.nhnacademy.illuwa.pointhistory.dto.PointHistoryResponse;

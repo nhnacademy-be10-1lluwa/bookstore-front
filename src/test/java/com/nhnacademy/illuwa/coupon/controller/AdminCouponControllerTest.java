@@ -1,14 +1,11 @@
 package com.nhnacademy.illuwa.coupon.controller;
 
 import com.nhnacademy.illuwa.admin.controller.AdminCouponController;
-import com.nhnacademy.illuwa.admin.controller.AdminPolicyController;
-import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
 import com.nhnacademy.illuwa.book.service.BookService;
-import com.nhnacademy.illuwa.common.controller_advice.CategoryControllerAdvice;
+import com.nhnacademy.illuwa.config.handler.CategoryControllerAdvice;
 import com.nhnacademy.illuwa.coupon.dto.coupon.CouponForm;
 import com.nhnacademy.illuwa.coupon.dto.coupon.CouponResponse;
 import com.nhnacademy.illuwa.coupon.dto.coupon.CouponUpdateRequest;
-import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyResponse;
 import com.nhnacademy.illuwa.coupon.service.CouponPolicyService;
 import com.nhnacademy.illuwa.coupon.service.CouponService;
 import org.junit.jupiter.api.DisplayName;
