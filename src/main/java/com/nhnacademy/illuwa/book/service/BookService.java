@@ -30,14 +30,6 @@ public class BookService {
         return productServiceClient.findBookById(id);
     }
 
-//    public List<SearchBookResponse> bookList() {
-//        return productServiceClient.findBooks();
-//    }
-
-    public BookDetailResponse bookDetail(@RequestParam String keyword) {
-        return productServiceClient.getBookDetail(keyword);
-    }
-
     public List<BookDetailResponse> getAllBooks() {
         return productServiceClient.getRegisteredBook();
     }

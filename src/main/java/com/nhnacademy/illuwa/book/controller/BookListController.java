@@ -4,14 +4,9 @@ import com.nhnacademy.illuwa.book.dto.BookDetailResponse;
 import com.nhnacademy.illuwa.book.service.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,17 +27,4 @@ public class BookListController {
 
         return "book/book_list";
     }
-
-    @PostMapping("/search")
-    public String searchBook(@RequestParam("keyword") String keyword, Model model) {
-        BookDetailResponse book = bookService.bookDetail(keyword);
-        List<BookDetailResponse> books = new ArrayList<>();
-        books.add(book);
-
-        model.addAttribute("bookPage", new PageImpl<>(books, PageRequest.of(0, books.size()), books.size()));
-        model.addAttribute("books", books);
-        return "book/book_list";
-    }
-
-
 }

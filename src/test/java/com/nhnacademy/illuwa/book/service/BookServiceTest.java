@@ -56,19 +56,6 @@ public class BookServiceTest {
     }
 
     @Test
-    @DisplayName("키워드로 도서 상세 조회 - 정상")
-    void bookDetail_success() {
-        BookDetailResponse mock = new BookDetailResponse(3L, "title3", "본문", "설명", "저자", "출판사", "2023-01-03", "isbn3",
-                new BigDecimal("10000"), new BigDecimal("9000"), false, List.of("img3"), 15, "판매중");
-        when(productServiceClient.getBookDetail("keyword")).thenReturn(mock);
-
-        BookDetailResponse result = bookService.bookDetail("keyword");
-
-        assertThat(result).isEqualTo(mock);
-        verify(productServiceClient).getBookDetail("keyword");
-    }
-
-    @Test
     @DisplayName("전체 도서 목록 조회")
     void getAllBooks_success() {
         List<BookDetailResponse> list = Arrays.asList(
@@ -137,14 +124,4 @@ public class BookServiceTest {
                 .isInstanceOf(RuntimeException.class)
                 .hasMessage("Not found");
     }
-
-    @Test
-    @DisplayName("도서 상세조회 결과 없음")
-    void bookDetail_null() {
-        when(productServiceClient.getBookDetail("badKeyword")).thenReturn(null);
-
-        BookDetailResponse result = bookService.bookDetail("badKeyword");
-        assertThat(result).isNull();
-    }
-
 }

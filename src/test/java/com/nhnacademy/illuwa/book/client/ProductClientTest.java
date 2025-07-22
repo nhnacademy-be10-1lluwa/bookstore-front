@@ -58,19 +58,6 @@ public class ProductClientTest {
     }
 
     @Test
-    void getBookDetail() throws Exception {
-        BookDetailResponse mock = new BookDetailResponse(
-                1L, "제목", "본문", "설명", "저자", "출판사", "2023-01-01", "12345678",
-                new BigDecimal("10000"), new BigDecimal("9000"), false, Arrays.asList("img1"), 5, "판매중"
-        );
-        stub("/api/books/1", mock);
-
-        BookDetailResponse result = client.getBookDetail("1");
-        assertThat(result).isNotNull();
-        assertThat(result.getId()).isEqualTo(1L);
-    }
-
-    @Test
     void findBookById() throws Exception {
         BookDetailResponse mock = new BookDetailResponse(2L, "제목2", "본문", "설명", "저자", "출판사", "2023-01-02", "23456789",
                 new BigDecimal("12000"), new BigDecimal("10000"), false, Arrays.asList("img2"), 3, "판매중"

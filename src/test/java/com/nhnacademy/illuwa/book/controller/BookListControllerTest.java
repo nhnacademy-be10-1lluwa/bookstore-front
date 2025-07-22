@@ -26,11 +26,9 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
-import static org.hamcrest.Matchers.*;
 
 @WebMvcTest(controllers = BookListController.class,
         excludeFilters = {
@@ -65,23 +63,6 @@ public class BookListControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attributeExists("bookPage"))
                 .andExpect(model().attribute("sort", "id,asc"))
-                .andExpect(view().name("book/book_list"));
-    }
-
-
-    @Test
-    @DisplayName("POST /books/search - 키워드로 단일 책 검색")
-    void searchBook_returnSearchedBook() throws Exception {
-        BookDetailResponse bookDetail = new BookDetailResponse();
-        bookDetail.setImageUrls(new ArrayList<>());
-
-        given(bookService.bookDetail(anyString())).willReturn(bookDetail);
-
-        mockMvc.perform(post("/books/search")
-                        .param("keyword", "testKeyword"))
-                .andExpect(status().isOk())
-                .andExpect(model().attributeExists("books"))
-                .andExpect(model().attribute("books", hasSize(1)))
                 .andExpect(view().name("book/book_list"));
     }
 }
