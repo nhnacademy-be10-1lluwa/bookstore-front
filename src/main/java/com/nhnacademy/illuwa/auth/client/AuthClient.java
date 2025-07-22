@@ -14,7 +14,7 @@ public interface AuthClient {
     void signup(@Valid MemberRegisterRequest memberRegisterRequest);
 
     @PostMapping("/api/auth/login")
-    TokenResponse login(@Valid MemberLoginRequest memberLoginRequest);
+    MemberLoginResponse login(@Valid MemberLoginRequest memberLoginRequest);
 
     @PostMapping("/api/auth/social-login")
     TokenResponse socialLogin(@RequestBody SocialLoginRequest socialLoginRequest);
