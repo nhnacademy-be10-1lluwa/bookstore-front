@@ -23,7 +23,7 @@ public interface ProductServiceClient {
     BookDetailResponse findBookByIsbn(@PathVariable String isbn);
 
     // 도서 검색(외부 API) - ISBN
-    @GetMapping("/api/books/external/isbn/{isbn}")
+    @GetMapping("/api/external-books/isbn/{isbn}")
     BookExternalResponse findBookByApi(@PathVariable String isbn);
 
     // 인기 도서 목록
