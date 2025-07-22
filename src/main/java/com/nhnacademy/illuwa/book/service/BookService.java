@@ -33,7 +33,7 @@ public class BookService {
 
         return response;
     }
-  
+
     public List<BookDetailResponse> getAllBooks() {
         return productServiceClient.getRegisteredBook();
     }
@@ -48,7 +48,7 @@ public class BookService {
 
     @Cacheable(value = "bestSellers")
     public List<BestSellerResponse> getBestSellers() {
-        log.info("cache에 인기도서 목록 존재X");
+        log.info("현재 캐시에 인기도서 목록 존재 X, 가져오는중...");
         return productServiceClient.getBestSeller();
     }
 
