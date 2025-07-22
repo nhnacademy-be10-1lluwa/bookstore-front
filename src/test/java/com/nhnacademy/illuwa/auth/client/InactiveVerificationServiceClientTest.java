@@ -44,57 +44,32 @@ public class InactiveVerificationServiceClientTest {
     }
 
     @Test
-    @DisplayName("회원 휴면상태 체크")
-    void getInactiveMemberInfo() throws Exception {
-        SendVerificationRequest request = new SendVerificationRequest("inactive@test.com");
-        InactiveCheckResponse response = InactiveCheckResponse.builder()
-                .status(com.nhnacademy.illuwa.member.enums.Status.INACTIVE)
-                .name("inactive")
-                .email("inactive@test.com")
-                .build();
-
-        wireMockServer.stubFor(post(urlEqualTo("/api/members/inactive/check-status"))
-                .withRequestBody(equalToJson(objectMapper.writeValueAsString(request)))
-                .willReturn(aResponse()
-                        .withHeader("Content-Type", "application/json")
-                        .withBody(objectMapper.writeValueAsString(response))
-                        .withStatus(200)));
-
-        InactiveCheckResponse actual = client.getInactiveMemberInfo(request);
-        assertEquals(response, actual);
-    }
-
-    @Test
     @DisplayName("인증코드 전송")
     void sendCode() throws Exception {
-        SendVerificationRequest req = new SendVerificationRequest("user@test.com");
-        SendMessageResponse res = new SendMessageResponse(true, "user@test.com", "ok", "message");
+        SendVerificationRequest req = new SendVerificationRequest("010-1234-5678");
 
-        wireMockServer.stubFor(post(urlEqualTo("/api/members/inactive/code"))
+        wireMockServer.stubFor(post(urlEqualTo("/api/members/inactive-verifications"))
                 .withRequestBody(equalToJson(objectMapper.writeValueAsString(req)))
                 .willReturn(aResponse()
                         .withHeader("Content-Type", "application/json")
-                        .withBody(objectMapper.writeValueAsString(res))
+                        .withBody(objectMapper.writeValueAsString(true))
                         .withStatus(200)));
 
-        SendMessageResponse actual = client.sendCode(req);
-        assertEquals(res, actual);
+        assertEquals(true, client.sendCode(req));
     }
 
     @Test
     @DisplayName("인증코드 검증")
     void verify() throws Exception {
-        VerifyCodeRequest req = new VerifyCodeRequest("user@test.com", "code123");
-        VerifyCodeResponse res = new VerifyCodeResponse(true, 99L, "user@test.com", "success");
+        VerifyCodeRequest req = new VerifyCodeRequest("010-1234-5678", "code123");
 
-        wireMockServer.stubFor(post(urlEqualTo("/api/members/inactive/verification"))
+        wireMockServer.stubFor(post(urlEqualTo("/api/members/inactive-verifications/verify"))
                 .withRequestBody(equalToJson(objectMapper.writeValueAsString(req)))
                 .willReturn(aResponse()
                         .withHeader("Content-Type", "application/json")
-                        .withBody(objectMapper.writeValueAsString(res))
+                        .withBody(objectMapper.writeValueAsString(true))
                         .withStatus(200)));
 
-        VerifyCodeResponse actual = client.verify(req);
-        assertEquals(res, actual);
+        assertEquals(true, client.verify(req));
     }
 }
