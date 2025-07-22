@@ -19,7 +19,7 @@ public class AdminTagController {
 
     private final TagServiceClient tagServiceClient;
 
-    @GetMapping
+    @GetMapping("/manage")
     public String tagManagePage(
             @PageableDefault(size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
             Model model
