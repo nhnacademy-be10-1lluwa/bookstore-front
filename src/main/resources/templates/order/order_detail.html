@@ -144,14 +144,17 @@
 
                 <!-- 결제 취소 버튼 -->
                 <form th:if="${order.orderStatus != null and order.orderStatus.toString().equals('Pending')}"
-                      th:action="@{/orders/{order-number}/cancel-payment(order-number=${order.orderNumber})}"
+                      th:action="@{/payment/{order-number}/refund(order-number=${order.orderNumber})}"
                       method="post"
                       style="margin-top: 10px">
 
-                    <label for="cancelReason">취소 사유</label>
-                    <input type="text" id="cancelReason" name="cancelReason" placeholder="취소 사유를 입력하세요" required />
+                    <div class="form-group" style="margin-bottom: 10px;">
+                        <label for="cancelReason" style="display: block; font-weight: bold;">취소 사유</label>
+                        <input type="text" id="cancelReason" name="cancelReason" placeholder="취소 사유를 입력하세요"
+                               required style="width: 300px; padding: 5px; border: 1px solid #ccc; border-radius: 4px;" />
+                    </div>
 
-                    <button type="submit">결제 취소하기</button>
+                    <button type="submit" class="btn btn-danger">결제 취소하기</button>
                 </form>
             </section>
         </section>
