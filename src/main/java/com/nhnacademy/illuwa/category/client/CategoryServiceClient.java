@@ -13,9 +13,11 @@ import java.util.List;
 @FeignClient(name = "product-service", url = "${api.base-url}", contextId = "categoryClient", configuration = FeignClientConfig.class)
 public interface CategoryServiceClient {
 
-    @GetMapping("/api/categories/tree")
-    List<CategoryResponse> getCategoryTree();
 
+//    @GetMapping("/api/categories")
+//    List<CategoryResponse> getCategoryTree();
+
+    // header 카테고리 부분
     @GetMapping("/api/public/categories")
     List<CategoryResponse> getAllCategories();
 
@@ -23,6 +25,7 @@ public interface CategoryServiceClient {
     @PostMapping("/api/categories")
     void createCategory(@RequestBody CategoryCreateRequest request);
 
+    // 카테고리 제거
     @DeleteMapping("/api/categories/{id}")
     void deleteCategory(@PathVariable("id") Long id);
 
@@ -34,7 +37,7 @@ public interface CategoryServiceClient {
             @RequestParam("sort") String sort
     );
 
-    @GetMapping("/api/categories/flat_paged")
+    @GetMapping("/api/categories/flat")
     Page<CategoryFlatResponse> getFlatCategoriesPaged(@RequestParam("page") int page,
                                                       @RequestParam("size") int size,
                                                       @RequestParam("sort") String sort);

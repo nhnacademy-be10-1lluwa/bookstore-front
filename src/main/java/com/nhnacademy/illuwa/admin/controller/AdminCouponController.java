@@ -41,7 +41,7 @@ public class AdminCouponController {
         // 쿠폰 정책 리스트 (= 드롭다운을 위해)
         List<CouponPolicyResponse> couponPolicies = couponPolicyService.getAllPolices();
         // 도서 리스트 (= 드롭다운을 위해)
-        List<BookDetailResponse> bookList = bookService.getAllBooks();
+        List<BookDetailResponse> bookList = bookService.getPagedBooks(0, 10000, "id").getContent();;
         // 카테고리 리스트 (= 드롭다운을 위해)
         List<CategoryResponse> categoryList = bookService.getAllCategory();
 
