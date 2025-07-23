@@ -103,14 +103,7 @@ public class ProductClientTest {
         assertThat(result.getFirst().getTitle()).isEqualTo("베스트1");
     }
 
-    @Test
-    void getRegisteredBook() throws Exception {
-        BookDetailResponse b = new BookDetailResponse(); b.setTitle("등록도서");
-        stubList("/api/books", List.of(b));
 
-        List<BookDetailResponse> result = client.getRegisteredBook();
-        assertThat(result.getFirst().getTitle()).isEqualTo("등록도서");
-    }
 
 //    @Test
 //    void getRegisteredBookPaged() throws Exception {
@@ -184,7 +177,7 @@ public class ProductClientTest {
                         .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
                         .withBody(objectMapper.writeValueAsString(tree))));
 
-        List<CategoryResponse> result = client.getCategoryTree();
+        List<CategoryResponse> result = client.getCategoryTree("tree");
 
         assertThat(result).hasSize(1);
         assertThat(result.getFirst().getCategoryName()).isEqualTo("전체");

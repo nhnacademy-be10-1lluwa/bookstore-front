@@ -30,9 +30,9 @@ public interface ProductServiceClient {
     @GetMapping("/api/books?type=bestseller")
     List<BestSellerResponse> getBestSeller();
 
-    // 도서 목록
-    @GetMapping("/api/books")
-    List<BookDetailResponse> getRegisteredBook();
+//    // 도서 목록
+//    @GetMapping("/api/books")
+//    List<BookDetailResponse> getRegisteredBook();
 
     //페이징 처리 도서목록
     @GetMapping("/api/books")
