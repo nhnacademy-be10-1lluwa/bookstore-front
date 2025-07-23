@@ -59,8 +59,8 @@ public interface ProductServiceClient {
     );
 
     // 카테고리 목록
-    @GetMapping("/api/categories/tree")
-    List<CategoryResponse> getCategoryTree();
+    @GetMapping("/api/categories")
+    List<CategoryResponse> getCategoryTree(@RequestParam("view") String view);
 
     // 쿠폰 쪽 카테고리 목록
     @GetMapping("/api/categories")
