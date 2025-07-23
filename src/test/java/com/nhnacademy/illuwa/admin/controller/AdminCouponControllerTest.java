@@ -1,6 +1,5 @@
-package com.nhnacademy.illuwa.coupon.controller;
+package com.nhnacademy.illuwa.admin.controller;
 
-import com.nhnacademy.illuwa.admin.controller.AdminCouponController;
 import com.nhnacademy.illuwa.book.service.BookService;
 import com.nhnacademy.illuwa.config.handler.CategoryControllerAdvice;
 import com.nhnacademy.illuwa.coupon.dto.coupon.CouponForm;
