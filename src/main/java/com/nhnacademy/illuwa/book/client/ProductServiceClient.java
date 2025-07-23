@@ -35,7 +35,7 @@ public interface ProductServiceClient {
     List<BookDetailResponse> getRegisteredBook();
 
     //페이징 처리 도서목록
-    @GetMapping("/api/books/paged")
+    @GetMapping("/api/books")
     Page<BookDetailResponse> getRegisteredBookPaged(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
