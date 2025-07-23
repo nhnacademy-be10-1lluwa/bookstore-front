@@ -126,8 +126,8 @@
                         <select name="cancelReason" required>
                             <option value="" disabled selected>환불 사유 선택</option>
                             <option th:each="status : ${T(com.nhnacademy.illuwa.order.dto.types.ReturnReason).values()}"
-                                    th:value="${status}"
-                                    th:text="${status}">
+                                    th:value="${status.getValue()}"
+                                    th:text="${status.getValue()}">
                             </option>
                         </select>
                     </label>

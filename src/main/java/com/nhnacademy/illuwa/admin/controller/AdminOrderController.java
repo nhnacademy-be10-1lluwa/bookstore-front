@@ -37,9 +37,9 @@ public class AdminOrderController {
 
     // 상태 변경하기
     @PostMapping("/{orderId}/status")
-    public String updateStatus(@PathVariable Long orderId, @RequestParam OrderStatus orderStatus) {
+    public String updateStatus(@PathVariable Long orderId, @RequestParam("orderStatus") OrderStatus orderStatus) {
         adminOrderService.updateOrderStatus(orderId, orderStatus);
-        return "redirect:/admin/orders?order-status=Pending";
+        return "redirect:/admin/orders/" + orderId;
     }
 
     // 배송일로부터 10일 지난 구매건에 대해 구매 확정 적용하기
