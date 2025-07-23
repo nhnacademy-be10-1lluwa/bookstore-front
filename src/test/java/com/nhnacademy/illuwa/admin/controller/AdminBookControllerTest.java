@@ -231,7 +231,7 @@ public class AdminBookControllerTest {
         BookDetailWithExtraInfoResponse book = createDummyBook(1L);
         List<CategoryResponse> categories = List.of(createDummyCategory());
 
-        when(productServiceClient.getBookDetailWithExtraInfo(anyString())).thenReturn(book);
+        when(productServiceClient.getBookDetailWithExtraInfo(any())).thenReturn(book);
         when(productServiceClient.getCategoryTree()).thenReturn(categories);
 
         mockMvc.perform(get("/admin/books/{id}/form", "1"))
