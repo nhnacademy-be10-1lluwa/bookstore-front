@@ -171,7 +171,7 @@ public class ProductClientTest {
         CategoryResponse root = new CategoryResponse(1L, null, "전체", Arrays.asList(novel, economy));
         List<CategoryResponse> tree = Collections.singletonList(root);
 
-        wireMockServer.stubFor(get(urlEqualTo("/api/categories/tree"))
+        wireMockServer.stubFor(get(urlEqualTo("/api/categories?view=tree"))
                 .willReturn(aResponse()
                         .withStatus(200)
                         .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
