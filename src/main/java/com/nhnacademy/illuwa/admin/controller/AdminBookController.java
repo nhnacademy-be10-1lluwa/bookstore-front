@@ -134,7 +134,7 @@ public class AdminBookController {
 
     // -> 도서 수정 페이지
     @GetMapping("/{id}/form")
-    public String updateBookForm(@PathVariable String id, Model model) {
+    public String updateBookForm(@PathVariable Long id, Model model) {
         BookDetailWithExtraInfoResponse book = productServiceClient.getBookDetailWithExtraInfo(id);
         List<CategoryResponse> categoryTree = productServiceClient.getCategoryTree();
 

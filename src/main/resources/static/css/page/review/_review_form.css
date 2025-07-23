@@ -19,6 +19,11 @@
     font-family: 'Pretendard', sans-serif;
 }
 
+.review-image{
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+}
 
 .form-card {
     display: flex;

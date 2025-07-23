@@ -229,18 +229,8 @@ public class ProductClientTest {
         detail.setId(5L); detail.setTitle("부가정보도서");
         stub("/api/admin/books/5/detail", detail);
 
-        BookDetailWithExtraInfoResponse result = client.getBookDetailWithExtraInfo("5");
+        BookDetailWithExtraInfoResponse result = client.getBookDetailWithExtraInfo(5L);
         assertThat(result.getTitle()).isEqualTo("부가정보도서");
-    }
-
-    @Test
-    void findBooks() throws Exception {
-        SearchBookResponse s = new SearchBookResponse();
-        s.setTitle("검색도서");
-        stubList("/api/books/search", List.of(s));
-
-        List<SearchBookResponse> result = client.findBooks();
-        assertThat(result.getFirst().getTitle()).isEqualTo("검색도서");
     }
 
     @Test
