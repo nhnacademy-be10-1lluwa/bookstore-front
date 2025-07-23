@@ -44,8 +44,8 @@
 
                 <div th:if="${review?.reviewImageUrls != null}">
                     <label>기존 이미지</label>
-                    <div th:each="url : ${review.reviewImageUrls}">
-                        <div>
+                    <div class="review-images">
+                        <div th:each="url : ${review.reviewImageUrls}">
                             <img th:src="@{${url}}" alt="기존 이미지" class="review-image" />
                             <label th:if="${mode != 'view'}">
                                 <input type="checkbox" name="deleteImageUrls" th:value="${url}" /> 삭제
