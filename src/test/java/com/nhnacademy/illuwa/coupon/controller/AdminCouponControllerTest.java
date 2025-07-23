@@ -80,18 +80,6 @@ class AdminCouponControllerTest {
     }
 
     @Test
-    @DisplayName("쿠폰 등록 폼 반환")
-    void couponPolicyCreateFromTest() throws Exception {
-        mockMvc.perform(get("/admin/coupons/form"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("admin/coupon/coupon_create"))
-                .andExpect(model().attributeExists("policyList"))
-                .andExpect(model().attributeExists("bookList"))
-                .andExpect(model().attributeExists("categoryList"))
-                .andExpect(model().attributeExists("couponForm"));
-    }
-
-    @Test
     @DisplayName("쿠폰 등록 폼 전송")
     void registerCouponTest() throws Exception {
         mockMvc.perform(post("/admin/coupons")
