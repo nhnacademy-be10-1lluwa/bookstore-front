@@ -17,11 +17,11 @@ import java.util.List;
 public class AdminMemberService {
     private final AdminMemberServiceClient adminMemberServiceClient;
 
-    public PageResponse<MemberResponse> getPagedMemberList(@RequestParam(value = "grade", required = false) GradeName gradeName, @RequestParam("page") int page, @RequestParam("size") int size) {
-        return adminMemberServiceClient.getPagedMemberListFilteredByGrade(gradeName, page, size);
+    public PageResponse<MemberResponse> getPagedMemberList(GradeName gradeName, int page, int size) {
+        return adminMemberServiceClient.getPagedMemberList(gradeName, page, size);
     }
 
-    public List<PointHistoryResponse> givePointToGrade(@RequestParam(value = "grade", required = false) GradeName gradeName, @RequestParam(value = "point", required = false) BigDecimal point){
+    public List<PointHistoryResponse> givePointToGrade(GradeName gradeName, BigDecimal point){
        return adminMemberServiceClient.givePointToGrade(gradeName, point);
     }
 }

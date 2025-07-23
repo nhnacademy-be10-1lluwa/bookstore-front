@@ -53,8 +53,8 @@ public class AdminMemberControllerTest {
     @DisplayName("회원 관리 페이지 뷰 반환")
     public void adminMemberManagementTest() throws Exception {
         mockMvc.perform(get("/admin/members/management"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("admin/member/member_management"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/admin/members"));
     }
 
     @Test

@@ -12,13 +12,14 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 
 import java.util.List;
 
 @SpringBootTest(
         properties = {
-                "api.base-url=http://localhost:9878"
+                "api.base-url=http://localhost:9855"
         },
         webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
@@ -35,7 +36,7 @@ public class MemberAddressServiceClientTest {
 
     @BeforeAll
     static void startWireMock() {
-        wireMockServer = new WireMockServer(9878);
+        wireMockServer = new WireMockServer(9855);
         wireMockServer.start();
     }
     @AfterAll
@@ -86,7 +87,7 @@ public class MemberAddressServiceClientTest {
 
         List<MemberAddressResponse> result = client.getAddressList();
         Assertions.assertEquals(addressList, result);
-    };
+    }
 
     @Test
     @DisplayName("주소 개수 get 동작 확인")
@@ -262,7 +263,7 @@ public class MemberAddressServiceClientTest {
 
         wireMockServer.stubFor(WireMock.delete(WireMock.urlPathEqualTo("/api/members/addresses/" + addressId))
                 .willReturn(WireMock.aResponse()
-                        .withStatus(200)));
+                        .withStatus(204)));
 
         client.deleteAddress(addressId);
     }
@@ -272,7 +273,7 @@ public class MemberAddressServiceClientTest {
     public void setDefaultAddress() {
         long addressId = 5L;
 
-        wireMockServer.stubFor(WireMock.post(WireMock.urlPathEqualTo("/api/members/addresses/set-default/" + addressId))
+        wireMockServer.stubFor(WireMock.put(WireMock.urlPathEqualTo("/api/members/addresses/" + addressId + "/default"))
                 .willReturn(WireMock.aResponse()
                         .withStatus(200)));
 
