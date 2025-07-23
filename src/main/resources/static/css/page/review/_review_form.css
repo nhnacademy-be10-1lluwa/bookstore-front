@@ -19,6 +19,18 @@
     font-family: 'Pretendard', sans-serif;
 }
 
+.review-images {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.review-image{
+    max-width: 200px;
+    width: 100%;
+    height: auto;
+}
 
 .form-card {
     display: flex;

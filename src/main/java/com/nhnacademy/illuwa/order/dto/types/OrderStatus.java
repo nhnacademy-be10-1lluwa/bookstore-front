@@ -1,7 +1,5 @@
 package com.nhnacademy.illuwa.order.dto.types;
 
-import com.fasterxml.jackson.annotation.JsonValue;
-
 public enum OrderStatus {
     /**
      * 주문이 생성되었으나 아직 결제가 완료되지 않은 상태.

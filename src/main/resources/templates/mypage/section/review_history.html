@@ -33,8 +33,8 @@
                     </td>
                     <td>
                         <div class="star-rating small">
-            <span th:each="i : ${#numbers.sequence(1,5)}"
-                  th:class="${i <= review.reviewRating} ? 'star filled' : 'star'">★</span>
+                            <span th:each="i : ${#numbers.sequence(1,review.reviewRating)}"
+                                  th:class="${i <= review.reviewRating} ? 'star filled' : 'star'">★</span>
                         </div>
                     </td>
                 </tr>

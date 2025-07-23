@@ -2,7 +2,7 @@
 <html lang="ko"
       layout:decorate="~{layout/layout}"
       xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns="">
 <head layout:fragment="head">
     <meta charset="UTF-8" />
     <link rel="stylesheet" th:href="@{/css/main.css}" />
@@ -26,7 +26,7 @@
                     : '/reviews/save?mode=new&book-id=' + ${bookId} +
                       (${orderId} != null ? '&order-id=' + ${orderId} : '')">
 
-        <form th:action="@{${actionUrl}}"
+            <form th:action="@{${actionUrl}}"
                   method="post"
                   enctype="multipart/form-data"
                   class="form-card"
@@ -42,6 +42,24 @@
                 <input type="hidden" name="review-id" th:if="${reviewId != null}" th:value="${reviewId}" />
                 <input type="hidden" name="order-id" th:value="${orderId}" />
 
+                <div th:if="${review?.reviewImageUrls != null}">
+                    <label>기존 이미지</label>
+                    <div class="review-images">
+                        <div th:each="url : ${review.reviewImageUrls}">
+                            <img th:src="@{${url}}" alt="기존 이미지" class="review-image" />
+                            <label th:if="${mode != 'view'}">
+                                <input type="checkbox" name="deleteImageUrls" th:value="${url}" /> 삭제
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div th:if="${mode != 'view'}">
+                    <label>이미지 업로드<br />
+                        <input type="file" name="images" multiple />
+                    </label>
+                </div>
+
                 <div>
                     <label>제목<br />
                         <input type="text" name="reviewTitle" required
@@ -56,24 +74,6 @@
                                   th:readonly="${mode == 'view'}"
                                   th:text="${review?.reviewContent}"></textarea>
                     </label>
-                </div>
-
-                <div th:if="${mode != 'view'}">
-                    <label>이미지 업로드<br />
-                        <input type="file" name="images" multiple />
-                    </label>
-                </div>
-
-                <div th:if="${review?.reviewImageUrls != null}">
-                    <label>기존 이미지</label>
-                    <div th:each="url : ${review.reviewImageUrls}">
-                        <div>
-                            <img th:src="@{${url}}" alt="기존 이미지" width="100" />
-                            <label th:if="${mode != 'view'}">
-                                <input type="checkbox" name="deleteImageUrls" th:value="${url}" /> 삭제
-                            </label>
-                        </div>
-                    </div>
                 </div>
 
                 <div>

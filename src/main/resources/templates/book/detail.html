@@ -130,7 +130,7 @@
 
             <div class="tab-content active" id="description">
                 <h3>도서 소개</h3>
-                <p th:text="${book.description}" style="white-space: pre-line;">도서 설명이 여기에 표시됩니다.</p>
+                <p th:utext="${book.description}" style="white-space: pre-line;">도서 설명이 여기에 표시됩니다.</p>
             </div>
 
             <div class="tab-content" id="details">
@@ -161,7 +161,7 @@
                     </div>
 
                     <div>
-                        <img th:each="img : ${review.reviewImageUrls}" th:src="@{${img}}" alt="리뷰 이미지" style="max-width: 500px;" />
+                        <img th:each="img : ${review.reviewImageUrls}" th:src="@{${img}}" alt="리뷰 이미지" class="review-image"/>
                     </div>
 
                     <h3 th:text="${review.reviewTitle}">제목</h3>
@@ -169,13 +169,15 @@
 
                     <!-- 좋아요 영역 -->
                     <div>
-                        <button class="like-btn"
-                                th:if="${isLoggedIn}"
+                        <button class="like-btn" th:if="${isLoggedIn}"
                                 th:classappend="${myLikedReviewIds.contains(review.reviewId)} ? ' liked' : ''"
                                 th:attr="data-book-id=${review.bookId}, data-review-id=${review.reviewId}">
-                            <span class="like-icon" th:if="${isLoggedIn}" th:text="${myLikedReviewIds.contains(review.reviewId)} ? '❤️' : '🤍'"></span>
+                            <span class="like-icon" th:text="${myLikedReviewIds.contains(review.reviewId)} ? '❤️' : '🤍'"></span>
                             좋아요 <span class="like-count" th:id="'like-count-' + ${review.reviewId}" th:text="${likeCountMap[review.reviewId]}">0</span>
                         </button>
+                        <div class="like-stat" th:unless="${isLoggedIn}">
+                             🤍 좋아요 <span class="like-count" th:id="'like-count-' + ${review.reviewId}" th:text="${likeCountMap[review.reviewId]}">0</span>
+                        </div>
                     </div>
                     <br><hr><hr>
                 </div>
@@ -187,19 +189,19 @@
 
                     <!-- 이전 페이지 -->
                     <a th:if="${!reviewPage.first}"
-                       th:href="@{/books/{id}(id=${book.id}, page=${reviewPage.page - 1})}"
+                       th:href="@{/books/${id}(id=${book.id}, page=${reviewPage.page - 1})}"
                        class="page-link">« Prev</a>
 
                     <!-- 페이지 번호 -->
                     <a th:each="i : ${#numbers.sequence(0, reviewPage.totalPages - 1)}"
                        th:classappend="${i == reviewPage.page} ? ' current'"
-                       th:href="@{/books/{id}(id=${book.id}, page=${i})}"
+                       th:href="@{/books/${id}(id=${book.id}, page=${i})}"
                        th:text="${i + 1}"
                        class="page-link"></a>
 
                     <!-- 다음 페이지 -->
                     <a th:if="${!reviewPage.last}"
-                       th:href="@{/books/{id}(id=${book.id}, page=${reviewPage.page + 1})}"
+                       th:href="@{/books/${id}(id=${book.id}, page=${reviewPage.page + 1})}"
                        class="page-link">Next »</a>
                 </div>
             </div>

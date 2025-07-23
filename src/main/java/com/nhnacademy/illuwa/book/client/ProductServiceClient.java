@@ -23,11 +23,11 @@ public interface ProductServiceClient {
     BookDetailResponse findBookByIsbn(@PathVariable String isbn);
 
     // 도서 검색(외부 API) - ISBN
-    @GetMapping("/api/books/external/isbn/{isbn}")
+    @GetMapping("/api/external-books/isbn/{isbn}")
     BookExternalResponse findBookByApi(@PathVariable String isbn);
 
     // 인기 도서 목록
-    @GetMapping("/api/books/bestseller")
+    @GetMapping("/api/books?type=bestseller")
     List<BestSellerResponse> getBestSeller();
 
     // 도서 목록
@@ -35,7 +35,7 @@ public interface ProductServiceClient {
     List<BookDetailResponse> getRegisteredBook();
 
     //페이징 처리 도서목록
-    @GetMapping("/api/books/paged")
+    @GetMapping("/api/books")
     Page<BookDetailResponse> getRegisteredBookPaged(
             @RequestParam("page") int page,
             @RequestParam("size") int size,
@@ -47,12 +47,12 @@ public interface ProductServiceClient {
     List<BookExternalResponse> searchAladinBooksByTitle(@RequestParam("title") String title);
 
     //도서 등록(외부 API)
-    @PostMapping(value = "/api/admin/books/register/aladin")
+    @PostMapping(value = "/api/admin/books/external")
     ResponseEntity<Void> registerBookByApi(BookApiRegisterRequest bookApiRegisterRequest);
 
 
     // 도서 직접 등록
-    @PostMapping(value = "/api/admin/books/register/manual", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/api/admin/books", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<Void> registerBookManual(
             @RequestPart("request") BookRegisterRequest bookRegisterRequest,
             @RequestPart("imageFile") MultipartFile imageFile
@@ -70,23 +70,18 @@ public interface ProductServiceClient {
     @DeleteMapping("/api/admin/books/{id}")
     void deleteBook(@PathVariable Long id);
 
-
     // 도서 수정
-    @PostMapping("/api/admin/books/{id}/update")
+    @PatchMapping("/api/admin/books/{id}")
     void updateBook(@PathVariable("id") Long id, @RequestBody BookUpdateRequest request);
 
     // 도서 부가정보 포함된 도서 정보
     @GetMapping("/api/admin/books/{id}/detail")
-    BookDetailWithExtraInfoResponse getBookDetailWithExtraInfo(@PathVariable String id);
+    BookDetailWithExtraInfoResponse getBookDetailWithExtraInfo(@PathVariable Long id);
 
-
-    // 등록된 도서 목록
-    @GetMapping("/api/books/search")
-    List<SearchBookResponse> findBooks();
 
 
     // 도서 부가정보 포함된 도서 목록
-    @GetMapping("/api/admin/books/extra_info")
+    @GetMapping("/api/admin/books/details")
     Page<BookDetailWithExtraInfoResponse> getAllBooksWithExtraInfo(@RequestParam int page,
                                                                    @RequestParam int size,
                                                                    @RequestParam(defaultValue = "id") String sort);

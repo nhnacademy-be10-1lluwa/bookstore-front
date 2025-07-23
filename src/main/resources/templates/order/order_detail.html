@@ -120,14 +120,14 @@
 
                 <!-- 환불 버튼 -->
                 <form th:if="${order.orderStatus != null and (order.orderStatus.toString().equals('Shipped') or order.orderStatus.toString().equals('Delivered'))}"
-                      th:action="@{/orders/{order-id}/refund-order(order-id=${order.orderId})}" method="post"
+                      th:action="@{/orders/{order-id}/refund(order-id=${order.orderId})}" method="post"
                       style="margin-top: 20px">
                     <label>
                         <select name="cancelReason" required>
                             <option value="" disabled selected>환불 사유 선택</option>
                             <option th:each="status : ${T(com.nhnacademy.illuwa.order.dto.types.ReturnReason).values()}"
-                                    th:value="${status}"
-                                    th:text="${status}">
+                                    th:value="${status.getValue()}"
+                                    th:text="${status.getValue()}">
                             </option>
                         </select>
                     </label>
