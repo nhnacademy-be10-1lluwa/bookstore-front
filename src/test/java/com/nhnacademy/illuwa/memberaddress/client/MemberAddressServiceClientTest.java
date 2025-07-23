@@ -272,7 +272,7 @@ public class MemberAddressServiceClientTest {
     public void setDefaultAddress() {
         long addressId = 5L;
 
-        wireMockServer.stubFor(WireMock.post(WireMock.urlPathEqualTo("/api/members/addresses/set-default/" + addressId))
+        wireMockServer.stubFor(WireMock.put(WireMock.urlPathEqualTo("/api/members/addresses/" + addressId + "/default"))
                 .willReturn(WireMock.aResponse()
                         .withStatus(200)));
 

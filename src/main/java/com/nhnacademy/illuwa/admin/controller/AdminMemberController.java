@@ -25,7 +25,7 @@ public class AdminMemberController {
     // 회원 관리 페이지
     @GetMapping("/members/management")
     public String adminMemberManagement() {
-        return "admin/member/member_management";
+        return "redirect:/admin/members";
     }
 
     // 회원 리스트
@@ -54,7 +54,7 @@ public class AdminMemberController {
                             @RequestParam("point") BigDecimal point,
                             RedirectAttributes redirectAttributes) {
         adminMemberService.givePointToGrade(gradeName, point);
-//        redirectAttributes.addAttribute("message", gradeName.getName() + "등급의 회원들에게 보너스 포인트 지급이 완료됐습니다!");
+        redirectAttributes.addFlashAttribute("message", gradeName.getName() + "등급의 회원들에게 보너스 포인트 지급이 완료됐습니다!");
         return "redirect:/admin/members?grade=" + gradeName;
     }
 
