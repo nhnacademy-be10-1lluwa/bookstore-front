@@ -35,7 +35,7 @@ public class MemberAddressServiceClientTest {
 
     @BeforeAll
     static void startWireMock() {
-        wireMockServer = new WireMockServer(9878);
+        wireMockServer = new WireMockServer(9855);
         wireMockServer.start();
     }
     @AfterAll
