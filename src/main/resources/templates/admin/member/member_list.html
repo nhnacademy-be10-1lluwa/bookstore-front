@@ -12,6 +12,12 @@
 <body>
 <main layout:fragment="content">
     <section class="main-content">
+        <div th:if="${message}">
+            <script th:inline="javascript">
+                alert(/*[[${message}]]*/ "메시지 없음");
+            </script>
+        </div>
+
         <div class="header-row">
             <h2 class="title">📋 전체 회원목록</h2>
         </div>

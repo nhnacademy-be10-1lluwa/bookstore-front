@@ -33,7 +33,7 @@ public interface MemberAddressServiceClient {
     @DeleteMapping("/api/members/addresses/{addressId}")
     void deleteAddress(@PathVariable long addressId);
 
-    @PostMapping("/api/members/addresses/set-default/{addressId}")
+    @PutMapping("/api/members/addresses/{addressId}/default")
     void setDefaultAddress(@PathVariable long addressId);
 
 }

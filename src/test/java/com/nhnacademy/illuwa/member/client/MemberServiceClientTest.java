@@ -140,7 +140,7 @@ public class MemberServiceClientTest {
                 .inputPassword("123456")
                 .build();
 
-        wireMockServer.stubFor(WireMock.post("/api/members/check-pw")
+        wireMockServer.stubFor(WireMock.post("/api/members/password-check")
                 .withRequestBody(equalToJson(objectMapper.writeValueAsString(passwordCheckRequest)))
                 .willReturn(WireMock.aResponse()
                         .withHeader("Content-Type", "application/json")
@@ -176,7 +176,7 @@ public class MemberServiceClientTest {
     }
 
     @Test
-    @DisplayName("리스트에서 회원 불러오기 동작 확인")
+    @DisplayName("리스트에서 회원이름 불러오기 동작 확인")
     void testGetNamesFromIdList() throws Exception {
         Map<Long, String> responseMap = new HashMap<Long, String>();
         responseMap.put(1L, "홍길동");
@@ -184,14 +184,13 @@ public class MemberServiceClientTest {
         List<Long> reviewersIdList = new ArrayList<Long>();
         reviewersIdList.add(1L);
 
-        wireMockServer.stubFor(WireMock.post("/api/members/names")
-                .withRequestBody(equalToJson(objectMapper.writeValueAsString(reviewersIdList)))
+        wireMockServer.stubFor(WireMock.get(WireMock.urlMatching("/api/members/names\\?member-ids=1(&member-ids=\\d+)*"))
                 .willReturn(WireMock.aResponse()
                         .withHeader("Content-Type", "application/json")
                         .withBody(objectMapper.writeValueAsString(responseMap))
-                        .withStatus(200)
-                )
+                        .withStatus(200))
         );
+
 
         Map<Long, String> result = client.getNamesFromIdList(reviewersIdList);
         Assertions.assertEquals(responseMap, result);

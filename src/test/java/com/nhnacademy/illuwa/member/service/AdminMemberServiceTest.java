@@ -87,7 +87,7 @@ public class AdminMemberServiceTest {
         assertEquals(expected, actual);
         assertEquals(2, actual.content().size());
         assertEquals("홍길동", actual.content().getFirst().getName());
-        verify(adminMemberServiceClient, times(1)).getPagedMemberListFilteredByGrade(GradeName.BASIC, 1, 10);
+        verify(adminMemberServiceClient, times(1)).getPagedMemberList(GradeName.BASIC, 1, 10);
     }
 
     @Test
