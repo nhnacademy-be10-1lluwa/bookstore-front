@@ -20,7 +20,7 @@ public class BookApiRegisterRequest {
     private Integer regularPrice;
     private Integer salePrice;
     private String description;
-    private String cover; // hidden input으로 받은 이미지 URL
+    private String cover;
     private int count;
     private Long categoryId;
 }
