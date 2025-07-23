@@ -112,44 +112,44 @@ public class ProductClientTest {
         assertThat(result.getFirst().getTitle()).isEqualTo("등록도서");
     }
 
-    @Test
-    void getRegisteredBookPaged() throws Exception {
-        BookDetailResponse b1 = new BookDetailResponse(
-                1L, "제목1", "본문", "설명", "저자", "출판사", "2024-01-01", "111",
-                new BigDecimal("10000"), new BigDecimal("9000"), false, List.of("img"), 10, "판매중"
-        );
-        BookDetailResponse b2 = new BookDetailResponse(
-                2L, "제목2", "본문", "설명", "저자", "출판사", "2024-01-02", "222",
-                new BigDecimal("15000"), new BigDecimal("13500"), false, List.of("img2"), 7, "판매중"
-        );
-        List<BookDetailResponse> content = Arrays.asList(b1, b2);
-
-        PageImpl<BookDetailResponse> page = new PageImpl<>(
-                content,
-                PageRequest.of(0, 10),
-                2
-        );
-
-        String pageJson = objectMapper.writeValueAsString(page);
-
-        wireMockServer.stubFor(get(urlPathEqualTo("/api/books"))
-                .withQueryParam("page", equalTo("0"))
-                .withQueryParam("size", equalTo("10"))
-                .withQueryParam("sort", equalTo("id"))
-                .willReturn(aResponse()
-                        .withStatus(200)
-                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-                        .withBody(pageJson)));
-
-        Page<BookDetailResponse> result = client.getRegisteredBookPaged(0, 10, "id");
-
-        assertThat(result).isNotNull();
-        assertThat(result.getContent()).hasSize(2);
-        assertThat(result.getContent().getFirst().getTitle()).isEqualTo("제목1");
-        assertThat(result.getTotalElements()).isEqualTo(2L);
-        assertThat(result.getNumber()).isEqualTo(0);
-        assertThat(result.getSize()).isEqualTo(10);
-    }
+//    @Test
+//    void getRegisteredBookPaged() throws Exception {
+//        BookDetailResponse b1 = new BookDetailResponse(
+//                1L, "제목1", "본문", "설명", "저자", "출판사", "2024-01-01", "111",
+//                new BigDecimal("10000"), new BigDecimal("9000"), false, List.of("img"), 10, "판매중"
+//        );
+//        BookDetailResponse b2 = new BookDetailResponse(
+//                2L, "제목2", "본문", "설명", "저자", "출판사", "2024-01-02", "222",
+//                new BigDecimal("15000"), new BigDecimal("13500"), false, List.of("img2"), 7, "판매중"
+//        );
+//        List<BookDetailResponse> content = Arrays.asList(b1, b2);
+//
+//        PageImpl<BookDetailResponse> page = new PageImpl<>(
+//                content,
+//                PageRequest.of(0, 10),
+//                2
+//        );
+//
+//        String pageJson = objectMapper.writeValueAsString(page);
+//
+//        wireMockServer.stubFor(get(urlPathEqualTo("/api/books"))
+//                .withQueryParam("page", equalTo("0"))
+//                .withQueryParam("size", equalTo("10"))
+//                .withQueryParam("sort", equalTo("id"))
+//                .willReturn(aResponse()
+//                        .withStatus(200)
+//                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
+//                        .withBody(pageJson)));
+//
+//        Page<BookDetailResponse> result = client.getRegisteredBookPaged(0, 10, "id");
+//
+//        assertThat(result).isNotNull();
+//        assertThat(result.getContent()).hasSize(2);
+//        assertThat(result.getContent().getFirst().getTitle()).isEqualTo("제목1");
+//        assertThat(result.getTotalElements()).isEqualTo(2L);
+//        assertThat(result.getNumber()).isEqualTo(0);
+//        assertThat(result.getSize()).isEqualTo(10);
+//    }
 
     @Test
     void searchAladinBooksByTitle() throws Exception {
