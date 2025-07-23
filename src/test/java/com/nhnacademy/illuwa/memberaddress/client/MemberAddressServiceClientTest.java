@@ -12,6 +12,7 @@ import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 
 import java.util.List;
@@ -262,7 +263,7 @@ public class MemberAddressServiceClientTest {
 
         wireMockServer.stubFor(WireMock.delete(WireMock.urlPathEqualTo("/api/members/addresses/" + addressId))
                 .willReturn(WireMock.aResponse()
-                        .withStatus(200)));
+                        .withStatus(204)));
 
         client.deleteAddress(addressId);
     }
