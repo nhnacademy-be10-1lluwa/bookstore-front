@@ -30,10 +30,10 @@ public class BookService {
 
         return response;
     }
-
-    public List<BookDetailResponse> getAllBooks() {
-        return productServiceClient.getRegisteredBook();
-    }
+//
+//    public List<BookDetailResponse> getAllBooks() {
+//        return productServiceClient.getRegisteredBook();
+//    }
 
     public Page<BookDetailResponse> getPagedBooks(int page, int size, String sort) {
         return productServiceClient.getRegisteredBookPaged(page, size, sort);
