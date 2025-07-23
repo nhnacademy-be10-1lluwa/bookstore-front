@@ -25,7 +25,19 @@ public class ReviewService{
     }
 
     public ReviewResponse getReview(Long bookId, Long reviewId) {
-        return reviewServiceClient.getReviewDetails(bookId, reviewId);
+        ReviewResponse review = reviewServiceClient.getReviewDetails(bookId, reviewId);
+        List<String> convertedUrls = review.getReviewImageUrls().stream().map(this::convertMinioUrl).toList();
+
+        return new ReviewResponse(
+                review.getReviewId(),
+                review.getReviewTitle(),
+                review.getReviewContent(),
+                review.getReviewRating(),
+                review.getReviewDate(),
+                review.getBookId(),
+                review.getMemberId(),
+                convertedUrls
+        );
     }
 
     public PageResponse<ReviewResponse> getReviewPages(Long bookId, int page, int size) {
