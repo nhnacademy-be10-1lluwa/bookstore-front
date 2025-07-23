@@ -27,7 +27,7 @@ public interface ProductServiceClient {
     BookExternalResponse findBookByApi(@PathVariable String isbn);
 
     // 인기 도서 목록
-    @GetMapping("/api/books/bestseller")
+    @GetMapping("/api/books?type=bestseller")
     List<BestSellerResponse> getBestSeller();
 
     // 도서 목록
