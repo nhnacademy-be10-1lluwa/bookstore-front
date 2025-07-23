@@ -39,7 +39,7 @@
                 <tr th:each="coupon : ${coupons}">
                     <td th:text="${coupon.id}">ID</td>
                     <td>
-                        <a th:href="@{/admin/coupons/{id}/update(id=${coupon.id})}"
+                        <a th:href="@{/admin/coupons/{id}/form(id=${coupon.id})}"
                            style="color:#3056d3; font-weight:bold; text-decoration:underline; cursor:pointer;">
                             <span th:text="${coupon.couponName}">쿠폰 이름</span>
                         </a>
@@ -64,7 +64,7 @@
                     <td th:text="${coupon.conditions}">조건</td>
                     <td th:text="${coupon.bookId != null ? coupon.bookId : '-'}">도서ID</td>
                     <td th:text="${coupon.categoryId != null ? coupon.categoryId : '-'}">카테고리ID</td>
-                    <td th:text="${coupon.issueCount}">발급수량</td>
+                    <td th:text="${coupon.getIssueCountDisplay()}">발급수량</td>
                     <td>
                         <form th:action="@{/admin/coupons/{id}/delete(id=${coupon.id})}" method="post" style="margin:0;">
                             <button type="submit" class="btn-delete"

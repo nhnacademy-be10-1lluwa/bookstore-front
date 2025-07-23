@@ -33,15 +33,27 @@ public class CouponPolicyResponse {
     private LocalDateTime createAt;
     private LocalDateTime updateAt;
 
+    public String getMinOrderAmountDisplay() {
+        return minOrderAmount == null ? "" : minOrderAmount.stripTrailingZeros().toPlainString();
+    }
+    public String getDiscountAmountDisplay() {
+        return discountAmount == null ? "-" : discountAmount.stripTrailingZeros().toPlainString();
+    }
+    public String getDiscountPercentDisplay() {
+        return discountPercent == null ? "-" : discountPercent.stripTrailingZeros().toPlainString();
+    }
+    public String getMaxDiscountAmountDisplay() {
+        return maxDiscountAmount == null ? "-" : maxDiscountAmount.stripTrailingZeros().toPlainString();
+    }
+
     public String displayString() {
         StringBuilder sb = new StringBuilder();
-        // 1. 코드부터
+        // 정책 코드
         sb.append("(").append(code).append(") ");
-
-        // 2. 타입
+        // 할인 타입
         sb.append("타입:").append(discountType);
 
-        // 3. 조건별 설명 (null 체크)
+        // 조건별 설명 (null 체크)
         if (minOrderAmount != null) {
             sb.append(" 최소주문금액:").append(minOrderAmount);
         }

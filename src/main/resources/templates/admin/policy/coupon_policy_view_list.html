@@ -40,7 +40,7 @@
                             <tr th:each="policy : ${couponPolicies}">
                                 <td th:text="${policy.id}">ID</td>
                                 <td>
-                                    <a th:href="@{/admin/policies/coupons/{code}/update(code=${policy.code})}"
+                                    <a th:href="@{/admin/policies/coupons/{code}/form(code=${policy.code})}"
                                        style="color:#3056d3; font-weight:bold; text-decoration:underline; cursor:pointer;">
                                         <span th:text="${policy.code}">정책코드</span>
                                     </a>
@@ -50,10 +50,10 @@
                                         : (#strings.equalsIgnoreCase(policy.status, 'INACTIVE') ? '비활성' : policy.status)}">상태</td>
                                 <td th:text="${#strings.equalsIgnoreCase(policy.discountType, 'AMOUNT') ? '금액할인'
                                         : (#strings.equalsIgnoreCase(policy.discountType, 'PERCENT') ? '퍼센트할인' : policy.discountType)}">할인타입</td>
-                                <td th:text="${policy.minOrderAmount}">최소주문금액</td>
-                                <td th:text="${policy.discountAmount != null ? policy.discountAmount : '-'}">할인금액</td>
-                                <td th:text="${policy.discountPercent != null ? policy.discountPercent : '-'}">할인율(%)</td>
-                                <td th:text="${policy.maxDiscountAmount != null ? policy.maxDiscountAmount : '-'}">최대할인금액</td>
+                                <td th:text="${policy.getMinOrderAmountDisplay()}">최소주문금액</td>
+                                <td th:text="${policy.discountAmount != null ? policy.getDiscountAmountDisplay() : '-'}">할인금액</td>
+                                <td th:text="${policy.discountPercent != null ? policy.getDiscountPercentDisplay() : '-'}">할인율(%)</td>
+                                <td th:text="${policy.maxDiscountAmount != null ? policy.getMaxDiscountAmountDisplay() : '-'}">최대할인금액</td>
                                 <td th:text="${policy.createAt != null ? #temporals.format(policy.createAt, 'yyyy-MM-dd HH:mm') : '-'}">생성일시</td>
                                 <td th:text="${policy.updateAt != null ? #temporals.format(policy.updateAt, 'yyyy-MM-dd HH:mm') : '-'}">수정일시</td>
                                 <td>
