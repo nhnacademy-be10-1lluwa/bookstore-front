@@ -11,9 +11,6 @@
 </head>
 <body>
 <main layout:fragment="content">
-  <section class="main-content">
-    <a th:href="@{/order-view}">구매 확정하기</a>
-  </section>
   <section class="order-summary">
     <h1>주문 정보</h1>
     <table class="summary-table">
@@ -48,25 +45,22 @@
       </tbody>
     </table>
   </section>
-  <section>
-    <form id="statusForm"
-          th:object="${order}"
-          th:action="@{'/admin/orders/' + ${order.orderId} + '/status'}"
-          method = "post">
-      <input type="hidden" name="_method" value="put"/>
-
-      <label>
-        <select name="orderStatus" th:value="*{orderStatus}">
-          <option th:each="st : ${T(com.nhnacademy.illuwa.order.dto.types.OrderStatus).values()}"
-                  th:value="${st}"
-                  th:text="${st}"
-                  th:selected="${st} == *{orderStatus}">
-          </option>
-        </select>
-      </label>
-      <button type="submit">저장</button>
-    </form>
-  </section>
+<section>
+  <form id="statusForm"
+        th:object="${order}"
+        th:action="@{'/admin/orders/' + ${order.orderId} + '/status'}"
+        method="post">
+    <label>
+      <select th:field="*{orderStatus}">
+        <option th:each="st : ${T(com.nhnacademy.illuwa.order.dto.types.OrderStatus).values()}"
+                th:value="${st}"
+                th:text="${st.getValue()}">
+        </option>
+      </select>
+    </label>
+    <button type="submit">저장</button>
+  </form>
+</section>
 
   <!-- ▣ 주문 상품 목록 -->
   <section class="order-items">
