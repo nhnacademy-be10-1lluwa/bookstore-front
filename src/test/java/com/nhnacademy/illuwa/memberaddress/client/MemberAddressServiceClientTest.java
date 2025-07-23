@@ -18,7 +18,7 @@ import java.util.List;
 
 @SpringBootTest(
         properties = {
-                "api.base-url=http://localhost:9878"
+                "api.base-url=http://localhost:9855"
         },
         webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
@@ -86,7 +86,7 @@ public class MemberAddressServiceClientTest {
 
         List<MemberAddressResponse> result = client.getAddressList();
         Assertions.assertEquals(addressList, result);
-    };
+    }
 
     @Test
     @DisplayName("주소 개수 get 동작 확인")
