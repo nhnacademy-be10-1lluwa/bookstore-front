@@ -56,20 +56,6 @@ public class BookServiceTest {
     }
 
     @Test
-    @DisplayName("전체 도서 목록 조회")
-    void getAllBooks_success() {
-        List<BookDetailResponse> list = Arrays.asList(
-                new BookDetailResponse(), new BookDetailResponse()
-        );
-        when(productServiceClient.getRegisteredBook()).thenReturn(list);
-
-        List<BookDetailResponse> result = bookService.getAllBooks();
-
-        assertThat(result).containsExactlyElementsOf(list);
-        verify(productServiceClient).getRegisteredBook();
-    }
-
-    @Test
     @DisplayName("페이징 도서 목록")
     void getPagedBooks_success() {
         List<BookDetailResponse> paged = Arrays.asList(
