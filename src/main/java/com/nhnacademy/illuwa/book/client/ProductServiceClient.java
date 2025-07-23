@@ -27,7 +27,7 @@ public interface ProductServiceClient {
     BookExternalResponse findBookByApi(@PathVariable String isbn);
 
     // 인기 도서 목록
-    @GetMapping("/api/books/bestseller")
+    @GetMapping("/api/books?type=bestseller")
     List<BestSellerResponse> getBestSeller();
 
     // 도서 목록
@@ -47,12 +47,12 @@ public interface ProductServiceClient {
     List<BookExternalResponse> searchAladinBooksByTitle(@RequestParam("title") String title);
 
     //도서 등록(외부 API)
-    @PostMapping(value = "/api/admin/books/register/aladin")
+    @PostMapping(value = "/api/admin/books/external")
     ResponseEntity<Void> registerBookByApi(BookApiRegisterRequest bookApiRegisterRequest);
 
 
     // 도서 직접 등록
-    @PostMapping(value = "/api/admin/books/register/manual", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    @PostMapping(value = "/api/admin/books", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<Void> registerBookManual(
             @RequestPart("request") BookRegisterRequest bookRegisterRequest,
             @RequestPart("imageFile") MultipartFile imageFile
@@ -81,7 +81,7 @@ public interface ProductServiceClient {
 
 
     // 도서 부가정보 포함된 도서 목록
-    @GetMapping("/api/admin/books/extra_info")
+    @GetMapping("/api/admin/books/details")
     Page<BookDetailWithExtraInfoResponse> getAllBooksWithExtraInfo(@RequestParam int page,
                                                                    @RequestParam int size,
                                                                    @RequestParam(defaultValue = "id") String sort);

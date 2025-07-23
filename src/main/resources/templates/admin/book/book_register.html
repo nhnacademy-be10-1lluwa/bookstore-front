@@ -106,7 +106,7 @@
                                                     th:text="${cat3.categoryName}"></option>
                                         </th:block>
                                     </th:block>
-                                </select>
+                                </select>`
                             </div>
 
                             <div class="mb-3">
@@ -144,14 +144,12 @@
                 height: '400px',
                 initialEditType: 'wysiwyg',
                 previewStyle: 'vertical',
-                initialValue: ''  // 초기값이 있다면 여기에 넣어줍니다
+                initialValue: ''
             });
 
             document.querySelector('form').addEventListener('submit', function(e) {
                 const descHtml = descriptionEditor.getHTML();
-                const contHtml = contentsEditor.getHTML();
                 document.getElementById('description').value = descHtml;
-                document.getElementById('contents').value = contHtml;
             });
         </script>
 

@@ -130,7 +130,7 @@
 
             <div class="tab-content active" id="description">
                 <h3>도서 소개</h3>
-                <p th:text="${book.description}" style="white-space: pre-line;">도서 설명이 여기에 표시됩니다.</p>
+                <p th:utext="${book.description}" style="white-space: pre-line;">도서 설명이 여기에 표시됩니다.</p>
             </div>
 
             <div class="tab-content" id="details">
