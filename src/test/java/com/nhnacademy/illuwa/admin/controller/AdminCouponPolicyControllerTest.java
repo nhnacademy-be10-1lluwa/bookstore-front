@@ -1,6 +1,5 @@
-package com.nhnacademy.illuwa.coupon.controller;
+package com.nhnacademy.illuwa.admin.controller;
 
-import com.nhnacademy.illuwa.admin.controller.AdminPolicyController;
 import com.nhnacademy.illuwa.config.handler.CategoryControllerAdvice;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyFrom;
 import com.nhnacademy.illuwa.coupon.dto.couponPolicy.CouponPolicyResponse;

@@ -8,6 +8,7 @@ import com.nhnacademy.illuwa.category.dto.CategoryResponse;
 import com.nhnacademy.illuwa.config.handler.CategoryControllerAdvice;
 import com.nhnacademy.illuwa.tag.client.TagServiceClient;
 import com.nhnacademy.illuwa.tag.dto.TagResponse;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -75,6 +76,7 @@ public class AdminBookControllerTest {
     }
 
     @Test
+    @DisplayName("관리자 책 관리 페이지 테스트")
     void test_adminBookPage() throws Exception {
         mockMvc.perform(get("/admin/books/management"))
                 .andExpect(status().isOk())
@@ -82,6 +84,7 @@ public class AdminBookControllerTest {
     }
 
     @Test
+    @DisplayName("책 관리 페이지 테스트")
     void test_bookManagePage() throws Exception {
         List<BookDetailWithExtraInfoResponse> books = List.of(createDummyBook(1L), createDummyBook(2L));
 
@@ -103,6 +106,7 @@ public class AdminBookControllerTest {
     }
 
     @Test
+    @DisplayName("Api 검색 후 결과 보여주기 테스트")
     void test_searchApiAndShowResults() throws Exception {
         List<BookExternalResponse> searchResults = List.of(createDummyExternalBook());
 
@@ -116,6 +120,7 @@ public class AdminBookControllerTest {
     }
 
     @Test
+    @DisplayName("Api로 등록 폼 전송 테스트")
     void test_showRegisterFormFromApi() throws Exception {
         BookExternalResponse book = createDummyExternalBook();
         List<CategoryResponse> categories = List.of(createDummyCategory());
@@ -131,6 +136,7 @@ public class AdminBookControllerTest {
     }
 
     @Test
+    @DisplayName("책 이미지를 통한 Api 책 등록 테스트")
     void test_registerBookFromApi_withCover() throws Exception {
         when(minioStorageService.uploadBookImage(any())).thenReturn("https://minio/book-cover.png");
 
@@ -155,6 +161,7 @@ public class AdminBookControllerTest {
     }
 
     @Test
+    @DisplayName("이미지 없는 Api를 통한 책 등록 테스트")
     void test_registerBookFromApi_withoutCover() throws Exception {
         mockMvc.perform(multipart("/admin/books/source")
                         .param("title", "title")
@@ -174,14 +181,8 @@ public class AdminBookControllerTest {
         verify(productServiceClient).registerBookByApi(any());
     }
 
-//    @Test
-//    void test_bookDetailPage() throws Exception {
-//        mockMvc.perform(get("/admin/books/{isbn}/page", "1234567890"))
-//                .andExpect(status().isOk())
-//                .andExpect(view().name("admin/book/detail"));
-//    }
-
     @Test
+    @DisplayName("책 등록 페이지 테스트")
     void test_registerBookPage() throws Exception {
         List<CategoryResponse> categories = List.of(createDummyCategory());
 
@@ -194,6 +195,7 @@ public class AdminBookControllerTest {
     }
 
     @Test
+    @DisplayName("수동 책 등록 테스트")
     void test_registerBookManual() throws Exception {
         mockMvc.perform(post("/admin/books")
                         .param("title", "title")
@@ -214,6 +216,7 @@ public class AdminBookControllerTest {
     }
 
     @Test
+    @DisplayName("책 삭제 테스트")
     void test_deleteBook() throws Exception {
         mockMvc.perform(post("/admin/books/{id}/delete", 1L))
                 .andExpect(status().is3xxRedirection())
@@ -223,6 +226,7 @@ public class AdminBookControllerTest {
     }
 
     @Test
+    @DisplayName("책 업데이트 폼 테스트")
     void test_updateBookForm() throws Exception {
         BookDetailWithExtraInfoResponse book = createDummyBook(1L);
         List<CategoryResponse> categories = List.of(createDummyCategory());
@@ -238,6 +242,7 @@ public class AdminBookControllerTest {
     }
 
     @Test
+    @DisplayName("새로운 이미지 책 업데이트 테스트")
     void test_updateBook_withNewCover() throws Exception {
         when(minioStorageService.uploadBookImage(any())).thenReturn("https://minio/new-cover.png");
 
@@ -266,6 +271,7 @@ public class AdminBookControllerTest {
     }
 
     @Test
+    @DisplayName("이미지 없는 책 업데이트 테스트")
     void test_updateBook_withoutNewCover() throws Exception {
         mockMvc.perform(post("/admin/books/{id}/update", 1L)
                         .param("title", "new title")
@@ -291,6 +297,7 @@ public class AdminBookControllerTest {
     }
 
     @Test
+    @DisplayName("책 이미지 업로드 테스트")
     void test_uploadBookImage() throws Exception {
         when(minioStorageService.uploadBookImage(any())).thenReturn("https://minio/uploaded-image.png");
 
@@ -301,6 +308,7 @@ public class AdminBookControllerTest {
     }
 
     @Test
+    @DisplayName("책 태그 추가 테스트")
     void test_addTagToBook() throws Exception {
         mockMvc.perform(post("/admin/books/{bookId}/tags", 1L)
                         .param("tagId", "2"))
@@ -311,6 +319,7 @@ public class AdminBookControllerTest {
     }
 
     @Test
+    @DisplayName("책 태그 삭제 테스트")
     void test_removeTagFromBook() throws Exception {
         mockMvc.perform(post("/admin/books/{bookId}/tags/{tagId}/delete", 1L, 2L))
                 .andExpect(status().is3xxRedirection())

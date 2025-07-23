@@ -108,12 +108,6 @@ public class AdminBookController {
         return "redirect:/admin/books"; // 성공 시 이동할 페이지
     }
 
-    // 도서 ISBN -> 도서 상세페이지
-    @GetMapping("/{isbn}/page")
-    public String bookDetailPage(@PathVariable String isbn) {
-        return "admin/book/detail";
-    }
-
     // -> 도서 등록 페이지 이동
     @GetMapping("/form")
     public String registerBookPage(Model model){
