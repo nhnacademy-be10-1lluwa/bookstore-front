@@ -120,7 +120,7 @@
 
                 <!-- 환불 버튼 -->
                 <form th:if="${order.orderStatus != null and (order.orderStatus.toString().equals('Shipped') or order.orderStatus.toString().equals('Delivered'))}"
-                      th:action="@{/orders/{order-id}/refund-order(order-id=${order.orderId})}" method="post"
+                      th:action="@{/orders/{order-id}/refund(order-id=${order.orderId})}" method="post"
                       style="margin-top: 20px">
                     <label>
                         <select name="cancelReason" required>
