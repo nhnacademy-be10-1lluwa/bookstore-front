@@ -1,6 +1,5 @@
-package com.nhnacademy.illuwa.member.controller;
+package com.nhnacademy.illuwa.admin.controller;
 
-import com.nhnacademy.illuwa.admin.controller.AdminMemberController;
 import com.nhnacademy.illuwa.config.handler.CategoryControllerAdvice;
 import com.nhnacademy.illuwa.member.enums.GradeName;
 import com.nhnacademy.illuwa.member.service.AdminMemberService;

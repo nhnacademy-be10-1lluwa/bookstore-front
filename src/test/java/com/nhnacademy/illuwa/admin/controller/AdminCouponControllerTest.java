@@ -1,6 +1,5 @@
-package com.nhnacademy.illuwa.coupon.controller;
+package com.nhnacademy.illuwa.admin.controller;
 
-import com.nhnacademy.illuwa.admin.controller.AdminCouponController;
 import com.nhnacademy.illuwa.book.service.BookService;
 import com.nhnacademy.illuwa.config.handler.CategoryControllerAdvice;
 import com.nhnacademy.illuwa.coupon.dto.coupon.CouponForm;
@@ -77,18 +76,6 @@ class AdminCouponControllerTest {
                 .andExpect(view().name("admin/coupon/coupon_view_list"))
                 .andExpect(model().attribute("coupons", hasSize(2)))
                 .andExpect(model().attribute("coupons", coupons));
-    }
-
-    @Test
-    @DisplayName("쿠폰 등록 폼 반환")
-    void couponPolicyCreateFromTest() throws Exception {
-        mockMvc.perform(get("/admin/coupons/form"))
-                .andExpect(status().isOk())
-                .andExpect(view().name("admin/coupon/coupon_create"))
-                .andExpect(model().attributeExists("policyList"))
-                .andExpect(model().attributeExists("bookList"))
-                .andExpect(model().attributeExists("categoryList"))
-                .andExpect(model().attributeExists("couponForm"));
     }
 
     @Test

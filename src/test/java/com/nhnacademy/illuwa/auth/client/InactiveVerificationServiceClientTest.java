@@ -14,7 +14,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest(
         properties = {
-                "api.base-url=http://localhost:9876"
+                "api.base-url=http://localhost:9844"
         },
         webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
@@ -31,7 +31,7 @@ public class InactiveVerificationServiceClientTest {
 
     @BeforeAll
     static void startWireMock() {
-        wireMockServer = new WireMockServer(9876);
+        wireMockServer = new WireMockServer(9844);
         wireMockServer.start();
     }
     @AfterAll

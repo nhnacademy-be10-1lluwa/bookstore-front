@@ -28,7 +28,7 @@ import static com.nhnacademy.illuwa.member.enums.GradeName.BASIC;
 
 @SpringBootTest(
         properties = {
-                "api.base-url=http://localhost:9876"
+                "api.base-url=http://localhost:9855"
         },
         webEnvironment = SpringBootTest.WebEnvironment.NONE
 )
@@ -45,7 +45,7 @@ public class AdminMemberServiceClientTest {
 
     @BeforeAll
     static void startWireMock() {
-        wireMockServer = new WireMockServer(9876);
+        wireMockServer = new WireMockServer(9855);
         wireMockServer.start();
     }
     @AfterAll

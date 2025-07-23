@@ -43,12 +43,12 @@
                 <input type="hidden" name="order-id" th:value="${orderId}" />
 
                 <div th:if="${review?.reviewImageUrls != null}">
-                    <label>기존 이미지</label>
-                    <div th:each="url : ${review.reviewImageUrls}">
-                        <div>
-                            <img th:src="@{${url}}" alt="기존 이미지" class="review-image" />
+                    <label>현재 이미지</label>
+                    <div class="review-images">
+                        <div th:each="img : ${review.reviewImageUrls}">
+                            <img th:src="@{${img}}" alt="이미지" class="review-image" />
                             <label th:if="${mode != 'view'}">
-                                <input type="checkbox" name="deleteImageUrls" th:value="${url}" /> 삭제
+                                <input type="checkbox" name="deleteImageUrls" th:value="${img}" /> 삭제
                             </label>
                         </div>
                     </div>

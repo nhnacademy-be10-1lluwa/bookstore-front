@@ -25,12 +25,42 @@ public class ReviewService{
     }
 
     public ReviewResponse getReview(Long bookId, Long reviewId) {
-        return reviewServiceClient.getReviewDetails(bookId, reviewId);
+        ReviewResponse review = reviewServiceClient.getReviewDetails(bookId, reviewId);
+        List<String> convertedUrls = review.getReviewImageUrls().stream().map(this::convertMinioUrl).toList();
+
+        return new ReviewResponse(
+                review.getReviewId(),
+                review.getReviewTitle(),
+                review.getReviewContent(),
+                review.getReviewRating(),
+                review.getReviewDate(),
+                review.getBookId(),
+                review.getMemberId(),
+                convertedUrls
+        );
     }
 
     public PageResponse<ReviewResponse> getReviewPages(Long bookId, int page, int size) {
         Page<ReviewResponse> pagingData = reviewServiceClient.getReviewPages(bookId, page, size);
-        return PageResponse.from(pagingData);
+
+        Page<ReviewResponse> convertedData = pagingData.map(review -> {
+            List<String> convertedUrls = review.getReviewImageUrls().stream()
+                    .map(this::convertMinioUrl)
+                    .toList();
+
+            return new ReviewResponse(
+                    review.getReviewId(),
+                    review.getReviewTitle(),
+                    review.getReviewContent(),
+                    review.getReviewRating(),
+                    review.getReviewDate(),
+                    review.getBookId(),
+                    review.getMemberId(),
+                    convertedUrls
+            );
+        });
+
+        return PageResponse.from(convertedData);
     }
 
     public PageResponse<ReviewResponse> getMemberReviewPages(int page, int size) {
@@ -45,4 +75,13 @@ public class ReviewService{
         return reviewServiceClient.getBookTitleMapFromReviewIds(reviewIds);
     }
 
+    private String convertMinioUrl(String originalUrl) {
+        if (originalUrl == null) {
+            return null;
+        }
+        return originalUrl.replace(
+                "http://storage.java21.net:8000/",
+                "https://book1lluwa.store/minio/"
+        );
+    }
 }

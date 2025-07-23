@@ -16,43 +16,29 @@ import java.util.Collection;
 public class AuthInterceptor implements HandlerInterceptor {
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        if (modelAndView != null && modelAndView.getViewName() != null) {
+
+        if (modelAndView != null && modelAndView.getViewName() != null && !modelAndView.getViewName().startsWith("redirect:")) {
 
             boolean isLoggedIn = false;
             boolean isAdmin = false;
 
-            Cookie[] cookies = request.getCookies();
-            if (cookies != null) {
-                for (Cookie cookie : cookies) {
-                    if ("ACCESS_TOKEN".equals(cookie.getName()) && cookie.getValue() != null && !cookie.getValue().isEmpty()) {
-                        isLoggedIn = true;
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+            if (authentication != null && authentication.isAuthenticated() && !"anonymousUser".equals(authentication.getPrincipal())) {
+
+                isLoggedIn = true;
+
+                Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
+                for (GrantedAuthority authority : authorities) {
+                    if ("ROLE_ADMIN".equals(authority.getAuthority())) {
+                        isAdmin = true;
                         break;
                     }
                 }
             }
 
-            if (isLoggedIn) {
-                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-
-                if (authentication != null && authentication.isAuthenticated() &&
-                        !"anonymousUser".equals(authentication.getPrincipal())) {
-
-                    Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-                    for (GrantedAuthority authority : authorities) {
-                        if (authority.getAuthority().equals("ROLE_ADMIN")) {
-                            isAdmin = true;
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (modelAndView != null
-                    && modelAndView.getViewName() != null
-                    && !modelAndView.getViewName().startsWith("redirect:")) {
-                modelAndView.addObject("isLoggedIn", isLoggedIn);
-                modelAndView.addObject("isAdmin", isAdmin);
-            }
+            modelAndView.addObject("isLoggedIn", isLoggedIn);
+            modelAndView.addObject("isAdmin", isAdmin);
         }
     }
 }

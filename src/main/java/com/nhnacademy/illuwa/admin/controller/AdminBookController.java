@@ -85,7 +85,7 @@ public class AdminBookController {
     public String showRegisterFormFromApi(@PathVariable String isbn, Model model) {
         BookExternalResponse response = productServiceClient.findBookByApi(isbn);
 
-        List<CategoryResponse> categoryTree = productServiceClient.getCategoryTree();
+        List<CategoryResponse> categoryTree = productServiceClient.getCategoryTree("tree");
 
         model.addAttribute("book", response);
         model.addAttribute("categoryTree", categoryTree);
@@ -108,16 +108,10 @@ public class AdminBookController {
         return "redirect:/admin/books"; // 성공 시 이동할 페이지
     }
 
-    // 도서 ISBN -> 도서 상세페이지
-    @GetMapping("/{isbn}/page")
-    public String bookDetailPage(@PathVariable String isbn) {
-        return "admin/book/detail";
-    }
-
     // -> 도서 등록 페이지 이동
     @GetMapping("/form")
     public String registerBookPage(Model model){
-        List<CategoryResponse> categoryTree = productServiceClient.getCategoryTree();
+        List<CategoryResponse> categoryTree = productServiceClient.getCategoryTree("tree");
         model.addAttribute("categoryTree", categoryTree);
         return "admin/book/book_register";
     }
@@ -142,7 +136,7 @@ public class AdminBookController {
     @GetMapping("/{id}/form")
     public String updateBookForm(@PathVariable Long id, Model model) {
         BookDetailWithExtraInfoResponse book = productServiceClient.getBookDetailWithExtraInfo(id);
-        List<CategoryResponse> categoryTree = productServiceClient.getCategoryTree();
+        List<CategoryResponse> categoryTree = productServiceClient.getCategoryTree("tree");
 
         model.addAttribute("book", book);
         model.addAttribute("categoryTree", categoryTree);

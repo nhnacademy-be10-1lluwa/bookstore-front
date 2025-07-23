@@ -16,26 +16,26 @@ import org.springframework.web.bind.annotation.*;
 public interface MemberOrderClient {
 
     // 회원 바로 주문하기 내용 조회
-    @GetMapping("/api/order/member/init-member-info/books/{bookId}")
-    MemberOrderInitDirectResponse initDirect(@PathVariable Long bookId);
+    @GetMapping("/api/order/members/orders/init/books/{book-id}")
+    MemberOrderInitDirectResponse initDirect(@PathVariable("book-id") Long bookId);
 
-    // 회원 장바구니 주문하기 내용 조히
-    @GetMapping("/api/order/member/init-from-cart")
+    // 회원 장바구니 주문하기 내용 조회
+    @GetMapping("/api/order/members/orders/init/cart")
     MemberOrderInitFromCartResponse initFromCart();
 
     // 회원 바로 주문하기
-    @PostMapping("/api/order/member/submit-direct")
+    @PostMapping("/api/order/members/orders/direct")
     OrderCreateResponse createDirect(@RequestBody @Valid MemberOrderDirectRequest request);
 
     // 회원 장바구니 주문하기
-    @PostMapping("/api/order/member/submit")
+    @PostMapping("/api/order/members/orders/cart")
     OrderCreateResponse createFromCart(@RequestBody @Valid MemberOrderCartRequest request);
 
     // 회원 주문 내역 조회
-    @GetMapping("/api/order/member/orders/history")
+    @GetMapping("/api/order/members/orders")
     PageResponse<OrderListResponse> getHistory(@RequestParam int page, @RequestParam int size);
 
     // 회원 주문 상세 조회
-    @GetMapping("/api/order/member/orders/{orderId}")
-    OrderResponse getDetail(@PathVariable Long orderId);
+    @GetMapping("/api/order/members/orders/{order-id}")
+    OrderResponse getDetail(@PathVariable("order-id") Long orderId);
 }

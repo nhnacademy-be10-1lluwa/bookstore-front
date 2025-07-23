@@ -23,4 +23,12 @@ public class CouponResponse {
     private BigDecimal issueCount;
     private Long bookId;
     private Long categoryId;
+
+    public String getIssueCountDisplay() {
+        if (issueCount == null || issueCount.compareTo(BigDecimal.ZERO) <= 0) {
+            return "-";
+        }
+        return issueCount.stripTrailingZeros().toPlainString();
+    }
+
 }
