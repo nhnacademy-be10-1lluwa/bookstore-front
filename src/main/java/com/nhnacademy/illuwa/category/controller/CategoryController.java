@@ -18,7 +18,7 @@ public class CategoryController {
     @GetMapping("/tree")
     public List<CategoryResponse> getCategoryTree() {
 
-        List<CategoryResponse> categoryTree = productServiceClient.getCategoryTree();
+        List<CategoryResponse> categoryTree = productServiceClient.getCategoryTree("tree");
         return categoryTree;
     }
 }

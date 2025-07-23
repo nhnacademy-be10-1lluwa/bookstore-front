@@ -126,7 +126,7 @@ public class AdminBookControllerTest {
         List<CategoryResponse> categories = List.of(createDummyCategory());
 
         when(productServiceClient.findBookByApi(anyString())).thenReturn(book);
-        when(productServiceClient.getCategoryTree()).thenReturn(categories);
+        when(productServiceClient.getCategoryTree("tree")).thenReturn(categories);
 
         mockMvc.perform(get("/admin/books/source/{isbn}/form", "1234567890"))
                 .andExpect(status().isOk())
@@ -186,7 +186,7 @@ public class AdminBookControllerTest {
     void test_registerBookPage() throws Exception {
         List<CategoryResponse> categories = List.of(createDummyCategory());
 
-        when(productServiceClient.getCategoryTree()).thenReturn(categories);
+        when(productServiceClient.getCategoryTree("tree")).thenReturn(categories);
 
         mockMvc.perform(get("/admin/books/form"))
                 .andExpect(status().isOk())
@@ -232,7 +232,7 @@ public class AdminBookControllerTest {
         List<CategoryResponse> categories = List.of(createDummyCategory());
 
         when(productServiceClient.getBookDetailWithExtraInfo(any())).thenReturn(book);
-        when(productServiceClient.getCategoryTree()).thenReturn(categories);
+        when(productServiceClient.getCategoryTree("tree")).thenReturn(categories);
 
         mockMvc.perform(get("/admin/books/{id}/form", "1"))
                 .andExpect(status().isOk())

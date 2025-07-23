@@ -15,10 +15,10 @@ import java.util.List;
 public interface PackagingClient {
 
     // 포장 옵션 조회
-    @GetMapping("/api/packaging")
+    @GetMapping("/api/order/packagings")
     List<PackagingResponse> getAll();
 
     // 새로운 포장 옵션 생성
-    @PostMapping("/api/packaging")
+    @PostMapping("/api/order/packagings")
     PackagingResponse create(@RequestBody @Valid PackagingRequest request);
 }

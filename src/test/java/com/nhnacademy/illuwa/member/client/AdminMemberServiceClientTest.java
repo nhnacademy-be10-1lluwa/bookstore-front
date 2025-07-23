@@ -24,6 +24,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static com.nhnacademy.illuwa.member.enums.GradeName.BASIC;
+
 @SpringBootTest(
         properties = {
                 "api.base-url=http://localhost:9855"
@@ -97,7 +99,7 @@ public class AdminMemberServiceClientTest {
                 true
         );
 
-        wireMockServer.stubFor(WireMock.get(WireMock.urlPathEqualTo("/api/admin/members/paged"))
+        wireMockServer.stubFor(WireMock.get(WireMock.urlPathEqualTo("/api/admin/members"))
                 .withQueryParam("grade", WireMock.matching(".*"))
                 .withQueryParam("page", WireMock.matching("[0-9]+"))
                 .withQueryParam("size", WireMock.matching("[0-9]+"))
@@ -107,7 +109,7 @@ public class AdminMemberServiceClientTest {
                         .withStatus(200))
         );
 
-        PageResponse<MemberResponse> result = client.getPagedMemberListFilteredByGrade(GradeName.BASIC, 1, 10);
+        PageResponse<MemberResponse> result = client.getPagedMemberList(BASIC, 1, 10);
         Assertions.assertEquals(mockPageResponse, result);
 
     }
@@ -134,8 +136,9 @@ public class AdminMemberServiceClientTest {
                 )
         );
 
-        wireMockServer.stubFor(WireMock.post(WireMock.urlPathEqualTo("/api/members/grades/event-point"))
-                .withQueryParam("grade", WireMock.matching(".*"))
+        String gradeName = BASIC.name();
+
+        wireMockServer.stubFor(WireMock.post(WireMock.urlPathEqualTo("/api/members/grades/" + gradeName + "/points"))
                 .withQueryParam("point", WireMock.matching("\\d+(\\.\\d+)?"))
                 .willReturn(WireMock.aResponse()
                         .withHeader("Content-Type", "application/json")
@@ -143,8 +146,9 @@ public class AdminMemberServiceClientTest {
                         .withStatus(200))
         );
 
-        List<PointHistoryResponse> result = client.givePointToGrade(GradeName.BASIC, BigDecimal.valueOf(1000));
+        List<PointHistoryResponse> result = client.givePointToGrade(BASIC, BigDecimal.valueOf(1000));
         Assertions.assertEquals(mockResponse, result);
+
 
     }
 }

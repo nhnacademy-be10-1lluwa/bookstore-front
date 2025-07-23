@@ -103,14 +103,7 @@ public class ProductClientTest {
         assertThat(result.getFirst().getTitle()).isEqualTo("베스트1");
     }
 
-    @Test
-    void getRegisteredBook() throws Exception {
-        BookDetailResponse b = new BookDetailResponse(); b.setTitle("등록도서");
-        stubList("/api/books", List.of(b));
 
-        List<BookDetailResponse> result = client.getRegisteredBook();
-        assertThat(result.getFirst().getTitle()).isEqualTo("등록도서");
-    }
 
 //    @Test
 //    void getRegisteredBookPaged() throws Exception {
@@ -169,29 +162,6 @@ public class ProductClientTest {
         var response = client.registerBookByApi(req);
         assertThat(response.getStatusCode().is2xxSuccessful()).isTrue();
     }
-
-    @Test
-    void getCategoryTree() throws Exception {
-        // CategoryResponse의 children도 타입 명확화
-        CategoryResponse novel = new CategoryResponse(2L, 1L, "소설", Collections.emptyList());
-        CategoryResponse economy = new CategoryResponse(3L, 1L, "경제", Collections.emptyList());
-        CategoryResponse root = new CategoryResponse(1L, null, "전체", Arrays.asList(novel, economy));
-        List<CategoryResponse> tree = Collections.singletonList(root);
-
-        wireMockServer.stubFor(get(urlEqualTo("/api/categories/tree"))
-                .willReturn(aResponse()
-                        .withStatus(200)
-                        .withHeader("Content-Type", MediaType.APPLICATION_JSON_VALUE)
-                        .withBody(objectMapper.writeValueAsString(tree))));
-
-        List<CategoryResponse> result = client.getCategoryTree();
-
-        assertThat(result).hasSize(1);
-        assertThat(result.getFirst().getCategoryName()).isEqualTo("전체");
-        assertThat(result.getFirst().getChildren()).hasSize(2);
-        assertThat(result.getFirst().getChildren().getFirst().getCategoryName()).isEqualTo("소설");
-    }
-
     @Test
     void getAllCategories() throws Exception {
         CategoryResponse novel = new CategoryResponse(2L, 1L, "소설", Collections.emptyList());

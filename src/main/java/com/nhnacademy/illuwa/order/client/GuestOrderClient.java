@@ -14,12 +14,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(name = "order-service", url = "${api.base-url}", contextId = "guestOrderClient")
 public interface GuestOrderClient {
-    @GetMapping("/api/order/guest/init-guest-info/books/{book-id}")
+
+    // 비회원 바로 주문하기 내용 조회
+    @GetMapping("/api/order/guests/orders/init/books/{book-id}")
     GuestOrderInitDirectResponse initDirect(@PathVariable("book-id") Long bookId);
 
-    @PostMapping("/api/order/guest/submit-direct")
+    // 비회원 바로 주문하기
+    @PostMapping("/api/order/guests/orders/direct")
     OrderCreateResponse createDirect(@RequestBody @Valid GuestOrderDirectRequest request);
 
-    @GetMapping("/api/order/guest/order-history/{orderId}")
-    OrderResponse getHistory(@PathVariable Long orderId);
+    // 비회원 주문조회
+    @GetMapping("/api/order/guests/orders/{order-id}")
+    OrderResponse getHistory(@PathVariable("order-id") Long orderId);
 }

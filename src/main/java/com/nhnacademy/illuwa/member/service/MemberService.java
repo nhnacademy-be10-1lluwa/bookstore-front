@@ -23,7 +23,7 @@ public class MemberService {
         return memberServiceClient.getMember();
     }
 
-    public MemberResponse updateMember(@Valid MemberUpdateRequest request) {
+    public MemberResponse updateMember(MemberUpdateRequest request) {
         if (!StringUtils.hasText(request.getName()) || !StringUtils.hasText(request.getCurrentPassword())) {
             throw new BackendApiException("필수 입력값을 모두 채워주세요!", "REQUIRED_FIELDS_MISSING", 400);
         }
@@ -55,11 +55,11 @@ public class MemberService {
         memberServiceClient.deleteMember();
     }
 
-    public boolean checkPassword(@RequestBody PasswordCheckRequest request){
+    public boolean checkPassword(PasswordCheckRequest request){
         return memberServiceClient.checkPassword(request);
     }
 
-    public Map<Long, String> getNamesFromIdList(@RequestBody List<Long> reviewerIds) {
-        return memberServiceClient.getNamesFromIdList(reviewerIds);
+    public Map<Long, String> getNamesFromIdList(List<Long> memberIds) {
+        return memberServiceClient.getNamesFromIdList(memberIds);
     }
 }

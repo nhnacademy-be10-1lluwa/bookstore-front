@@ -65,7 +65,7 @@
                 </div>
 
                 <div class="address-actions" onclick="stopPropagation()">
-                    <a th:href="@{'/addresses/edit/' + ${address.memberAddressId}}" class="btn edit">수정</a>
+                    <a th:href="@{'/addresses/' + ${address.memberAddressId} + '/form'}" class="btn edit">수정</a>
                     <form th:action="@{'/addresses/' + ${address.memberAddressId} + '/delete'}" method="post"
                           onsubmit="return confirm('정말 삭제하시겠습니까?');"
                           style="display: inline;">
@@ -73,7 +73,7 @@
                     </form>
 
                     <form th:if="${!address.defaultAddress and address.memberAddressId != null}"
-                          th:action="@{'/addresses/set-default/' + ${address.memberAddressId}}"
+                          th:action="@{'/addresses/' + ${address.memberAddressId} + '/default'}"
                           method="post"
                           onsubmit="return confirm('기본주소지로 설정하시겠습니까?');"
                           style="display:inline;">
@@ -90,18 +90,18 @@
         <!-- 페이지네이션 -->
         <div class="pagination">
             <button th:if="${currentPage > 0}"
-                    th:onclick="'location.href=\'/address-list?page=' + (${currentPage} - 1) + '\''">
+                    th:onclick="'location.href=\'/addresses?page=' + (${currentPage} - 1) + '\''">
                 ◀ 이전
             </button>
 
             <span th:each="i : ${#numbers.sequence(0, lastPageIndex)}">
-        <a th:href="@{'/address-list?page=' + ${i}}"
+        <a th:href="@{'/addresses?page=' + ${i}}"
            th:text="${i + 1}"
            th:classappend="${i == currentPage} ? 'active-page' : ''">1</a>
     </span>
 
             <button th:if="${currentPage < (totalPages > 0 ? totalPages - 1 : 0)}"
-                    th:onclick="'location.href=\'/address-list?page=' + (${currentPage} + 1) + '\''">
+                    th:onclick="'location.href=\'/addresses?page=' + (${currentPage} + 1) + '\''">
                 다음 ▶
             </button>
         </div>

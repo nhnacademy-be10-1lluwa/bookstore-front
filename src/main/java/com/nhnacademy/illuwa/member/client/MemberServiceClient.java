@@ -25,13 +25,13 @@ public interface MemberServiceClient {
     @DeleteMapping("/api/members")
     void deleteMember();
 
-    @PostMapping("/api/members/check-pw")
+    @PostMapping("/api/members/password-check")
     boolean checkPassword(@RequestBody PasswordCheckRequest request);
 
     // 페이코 회원 초기 정보 설정
     @PutMapping("/api/members/internal/social-members")
     void updatePaycoMember(@RequestBody PaycoMemberUpdateRequest request);
 
-    @PostMapping("/api/members/names")
-    Map<Long, String> getNamesFromIdList(@RequestBody List<Long> reviewerIds);
+    @GetMapping("/api/members/names")
+    Map<Long, String> getNamesFromIdList(@RequestParam("member-ids") List<Long> ids);
 }
