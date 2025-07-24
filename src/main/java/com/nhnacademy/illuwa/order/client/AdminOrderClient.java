@@ -29,14 +29,14 @@ public interface AdminOrderClient {
     // 배치용 엔드포인트
 
     // 출고일 기준 10일 지난 주문내역들 구매 확정으로 변경
-    @GetMapping("/api/order/admin/batches/orders/confirmations")
+    @PostMapping("/api/order/admin/batches/orders/confirmations")
     String runOrderConfirmedUpdate();
 
     // 멤버별 3개월간 순주문 금액 합계 조회
-    @GetMapping("/api/order/admin/batches/members/grades")
+    @PostMapping("/api/order/admin/batches/members/grades")
     String runMemberGradeUpdate();
 
     // 3일 간 Awaiting_payment 상태인 주문 내역들 삭제
-    @GetMapping("/api/order/admin/batches/orders/clean-up")
+    @PostMapping("/api/order/admin/batches/orders/clean-up")
     String runOrderCleanup();
 }
