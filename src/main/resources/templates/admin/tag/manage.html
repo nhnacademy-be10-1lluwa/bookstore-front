@@ -24,7 +24,7 @@
 
 <div>
   <a th:if="${!tagPage.last}"
-     th:href="@{|/admin/tags?page=${tagPage.number + 1}&size=${tagPage.size}|}">다음</a>
+     th:href="@{|/admin/tags?page=${tagPage.page + 1}&size=${tagPage.size}|}">다음</a>
 </div>
 
 <h2>태그 등록</h2>
