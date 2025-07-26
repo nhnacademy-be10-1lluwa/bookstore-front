@@ -4,6 +4,7 @@ import com.nhnacademy.illuwa.book.client.ProductServiceClient;
 import com.nhnacademy.illuwa.book.dto.*;
 import com.nhnacademy.illuwa.book.service.MinioStorageService;
 import com.nhnacademy.illuwa.category.dto.CategoryResponse;
+import com.nhnacademy.illuwa.common.aop.annotation.PerformanceLog;
 import com.nhnacademy.illuwa.tag.client.TagServiceClient;
 import com.nhnacademy.illuwa.tag.dto.TagResponse;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,7 @@ public class AdminBookController {
     }
 
     // 도서 관리 리스트
+    @PerformanceLog
     @GetMapping
     public String bookManagePage(
             @RequestParam(defaultValue = "0") int page,

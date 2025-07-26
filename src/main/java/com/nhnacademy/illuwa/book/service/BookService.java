@@ -35,6 +35,7 @@ public class BookService {
         return productServiceClient.getRegisteredBookPaged(page, size, sort);
     }
 
+    @Cacheable(value = "categories", key = "'all'")
     public List<CategoryResponse> getAllCategory() {
         return productServiceClient.getAllCategories();
     }

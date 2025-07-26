@@ -26,8 +26,8 @@ public class CacheConfig {
         Map<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
         //1시간
         cacheConfigurations.put("categories", defaultConfig);
-        //30분
-        cacheConfigurations.put("bestSellers", createCacheConfiguration(Duration.ofMinutes(30)));
+        //3시간
+        cacheConfigurations.put("bestSellers", createCacheConfiguration(Duration.ofHours(3)));
 
         return RedisCacheManager.builder(connectionFactory)
                 .withInitialCacheConfigurations(cacheConfigurations)
