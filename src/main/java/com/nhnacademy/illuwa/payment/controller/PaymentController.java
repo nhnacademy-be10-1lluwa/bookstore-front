@@ -24,9 +24,8 @@ public class PaymentController {
     public String handlePaymentSuccess(@RequestParam(name = "orderId") String orderNumber,
                                        @RequestParam(name = "paymentKey") String paymentKey,
                                        @RequestParam(name = "amount") int amount,
-                                       @RequestParam String idempotencyKey,
                                        Model model) {
-        PaymentConfirmRequest request = new PaymentConfirmRequest(orderNumber, paymentKey, amount, idempotencyKey);
+        PaymentConfirmRequest request = new PaymentConfirmRequest(orderNumber, paymentKey, amount);
 
         try {
             PaymentResponse paymentResponse = paymentServiceClient.confirmPayment(request);
