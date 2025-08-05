@@ -72,9 +72,6 @@
 
             const payment = tossPayments.payment({ customerKey });
             document.getElementById("payBtn").addEventListener("click", function () {
-                // 멱등성 키 생성 (주문번호 + 타임스탬프)
-                const idempotencyKey = ORDER_NUMBER + "_" + Date.now();
-
                 payment.requestPayment({
                     method: "CARD",
                     amount: {
@@ -85,7 +82,7 @@
                     orderName: ORDER_NAME,
                     customerName: CUSTOMER_NAME,
                     customerEmail: CUSTOMER_EMAIL,
-                    successUrl: window.location.origin + "/payment/success?idempotencyKey=" + idempotencyKey,
+                    successUrl: window.location.origin + "/payment/success",
                     failUrl: window.location.origin + "/payment/fail",
                     card: {
                         useEscrow: false,
