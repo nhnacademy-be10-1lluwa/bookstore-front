@@ -18,4 +18,10 @@ public interface AuthClient {
 
     @PostMapping("/api/auth/social-login")
     TokenResponse socialLogin(@RequestBody SocialLoginRequest socialLoginRequest);
+
+    @PostMapping("/api/auth/refresh")
+    TokenResponse refreshToken(@RequestBody TokenRefreshRequest tokenRefreshRequest);
+
+    @PostMapping("/api/auth/logout")
+    void logout(@RequestBody TokenResponse tokenResponse);
 }
