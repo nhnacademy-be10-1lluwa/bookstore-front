@@ -1,6 +1,7 @@
 package com.nhnacademy.illuwa.config;
 
 import com.nhnacademy.illuwa.auth.oauth.*;
+import com.nhnacademy.illuwa.config.handler.CustomLogoutHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +25,7 @@ public class SecurityConfig {
     private final PaycoUserService paycoUserService;
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http, CustomLogoutHandler customLogoutHandler) throws Exception {
         http
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/", "/auth/login", "/auth/signup", "/verifications/**").permitAll()
@@ -49,6 +50,7 @@ public class SecurityConfig {
                 )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
+                        .addLogoutHandler(customLogoutHandler)
                         .logoutSuccessUrl("/")
                         .deleteCookies("ACCESS_TOKEN")
                         .deleteCookies("REFRESH_TOKEN")
