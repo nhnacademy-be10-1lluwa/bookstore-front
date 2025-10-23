@@ -1,6 +1,7 @@
 package com.nhnacademy.illuwa.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import com.nhnacademy.illuwa.config.handler.CorrelationIdInterceptor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.client.RestTemplate;
@@ -9,22 +10,20 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
+@RequiredArgsConstructor
 public class WebConfig implements WebMvcConfigurer {
 
     private final AuthInterceptor authInterceptor;
+    private final CorrelationIdInterceptor correlationIdInterceptor;
 
     @Bean
     public RestTemplate restTemplate() {
         return new RestTemplate();
     }
 
-    @Autowired
-    public WebConfig(AuthInterceptor authInterceptor) {
-        this.authInterceptor = authInterceptor;
-    }
-
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(correlationIdInterceptor);
         registry.addInterceptor(authInterceptor)
                 .addPathPatterns("/**")
                 .excludePathPatterns("/css/**", "/js/**", "/images/**");
